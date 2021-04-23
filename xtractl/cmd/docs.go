@@ -105,9 +105,13 @@ func generateMarkdown(cmd *cobra.Command, w io.Writer) error {
 		if cmd.HasParent() {
 			parent := cmd.Parent()
 			pname := parent.CommandPath()
-			link := pname + ".md"
-			link = strings.Replace(link, " ", "_", -1)
-			buf.WriteString(fmt.Sprintf("* [%s](%s)\t - %s\n", pname, link, parent.Short))
+			link := "#" + pname
+			link = strings.Replace(link, " ", "-", -1)
+			short := ""
+			if len(parent.Short) > 0 {
+				short = fmt.Sprintf("\t - %s", parent.Short)
+			}
+			buf.WriteString(fmt.Sprintf("* [%s](%s)%s\n", pname, link, short))
 			cmd.VisitParents(func(c *cobra.Command) {
 				if c.DisableAutoGenTag {
 					cmd.DisableAutoGenTag = c.DisableAutoGenTag
@@ -123,9 +127,13 @@ func generateMarkdown(cmd *cobra.Command, w io.Writer) error {
 				continue
 			}
 			cname := name + " " + child.Name()
-			link := cname + ".md"
-			link = strings.Replace(link, " ", "_", -1)
-			buf.WriteString(fmt.Sprintf("* [%s](%s)\t - %s\n", cname, link, child.Short))
+			link := "#" + cname
+			link = strings.Replace(link, " ", "-", -1)
+			short := ""
+			if len(child.Short) > 0 {
+				short = fmt.Sprintf("\t - %s", child.Short)
+			}
+			buf.WriteString(fmt.Sprintf("* [%s](%s)%s\n", cname, link, short))
 		}
 		buf.WriteString("\n")
 	}

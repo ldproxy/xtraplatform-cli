@@ -20,8 +20,8 @@ that would otherwise require a restart.
 
 ### SEE ALSO
 
-* [xtractl entity](xtractl_entity.md)	 - Control entities
-* [xtractl log](xtractl_log.md)	 - Control logging
+* [xtractl entity](#xtractl-entity)	 - Control entities
+* [xtractl log](#xtractl-log)	 - Control logging
 
 ## xtractl entity
 
@@ -44,9 +44,9 @@ Control entities
 
 ### SEE ALSO
 
-* [xtractl](xtractl.md)	 - 
-* [xtractl entity ls](xtractl_entity_ls.md)	 - List entities
-* [xtractl entity reload](xtractl_entity_reload.md)	 - Reload entity configuration
+* [xtractl](#xtractl)
+* [xtractl entity ls](#xtractl-entity-ls)	 - List entities
+* [xtractl entity reload](#xtractl-entity-reload)	 - Reload entity configuration
 
 ## xtractl entity ls
 
@@ -75,7 +75,7 @@ xtractl entity ls [flags]
 
 ### SEE ALSO
 
-* [xtractl entity](xtractl_entity.md)	 - Control entities
+* [xtractl entity](#xtractl-entity)	 - Control entities
 
 ## xtractl entity reload
 
@@ -105,7 +105,7 @@ xtractl entity reload id1,id2
 
 ### SEE ALSO
 
-* [xtractl entity](xtractl_entity.md)	 - Control entities
+* [xtractl entity](#xtractl-entity)	 - Control entities
 
 ## xtractl log
 
@@ -122,10 +122,10 @@ Control logging
 
 ### SEE ALSO
 
-* [xtractl](xtractl.md)	 - 
-* [xtractl log filter](xtractl_log_filter.md)	 - Switch the log filters
-* [xtractl log level](xtractl_log_level.md)	 - Change the log level
-* [xtractl log status](xtractl_log_status.md)	 - Show log status
+* [xtractl](#xtractl)
+* [xtractl log filter](#xtractl-log-filter)	 - Switch the log filters
+* [xtractl log level](#xtractl-log-level)	 - Change the log level
+* [xtractl log status](#xtractl-log-status)	 - Show log status
 
 ## xtractl log filter
 
@@ -160,7 +160,7 @@ xtractl log filter "*" --disable
 
 ### SEE ALSO
 
-* [xtractl log](xtractl_log.md)	 - Control logging
+* [xtractl log](#xtractl-log)	 - Control logging
 
 ## xtractl log level
 
@@ -188,7 +188,7 @@ xtractl log level DEBUG
 
 ### SEE ALSO
 
-* [xtractl log](xtractl_log.md)	 - Control logging
+* [xtractl log](#xtractl-log)	 - Control logging
 
 ## xtractl log status
 
@@ -216,5 +216,5 @@ xtractl log status [flags]
 
 ### SEE ALSO
 
-* [xtractl log](xtractl_log.md)	 - Control logging
+* [xtractl log](#xtractl-log)	 - Control logging
 
