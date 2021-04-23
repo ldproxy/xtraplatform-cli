@@ -1,0 +1,220 @@
+## xtractl
+
+
+
+### Synopsis
+
+xtractl controls xtraplatform applications like [ldproxy](https://github.com/interactive-instruments/ldproxy) and XtraServer Web API.
+
+It provides control over certain parts of the running application 
+that would otherwise require a restart.
+
+### Options
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl entity](xtractl_entity.md)	 - Control entities
+* [xtractl log](xtractl_log.md)	 - Control logging
+
+## xtractl entity
+
+Control entities
+
+### Options
+
+```
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
+```
+
+### Options inherited from parent commands
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl](xtractl.md)	 - 
+* [xtractl entity ls](xtractl_entity_ls.md)	 - List entities
+* [xtractl entity reload](xtractl_entity_reload.md)	 - Reload entity configuration
+
+## xtractl entity ls
+
+List entities
+
+```
+xtractl entity ls [flags]
+```
+
+### Options
+
+```
+  -j, --json        enable JSON output
+  -n, --no-colors   disable colored output
+```
+
+### Options inherited from parent commands
+
+```
+      --help            show help
+  -h, --host string     host to connect to (default "localhost")
+  -p, --port int        port to connect to (default 7081)
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
+  -v, --verbose         verbose output
+```
+
+### SEE ALSO
+
+* [xtractl entity](xtractl_entity.md)	 - Control entities
+
+## xtractl entity reload
+
+Reload entity configuration
+
+```
+xtractl entity reload ids... [flags]
+```
+
+### Examples
+
+```
+xtractl entity reload * -t services
+xtractl entity reload id1
+xtractl entity reload id1,id2
+```
+
+### Options inherited from parent commands
+
+```
+      --help            show help
+  -h, --host string     host to connect to (default "localhost")
+  -p, --port int        port to connect to (default 7081)
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
+  -v, --verbose         verbose output
+```
+
+### SEE ALSO
+
+* [xtractl entity](xtractl_entity.md)	 - Control entities
+
+## xtractl log
+
+Control logging
+
+### Options inherited from parent commands
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl](xtractl.md)	 - 
+* [xtractl log filter](xtractl_log_filter.md)	 - Switch the log filters
+* [xtractl log level](xtractl_log_level.md)	 - Change the log level
+* [xtractl log status](xtractl_log_status.md)	 - Show log status
+
+## xtractl log filter
+
+Switch the log filters
+
+```
+xtractl log filter filters... [flags]
+```
+
+### Examples
+
+```
+xtractl log filter sqlQueries,sqlResults
+xtractl log filter "*" --disable
+
+```
+
+### Options
+
+```
+  -d, --disable   disable filters, the default is to enable listed filters
+```
+
+### Options inherited from parent commands
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl log](xtractl_log.md)	 - Control logging
+
+## xtractl log level
+
+Change the log level
+
+```
+xtractl log level newLevel [flags]
+```
+
+### Examples
+
+```
+xtractl log level DEBUG
+
+```
+
+### Options inherited from parent commands
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl log](xtractl_log.md)	 - Control logging
+
+## xtractl log status
+
+Show log status
+
+```
+xtractl log status [flags]
+```
+
+### Options
+
+```
+  -j, --json        enable JSON output
+  -n, --no-colors   disable colored output
+```
+
+### Options inherited from parent commands
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl log](xtractl_log.md)	 - Control logging
+

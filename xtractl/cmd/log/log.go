@@ -9,7 +9,7 @@ import (
 func Cmd(api client.Client, name string, debug *bool) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "log",
-		Short: "Manage logs",
+		Short: "Control logging",
 	}
 
 	cmd.AddCommand(statusCmd(api, name, debug), levelCmd(api, name, debug), filterCmd(api, name, debug))

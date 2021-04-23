@@ -13,7 +13,7 @@ var types *[]string
 func Cmd(api client.Client, name string, debug *bool) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "entity",
-		Short: "Manage entities",
+		Short: "Control entities",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			entities, err := api.Entities()
 
