@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "1.0.0"
+const version = "1.0.1"
 
 var name string = filepath.Base(os.Args[0])
 var api client.Client
