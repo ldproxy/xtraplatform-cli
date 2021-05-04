@@ -1,2 +1,4 @@
 xtractl/xtractl
+xtractl/build
+xtractl/*.tar.gz
 *.code-workspace
