@@ -30,7 +30,7 @@ Control entities
 ### Options
 
 ```
-  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default ['*'])
 ```
 
 ### Options inherited from parent commands
@@ -56,21 +56,28 @@ List entities
 xtractl entity ls [flags]
 ```
 
+### Examples
+
+```
+xtractl entity ls
+xtractl entity ls -t services
+```
+
 ### Options
 
 ```
-  -j, --json        enable JSON output
-  -n, --no-colors   disable colored output
+  -j, --json            enable JSON output
+  -n, --no-colors       disable colored output
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default ['*'])
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --help            show help
-  -h, --host string     host to connect to (default "localhost")
-  -p, --port int        port to connect to (default 7081)
-  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
-  -v, --verbose         verbose output
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
 ```
 
 ### SEE ALSO
@@ -81,6 +88,14 @@ xtractl entity ls [flags]
 
 Reload entity configuration
 
+### Synopsis
+
+Reload entity configuration
+
+Rereads all configuration files that are relevant for the given entities.
+If effective changes to an entity configuration are detected, the entity is reloaded.
+Beware that erroneous configuration files will stop the affected entities.
+
 ```
 xtractl entity reload ids... [flags]
 ```
@@ -88,19 +103,24 @@ xtractl entity reload ids... [flags]
 ### Examples
 
 ```
-xtractl entity reload * -t services
+xtractl entity reload "*" -t services
 xtractl entity reload id1
 xtractl entity reload id1,id2
+```
+
+### Options
+
+```
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default ['*'])
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --help            show help
-  -h, --host string     host to connect to (default "localhost")
-  -p, --port int        port to connect to (default 7081)
-  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
-  -v, --verbose         verbose output
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
 ```
 
 ### SEE ALSO
