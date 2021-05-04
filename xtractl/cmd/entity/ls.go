@@ -21,11 +21,13 @@ var noColors *bool
 var json *bool
 
 // lsCmd represents the ls command
-func lsCmd(api client.Client, types *[]string, name string, debug *bool) *cobra.Command {
+func lsCmd(api client.Client, name string, debug *bool) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "ls",
-		Short: "List entities",
+		Use:     "ls",
+		Short:   "List entities",
+		Example: name + " entity ls\n" + name + " entity ls -t services",
 		Run: func(cmd *cobra.Command, args []string) {
+			//TODO: filter json by type
 			if *json {
 				body, err := api.EntitiesJson()
 
@@ -37,17 +39,11 @@ func lsCmd(api client.Client, types *[]string, name string, debug *bool) *cobra.
 				return
 			}
 
-			entities, err := api.Entities()
-
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			if entities != nil {
+			if Entities != nil {
 				if *noColors {
-					print(entities, types)
+					print(Entities, Types)
 				} else {
-					printColored(entities, types)
+					printColored(Entities, Types)
 				}
 			}
 		},
@@ -59,7 +55,7 @@ func lsCmd(api client.Client, types *[]string, name string, debug *bool) *cobra.
 	return cmd
 }
 
-func printColored(entities []client.Entity, types *[]string) {
+func printColored(entities []client.Entity, types []string) {
 
 	// initialize tabwriter
 	tw := ansiterm.NewTabWriter(os.Stdout, 8, 8, 2, '\t', 0)
@@ -90,7 +86,7 @@ func printColored(entities []client.Entity, types *[]string) {
 	tw.Flush()
 }
 
-func print(entities []client.Entity, types *[]string) {
+func print(entities []client.Entity, types []string) {
 
 	// initialize tabwriter
 	tw := ansiterm.NewTabWriter(os.Stdout, 8, 8, 2, '\t', 0)
@@ -111,8 +107,8 @@ func print(entities []client.Entity, types *[]string) {
 	tw.Flush()
 }
 
-func isOfType(typ string, types *[]string) bool {
-	for _, t := range *types {
+func isOfType(typ string, types []string) bool {
+	for _, t := range types {
 		if t == "*" || t == typ {
 			return true
 		}

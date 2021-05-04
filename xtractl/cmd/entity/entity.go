@@ -7,7 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var types *[]string
+var Types []string
+var Entities []client.Entity
 
 // Cmd represents the entity command
 func Cmd(api client.Client, name string, debug *bool) *cobra.Command {
@@ -21,7 +22,10 @@ func Cmd(api client.Client, name string, debug *bool) *cobra.Command {
 				return err
 			}
 
-			for _, typ := range *types {
+			Entities = entities
+			Types = parseTypes(cmd)
+
+			for _, typ := range Types {
 				if !isValidType(typ, entities) {
 					return fmt.Errorf("unknown entity type '%s'\n", typ)
 				}
@@ -31,11 +35,26 @@ func Cmd(api client.Client, name string, debug *bool) *cobra.Command {
 		},
 	}
 
-	types = cmd.PersistentFlags().StringSliceP("types", "t", []string{"*"}, "restrict entity types (either \"*\", a single type or a comma separated list)")
+	subcmds := []*cobra.Command{lsCmd(api, name, debug), reloadCmd(api, name, debug)}
 
-	cmd.AddCommand(lsCmd(api, types, name, debug), reloadCmd(api, types, name, debug))
+	for _, subcmd := range subcmds {
+		addTypesFlag(subcmd)
+	}
+
+	addTypesFlag(cmd)
+	cmd.AddCommand(subcmds...)
 
 	return cmd
+}
+
+func addTypesFlag(cmd *cobra.Command) {
+	cmd.Flags().StringSliceP("types", "t", []string{"'*'"}, "restrict entity types (either \"*\", a single type or a comma separated list)")
+}
+
+func parseTypes(cmd *cobra.Command) []string {
+	types, _ := cmd.Flags().GetStringSlice("types")
+
+	return types
 }
 
 func isValidType(typ string, entities []client.Entity) bool {
