@@ -48,7 +48,7 @@ func Cmd(api client.Client, name string, debug *bool) *cobra.Command {
 }
 
 func addTypesFlag(cmd *cobra.Command) {
-	cmd.Flags().StringSliceP("types", "t", []string{"'*'"}, "restrict entity types (either \"*\", a single type or a comma separated list)")
+	cmd.Flags().StringSliceP("types", "t", []string{"*"}, "restrict entity types (either \"*\", a single type or a comma separated list)")
 }
 
 func parseTypes(cmd *cobra.Command) []string {
