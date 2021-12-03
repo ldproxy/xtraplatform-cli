@@ -177,6 +177,30 @@ func (client Client) LogFilter(filters []string, disable bool) error {
 	return err
 }
 
+// PurgeTileCache is
+func (client Client) PurgeTileCache(id string, collection string, tileMatrixSet string, bbox []string) error {
+
+	query := fmt.Sprintf("?api=%s", id)
+
+	if collection != "" {
+		query += fmt.Sprintf("&collection=%s", collection)
+	}
+	if tileMatrixSet != "" {
+		query += fmt.Sprintf("&tileMatrixSet=%s", tileMatrixSet)
+	}
+	if bbox != nil {
+		query += fmt.Sprintf("&bbox=%s", strings.Join(bbox, ","))
+	}
+
+	body, err := client.Request("/tasks/purge-tile-cache"+query, "POST", false, nil, "")
+
+	if len(body) > 0 {
+		return fmt.Errorf("Error: %s", body)
+	}
+
+	return err
+}
+
 func (client Client) Request(path string, method string, ignoreBody bool, reqBody io.Reader, token string) (body []byte, err error) {
 
 	var uri = fmt.Sprintf("%s://%s:%d%s", client.protocol, *client.host, *client.port, path)
