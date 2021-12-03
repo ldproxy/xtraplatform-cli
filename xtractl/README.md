@@ -22,6 +22,7 @@ that would otherwise require a restart.
 
 * [xtractl entity](#xtractl-entity)	 - Control entities
 * [xtractl log](#xtractl-log)	 - Control logging
+* [xtractl tiles](#xtractl-tiles)	 - Manage tiles
 
 ## xtractl entity
 
@@ -237,4 +238,66 @@ xtractl log status [flags]
 ### SEE ALSO
 
 * [xtractl log](#xtractl-log)	 - Control logging
+
+## xtractl tiles
+
+Manage tiles
+
+### Options inherited from parent commands
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl](#xtractl)
+* [xtractl tiles purge-cache](#xtractl-tiles-purge-cache)	 - Purge tile cache
+
+## xtractl tiles purge-cache
+
+Purge tile cache
+
+### Synopsis
+
+Purge tile cache
+
+Deletes all tiles from the cache for the given api.
+Only a subset of tiles can be deleted by using the optional parameters for the collection, the tile matrix set and the WGS84 bounding box.
+
+```
+xtractl tiles purge-cache id [flags]
+```
+
+### Examples
+
+```
+xtractl tiles purge-cache api1 -c collection3 --tms WebMercatorQuad --bbox 8,49,9,50
+xtractl tiles purge-cache api2 --bbox 8,49,9,50
+xtractl tiles purge-cache api3
+```
+
+### Options
+
+```
+  -b, --bbox strings        WGS84 bounding box that should be purged
+  -c, --collection string   id of collection that should be purged
+  -t, --tms string          id of tile matrix set that should be purged
+```
+
+### Options inherited from parent commands
+
+```
+      --help          show help
+  -h, --host string   host to connect to (default "localhost")
+  -p, --port int      port to connect to (default 7081)
+  -v, --verbose       verbose output
+```
+
+### SEE ALSO
+
+* [xtractl tiles](#xtractl-tiles)	 - Manage tiles
 
