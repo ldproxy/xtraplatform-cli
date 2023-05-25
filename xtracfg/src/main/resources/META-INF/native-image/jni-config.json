@@ -1,0 +1,10 @@
+[
+{
+  "name":"de.ii.xtraplatform.cli.CommandHandler",
+  "methods":[{"name":"handleCommand","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.Boolean",
+  "methods":[{"name":"getBoolean","parameterTypes":["java.lang.String"] }]
+}
+]
