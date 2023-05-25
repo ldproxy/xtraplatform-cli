@@ -1,0 +1,72 @@
+plugins {
+    id 'application'
+    id 'org.graalvm.buildtools.native' version '0.9.22'
+}
+
+group = 'de.interactive_instruments'
+
+version = '1.0.0'
+
+repositories {
+  mavenLocal()
+/*  maven {
+    url "https://dl.interactive-instruments.de/repository/maven-snapshots/"
+  }*/
+  mavenCentral()
+}
+
+dependencies {
+    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '3.5.0-SNAPSHOT'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
+
+    compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '22.3.2'
+}
+
+application {
+    mainClass = 'de.ii.xtraplatform.cli.XtraCfg'
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'minutes'
+}
+
+graalvmNative {
+    agent {
+        enableExperimentalPredefinedClasses = true
+    }
+    binaries.all {
+        verbose = true
+        fallback = false
+        quickBuild = false
+        richOutput = true
+        //sharedLibrary = true
+        requiredVersion = '22.3'
+
+        //buildArgs("--module-path", "${buildDir}/install/ldproxy/lib")
+        //buildArgs("--module", application.mainModule.get())
+        //buildArgs("--enable-http")
+        //buildArgs("--install-exit-handlers")
+        //buildArgs("--initialize-at-run-time=org.kortforsyningen.proj")
+
+        runtimeArgs('/src/cfgapp')
+
+        //jvmArgs.add('-Xmx16573624520')
+        //buildArgs('-H:Log=registerResource:3')
+        //buildArgs('-H:-UseServiceLoaderFeature')
+        //resources.autodetect()
+
+        // makes sense???
+        buildArgs('-H:+StaticExecutableWithDynamicLibC')
+
+        // for jackson???
+        buildArgs('-H:+PrintClassInitialization')
+        buildArgs("--allow-incomplete-classpath")
+
+        // for statically linking xtracfg
+        buildArgs("-H:CLibraryPath=${project.projectDir}/dist")
+        buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.core.jdk=ALL-UNNAMED")
+        buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted=ALL-UNNAMED")
+        buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted.c=ALL-UNNAMED")
+    }
+    toolchainDetection = false
+}
