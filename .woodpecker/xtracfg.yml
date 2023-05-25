@@ -6,4 +6,4 @@ pipeline:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:
       - cd xtracfg
-      - CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" GOOS=linux GOARCH=arm64 go build -ldflags="-s -w '-extldflags=-z noexecstack'" -buildmode c-archive -o dist/libxtracfg.a
+      - CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" GOOS=linux GOARCH=amd64 go build -ldflags="-s -w '-extldflags=-z noexecstack'" -buildmode c-archive -o dist/libxtracfg.a
