@@ -15,3 +15,9 @@ pipeline:
       - cd xtracfg
       - ./gradlew nativeCompile
       - ls -la build/native/nativeCompile
+
+  github:
+    image: meltwaterfoundation/github-cli:2.29.0
+    commands:
+      - gh release create next --draft "build/native/nativeCompile/xtracfg#xtracfg (linux/amd64)"
+    secrets: [ github_token ]
