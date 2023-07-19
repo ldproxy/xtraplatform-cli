@@ -19,5 +19,5 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - gh release create next --draft "build/native/nativeCompile/xtracfg#xtracfg (linux/amd64)"
+      - gh release create next --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (linux/amd64)"
     secrets: [ github_token ]
