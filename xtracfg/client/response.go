@@ -13,6 +13,8 @@ const (
 	Error
 	Warning
 	Success
+	Info
+	Confirmation
 )
 
 type Result struct {
@@ -27,18 +29,31 @@ type Response struct {
 
 var (
 	status_name = map[uint8]string{
-		uint8(Unknown): "UNKNOWN",
-		uint8(Error):   "ERROR",
-		uint8(Warning): "WARNING",
-		uint8(Success): "SUCCESS",
+		uint8(Unknown):      "UNKNOWN",
+		uint8(Error):        "ERROR",
+		uint8(Warning):      "WARNING",
+		uint8(Success):      "SUCCESS",
+		uint8(Info):         "INFO",
+		uint8(Confirmation): "CONFIRMATION",
 	}
 	status_value = map[string]uint8{
-		"UNKNOWN": uint8(Unknown),
-		"ERROR":   uint8(Error),
-		"WARNING": uint8(Warning),
-		"SUCCESS": uint8(Success),
+		"UNKNOWN":      uint8(Unknown),
+		"ERROR":        uint8(Error),
+		"WARNING":      uint8(Warning),
+		"SUCCESS":      uint8(Success),
+		"INFO":         uint8(Info),
+		"CONFIRMATION": uint8(Confirmation),
 	}
 )
+
+func HasStatus(results []Result, status Status) bool {
+	for _, r := range results {
+		if r.Status == status {
+			return true
+		}
+	}
+	return false
+}
 
 // MarshalJSON must be a *value receiver* to ensure that a Suit on a parent object
 // does not have to be a pointer in order to have it correctly marshaled.

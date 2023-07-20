@@ -8,11 +8,10 @@ import (
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd/store"
 
-	//	"github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"
 )
 
-const version = "1.1.0"
+const version = "2.0.0-SNAPSHOT"
 
 var name string = filepath.Base(os.Args[0])
 var storeSrc client.Store
@@ -21,10 +20,7 @@ var storeSrc client.Store
 var RootCmd = &cobra.Command{
 	Use:     name,
 	Version: version,
-	Long: name + ` controls xtraplatform applications like ldproxy and XtraServer Web API.
-
-It provides control over certain parts of the running application 
-that would otherwise require a restart.`,
+	Long:    name + ` provides tools to manage configurations for xtraplatform applications like ldproxy and XtraServer Web API.`,
 	/*Run: func(cmd *cobra.Command, args []string) {
 		interactive()
 	},*/
@@ -40,10 +36,10 @@ var subcommands = map[string]*cobra.Command{}
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the RootCmd.
 func Execute() {
-	fmt.Printf("ARGS: %s\n", os.Args[1:])
+	/*fmt.Printf("ARGS: %s\n", os.Args[1:])
 	args := []string{"check", "-v"}
 	fmt.Printf("TODO ARGS: %s\n", args)
-	RootCmd.SetArgs(args)
+	RootCmd.SetArgs(args)*/
 
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -53,16 +49,23 @@ func Execute() {
 
 func init() {
 
-	RootCmd.PersistentFlags().Bool("help", false, "show help")
+	RootCmd.PersistentFlags().SortFlags = false
 	src := RootCmd.PersistentFlags().StringP("src", "s", "./", "store source")
 	typ := RootCmd.PersistentFlags().StringP("driver", "d", "FS", "store source driver")
-	debug := RootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
+	RootCmd.PersistentFlags().Bool("help", false, "show help")
+	verbose := RootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
+	debug := RootCmd.PersistentFlags().Bool("debug", false, "debug output")
+	RootCmd.PersistentFlags().MarkHidden("debug")
 
-	storeSrc = *client.New(src, typ, debug)
+	storeSrc = *client.New(src, typ, verbose, debug)
 
-	checkCmd := store.CheckCmd(storeSrc, name, debug)
+	checkCmd := store.CheckCmd(storeSrc, name, verbose, debug)
+
+	upgradeCmd := store.UpgradeCmd(storeSrc, name, verbose, debug)
 
 	RootCmd.AddCommand(checkCmd)
+	RootCmd.AddCommand(upgradeCmd)
+	RootCmd.CompletionOptions.DisableDefaultCmd = true
 
 	/*for _, c := range entityCmd.Commands() {
 		if !c.IsAvailableCommand() || c.IsAdditionalHelpTopicCommand() {

@@ -9,8 +9,6 @@ package main
 */
 import "C"
 import (
-	"fmt"
-
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd"
 )
@@ -31,7 +29,7 @@ func cmd_execute(handle_command C.handle_command_func) {
 }
 
 func handle(command string) string {
-	fmt.Printf("JNI PASS: %s\n", command)
+	//fmt.Printf("JNI PASS: %s\n", command)
 
 	messages := make(chan string)
 

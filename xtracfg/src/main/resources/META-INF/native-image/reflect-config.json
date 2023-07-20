@@ -18,6 +18,12 @@
   "name":"[Lde.ii.xtraplatform.features.domain.ExtensionConfiguration;"
 },
 {
+  "name":"[Lde.ii.xtraplatform.features.domain.ImmutableFeatureSchema$Builder;"
+},
+{
+  "name":"[Lde.ii.xtraplatform.features.domain.ImmutableFeatureSchema;"
+},
+{
   "name":"[Lde.ii.xtraplatform.features.domain.ImmutablePartialObjectSchema$Builder;"
 },
 {
@@ -147,7 +153,8 @@
   "methods":[
     {"name":"getBuildingBlock","parameterTypes":[] }, 
     {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getVersions","parameterTypes":[] }
   ]
 },
 {
@@ -158,7 +165,8 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"versions","parameterTypes":["java.lang.Iterable"] }
   ]
 },
 {
@@ -267,6 +275,10 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.features.core.domain.FeaturesCollectionQueryables",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.ogcapi.features.core.domain.FeaturesCollectionQueryables$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
@@ -293,10 +305,29 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.ogcapi.features.core.domain.ImmutableFeaturesCollectionQueryables",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getOther","parameterTypes":[] }, 
+    {"name":"getQ","parameterTypes":[] }, 
+    {"name":"getSpatial","parameterTypes":[] }, 
+    {"name":"getTemporal","parameterTypes":[] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.features.core.domain.ImmutableFeaturesCollectionQueryables$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"q","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"spatial","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"temporal","parameterTypes":["java.lang.Iterable"] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.features.core.domain.ImmutableFeaturesCoreConfiguration",
@@ -336,9 +367,16 @@
     {"name":"itemType","parameterTypes":["java.util.Optional"] }, 
     {"name":"maximumPageSize","parameterTypes":["java.lang.Integer"] }, 
     {"name":"minimumPageSize","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"queryables","parameterTypes":["java.util.Optional"] }, 
     {"name":"showsFeatureSelfLink","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"validateCoordinatesInQueries","parameterTypes":["java.lang.Boolean"] }
   ]
+},
+{
+  "name":"de.ii.ogcapi.features.core.domain.JsonSchemaDocument$VERSION",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"de.ii.ogcapi.features.core.domain.SfFlatConfiguration",
@@ -460,6 +498,7 @@
     {"name":"multiplicityStrategy","parameterTypes":["de.ii.ogcapi.features.geojson.domain.GeoJsonConfiguration$MULTIPLICITY"] }, 
     {"name":"nestedObjectStrategy","parameterTypes":["de.ii.ogcapi.features.geojson.domain.GeoJsonConfiguration$NESTED_OBJECTS"] }, 
     {"name":"separator","parameterTypes":["java.lang.String"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
     {"name":"useFormattedJsonOutput","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -616,6 +655,7 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"featureTitleTemplate","parameterTypes":["java.util.Optional"] }, 
     {"name":"mapPosition","parameterTypes":["de.ii.ogcapi.features.html.domain.FeaturesHtmlConfiguration$POSITION"] }, 
     {"name":"propertyTooltips","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"propertyTooltipsOnItems","parameterTypes":["java.lang.Boolean"] }, 
@@ -637,6 +677,8 @@
     {"name":"getGeojsonCompatibility","parameterTypes":[] }, 
     {"name":"getIncludeInGeoJson","parameterTypes":[] }, 
     {"name":"getLinks","parameterTypes":[] }, 
+    {"name":"getSchemaCollection","parameterTypes":[] }, 
+    {"name":"getSchemaFeature","parameterTypes":[] }, 
     {"name":"getTransformations","parameterTypes":[] }
   ]
 },
@@ -733,6 +775,10 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.ogcapi.foundation.domain.FeatureTypeConfigurationOgcApi",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.ogcapi.foundation.domain.FeatureTypeConfigurationOgcApi$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
@@ -780,7 +826,14 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"contactName","parameterTypes":["java.util.Optional"] }]
+  "methods":[
+    {"name":"attribution","parameterTypes":["java.util.Optional"] }, 
+    {"name":"contactEmail","parameterTypes":["java.util.Optional"] }, 
+    {"name":"contactName","parameterTypes":["java.util.Optional"] }, 
+    {"name":"keywords","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"licenseName","parameterTypes":["java.util.Optional"] }, 
+    {"name":"licenseUrl","parameterTypes":["java.util.Optional"] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.foundation.domain.ImmutableApiSecurity",
@@ -844,10 +897,34 @@
   "queryAllDeclaredConstructors":true
 },
 {
+  "name":"de.ii.ogcapi.foundation.domain.ImmutableFeatureTypeConfigurationOgcApi",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getAdditionalLinks","parameterTypes":[] }, 
+    {"name":"getDescription","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getExtensions","parameterTypes":[] }, 
+    {"name":"getExtent","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLabel","parameterTypes":[] }, 
+    {"name":"getPersistentUriTemplate","parameterTypes":[] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.foundation.domain.ImmutableFeatureTypeConfigurationOgcApi$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"enabled","parameterTypes":["boolean"] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"label","parameterTypes":["java.lang.String"] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.foundation.domain.ImmutableFoundationConfiguration",
@@ -947,14 +1024,17 @@
     {"name":"apiValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }, 
     {"name":"createdAt","parameterTypes":["long"] }, 
     {"name":"defaultExtentBuilder","parameterTypes":["de.ii.ogcapi.foundation.domain.ImmutableCollectionExtent$Builder"] }, 
+    {"name":"description","parameterTypes":["java.util.Optional"] }, 
     {"name":"enabled","parameterTypes":["boolean"] }, 
     {"name":"entityStorageVersion","parameterTypes":["long"] }, 
+    {"name":"getCollections","parameterTypes":[] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"label","parameterTypes":["java.lang.String"] }, 
     {"name":"lastModified","parameterTypes":["long"] }, 
     {"name":"metadataBuilder","parameterTypes":[] }, 
     {"name":"secured","parameterTypes":["boolean"] }, 
-    {"name":"serviceType","parameterTypes":["java.lang.String"] }
+    {"name":"serviceType","parameterTypes":["java.lang.String"] }, 
+    {"name":"tags","parameterTypes":["java.lang.Iterable"] }
   ]
 },
 {
@@ -1059,8 +1139,10 @@
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"footerText","parameterTypes":["java.lang.String"] }, 
     {"name":"legalName","parameterTypes":["java.lang.String"] }, 
+    {"name":"legalUrl","parameterTypes":["java.lang.String"] }, 
     {"name":"noIndexEnabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"privacyName","parameterTypes":["java.lang.String"] }, 
+    {"name":"privacyUrl","parameterTypes":["java.lang.String"] }, 
     {"name":"schemaOrgEnabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"sendEtags","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"suppressEmptyCollectionsInOverview","parameterTypes":["java.lang.Boolean"] }
@@ -1266,6 +1348,7 @@
     {"name":"managerEnabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"resourceManagerEnabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"resourcesEnabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"styleEncodings","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"useIdFromStylesheet","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"validationEnabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"webmapWithLayerControl","parameterTypes":["java.lang.Boolean"] }, 
@@ -1311,7 +1394,11 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"center","parameterTypes":["java.lang.Iterable"] }
+    {"name":"multiCollectionEnabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"seeding","parameterTypes":["java.util.Map"] }, 
+    {"name":"singleCollectionEnabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"zoomLevels","parameterTypes":["java.util.Map"] }, 
+    {"name":"zoomLevelsCache","parameterTypes":["java.util.Map"] }
   ]
 },
 {
@@ -1422,6 +1509,94 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.xtraplatform.auth.app.ImmutableUserData",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCreatedAt","parameterTypes":[] }, 
+    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLastModified","parameterTypes":[] }, 
+    {"name":"getPassword","parameterTypes":[] }, 
+    {"name":"getPasswordExpiresAt","parameterTypes":[] }, 
+    {"name":"getRole","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.auth.app.ImmutableUserData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"lastModified","parameterTypes":["long"] }, 
+    {"name":"password","parameterTypes":["java.lang.String"] }, 
+    {"name":"role","parameterTypes":["de.ii.xtraplatform.auth.domain.Role"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.auth.app.User$UserData",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.auth.app.User$UserData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.auth.domain.Role",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.codelists.domain.CodelistData",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.codelists.domain.CodelistData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.codelists.domain.CodelistData$ImportType",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.codelists.domain.ImmutableCodelistData",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCreatedAt","parameterTypes":[] }, 
+    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
+    {"name":"getEntries","parameterTypes":[] }, 
+    {"name":"getFallback","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLabel","parameterTypes":[] }, 
+    {"name":"getLastModified","parameterTypes":[] }, 
+    {"name":"getSourceType","parameterTypes":[] }, 
+    {"name":"getSourceUrl","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.codelists.domain.ImmutableCodelistData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"entries","parameterTypes":["java.util.Map"] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"label","parameterTypes":["java.lang.String"] }, 
+    {"name":"sourceType","parameterTypes":["de.ii.xtraplatform.codelists.domain.CodelistData$ImportType"] }
+  ]
+},
+{
   "name":"de.ii.xtraplatform.crs.domain.EpsgCrs",
   "queryAllDeclaredMethods":true
 },
@@ -1502,13 +1677,18 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.xtraplatform.features.domain.FeatureTypeConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.xtraplatform.features.domain.ImmutableFeatureSchema",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"getAdditionalInfo","parameterTypes":[] }, 
-    {"name":"getAllOf","parameterTypes":[] }, 
+    {"name":"getCoalesce","parameterTypes":[] }, 
+    {"name":"getConcat","parameterTypes":[] }, 
     {"name":"getConstantValue","parameterTypes":[] }, 
     {"name":"getConstraints","parameterTypes":[] }, 
     {"name":"getDescription","parameterTypes":[] }, 
@@ -1517,8 +1697,11 @@
     {"name":"getIsQueryable","parameterTypes":[] }, 
     {"name":"getIsSortable","parameterTypes":[] }, 
     {"name":"getLabel","parameterTypes":[] }, 
+    {"name":"getMerge","parameterTypes":[] }, 
     {"name":"getObjectType","parameterTypes":[] }, 
     {"name":"getPropertyMap","parameterTypes":[] }, 
+    {"name":"getRefType","parameterTypes":[] }, 
+    {"name":"getRefUriTemplate","parameterTypes":[] }, 
     {"name":"getRole","parameterTypes":[] }, 
     {"name":"getSchema","parameterTypes":[] }, 
     {"name":"getScope","parameterTypes":[] }, 
@@ -1537,11 +1720,16 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
-    {"name":"constantValue","parameterTypes":["java.util.Optional"] }, 
     {"name":"constraintsBuilder","parameterTypes":[] }, 
+    {"name":"description","parameterTypes":["java.util.Optional"] }, 
+    {"name":"geometryType","parameterTypes":["java.util.Optional"] }, 
+    {"name":"label","parameterTypes":["java.util.Optional"] }, 
+    {"name":"objectType","parameterTypes":["java.util.Optional"] }, 
     {"name":"role","parameterTypes":["java.util.Optional"] }, 
     {"name":"sourcePath","parameterTypes":["java.util.Optional"] }, 
-    {"name":"type","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }
+    {"name":"transformations","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"type","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }, 
+    {"name":"unit","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
@@ -1556,10 +1744,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"createdAt","parameterTypes":["long"] }, 
     {"name":"entityStorageVersion","parameterTypes":["long"] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }
   ]
@@ -1651,6 +1837,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
+    {"name":"getAsLink","parameterTypes":[] }, 
     {"name":"getCodelist","parameterTypes":[] }, 
     {"name":"getDateFormat","parameterTypes":[] }, 
     {"name":"getFlatten","parameterTypes":[] }, 
@@ -1670,6 +1857,7 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
+    {"name":"dateFormat","parameterTypes":["java.util.Optional"] }, 
     {"name":"flatten","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -1727,7 +1915,11 @@
   "name":"de.ii.xtraplatform.features.sql.domain.ImmutableConnectionInfoSql$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"database","parameterTypes":["java.lang.String"] }, 
+    {"name":"dialect","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql$Dialect"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.features.sql.domain.ImmutableFeatureActionTrigger$Builder",
@@ -1769,13 +1961,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"connectionInfoBuilder","parameterTypes":[] }, 
     {"name":"entityStorageVersion","parameterTypes":["long"] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
-    {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] }, 
+    {"name":"nativeCrsBuilder","parameterTypes":[] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerType","parameterTypes":["java.lang.String"] }
+    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"sourcePathDefaultsBuilder","parameterTypes":[] }
   ]
 },
 {
@@ -1806,7 +1998,11 @@
   "name":"de.ii.xtraplatform.features.sql.domain.ImmutableSqlPathDefaults$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"primaryKey","parameterTypes":["java.lang.String"] }, 
+    {"name":"sortKey","parameterTypes":["java.lang.String"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.features.sql.domain.SqlPathDefaults",
@@ -1825,11 +2021,13 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"description","parameterTypes":["java.util.Optional"] }, 
     {"name":"enabled","parameterTypes":["boolean"] }, 
     {"name":"entityStorageVersion","parameterTypes":["long"] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"label","parameterTypes":["java.lang.String"] }, 
     {"name":"lastModified","parameterTypes":["long"] }, 
+    {"name":"secured","parameterTypes":["boolean"] }, 
     {"name":"serviceType","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -1904,16 +2102,37 @@
   "queryAllDeclaredConstructors":true
 },
 {
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableMinMax",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getDefault","parameterTypes":[] }, 
+    {"name":"getMax","parameterTypes":[] }, 
+    {"name":"getMin","parameterTypes":[] }
+  ]
+},
+{
   "name":"de.ii.xtraplatform.tiles.domain.ImmutableMinMax$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"max","parameterTypes":["int"] }, 
+    {"name":"min","parameterTypes":["int"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.tiles.domain.ImmutableSeedingOptions$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.MinMax",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"de.ii.xtraplatform.tiles.domain.MinMax$Builder",
