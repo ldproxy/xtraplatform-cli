@@ -1967,7 +1967,8 @@
     {"name":"nativeCrsBuilder","parameterTypes":[] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }, 
-    {"name":"sourcePathDefaultsBuilder","parameterTypes":[] }
+    {"name":"sourcePathDefaultsBuilder","parameterTypes":[] }, 
+    {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }
   ]
 },
 {
