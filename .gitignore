@@ -1,10 +1,9 @@
 xtractl/xtractl
 xtracfg/xtracfg
+data
 dist
 build
 *.gz
 *.code-workspace
 .gradle
 .idea
-data
-bplan-orig

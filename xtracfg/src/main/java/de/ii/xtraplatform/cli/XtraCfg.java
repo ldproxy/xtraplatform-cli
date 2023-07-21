@@ -9,12 +9,7 @@ import shadow.com.fasterxml.jackson.databind.ObjectMapper;
 
 public class XtraCfg {
 
-  static {
-    // System.load("/src/dist/libxtracfg.so");
-    // System.loadLibrary("xtracfg");
-  }
-
-  public static void main2(String[] args) {
+  public static void main(String[] args) {
     try {
       Jackson jackson = new JacksonProvider(JacksonSubTypes::ids, false);
       ObjectMapper mapper =
@@ -27,7 +22,7 @@ public class XtraCfg {
     }
   }
 
-  public static void main(String[] args) {
+  public static void main2(String[] args) {
     if (args.length == 0) {
       throw new IllegalArgumentException("No store directory given");
     }
@@ -68,6 +63,7 @@ public class XtraCfg {
 
     } catch (Throwable e) {
       System.out.println("ERROR " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }

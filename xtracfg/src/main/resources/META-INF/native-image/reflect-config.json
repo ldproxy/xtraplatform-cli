@@ -36,6 +36,12 @@
   "name":"[Lde.ii.xtraplatform.features.domain.transform.ImmutablePropertyTransformation;"
 },
 {
+  "name":"[Lde.ii.xtraplatform.tiles.domain.ImmutableCache$Builder;"
+},
+{
+  "name":"[Lde.ii.xtraplatform.tiles.domain.ImmutableCache;"
+},
+{
   "name":"[Ljava.lang.Object;"
 },
 {
@@ -127,6 +133,8 @@
     {"name":"build","parameterTypes":[] }, 
     {"name":"enableEndpoint","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"excluded","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"included","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"pathSeparator","parameterTypes":["de.ii.ogcapi.collections.queryables.domain.QueryablesConfiguration$PathSeparator"] }
   ]
 },
@@ -206,6 +214,7 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
+    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
@@ -275,6 +284,47 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.features.cityjson.domain.CityJsonConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.cityjson.domain.CityJsonConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.cityjson.domain.CityJsonConfiguration$Version",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.cityjson.domain.ImmutableCityJsonConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getTextSequences","parameterTypes":[] }, 
+    {"name":"getTransformations","parameterTypes":[] }, 
+    {"name":"getVersion","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.features.cityjson.domain.ImmutableCityJsonConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"textSequences","parameterTypes":["java.util.Optional"] }, 
+    {"name":"version","parameterTypes":["java.util.Optional"] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.features.core.domain.FeaturesCollectionQueryables",
   "queryAllDeclaredMethods":true
 },
@@ -324,6 +374,7 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
+    {"name":"other","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"q","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"spatial","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"temporal","parameterTypes":["java.lang.Iterable"] }
@@ -361,14 +412,18 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
+    {"name":"coordinatePrecision","parameterTypes":["java.util.Map"] }, 
     {"name":"defaultCrs","parameterTypes":["de.ii.ogcapi.features.core.domain.FeaturesCoreConfiguration$DefaultCrs"] }, 
     {"name":"defaultPageSize","parameterTypes":["java.lang.Integer"] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"featureProvider","parameterTypes":["java.util.Optional"] }, 
+    {"name":"featureType","parameterTypes":["java.util.Optional"] }, 
     {"name":"itemType","parameterTypes":["java.util.Optional"] }, 
     {"name":"maximumPageSize","parameterTypes":["java.lang.Integer"] }, 
     {"name":"minimumPageSize","parameterTypes":["java.lang.Integer"] }, 
     {"name":"queryables","parameterTypes":["java.util.Optional"] }, 
     {"name":"showsFeatureSelfLink","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
     {"name":"validateCoordinatesInQueries","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -381,6 +436,22 @@
 {
   "name":"de.ii.ogcapi.features.core.domain.SfFlatConfiguration",
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.csv.domain.CsvConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.csv.domain.ImmutableCsvConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getMaxMultiplicity","parameterTypes":[] }, 
+    {"name":"getTransformations","parameterTypes":[] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.features.custom.extensions.domain.FeaturesExtensionsConfiguration",
@@ -537,6 +608,78 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.features.gltf.domain.GltfConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.gltf.domain.ImmutableGltfConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getMaxMultiplicity","parameterTypes":[] }, 
+    {"name":"getMeshQuantization","parameterTypes":[] }, 
+    {"name":"getPolygonOrientationNotGuaranteed","parameterTypes":[] }, 
+    {"name":"getProperties","parameterTypes":[] }, 
+    {"name":"getTransformations","parameterTypes":[] }, 
+    {"name":"getWithNormals","parameterTypes":[] }, 
+    {"name":"getWithOutline","parameterTypes":[] }, 
+    {"name":"getWithSurfaceType","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.features.gltf.domain.ImmutableGltfConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"meshQuantization","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"polygonOrientationNotGuaranteed","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"withNormals","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"withOutline","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"withSurfaceType","parameterTypes":["java.lang.Boolean"] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.features.gltf.domain.ImmutableGltfPropertyDefinition$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"noData","parameterTypes":["java.lang.String"] }, 
+    {"name":"stringOffsetType","parameterTypes":["de.ii.ogcapi.features.gltf.domain.SchemaProperty$ComponentType"] }, 
+    {"name":"type","parameterTypes":["de.ii.ogcapi.features.gltf.domain.SchemaProperty$Type"] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.features.gltf.domain.SchemaProperty$ComponentType",
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.gltf.domain.SchemaProperty$Type",
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.geojson.ld.domain.ImmutableGeoJsonLdConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.features.gml.domain.GmlConfiguration",
   "queryAllDeclaredMethods":true
 },
@@ -656,9 +799,14 @@
     {"name":"build","parameterTypes":[] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"featureTitleTemplate","parameterTypes":["java.util.Optional"] }, 
+    {"name":"geometryProperties","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"layout","parameterTypes":["de.ii.ogcapi.features.html.domain.FeaturesHtmlConfiguration$LAYOUT"] }, 
+    {"name":"mapClientType","parameterTypes":["de.ii.ogcapi.html.domain.MapClient$Type"] }, 
     {"name":"mapPosition","parameterTypes":["de.ii.ogcapi.features.html.domain.FeaturesHtmlConfiguration$POSITION"] }, 
+    {"name":"maximumPageSize","parameterTypes":["java.lang.Integer"] }, 
     {"name":"propertyTooltips","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"propertyTooltipsOnItems","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"removeZoomLevelConstraints","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"style","parameterTypes":["java.lang.String"] }, 
     {"name":"transformations","parameterTypes":["java.util.Map"] }
   ]
@@ -693,6 +841,7 @@
     {"name":"coordRefSys","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"describedby","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"featureType","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"geojsonCompatibility","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -709,6 +858,24 @@
   "name":"de.ii.ogcapi.features.jsonfg.domain.JsonFgConfiguration$OPTION",
   "allDeclaredFields":true,
   "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.search.domain.ImmutableSearchConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getAllLinksAreLocal","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getCaching","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getManagerEnabled","parameterTypes":[] }, 
+    {"name":"getValidationEnabled","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.features.search.domain.SearchConfiguration",
   "queryAllDeclaredMethods":true
 },
 {
@@ -775,6 +942,11 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.ogcapi.foundation.domain.ExternalDocumentation",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.ogcapi.foundation.domain.FeatureTypeConfigurationOgcApi",
   "queryAllDeclaredMethods":true
 },
@@ -830,9 +1002,14 @@
     {"name":"attribution","parameterTypes":["java.util.Optional"] }, 
     {"name":"contactEmail","parameterTypes":["java.util.Optional"] }, 
     {"name":"contactName","parameterTypes":["java.util.Optional"] }, 
+    {"name":"creatorName","parameterTypes":["java.util.Optional"] }, 
+    {"name":"creatorUrl","parameterTypes":["java.util.Optional"] }, 
     {"name":"keywords","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"licenseName","parameterTypes":["java.util.Optional"] }, 
-    {"name":"licenseUrl","parameterTypes":["java.util.Optional"] }
+    {"name":"licenseUrl","parameterTypes":["java.util.Optional"] }, 
+    {"name":"publisherLogoUrl","parameterTypes":["java.util.Optional"] }, 
+    {"name":"publisherName","parameterTypes":["java.util.Optional"] }, 
+    {"name":"publisherUrl","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
@@ -886,15 +1063,31 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
+    {"name":"spatialBuilder","parameterTypes":[] }, 
     {"name":"spatialComputed","parameterTypes":["java.util.Optional"] }, 
+    {"name":"temporalBuilder","parameterTypes":[] }, 
     {"name":"temporalComputed","parameterTypes":["java.util.Optional"] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.foundation.domain.ImmutableExternalDocumentation",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getDescription","parameterTypes":[] }, 
+    {"name":"getUrl","parameterTypes":[] }
   ]
 },
 {
   "name":"de.ii.ogcapi.foundation.domain.ImmutableExternalDocumentation$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"description","parameterTypes":["java.util.Optional"] }, 
+    {"name":"url","parameterTypes":["java.lang.String"] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.foundation.domain.ImmutableFeatureTypeConfigurationOgcApi",
@@ -921,9 +1114,12 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"description","parameterTypes":["java.util.Optional"] }, 
     {"name":"enabled","parameterTypes":["boolean"] }, 
+    {"name":"extentBuilder","parameterTypes":[] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"label","parameterTypes":["java.lang.String"] }
+    {"name":"label","parameterTypes":["java.lang.String"] }, 
+    {"name":"persistentUriTemplate","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
@@ -948,8 +1144,11 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
+    {"name":"apiCatalogDescription","parameterTypes":["java.lang.String"] }, 
+    {"name":"apiCatalogLabel","parameterTypes":["java.lang.String"] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"googleSiteVerification","parameterTypes":["java.lang.String"] },
     {"name":"includeLinkHeader","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"useLangParameter","parameterTypes":["java.lang.Boolean"] }
   ]
@@ -1023,11 +1222,13 @@
     {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"apiValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }, 
     {"name":"apiVersion","parameterTypes":["java.util.Optional"] }, 
+    {"name":"auto","parameterTypes":["java.util.Optional"] }, 
     {"name":"createdAt","parameterTypes":["long"] }, 
     {"name":"defaultExtentBuilder","parameterTypes":["de.ii.ogcapi.foundation.domain.ImmutableCollectionExtent$Builder"] }, 
     {"name":"description","parameterTypes":["java.util.Optional"] }, 
     {"name":"enabled","parameterTypes":["boolean"] }, 
     {"name":"entityStorageVersion","parameterTypes":["long"] }, 
+    {"name":"externalDocsBuilder","parameterTypes":[] }, 
     {"name":"getCollections","parameterTypes":[] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"label","parameterTypes":["java.lang.String"] }, 
@@ -1039,10 +1240,21 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.foundation.domain.ImmutableTemporalExtent",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getEnd","parameterTypes":[] }, 
+    {"name":"getStart","parameterTypes":[] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.foundation.domain.ImmutableTemporalExtent$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"start","parameterTypes":["java.lang.Long"] }]
 },
 {
   "name":"de.ii.ogcapi.foundation.domain.Link",
@@ -1056,6 +1268,10 @@
 {
   "name":"de.ii.ogcapi.foundation.domain.OgcApiDataV2$Builder",
   "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.foundation.domain.TemporalExtent",
   "queryAllDeclaredMethods":true
 },
 {
@@ -1139,9 +1355,13 @@
     {"name":"defaultStyle","parameterTypes":["java.lang.String"] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"footerText","parameterTypes":["java.lang.String"] }, 
+    {"name":"leafletAttribution","parameterTypes":["java.lang.String"] }, 
+    {"name":"leafletUrl","parameterTypes":["java.lang.String"] }, 
     {"name":"legalName","parameterTypes":["java.lang.String"] }, 
     {"name":"legalUrl","parameterTypes":["java.lang.String"] }, 
     {"name":"noIndexEnabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"openLayersAttribution","parameterTypes":["java.lang.String"] }, 
+    {"name":"openLayersUrl","parameterTypes":["java.lang.String"] }, 
     {"name":"privacyName","parameterTypes":["java.lang.String"] }, 
     {"name":"privacyUrl","parameterTypes":["java.lang.String"] }, 
     {"name":"schemaOrgEnabled","parameterTypes":["java.lang.Boolean"] }, 
@@ -1279,6 +1499,49 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.ogcapi.routes.domain.HtmlForm",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.routes.domain.ImmutableHtmlForm",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getDefaults","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.routes.domain.ImmutableRoutingConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getAdditionalFlags","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getCaching","parameterTypes":[] }, 
+    {"name":"getCoordinatePrecision","parameterTypes":[] }, 
+    {"name":"getDefaultCrs","parameterTypes":[] }, 
+    {"name":"getDefaultMode","parameterTypes":[] }, 
+    {"name":"getDefaultPreference","parameterTypes":[] }, 
+    {"name":"getElevationProfileSimplificationTolerance","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getFeatureType","parameterTypes":[] }, 
+    {"name":"getHeightRestrictions","parameterTypes":[] }, 
+    {"name":"getHtml","parameterTypes":[] }, 
+    {"name":"getIntermediateWaypoints","parameterTypes":[] }, 
+    {"name":"getManageRoutes","parameterTypes":[] }, 
+    {"name":"getObstacles","parameterTypes":[] }, 
+    {"name":"getSpeedLimitUnit","parameterTypes":[] }, 
+    {"name":"getWeightRestrictions","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.routes.domain.RoutingConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.ogcapi.sorting.domain.ImmutableSortingConfiguration",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -1301,7 +1564,9 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"pathSeparator","parameterTypes":["de.ii.ogcapi.collections.queryables.domain.QueryablesConfiguration$PathSeparator"] }
+    {"name":"included","parameterTypes":["java.lang.Iterable"] },
+    {"name":"pathSeparator","parameterTypes":["de.ii.ogcapi.collections.queryables.domain.QueryablesConfiguration$PathSeparator"] }, 
+    {"name":"sortables","parameterTypes":["java.lang.Iterable"] }
   ]
 },
 {
@@ -1343,6 +1608,7 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
+    {"name":"defaultStyle","parameterTypes":["java.lang.String"] }, 
     {"name":"deriveCollectionStyles","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"layerControlAllLayers","parameterTypes":["java.lang.Boolean"] }, 
@@ -1363,6 +1629,22 @@
 {
   "name":"de.ii.ogcapi.styles.domain.StylesConfiguration$Builder",
   "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.tilematrixsets.domain.ImmutableTileMatrixSetsConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getCaching","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getIncludePredefined","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.tilematrixsets.domain.TileMatrixSetsConfiguration",
   "queryAllDeclaredMethods":true
 },
 {
@@ -1445,12 +1727,21 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"cache","parameterTypes":["de.ii.ogcapi.tiles.domain.TilesConfiguration$TileCacheType"] }, 
+    {"name":"center","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"collectionTiles","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"datasetTiles","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"filters","parameterTypes":["java.util.Map"] }, 
+    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] }, 
+    {"name":"removeZoomLevelConstraints","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"rules","parameterTypes":["java.util.Map"] }, 
+    {"name":"seeding","parameterTypes":["java.util.Map"] }, 
+    {"name":"seedingOptions","parameterTypes":["java.util.Optional"] }, 
     {"name":"style","parameterTypes":["java.lang.String"] }, 
     {"name":"tileProvider","parameterTypes":["de.ii.ogcapi.tiles.domain.TileProvider"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
+    {"name":"zoomLevels","parameterTypes":["java.util.Map"] }, 
+    {"name":"zoomLevelsCache","parameterTypes":["java.util.Map"] }
   ]
 },
 {
@@ -1477,6 +1768,33 @@
   "name":"de.ii.ogcapi.tiles.domain.TilesConfiguration$TileCacheType",
   "allDeclaredFields":true,
   "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.tiles3d.domain.ImmutableTiles3dConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getClampToEllipsoid","parameterTypes":[] }, 
+    {"name":"getContentFilters","parameterTypes":[] }, 
+    {"name":"getCustomTerrainProviderUri","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getFirstLevelWithContent","parameterTypes":[] }, 
+    {"name":"getGeometricErrorRoot","parameterTypes":[] }, 
+    {"name":"getIonAccessToken","parameterTypes":[] }, 
+    {"name":"getMaptilerApiKey","parameterTypes":[] }, 
+    {"name":"getMaxLevel","parameterTypes":[] }, 
+    {"name":"getSeeding","parameterTypes":[] }, 
+    {"name":"getStyle","parameterTypes":[] }, 
+    {"name":"getSubtreeLevels","parameterTypes":[] }, 
+    {"name":"getTerrainHeightDifference","parameterTypes":[] }, 
+    {"name":"getTileFilters","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.tiles3d.domain.Tiles3dConfiguration",
   "queryAllDeclaredMethods":true
 },
 {
@@ -1592,10 +1910,15 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"entries","parameterTypes":["java.util.Map"] }, 
+    {"name":"fallback","parameterTypes":["java.util.Optional"] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"label","parameterTypes":["java.lang.String"] }, 
     {"name":"sourceType","parameterTypes":["de.ii.xtraplatform.codelists.domain.CodelistData$ImportType"] }
   ]
+},
+{
+  "name":"de.ii.xtraplatform.crs.domain.BoundingBox",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"de.ii.xtraplatform.crs.domain.EpsgCrs",
@@ -1608,10 +1931,32 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.xtraplatform.crs.domain.ImmutableBoundingBox",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getEpsgCrs","parameterTypes":[] }, 
+    {"name":"getXmax","parameterTypes":[] }, 
+    {"name":"getXmin","parameterTypes":[] }, 
+    {"name":"getYmax","parameterTypes":[] }, 
+    {"name":"getYmin","parameterTypes":[] }, 
+    {"name":"getZmax","parameterTypes":[] }, 
+    {"name":"getZmin","parameterTypes":[] }
+  ]
+},
+{
   "name":"de.ii.xtraplatform.crs.domain.ImmutableBoundingBox$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"epsgCrs","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs"] }, 
+    {"name":"xmax","parameterTypes":["double"] }, 
+    {"name":"xmin","parameterTypes":["double"] }, 
+    {"name":"ymax","parameterTypes":["double"] }, 
+    {"name":"ymin","parameterTypes":["double"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.crs.domain.ImmutableEpsgCrs",
@@ -1633,7 +1978,8 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"code","parameterTypes":["int"] }, 
-    {"name":"forceAxisOrder","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs$Force"] }
+    {"name":"forceAxisOrder","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs$Force"] }, 
+    {"name":"forceLongitudeFirst","parameterTypes":["boolean"] }
   ]
 },
 {
@@ -1646,6 +1992,12 @@
 },
 {
   "name":"de.ii.xtraplatform.features.domain.ExtensionConfiguration",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"getType","parameterTypes":[] }]
+},
+{
+  "name":"de.ii.xtraplatform.features.domain.ExtensionConfiguration$Builder",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
 },
 {
@@ -1656,7 +2008,10 @@
   "name":"de.ii.xtraplatform.features.domain.FeatureProviderDataV2$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"getTypes2","parameterTypes":[] }]
+  "methods":[
+    {"name":"getFragments2","parameterTypes":[] }, 
+    {"name":"getTypes2","parameterTypes":[] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.features.domain.FeatureSchema",
@@ -1721,23 +2076,45 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
+    {"name":"constantValue","parameterTypes":["java.util.Optional"] }, 
     {"name":"constraintsBuilder","parameterTypes":[] }, 
     {"name":"description","parameterTypes":["java.util.Optional"] }, 
+    {"name":"forcePolygonCCW","parameterTypes":["java.util.Optional"] }, 
     {"name":"geometryType","parameterTypes":["java.util.Optional"] }, 
-    {"name":"label","parameterTypes":["java.util.Optional"] }, 
+    {"name":"label","parameterTypes":["java.util.Optional"] },  
+    {"name":"merge","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"objectType","parameterTypes":["java.util.Optional"] }, 
     {"name":"role","parameterTypes":["java.util.Optional"] }, 
+    {"name":"schema","parameterTypes":["java.util.Optional"] }, 
     {"name":"sourcePath","parameterTypes":["java.util.Optional"] }, 
     {"name":"transformations","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"type","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }, 
-    {"name":"unit","parameterTypes":["java.util.Optional"] }
+    {"name":"unit","parameterTypes":["java.util.Optional"] },
+    {"name":"valueType","parameterTypes":["java.util.Optional"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.features.domain.ImmutablePartialObjectSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getPropertyMap","parameterTypes":[] }, 
+    {"name":"getSchema","parameterTypes":[] }, 
+    {"name":"getSourcePath","parameterTypes":[] }
   ]
 },
 {
   "name":"de.ii.xtraplatform.features.domain.ImmutablePartialObjectSchema$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"schema","parameterTypes":["java.util.Optional"] }, 
+    {"name":"sourcePath","parameterTypes":["java.util.Optional"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.features.domain.ImmutableProviderCommonData$Builder",
@@ -1776,7 +2153,19 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"required","parameterTypes":["java.util.Optional"] }]
+  "methods":[
+    {"name":"closed","parameterTypes":["java.util.Optional"] }, 
+    {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
+    {"name":"enumValues","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"max","parameterTypes":["java.util.Optional"] }, 
+    {"name":"min","parameterTypes":["java.util.Optional"] }, 
+    {"name":"regex","parameterTypes":["java.util.Optional"] }, 
+    {"name":"required","parameterTypes":["java.util.Optional"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.features.domain.PartialObjectSchema",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"de.ii.xtraplatform.features.domain.PartialObjectSchema$Builder",
@@ -1862,7 +2251,10 @@
     {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
     {"name":"dateFormat","parameterTypes":["java.util.Optional"] }, 
     {"name":"flatten","parameterTypes":["java.util.Optional"] }, 
-    {"name":"nullify","parameterTypes":["java.lang.Iterable"] }
+    {"name":"getNull","parameterTypes":["java.util.Optional"] }, 
+    {"name":"nullify","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"remove","parameterTypes":["java.util.Optional"] }, 
+    {"name":"stringFormat","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
@@ -1922,7 +2314,13 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"database","parameterTypes":["java.lang.String"] }, 
-    {"name":"dialect","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql$Dialect"] }
+    {"name":"dialect","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql$Dialect"] }, 
+    {"name":"host","parameterTypes":["java.util.Optional"] }, 
+    {"name":"password","parameterTypes":["java.util.Optional"] }, 
+    {"name":"pathSyntaxBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableSqlPathDefaults$Builder"] }, 
+    {"name":"poolBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutablePoolSettings$Builder"] }, 
+    {"name":"schemas","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"user","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
@@ -1965,14 +2363,18 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
+    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"connectionInfoBuilder","parameterTypes":[] }, 
     {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"defaultLanguage","parameterTypes":["java.util.Optional"] }, 
     {"name":"entityStorageVersion","parameterTypes":["long"] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"lastModified","parameterTypes":["long"] }, 
     {"name":"nativeCrsBuilder","parameterTypes":[] }, 
+    {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"queryGenerationBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableQueryGeneratorSettings$Builder"] }, 
     {"name":"sourcePathDefaultsBuilder","parameterTypes":[] }, 
     {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }
   ]
@@ -1981,13 +2383,20 @@
   "name":"de.ii.xtraplatform.features.sql.domain.ImmutablePoolSettings$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"idleTimeout","parameterTypes":["java.lang.String"] }, 
+    {"name":"maxConnections","parameterTypes":["int"] }, 
+    {"name":"minConnections","parameterTypes":["int"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.features.sql.domain.ImmutableQueryGeneratorSettings$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"de.ii.xtraplatform.features.sql.domain.ImmutableSqlPathDefaults",
@@ -2007,6 +2416,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"junctionTablePattern","parameterTypes":["java.util.Optional"] }, 
     {"name":"primaryKey","parameterTypes":["java.lang.String"] }, 
     {"name":"sortKey","parameterTypes":["java.lang.String"] }
   ]
@@ -2022,12 +2433,47 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.xtraplatform.schemas.ext.domain.ImmutableJsonSchemaConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCompositionIndexes","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getGeometryTypeRefs","parameterTypes":[] }, 
+    {"name":"getObjectTypeRefs","parameterTypes":[] }, 
+    {"name":"getRelationRefs","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.schemas.ext.domain.ImmutableJsonSchemaConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"objectTypeRefs","parameterTypes":["java.util.Map"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.schemas.ext.domain.JsonSchemaConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.schemas.ext.domain.JsonSchemaConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.xtraplatform.services.domain.ImmutableServiceDataCommon$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"apiVersion","parameterTypes":["java.util.Optional"] }, 
+    {"name":"auto","parameterTypes":["java.util.Optional"] }, 
     {"name":"createdAt","parameterTypes":["long"] }, 
     {"name":"description","parameterTypes":["java.util.Optional"] }, 
     {"name":"enabled","parameterTypes":["boolean"] }, 
@@ -2098,16 +2544,120 @@
   "queryAllDeclaredConstructors":true
 },
 {
+  "name":"de.ii.xtraplatform.tiles.domain.Cache",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.Cache$Storage",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.Cache$Type",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableCache",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"getSeeded","parameterTypes":[] }, 
+    {"name":"getStorage","parameterTypes":[] }, 
+    {"name":"getTilesetLevels","parameterTypes":[] }, 
+    {"name":"getType","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableCache$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"levels","parameterTypes":["java.util.Map"] }, 
+    {"name":"seeded","parameterTypes":["boolean"] }, 
+    {"name":"storage","parameterTypes":["de.ii.xtraplatform.tiles.domain.Cache$Storage"] }, 
+    {"name":"type","parameterTypes":["de.ii.xtraplatform.tiles.domain.Cache$Type"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableLevelFilter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getFilter","parameterTypes":[] }, 
+    {"name":"getMax","parameterTypes":[] }, 
+    {"name":"getMin","parameterTypes":[] }, 
+    {"name":"isParsed","parameterTypes":[] }
+  ]
+},
+{
   "name":"de.ii.xtraplatform.tiles.domain.ImmutableLevelFilter$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"filter","parameterTypes":["java.lang.String"] }, 
+    {"name":"max","parameterTypes":["int"] }, 
+    {"name":"min","parameterTypes":["int"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableLevelTransformation",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getGroupBy","parameterTypes":[] }, 
+    {"name":"getMax","parameterTypes":[] }, 
+    {"name":"getMerge","parameterTypes":[] }, 
+    {"name":"getMin","parameterTypes":[] }, 
+    {"name":"getProperties","parameterTypes":[] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.tiles.domain.ImmutableLevelTransformation$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "queryAllDeclaredConstructors":true
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"groupBy","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"max","parameterTypes":["int"] }, 
+    {"name":"merge","parameterTypes":["java.util.Optional"] }, 
+    {"name":"min","parameterTypes":["int"] }, 
+    {"name":"properties","parameterTypes":["java.lang.Iterable"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableLonLat",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getLat","parameterTypes":[] }, 
+    {"name":"getLon","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableLonLat$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"lat","parameterTypes":["double"] }, 
+    {"name":"lon","parameterTypes":["double"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.tiles.domain.ImmutableMinMax",
@@ -2128,15 +2678,272 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
+    {"name":"getDefault","parameterTypes":["java.util.Optional"] }, 
     {"name":"max","parameterTypes":["int"] }, 
     {"name":"min","parameterTypes":["int"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableSeedingOptions",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getMaxThreads","parameterTypes":[] }, 
+    {"name":"getPurge","parameterTypes":[] }, 
+    {"name":"getRunOnStartup","parameterTypes":[] }, 
+    {"name":"getRunPeriodic","parameterTypes":[] }
   ]
 },
 {
   "name":"de.ii.xtraplatform.tiles.domain.ImmutableSeedingOptions$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"maxThreads","parameterTypes":["java.lang.Integer"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTileProviderFeaturesData",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getAuto","parameterTypes":[] }, 
+    {"name":"getAutoPersist","parameterTypes":[] }, 
+    {"name":"getCaches","parameterTypes":[] }, 
+    {"name":"getCreatedAt","parameterTypes":[] }, 
+    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLastModified","parameterTypes":[] }, 
+    {"name":"getProviderSubType","parameterTypes":[] }, 
+    {"name":"getProviderType","parameterTypes":[] }, 
+    {"name":"getSeeding","parameterTypes":[] }, 
+    {"name":"getTilesetDefaults","parameterTypes":[] }, 
+    {"name":"getTilesets","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTileProviderFeaturesData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"caches","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"getTilesets","parameterTypes":[] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
+    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"tilesetDefaultsBuilder","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTileProviderHttpData",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCreatedAt","parameterTypes":[] }, 
+    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLastModified","parameterTypes":[] }, 
+    {"name":"getProviderSubType","parameterTypes":[] }, 
+    {"name":"getProviderType","parameterTypes":[] }, 
+    {"name":"getTilesetDefaults","parameterTypes":[] }, 
+    {"name":"getTilesets","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTileProviderHttpData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getTilesets","parameterTypes":[] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
+    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"tilesetDefaultsBuilder","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTileProviderMbtilesData",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCreatedAt","parameterTypes":[] }, 
+    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLastModified","parameterTypes":[] }, 
+    {"name":"getProviderSubType","parameterTypes":[] }, 
+    {"name":"getProviderType","parameterTypes":[] }, 
+    {"name":"getTilesetDefaults","parameterTypes":[] }, 
+    {"name":"getTilesets","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTileProviderMbtilesData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
+    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"tilesets","parameterTypes":["java.util.Map"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetFeatures",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getCombine","parameterTypes":[] }, 
+    {"name":"getFeatureLimit","parameterTypes":[] }, 
+    {"name":"getFeatureProvider","parameterTypes":[] }, 
+    {"name":"getFeatureType","parameterTypes":[] }, 
+    {"name":"getFilters","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"getMinimumSizeInPixel","parameterTypes":[] }, 
+    {"name":"getTransformations","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetFeatures$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"filters","parameterTypes":["java.util.Map"] }, 
+    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetFeaturesDefaults",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getFeatureLimit","parameterTypes":[] }, 
+    {"name":"getFeatureProvider","parameterTypes":[] }, 
+    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"getMinimumSizeInPixel","parameterTypes":[] }, 
+    {"name":"getTransformations","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetFeaturesDefaults$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"centerBuilder","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetHttp",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getEncodings","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"getUrlTemplate","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetHttp$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"encodings","parameterTypes":["java.util.Map"] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"urlTemplate","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetHttpDefaults",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getEncodings","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetHttpDefaults$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getLevels","parameterTypes":[] }]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetMbTiles",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getId","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"getSource","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetMbTiles$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"source","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetMbTilesDefaults",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.ImmutableTilesetMbTilesDefaults$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.LevelFilter",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.LevelTransformation",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"de.ii.xtraplatform.tiles.domain.MinMax",
@@ -2145,6 +2952,142 @@
 {
   "name":"de.ii.xtraplatform.tiles.domain.MinMax$Builder",
   "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.SeedingOptions",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileGenerationOptions",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderData",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderFeaturesData",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderFeaturesData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderHttpData",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderHttpData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderMbtilesData",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TileProviderMbtilesData$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetCommon",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetCommonDefaults",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetFeatures",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetFeatures$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetFeaturesDefaults",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetFeaturesDefaults$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetHttp",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetHttp$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetHttpDefaults",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetHttpDefaults$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetMbTiles",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.TilesetMbTilesDefaults",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithCaches",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithCenter",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithCenter$LonLat",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithEncodings",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithFeatureProvider",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithLevels",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithTilesetTmsLevels",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithTmsLevels",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.tiles.domain.WithTmsLevelsMergeable",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"double",
   "queryAllDeclaredMethods":true
 },
 {
@@ -2157,6 +3100,12 @@
 },
 {
   "name":"java.lang.Double",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.lang.Float",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true
