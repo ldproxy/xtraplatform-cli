@@ -49,7 +49,6 @@ func Execute() {
 
 func init() {
 
-	RootCmd.PersistentFlags().SortFlags = false
 	src := RootCmd.PersistentFlags().StringP("src", "s", "./", "store source")
 	typ := RootCmd.PersistentFlags().StringP("driver", "d", "FS", "store source driver")
 	RootCmd.PersistentFlags().Bool("help", false, "show help")
@@ -66,6 +65,8 @@ func init() {
 	RootCmd.AddCommand(checkCmd)
 	RootCmd.AddCommand(upgradeCmd)
 	RootCmd.CompletionOptions.DisableDefaultCmd = true
+	RootCmd.PersistentFlags().SortFlags = false
+	RootCmd.Flags().SortFlags = false
 
 	/*for _, c := range entityCmd.Commands() {
 		if !c.IsAvailableCommand() || c.IsAdditionalHelpTopicCommand() {
