@@ -612,6 +612,15 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.ogcapi.features.gltf.domain.GltfConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.features.gltf.domain.GltfPropertyDefinition",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.ogcapi.features.gltf.domain.ImmutableGltfConfiguration",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -636,13 +645,27 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"meshQuantization","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"polygonOrientationNotGuaranteed","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"properties","parameterTypes":["java.util.Map"] }, 
     {"name":"transformations","parameterTypes":["java.util.Map"] }, 
     {"name":"withNormals","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"withOutline","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"withSurfaceType","parameterTypes":["java.lang.Boolean"] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.features.gltf.domain.ImmutableGltfPropertyDefinition",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getComponentType","parameterTypes":[] }, 
+    {"name":"getNoData","parameterTypes":[] }, 
+    {"name":"getStringOffsetType","parameterTypes":[] }, 
+    {"name":"getType","parameterTypes":[] }
   ]
 },
 {
@@ -653,6 +676,7 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
+    {"name":"componentType","parameterTypes":["java.util.Optional"] }, 
     {"name":"noData","parameterTypes":["java.lang.String"] }, 
     {"name":"stringOffsetType","parameterTypes":["de.ii.ogcapi.features.gltf.domain.SchemaProperty$ComponentType"] }, 
     {"name":"type","parameterTypes":["de.ii.ogcapi.features.gltf.domain.SchemaProperty$Type"] }
@@ -660,11 +684,13 @@
 },
 {
   "name":"de.ii.ogcapi.features.gltf.domain.SchemaProperty$ComponentType",
+  "allDeclaredFields":true,
   "allPublicFields":true,
   "queryAllDeclaredMethods":true
 },
 {
   "name":"de.ii.ogcapi.features.gltf.domain.SchemaProperty$Type",
+  "allDeclaredFields":true,
   "allPublicFields":true,
   "queryAllDeclaredMethods":true
 },
@@ -842,7 +868,8 @@
     {"name":"describedby","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"featureType","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"geojsonCompatibility","parameterTypes":["java.lang.Boolean"] }
+    {"name":"geojsonCompatibility","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] }
   ]
 },
 {
@@ -1685,6 +1712,29 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.tiles.domain.ImmutableTileProviderMbtiles",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getFilename","parameterTypes":[] }, 
+    {"name":"getTileMatrixSetId","parameterTypes":[] }, 
+    {"name":"getType","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.tiles.domain.ImmutableTileProviderMbtiles$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"filename","parameterTypes":["java.lang.String"] }, 
+    {"name":"tileMatrixSetId","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.tiles.domain.ImmutableTilesConfiguration",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -1756,6 +1806,11 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.ogcapi.tiles.domain.TileProviderMbtiles",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.ogcapi.tiles.domain.TilesConfiguration",
   "queryAllDeclaredMethods":true
 },
@@ -1794,7 +1849,29 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.tiles3d.domain.ImmutableTiles3dConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"clampToEllipsoid","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"firstLevelWithContent","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"geometricErrorRoot","parameterTypes":["java.lang.Float"] }, 
+    {"name":"maxLevel","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"seedingBuilder","parameterTypes":[] }, 
+    {"name":"subtreeLevels","parameterTypes":["java.lang.Integer"] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.tiles3d.domain.Tiles3dConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.tiles3d.domain.Tiles3dConfiguration$Builder",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
 },
 {
@@ -2156,6 +2233,7 @@
   "methods":[
     {"name":"closed","parameterTypes":["java.util.Optional"] }, 
     {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
+    {"name":"composite","parameterTypes":["java.util.Optional"] }, 
     {"name":"enumValues","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"max","parameterTypes":["java.util.Optional"] }, 
     {"name":"min","parameterTypes":["java.util.Optional"] }, 
@@ -2387,6 +2465,7 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"idleTimeout","parameterTypes":["java.lang.String"] }, 
+    {"name":"initFailTimeout","parameterTypes":["java.lang.String"] }, 
     {"name":"maxConnections","parameterTypes":["int"] }, 
     {"name":"minConnections","parameterTypes":["int"] }
   ]
@@ -2396,7 +2475,10 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"computeNumberMatched","parameterTypes":["boolean"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.features.sql.domain.ImmutableSqlPathDefaults",
@@ -2594,8 +2676,7 @@
   "methods":[
     {"name":"getFilter","parameterTypes":[] }, 
     {"name":"getMax","parameterTypes":[] }, 
-    {"name":"getMin","parameterTypes":[] }, 
-    {"name":"isParsed","parameterTypes":[] }
+    {"name":"getMin","parameterTypes":[] }
   ]
 },
 {
@@ -2703,7 +2784,10 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"maxThreads","parameterTypes":["java.lang.Integer"] }
+    {"name":"maxThreads","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"purge","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"runOnStartup","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"runPeriodic","parameterTypes":["java.lang.String"] }
   ]
 },
 {
@@ -2823,6 +2907,7 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
+    {"name":"combine","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"filters","parameterTypes":["java.util.Map"] }, 
     {"name":"getLevels","parameterTypes":[] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
