@@ -1,20 +1,10 @@
 package de.ii.xtraplatform.cli;
 
-import de.ii.ldproxy.cfg.JacksonSubTypes;
-import de.ii.xtraplatform.base.domain.Jackson;
-import de.ii.xtraplatform.base.domain.JacksonProvider;
-import de.ii.xtraplatform.store.app.ValueEncodingJackson;
-import de.ii.xtraplatform.store.domain.ValueEncoding;
-import shadow.com.fasterxml.jackson.databind.ObjectMapper;
-
 public class XtraCfg {
 
   public static void main(String[] args) {
     try {
-      Jackson jackson = new JacksonProvider(JacksonSubTypes::ids, false);
-      ObjectMapper mapper =
-          (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
-      CommandHandler commandHandler = new CommandHandler(mapper);
+      CommandHandler commandHandler = new CommandHandler();
 
       Cli.execute(commandHandler);
     } catch (Throwable e) {
@@ -28,10 +18,7 @@ public class XtraCfg {
     }
 
     try {
-      Jackson jackson = new JacksonProvider(JacksonSubTypes::ids, false);
-      ObjectMapper mapper =
-          (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
-      CommandHandler commandHandler = new CommandHandler(mapper);
+      CommandHandler commandHandler = new CommandHandler();
 
       String parameters = "";
 

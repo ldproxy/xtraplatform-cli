@@ -1,7 +1,12 @@
 package de.ii.xtraplatform.cli;
 
+import de.ii.ldproxy.cfg.JacksonSubTypes;
 import de.ii.ldproxy.cfg.LdproxyCfg;
+import de.ii.xtraplatform.base.domain.Jackson;
+import de.ii.xtraplatform.base.domain.JacksonProvider;
 import de.ii.xtraplatform.cli.Entities.Type;
+import de.ii.xtraplatform.store.app.ValueEncodingJackson;
+import de.ii.xtraplatform.store.domain.ValueEncoding;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -21,12 +26,15 @@ public class CommandHandler {
     upgrade
   }
 
-  private final ObjectMapper mapper;
+  private final Jackson jackson;
+  private final ObjectMapper jsonMapper;
 
   private LdproxyCfg ldproxyCfg;
 
-  public CommandHandler(ObjectMapper mapper) {
-    this.mapper = mapper;
+  public CommandHandler() {
+    this.jackson = new JacksonProvider(JacksonSubTypes::ids, false);
+    this.jsonMapper =
+        (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
   }
 
   public String handleCommand(String command) {
@@ -47,7 +55,8 @@ public class CommandHandler {
 
     Map<String, String> parameters = parseParameters(uri.getQuery());
     boolean verbose = Objects.equals(parameters.getOrDefault("verbose", "false"), "true");
-    boolean ignoreRedundant = Objects.equals(parameters.getOrDefault("ignoreRedundant", "false"), "true");
+    boolean ignoreRedundant =
+        Objects.equals(parameters.getOrDefault("ignoreRedundant", "false"), "true");
 
     // System.out.println("J - COMMAND " + cmd + " " + parameters);
 
@@ -71,7 +80,7 @@ public class CommandHandler {
 
     try {
       // System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(results));
-      return mapper.writeValueAsString(result.asMap());
+      return jsonMapper.writeValueAsString(result.asMap());
     } catch (JsonProcessingException e) {
       return String.format("{\"error\": %s}", e.getMessage());
     }
@@ -79,7 +88,7 @@ public class CommandHandler {
 
   private Result connect(Map<String, String> parameters) {
     try {
-      this.ldproxyCfg = new LdproxyCfg(Path.of(parameters.get("source")));
+      this.ldproxyCfg = new LdproxyCfg(Path.of(parameters.get("source")), true);
     } catch (Throwable e) {
       return Result.failure(e.getMessage());
     }
