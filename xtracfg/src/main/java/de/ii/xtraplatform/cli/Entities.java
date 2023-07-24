@@ -2,10 +2,15 @@ package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.base.domain.util.Tuple;
+import de.ii.xtraplatform.store.app.entities.EntityDataStoreImpl;
+import de.ii.xtraplatform.store.app.entities.MapAligner;
 import de.ii.xtraplatform.store.domain.Identifier;
 import de.ii.xtraplatform.store.domain.entities.EntityData;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -91,7 +96,12 @@ public class Entities {
     return result;
   }
 
-  static Result upgrade(LdproxyCfg ldproxyCfg, Type type, boolean doBackup, boolean ignoreRedundant, boolean verbose) {
+  static Result upgrade(
+      LdproxyCfg ldproxyCfg,
+      Type type,
+      boolean doBackup,
+      boolean ignoreRedundant,
+      boolean verbose) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -110,7 +120,11 @@ public class Entities {
                       .getParent()
                       .resolve(upgrade.getPath().getFileName().toString() + ".backup");
               try {
-                ldproxyCfg.getObjectMapper().writeValue(backup.toFile(), upgrade.getOriginal());
+                Files.copy(
+                    upgrade.getPath(),
+                    backup,
+                    StandardCopyOption.REPLACE_EXISTING,
+                    StandardCopyOption.COPY_ATTRIBUTES);
 
                 if (verbose) {
                   result.success(
@@ -127,10 +141,12 @@ public class Entities {
             }
             if (!error) {
               try {
-                // TODO: change lastModified???
-                ldproxyCfg
-                    .getObjectMapper()
-                    .writeValue(upgrade.getPath().toFile(), upgrade.getUpgrade().get());
+                Map<String, Object> upgraded = upgrade.getUpgrade().get();
+                if (upgraded.containsKey("lastModified")) {
+                  upgraded.put("lastModified", Instant.now().toEpochMilli());
+                }
+
+                ldproxyCfg.getObjectMapper().writeValue(upgrade.getPath().toFile(), upgraded);
               } catch (IOException e) {
                 error = true;
                 result.error(
@@ -160,7 +176,8 @@ public class Entities {
     return result;
   }
 
-  private static List<Upgrade> getUpgrades(LdproxyCfg ldproxyCfg, Type type, boolean ignoreRedundant) {
+  private static List<Upgrade> getUpgrades(
+      LdproxyCfg ldproxyCfg, Type type, boolean ignoreRedundant) {
     Path store = ldproxyCfg.getDataDirectory().resolve("store");
     Path entities = store.resolve("entities");
     Path defaults = store.resolve("defaults");
@@ -177,9 +194,14 @@ public class Entities {
     // TODO: optionally compare ordering of elements
     return Stream.concat(
             entityIdentifiers.stream()
-                .map(identifier -> getUpgrade(ldproxyCfg, Type.Entity, entities, identifier, ignoreRedundant)),
+                .map(
+                    identifier ->
+                        getUpgrade(ldproxyCfg, Type.Entity, entities, identifier, ignoreRedundant)),
             defaultIdentifiers.stream()
-                .map(identifier -> getUpgrade(ldproxyCfg, Type.Default, defaults, identifier, ignoreRedundant)))
+                .map(
+                    identifier ->
+                        getUpgrade(
+                            ldproxyCfg, Type.Default, defaults, identifier, ignoreRedundant)))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
@@ -217,8 +239,18 @@ public class Entities {
           ldproxyCfg
               .getEntityDataDefaultsStore()
               .subtractDefaults(
-                  identifier, entityData.getEntitySubType(), upgraded, ImmutableList.of());
+                  identifier, entityData.getEntitySubType(), upgraded, ImmutableList.of("enabled"));
     }
+
+    // carry over substitutions
+    upgraded =
+        MapAligner.align(
+            upgraded,
+            original,
+            value -> value instanceof String && ((String) value).startsWith("${"),
+            ldproxyCfg
+                .getEntityFactories()
+                .get(EntityDataStoreImpl.entityType(identifier), entityData.getEntitySubType()));
 
     if (!original.containsKey("createdAt")) {
       upgraded.remove("createdAt");
