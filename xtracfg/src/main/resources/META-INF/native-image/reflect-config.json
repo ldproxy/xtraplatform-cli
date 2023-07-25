@@ -1029,6 +1029,9 @@
     {"name":"attribution","parameterTypes":["java.util.Optional"] }, 
     {"name":"contactEmail","parameterTypes":["java.util.Optional"] }, 
     {"name":"contactName","parameterTypes":["java.util.Optional"] }, 
+    {"name":"contactPhone","parameterTypes":["java.util.Optional"] }, 
+    {"name":"contactUrl","parameterTypes":["java.util.Optional"] }, 
+    {"name":"creatorLogoUrl","parameterTypes":["java.util.Optional"] }, 
     {"name":"creatorName","parameterTypes":["java.util.Optional"] }, 
     {"name":"creatorUrl","parameterTypes":["java.util.Optional"] }, 
     {"name":"keywords","parameterTypes":["java.lang.Iterable"] }, 
@@ -1036,7 +1039,8 @@
     {"name":"licenseUrl","parameterTypes":["java.util.Optional"] }, 
     {"name":"publisherLogoUrl","parameterTypes":["java.util.Optional"] }, 
     {"name":"publisherName","parameterTypes":["java.util.Optional"] }, 
-    {"name":"publisherUrl","parameterTypes":["java.util.Optional"] }
+    {"name":"publisherUrl","parameterTypes":["java.util.Optional"] }, 
+    {"name":"version","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
@@ -1281,7 +1285,10 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"start","parameterTypes":["java.lang.Long"] }]
+  "methods":[
+    {"name":"end","parameterTypes":["java.lang.Long"] }, 
+    {"name":"start","parameterTypes":["java.lang.Long"] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.foundation.domain.Link",
@@ -2326,12 +2333,15 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
+    {"name":"asLink","parameterTypes":["java.util.Optional"] }, 
     {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
     {"name":"dateFormat","parameterTypes":["java.util.Optional"] }, 
     {"name":"flatten","parameterTypes":["java.util.Optional"] }, 
     {"name":"getNull","parameterTypes":["java.util.Optional"] }, 
     {"name":"nullify","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"reduceStringFormat","parameterTypes":["java.util.Optional"] }, 
     {"name":"remove","parameterTypes":["java.util.Optional"] }, 
+    {"name":"rename","parameterTypes":["java.util.Optional"] }, 
     {"name":"stringFormat","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -2359,12 +2369,20 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql$PoolSettings",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.xtraplatform.features.sql.domain.FeatureProviderSqlData",
   "queryAllDeclaredMethods":true
 },
 {
   "name":"de.ii.xtraplatform.features.sql.domain.FeatureProviderSqlData$Builder",
   "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.xtraplatform.features.sql.domain.FeatureProviderSqlData$QueryGeneratorSettings",
   "queryAllDeclaredMethods":true
 },
 {
@@ -2380,6 +2398,7 @@
     {"name":"getDriverOptions","parameterTypes":[] }, 
     {"name":"getHost","parameterTypes":[] }, 
     {"name":"getPassword","parameterTypes":[] }, 
+    {"name":"getPool","parameterTypes":[] }, 
     {"name":"getSchemas","parameterTypes":[] }, 
     {"name":"getTriggers","parameterTypes":[] }, 
     {"name":"getUser","parameterTypes":[] }
@@ -2396,6 +2415,7 @@
     {"name":"host","parameterTypes":["java.util.Optional"] }, 
     {"name":"password","parameterTypes":["java.util.Optional"] }, 
     {"name":"pathSyntaxBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableSqlPathDefaults$Builder"] }, 
+    {"name":"poolBuilder","parameterTypes":[] }, 
     {"name":"poolBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutablePoolSettings$Builder"] }, 
     {"name":"schemas","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"user","parameterTypes":["java.util.Optional"] }
@@ -2430,6 +2450,7 @@
     {"name":"getNativeTimeZone","parameterTypes":[] }, 
     {"name":"getProviderSubType","parameterTypes":[] }, 
     {"name":"getProviderType","parameterTypes":[] }, 
+    {"name":"getQueryGeneration","parameterTypes":[] }, 
     {"name":"getSourcePathDefaults","parameterTypes":[] }, 
     {"name":"getTypeValidation","parameterTypes":[] }, 
     {"name":"getTypes","parameterTypes":[] }
@@ -2452,9 +2473,24 @@
     {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"queryGenerationBuilder","parameterTypes":[] }, 
     {"name":"queryGenerationBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableQueryGeneratorSettings$Builder"] }, 
     {"name":"sourcePathDefaultsBuilder","parameterTypes":[] }, 
     {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.features.sql.domain.ImmutablePoolSettings",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getIdleTimeout","parameterTypes":[] }, 
+    {"name":"getInitFailFast","parameterTypes":[] }, 
+    {"name":"getInitFailTimeout","parameterTypes":[] }, 
+    {"name":"getMaxConnections","parameterTypes":[] }, 
+    {"name":"getMinConnections","parameterTypes":[] }, 
+    {"name":"getShared","parameterTypes":[] }
   ]
 },
 {
@@ -2465,9 +2501,22 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"idleTimeout","parameterTypes":["java.lang.String"] }, 
+    {"name":"initFailFast","parameterTypes":["boolean"] }, 
     {"name":"initFailTimeout","parameterTypes":["java.lang.String"] }, 
     {"name":"maxConnections","parameterTypes":["int"] }, 
-    {"name":"minConnections","parameterTypes":["int"] }
+    {"name":"minConnections","parameterTypes":["int"] }, 
+    {"name":"shared","parameterTypes":["boolean"] }
+  ]
+},
+{
+  "name":"de.ii.xtraplatform.features.sql.domain.ImmutableQueryGeneratorSettings",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getAccentiCollation","parameterTypes":[] }, 
+    {"name":"getChunkSize","parameterTypes":[] }, 
+    {"name":"getComputeNumberMatched","parameterTypes":[] }
   ]
 },
 {
@@ -2477,6 +2526,7 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
+    {"name":"chunkSize","parameterTypes":["int"] }, 
     {"name":"computeNumberMatched","parameterTypes":["boolean"] }
   ]
 },
