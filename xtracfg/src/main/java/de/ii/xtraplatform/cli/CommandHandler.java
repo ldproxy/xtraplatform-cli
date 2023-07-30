@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.util.*;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
+import shadow.com.google.common.base.Strings;
 import shadow.org.apache.http.NameValuePair;
 import shadow.org.apache.http.client.utils.URLEncodedUtils;
 
@@ -57,6 +58,9 @@ public class CommandHandler {
     boolean verbose = Objects.equals(parameters.getOrDefault("verbose", "false"), "true");
     boolean ignoreRedundant =
         Objects.equals(parameters.getOrDefault("ignoreRedundant", "false"), "true");
+    boolean onlyEntities = Objects.equals(parameters.getOrDefault("onlyEntities", "false"), "true");
+    boolean onlyLayout = Objects.equals(parameters.getOrDefault("onlyLayout", "false"), "true");
+    Optional<String> path = Optional.ofNullable(Strings.emptyToNull(parameters.get("path")));
 
     // System.out.println("J - COMMAND " + cmd + " " + parameters);
 
@@ -67,14 +71,14 @@ public class CommandHandler {
         result = connect(parameters);
         break;
       case check:
-        result = Entities.check(ldproxyCfg, Type.Entity, ignoreRedundant);
+        result = Entities.check(ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose);
         break;
       case pre_upgrade:
-        result = Entities.preUpgrade(ldproxyCfg, Type.Entity, ignoreRedundant);
+        result = Entities.preUpgrade(ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose);
         break;
       case upgrade:
         boolean backup = Objects.equals(parameters.getOrDefault("backup", "false"), "true");
-        result = Entities.upgrade(ldproxyCfg, Type.Entity, backup, ignoreRedundant, verbose);
+        result = Entities.upgrade(ldproxyCfg, Type.Entity, path, backup, ignoreRedundant, verbose);
         break;
     }
 
@@ -89,6 +93,7 @@ public class CommandHandler {
   private Result connect(Map<String, String> parameters) {
     try {
       this.ldproxyCfg = new LdproxyCfg(Path.of(parameters.get("source")), true);
+      ldproxyCfg.init();
     } catch (Throwable e) {
       return Result.failure(e.getMessage());
     }
@@ -101,7 +106,11 @@ public class CommandHandler {
     Map<String, String> params = new LinkedHashMap<>();
 
     for (NameValuePair nvp : parameters) {
-      params.put(nvp.getName(), nvp.getValue());
+      if (params.containsKey(nvp.getName())) {
+        params.put(nvp.getName(), params.get(nvp.getName()) + "|" + nvp.getValue());
+      } else {
+        params.put(nvp.getName(), nvp.getValue());
+      }
     }
 
     return params;

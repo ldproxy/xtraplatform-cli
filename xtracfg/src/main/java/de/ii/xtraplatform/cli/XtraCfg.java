@@ -14,13 +14,14 @@ public class XtraCfg {
 
   public static void main2(String[] args) {
     if (args.length == 0) {
-      throw new IllegalArgumentException("No store directory given");
+      throw new IllegalArgumentException("No command given");
     }
+
+    Entities.DEV = true;
+    String parameters = "";
 
     try {
       CommandHandler commandHandler = new CommandHandler();
-
-      String parameters = "";
 
       for (int i = 1; i < args.length; i++) {
         if (args[i].startsWith("-")) {
@@ -34,8 +35,6 @@ public class XtraCfg {
         }
       }
 
-      System.out.println("ARGS " + parameters);
-
       String connect = "/connect" + parameters;
 
       String connectResult = commandHandler.handleCommand(connect);
@@ -44,12 +43,14 @@ public class XtraCfg {
 
       String command = "/" + args[0] + parameters;
 
+      System.out.println("COMMAND: " + command);
+
       String result = commandHandler.handleCommand(command);
 
       System.out.println(result);
 
     } catch (Throwable e) {
-      System.out.println("ERROR " + e.getMessage());
+      System.out.println("ERROR: " + parameters + " | " + e.getMessage());
       e.printStackTrace();
     }
   }

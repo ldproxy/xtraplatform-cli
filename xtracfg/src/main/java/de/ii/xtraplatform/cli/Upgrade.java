@@ -1,8 +1,10 @@
 package de.ii.xtraplatform.cli;
 
+import de.ii.xtraplatform.store.domain.Identifier;
+import de.ii.xtraplatform.store.domain.entities.EntityData;
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import shadow.com.networknt.schema.ValidationMessage;
 
 public class Upgrade {
 
@@ -11,14 +13,21 @@ public class Upgrade {
   private final Map<String, Object> original;
   private final Map<String, Object> upgrade;
   private final String error;
+  private final Set<ValidationMessage> validationMessages;
+  private final Map<Identifier, EntityData> additionalEntities;
 
   public Upgrade(
-      Entities.Type type, Path path, Map<String, Object> original, Map<String, Object> upgrade) {
-    this(type, path, original, upgrade, null);
+      Entities.Type type,
+      Path path,
+      Map<String, Object> original,
+      Map<String, Object> upgrade,
+      Set<ValidationMessage> validationMessages,
+      Map<Identifier, EntityData> additionalEntities) {
+    this(type, path, original, upgrade, null, validationMessages, additionalEntities);
   }
 
   public Upgrade(Entities.Type type, Path path, String error) {
-    this(type, path, null, null, error);
+    this(type, path, null, null, error, Set.of(), Map.of());
   }
 
   private Upgrade(
@@ -26,12 +35,16 @@ public class Upgrade {
       Path path,
       Map<String, Object> original,
       Map<String, Object> upgrade,
-      String error) {
+      String error,
+      Set<ValidationMessage> validationMessages,
+      Map<Identifier, EntityData> additionalEntities) {
     this.type = type;
     this.path = path;
     this.original = original;
     this.upgrade = upgrade;
     this.error = error;
+    this.validationMessages = validationMessages;
+    this.additionalEntities = additionalEntities;
   }
 
   public Entities.Type getType() {
@@ -52,5 +65,13 @@ public class Upgrade {
 
   public Optional<String> getError() {
     return Optional.ofNullable(error);
+  }
+
+  public Set<ValidationMessage> getValidationMessages() {
+    return validationMessages;
+  }
+
+  public Map<Identifier, EntityData> getAdditionalEntities() {
+    return additionalEntities;
   }
 }
