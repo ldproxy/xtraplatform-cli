@@ -4,7 +4,6 @@ import de.ii.xtraplatform.store.domain.Identifier;
 import de.ii.xtraplatform.store.domain.entities.EntityData;
 import java.nio.file.Path;
 import java.util.*;
-import shadow.com.networknt.schema.ValidationMessage;
 
 public class Upgrade {
 
@@ -13,7 +12,7 @@ public class Upgrade {
   private final Map<String, Object> original;
   private final Map<String, Object> upgrade;
   private final String error;
-  private final Set<ValidationMessage> validationMessages;
+  private final Migration migration;
   private final Map<Identifier, EntityData> additionalEntities;
 
   public Upgrade(
@@ -21,13 +20,13 @@ public class Upgrade {
       Path path,
       Map<String, Object> original,
       Map<String, Object> upgrade,
-      Set<ValidationMessage> validationMessages,
+      Migration migration,
       Map<Identifier, EntityData> additionalEntities) {
-    this(type, path, original, upgrade, null, validationMessages, additionalEntities);
+    this(type, path, original, upgrade, null, migration, additionalEntities);
   }
 
   public Upgrade(Entities.Type type, Path path, String error) {
-    this(type, path, null, null, error, Set.of(), Map.of());
+    this(type, path, null, null, error, null, Map.of());
   }
 
   private Upgrade(
@@ -36,14 +35,14 @@ public class Upgrade {
       Map<String, Object> original,
       Map<String, Object> upgrade,
       String error,
-      Set<ValidationMessage> validationMessages,
+      Migration migration,
       Map<Identifier, EntityData> additionalEntities) {
     this.type = type;
     this.path = path;
     this.original = original;
     this.upgrade = upgrade;
     this.error = error;
-    this.validationMessages = validationMessages;
+    this.migration = migration;
     this.additionalEntities = additionalEntities;
   }
 
@@ -67,8 +66,8 @@ public class Upgrade {
     return Optional.ofNullable(error);
   }
 
-  public Set<ValidationMessage> getValidationMessages() {
-    return validationMessages;
+  public Optional<Migration> getMigration() {
+    return Optional.ofNullable(migration);
   }
 
   public Map<Identifier, EntityData> getAdditionalEntities() {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd/util"
@@ -25,10 +26,14 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check")
 
 			util.PrintResults(results, err)
+
+			if err != nil {
+				fmt.Fprint(os.Stdout, "\n", "To fix all detected issues run: ", name, " upgrade ", strings.Join(args, " "), "\n")
+			}
 		},
 	}
 
-	ignoreRedundant = check.PersistentFlags().BoolP("ignore-redundant", "r", false, "ignore reduntant settings")
+	ignoreRedundant = check.PersistentFlags().BoolP("ignore-redundant", "r", false, "ignore redundant settings")
 
 	check.PersistentFlags().SortFlags = false
 	check.Flags().SortFlags = false

@@ -1,7 +1,15 @@
 {
   "resources":{
-  "includes":[{
+  "includes":[
+    {
       "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
-    }]},
+    },
+    {
+      "pattern":"json-schema/.*\\.json$"
+    },
+    {
+      "pattern":".*jsv-messages\\.properties$"
+    }
+  ]},
   "bundles":[]
 }

@@ -13,81 +13,33 @@ import java.util.stream.Stream;
 import shadow.com.networknt.schema.ValidationMessage;
 import shadow.com.networknt.schema.ValidatorTypeCode;
 
-public class Validation {
-
-  private final Entities.Type type;
-  private final Path path;
-  private final Identifier identifier;
-  private String error;
-  private final Set<ValidationMessage> validationMessages;
+public class Validation extends Messages {
 
   public Validation(Entities.Type type, Identifier identifier, Path path) {
-    this(type, identifier, path, null);
+    super(type, identifier, path);
   }
 
   public Validation(Entities.Type type, Identifier identifier, Path path, String error) {
-    this.type = type;
-    this.identifier = identifier;
-    this.path = path;
-    this.error = error;
-    this.validationMessages = new LinkedHashSet<>();
+    super(type, identifier, path, error);
   }
 
-  public Entities.Type getType() {
-    return type;
-  }
-
-  public Path getPath() {
-    return path;
-  }
-
-  public Identifier getIdentifier() {
-    return identifier;
-  }
-
-  public Optional<String> getError() {
-    return Optional.ofNullable(error);
-  }
-
-  public List<String> getValidationErrors() {
-    return validationMessages.stream()
-        .filter(Validation::isError)
-        .map(Validation::getMessage)
-        .collect(Collectors.toList());
-  }
-
-  public List<String> getValidationWarnings() {
-    return validationMessages.stream()
-        .filter(Validation::isWarning)
-        .map(Validation::getMessage)
-        .collect(Collectors.toList());
-  }
-
-  public boolean hasValidationErrors() {
-    return !getValidationErrors().isEmpty();
-  }
-
-  public boolean hasValidationWarnings() {
-    return !getValidationWarnings().isEmpty();
-  }
-
-  public void addValidationMessages(Set<ValidationMessage> validationMessages) {
-    this.validationMessages.addAll(validationMessages);
+  @Override
+  public String getSummary() {
+    return String.format("%s configuration %s: %s", getType().name(), getQualifiers(), getPath());
   }
 
   private String getQualifiers() {
-    if (hasValidationErrors()) {
+    if (hasErrors()) {
       return "has errors";
-    } else if (hasValidationWarnings()) {
+    } else if (hasWarnings()) {
       List<String> kinds = new ArrayList<>();
-      if (validationMessages.stream().anyMatch(Validation::isUnknown)) {
+      if (getMessages().stream().anyMatch(Validation::isUnknown)) {
         kinds.add("unknown");
       }
-      if (validationMessages.stream()
-          .anyMatch(vm -> DeprecatedKeyword.isDeprecated(vm) || isMigration(vm))) {
+      if (getMessages().stream().anyMatch(DeprecatedKeyword::isDeprecated)) {
         kinds.add("deprecated");
       }
-      if (validationMessages.stream().anyMatch(Validation::isRedundant)) {
+      if (getMessages().stream().anyMatch(Validation::isRedundant)) {
         kinds.add("redundant");
       }
 
@@ -96,20 +48,16 @@ public class Validation {
     return "is fine";
   }
 
-  public String getSummary() {
-    return String.format("%s configuration %s: %s", getType().name(), getQualifiers(), getPath());
-  }
-
   public void validate(LdproxyCfg ldproxyCfg) {
     try {
       if (getType() == Entities.Type.Entity) {
-        validationMessages.addAll(
+        addMessages(
             ldproxyCfg.validateEntity(
                 ldproxyCfg.getDataDirectory().resolve(getPath()),
-                identifier.path().get(identifier.path().size() - 1)));
+                getIdentifier().path().get(getIdentifier().path().size() - 1)));
       }
     } catch (IOException e) {
-      this.error = e.getMessage();
+      setError(e.getMessage());
     }
   }
 
@@ -118,7 +66,7 @@ public class Validation {
     List<String> paths = paths(redundant, "");
 
     List<String> previousPaths =
-        this.validationMessages.stream()
+        getMessages().stream()
             .flatMap(
                 vm -> {
                   String path = vm.getMessage().substring(2, vm.getMessage().indexOf(":"));
@@ -130,41 +78,7 @@ public class Validation {
     for (String path : paths) {
       if (!previousPaths.contains(path)
           && !previousPaths.contains(path.replaceAll("\\[0\\]", ""))) {
-        validationMessages.add(redundant(path));
-      }
-    }
-  }
-
-  public void log(Result result, boolean verbose) {
-    if (getError().isPresent()) {
-      result.error(String.format("Could not read %s: %s", getPath(), getError().get()));
-      return;
-    }
-
-    if (hasValidationErrors()) {
-      result.error(getSummary());
-      getValidationErrors().forEach(message -> result.error("  - " + message));
-    } else if (hasValidationWarnings()) {
-      result.warning(getSummary());
-
-      if (verbose) {
-        getValidationWarnings().forEach(message -> result.warning("  - " + message));
-      }
-    } else if (verbose) {
-      result.success(getSummary());
-    }
-  }
-
-  public void logErrors(Result result, boolean verbose) {
-    if (getError().isPresent()) {
-      result.error(String.format("Could not read %s: %s", getPath(), getError().get()));
-      return;
-    }
-
-    if (hasValidationErrors()) {
-      result.error(getSummary());
-      if (verbose) {
-        getValidationErrors().forEach(message -> result.error("  - " + message));
+        addMessage(redundant(path));
       }
     }
   }
@@ -193,30 +107,13 @@ public class Validation {
     return paths;
   }
 
-  static boolean isError(ValidationMessage vm) {
-    return !isWarning(vm);
+  @Override
+  protected boolean isWarning(ValidationMessage vm) {
+    return DeprecatedKeyword.isDeprecated(vm) || isUnknown(vm) || isRedundant(vm);
   }
 
-  private static boolean isWarning(ValidationMessage vm) {
-    return DeprecatedKeyword.isDeprecated(vm)
-        || isUnknown(vm)
-        || isRedundant(vm)
-        || isMigration(vm);
-  }
-
-  private static boolean isUnknown(ValidationMessage vm) {
-    return Objects.equals(vm.getCode(), ValidatorTypeCode.ADDITIONAL_PROPERTIES.getErrorCode());
-  }
-
-  private static boolean isRedundant(ValidationMessage vm) {
-    return Objects.equals(vm.getCode(), REDUNDANT);
-  }
-
-  private static boolean isMigration(ValidationMessage vm) {
-    return Objects.equals(vm.getCode(), MIGRATION);
-  }
-
-  private static String getMessage(ValidationMessage vm) {
+  @Override
+  protected String getMessage(ValidationMessage vm) {
     if (isUnknown(vm)) {
       return String.format(
           "%s is unknown for type %s",
@@ -227,6 +124,14 @@ public class Validation {
     return vm.getMessage();
   }
 
+  private static boolean isUnknown(ValidationMessage vm) {
+    return Objects.equals(vm.getCode(), ValidatorTypeCode.ADDITIONAL_PROPERTIES.getErrorCode());
+  }
+
+  private static boolean isRedundant(ValidationMessage vm) {
+    return Objects.equals(vm.getCode(), REDUNDANT);
+  }
+
   private static final String REDUNDANT = "redundant";
 
   static ValidationMessage redundant(String path) {
@@ -234,17 +139,6 @@ public class Validation {
         .code(REDUNDANT)
         .path(path)
         .format(new MessageFormat("$.{0}: is redundant and can be removed"))
-        .build();
-  }
-
-  private static final String MIGRATION = "migration";
-
-  static ValidationMessage migration(String path, String message) {
-    return new ValidationMessage.Builder()
-        .code(REDUNDANT)
-        .path(path)
-        .arguments(message)
-        .format(new MessageFormat("$.{0}: a migration is available - {1}"))
         .build();
   }
 }

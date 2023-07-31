@@ -45,11 +45,12 @@ public class Entities {
 
     Result result = new Result();
     Map<Path, Validation> validations = new LinkedHashMap<>();
+    Map<Path, Migration> migrations = new LinkedHashMap<>();
 
     for (Validation validation : getValidations(ldproxyCfg, type, path, ignoreRedundant)) {
       validations.put(validation.getPath(), validation);
 
-      if (validation.getError().isPresent() || validation.hasValidationErrors()) {
+      if (validation.getError().isPresent() || validation.hasErrors()) {
         ldproxyCfg
             .getEventSubscriptions()
             .addIgnore(
@@ -76,7 +77,9 @@ public class Entities {
           continue;
         }
 
-        validations.get(upgrade.getPath()).addValidationMessages(upgrade.getValidationMessages());
+        if (upgrade.getMigration().isPresent()) {
+          migrations.put(upgrade.getPath(), upgrade.getMigration().get());
+        }
 
         if (!ignoreRedundant) {
           validations
@@ -89,6 +92,10 @@ public class Entities {
 
     for (Validation validation : validations.values()) {
       validation.log(result, verbose);
+
+      if (migrations.containsKey(validation.getPath())) {
+        migrations.get(validation.getPath()).log(result, verbose);
+      }
     }
 
     if (result.isEmpty()) {
@@ -111,7 +118,7 @@ public class Entities {
     Result result = new Result();
 
     for (Validation validation : getValidations(ldproxyCfg, type, path, true)) {
-      if (validation.getError().isPresent() || validation.hasValidationErrors()) {
+      if (validation.getError().isPresent() || validation.hasErrors()) {
         validation.logErrors(result, verbose);
 
         ldproxyCfg
@@ -179,7 +186,7 @@ public class Entities {
     // already happened in preUpgrade when not in dev
     if (DEV) {
       for (Validation validation : getValidations(ldproxyCfg, type, path, true)) {
-        if (validation.getError().isPresent() || validation.hasValidationErrors()) {
+        if (validation.getError().isPresent() || validation.hasErrors()) {
           ldproxyCfg
               .getEventSubscriptions()
               .addIgnore(
@@ -205,7 +212,7 @@ public class Entities {
           if (!error) {
             try {
               // ldproxyCfg.writeEntity(entry.getValue());
-              //TODO: rm defaults
+              // TODO: rm defaults
               ldproxyCfg.getObjectMapper().writeValue(additionalPath.toFile(), entry.getValue());
             } catch (Throwable e) {
               error = true;
@@ -386,14 +393,15 @@ public class Entities {
         ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     EntityData entityData = ldproxyCfg.getEntityDataStore().get(identifier);
 
-    Set<ValidationMessage> migrationMessages = new HashSet<>();
     Map<Identifier, EntityData> additionalEntities = new LinkedHashMap<>();
-    for (EntityMigration<?, ?> migration : ldproxyCfg.migrations().entity()) {
-      if (migration.isApplicable(entityData)) {
-        migrationMessages.add(
-            Validation.migration(migration.getSubject(), migration.getDescription()));
-        additionalEntities.putAll(migration.getAdditionalEntities(entityData));
-        entityData = migration.migrateRaw(entityData);
+    Migration migration =
+        new Migration(Type.Entity, identifier, ldproxyCfg.getDataDirectory().relativize(yml));
+    for (EntityMigration<?, ?> entityMigration : ldproxyCfg.migrations().entity()) {
+      if (entityMigration.isApplicable(entityData)) {
+        migration.addMessage(
+            Migration.migration(entityMigration.getSubject(), entityMigration.getDescription()));
+        additionalEntities.putAll(entityMigration.getAdditionalEntities(entityData));
+        entityData = entityMigration.migrateRaw(entityData);
       }
     }
 
@@ -434,7 +442,7 @@ public class Entities {
               ldproxyCfg.getDataDirectory().relativize(yml),
               original,
               upgraded,
-              migrationMessages,
+              migration,
               additionalEntities));
     }
 
@@ -454,7 +462,7 @@ public class Entities {
               ldproxyCfg.getDataDirectory().relativize(yml),
               original,
               upgraded,
-              Set.of(),
+              null,
               Map.of()));
     }
 
