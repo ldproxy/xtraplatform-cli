@@ -1666,6 +1666,21 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"de.ii.ogcapi.text.search.domain.ImmutableTextSearchConfiguration",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getProperties","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.text.search.domain.TextSearchConfiguration",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"de.ii.ogcapi.tilematrixsets.domain.ImmutableTileMatrixSetsConfiguration",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -3374,5 +3389,49 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true
+},
+{
+  "name":"shadow.com.networknt.schema.AdditionalPropertiesValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.AllOfValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.AnyOfValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.ConstValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.EnumValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.IfValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.ItemsValidator202012",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.PropertiesValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.RefValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.RequiredValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.TypeValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
 }
 ]
