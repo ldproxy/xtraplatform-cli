@@ -88,12 +88,12 @@ public abstract class Messages {
 
     if (hasErrors()) {
       result.error(getSummary());
-      getErrors().forEach(message -> result.error("  - " + message));
+      getErrors().forEach(message -> result.info("  - " + message));
     } else if (hasWarnings()) {
       result.warning(getSummary());
 
       if (verbose) {
-        getWarnings().forEach(message -> result.warning("  - " + message));
+        getWarnings().forEach(message -> result.info("  - " + message));
       }
     } else if (verbose) {
       result.success(getSummary());
@@ -109,7 +109,7 @@ public abstract class Messages {
     if (hasErrors()) {
       result.error(getSummary());
       if (verbose) {
-        getErrors().forEach(message -> result.error("  - " + message));
+        getErrors().forEach(message -> result.info("  - " + message));
       }
     }
   }

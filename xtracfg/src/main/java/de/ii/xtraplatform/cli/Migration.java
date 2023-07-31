@@ -18,7 +18,15 @@ public class Migration extends Messages {
   @Override
   protected String getSummary() {
     return String.format(
-        "Migrations are available for %s configuration: %s", getType().name().toLowerCase(), getPath());
+        "Migrations are available for %s configuration: %s",
+        getType().name().toLowerCase(), getPath());
+  }
+
+  @Override
+  public void log(Result result, boolean verbose) {
+    if (hasWarnings()) {
+      super.log(result, verbose);
+    }
   }
 
   @Override

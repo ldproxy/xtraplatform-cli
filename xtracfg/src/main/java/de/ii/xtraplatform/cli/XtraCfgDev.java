@@ -27,7 +27,7 @@ public class XtraCfgDev {
 
       String connect = "/connect" + parameters;
 
-      String connectResult = commandHandler.handleCommand(connect);
+      String connectResult = commandHandler.handle(connect);
 
       System.out.println(connectResult);
 
@@ -35,7 +35,7 @@ public class XtraCfgDev {
 
       System.out.println("COMMAND: " + command);
 
-      String result = commandHandler.handleCommand(command);
+      String result = commandHandler.handle(command);
 
       System.out.println(result);
 

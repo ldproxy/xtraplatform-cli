@@ -24,7 +24,10 @@ dependencies {
 
 application {
     mainClass = 'de.ii.xtraplatform.cli.XtraCfg'
+    //applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005"]
 }
+
+tasks.run.mainClass = 'de.ii.xtraplatform.cli.XtraCfgDev'
 
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'minutes'

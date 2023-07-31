@@ -19,6 +19,7 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 	check := &cobra.Command{
 		Use:   "check",
 		Short: "Check the store source",
+		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *verbose {
 				fmt.Fprint(os.Stdout, "Checking store source: ", store.Label(), "\n")
@@ -27,9 +28,7 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 
 			util.PrintResults(results, err)
 
-			if err != nil {
-				fmt.Fprint(os.Stdout, "\n", "To fix all detected issues run: ", name, " upgrade ", strings.Join(args, " "), "\n")
-			}
+			printFix(err, name)
 		},
 	}
 
@@ -39,7 +38,7 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 	check.Flags().SortFlags = false
 
 	checkEntities := &cobra.Command{
-		Use:   "entities",
+		Use:   "entities [path]",
 		Short: "Check entities in the store source",
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) > 1 {
@@ -64,6 +63,8 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "onlyEntities": "true", "path": path}, "check")
 
 			util.PrintResults(results, err)
+
+			printFix(err, name)
 		},
 	}
 
@@ -78,6 +79,8 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "onlyLayout": "true"}, "check")
 
 			util.PrintResults(results, err)
+
+			printFix(err, name)
 		},
 	}
 
@@ -85,4 +88,10 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 	check.AddCommand(checkLayout)
 
 	return check
+}
+
+func printFix(err error, name string) {
+	if err == nil {
+		fmt.Fprint(os.Stdout, "\n", "To fix all detected issues, run: ", name, " upgrade ", strings.Join(os.Args[2:], " "), "\n")
+	}
 }
