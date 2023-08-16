@@ -1,12 +1,23 @@
 when:
   event: push
 
+matrix:
+  include:
+    - platform: linux/amd64
+    - platform: linux/arm64
+#    - platform: darwin/arm64
+#      image: bash
+#      # override default /cache/gradle which does not exist on local
+#      setup: export GRADLE_USER_HOME=$${CI_WORKSPACE}/.gradle
+
+platform: ${platform}
+
 pipeline:
   lib:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:
       - cd xtracfg
-      - CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" GOOS=linux GOARCH=amd64 go build -ldflags="-s -w '-extldflags=-z noexecstack'" -buildmode c-archive -o dist/libxtracfg.a
+      - CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" go build -ldflags="-s -w '-extldflags=-z noexecstack'" -buildmode c-archive -o dist/libxtracfg.a
       - ls -la dist
 
   bin:
@@ -19,5 +30,21 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - gh release create next --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (linux/amd64)"
-    secrets: [ github_token ]
+      - gh release create next --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (${platform})"
+    secrets: [github_token]
+
+  docker:
+    image: woodpeckerci/plugin-docker-buildx
+    # privileged: true
+    # volumes:
+    #   - /var/run/docker.sock:/var/run/docker.sock
+    settings:
+      registry: docker.ci.interactive-instruments.de
+      repo: docker.ci.interactive-instruments.de/iide/xtracfg
+      tags: latest
+      force_tag: true
+      dockerfile: xtracfg/Dockerfile
+      context: xtracfg/build/native/nativeCompile
+      pull_image: true
+      platforms:
+        - ${platform}
