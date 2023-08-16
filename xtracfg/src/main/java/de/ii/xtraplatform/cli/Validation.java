@@ -15,11 +15,11 @@ import shadow.com.networknt.schema.ValidatorTypeCode;
 
 public class Validation extends Messages {
 
-  public Validation(Entities.Type type, Identifier identifier, Path path) {
+  public Validation(EntitiesHandler.Type type, Identifier identifier, Path path) {
     super(type, identifier, path);
   }
 
-  public Validation(Entities.Type type, Identifier identifier, Path path, String error) {
+  public Validation(EntitiesHandler.Type type, Identifier identifier, Path path, String error) {
     super(type, identifier, path, error);
   }
 
@@ -50,11 +50,20 @@ public class Validation extends Messages {
 
   public void validate(LdproxyCfg ldproxyCfg) {
     try {
-      if (getType() == Entities.Type.Entity) {
-        addMessages(
+      if (getType() == EntitiesHandler.Type.Entity) {
+
+        for (ValidationMessage msg :
             ldproxyCfg.validateEntity(
                 ldproxyCfg.getDataDirectory().resolve(getPath()),
-                getIdentifier().path().get(getIdentifier().path().size() - 1)));
+                getIdentifier().path().get(getIdentifier().path().size() - 1))) {
+          if (msg.getMessage().contains("string found, boolean expected")
+              || msg.getMessage().contains("integer found, string expected")
+              || msg.getMessage().contains(".tileProviderId: is deprecated")) {
+            // ignore
+            continue;
+          }
+          addMessage(msg);
+        }
       }
     } catch (IOException e) {
       setError(e.getMessage());
@@ -63,9 +72,10 @@ public class Validation extends Messages {
 
   public void validateRedundant(Map<String, Object> original, Map<String, Object> upgraded) {
     Map<String, Object> redundant = MapSubtractor.subtract(original, upgraded, List.of(), true);
-    List<String> paths = paths(redundant, "");
+    List<String> redundantPath = paths(redundant, "");
+    List<String> upgradedPaths = paths(upgraded, "");
 
-    List<String> previousPaths =
+    List<String> coveredPaths =
         getMessages().stream()
             .flatMap(
                 vm -> {
@@ -75,9 +85,13 @@ public class Validation extends Messages {
                 })
             .collect(Collectors.toList());
 
-    for (String path : paths) {
-      if (!previousPaths.contains(path)
-          && !previousPaths.contains(path.replaceAll("\\[0\\]", ""))) {
+    for (String path : redundantPath) {
+      // allow single values instead of list like yaml parser
+      String pathSingles = path.replaceAll("\\[0\\]", "");
+      if (!coveredPaths.contains(path)
+          && !coveredPaths.contains(pathSingles)
+          && !upgradedPaths.contains(path)
+          && !upgradedPaths.contains(pathSingles)) {
         addMessage(redundant(path));
       }
     }

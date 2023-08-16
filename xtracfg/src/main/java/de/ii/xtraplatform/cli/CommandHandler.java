@@ -5,7 +5,7 @@ import de.ii.ldproxy.cfg.Layout;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.base.domain.Jackson;
 import de.ii.xtraplatform.base.domain.JacksonProvider;
-import de.ii.xtraplatform.cli.Entities.Type;
+import de.ii.xtraplatform.cli.EntitiesHandler.Type;
 import de.ii.xtraplatform.store.app.ValueEncodingJackson;
 import de.ii.xtraplatform.store.domain.ValueEncoding;
 import java.io.IOException;
@@ -13,15 +13,16 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.LongStream;
-
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
 import shadow.com.google.common.base.Strings;
-import shadow.org.apache.http.NameValuePair;
-import shadow.org.apache.http.client.utils.URLEncodedUtils;
+import shadow.org.apache.hc.core5.http.NameValuePair;
+import shadow.org.apache.hc.core5.net.URLEncodedUtils;
 
 public class CommandHandler {
 
@@ -45,7 +46,7 @@ public class CommandHandler {
         (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
   }
 
-  public String handle(String command) {
+  public String handleCommand(String command) {
     URI uri;
     try {
       uri = new URI(command);
@@ -74,11 +75,11 @@ public class CommandHandler {
   }
 
   private Result handle(Command cmd, Map<String, String> parameters) {
-    boolean verbose = Objects.equals(parameters.getOrDefault("verbose", "false"), "true");
-    boolean ignoreRedundant =
-        Objects.equals(parameters.getOrDefault("ignoreRedundant", "false"), "true");
-    boolean onlyEntities = Objects.equals(parameters.getOrDefault("onlyEntities", "false"), "true");
-    boolean onlyLayout = Objects.equals(parameters.getOrDefault("onlyLayout", "false"), "true");
+    boolean verbose = flag(parameters, "verbose");
+    boolean debug = flag(parameters, "debug");
+    boolean ignoreRedundant = flag(parameters, "ignoreRedundant");
+    boolean onlyEntities = flag(parameters, "onlyEntities");
+    boolean onlyLayout = flag(parameters, "onlyLayout");
     Optional<String> path = Optional.ofNullable(Strings.emptyToNull(parameters.get("path")));
 
     // System.out.println("J - COMMAND " + cmd + " " + parameters);
@@ -87,33 +88,85 @@ public class CommandHandler {
       return Result.failure("Not connected to store");
     }
 
+    Result result = Result.empty();
+
     switch (cmd) {
       case connect:
-        return connect(parameters);
+        return connect(parameters, verbose);
       case info:
         return info();
       case check:
-        return Entities.check(ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose);
+        if (!onlyLayout) {
+          result =
+              result.merge(
+                  EntitiesHandler.check(
+                      ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose, debug));
+        }
+        if (!onlyEntities) {
+          result = result.merge(LayoutHandler.check(layout, verbose));
+        }
+        if (result.isEmpty()) {
+          result.success("Everything is fine");
+        }
+        return result;
       case pre_upgrade:
-        return Entities.preUpgrade(ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose);
+        if (!onlyLayout) {
+          boolean force = flag(parameters, "force");
+
+          result =
+              result.merge(
+                  EntitiesHandler.preUpgrade(
+                      ldproxyCfg, Type.Entity, path, ignoreRedundant, force, verbose, debug));
+        }
+        if (!onlyEntities) {
+          result = result.merge(LayoutHandler.preUpgrade(layout, verbose));
+        }
+        if (result.isEmpty()) {
+          result.success("Nothing to do");
+        }
+        return result;
       case upgrade:
-        boolean backup = Objects.equals(parameters.getOrDefault("backup", "false"), "true");
-        return Entities.upgrade(ldproxyCfg, Type.Entity, path, backup, ignoreRedundant, verbose);
+        if (!onlyLayout) {
+          boolean backup = flag(parameters, "backup");
+          boolean force = flag(parameters, "force");
+
+          result =
+              result.merge(
+                  EntitiesHandler.upgrade(
+                      ldproxyCfg,
+                      Type.Entity,
+                      path,
+                      backup,
+                      ignoreRedundant,
+                      force,
+                      verbose,
+                      debug));
+        }
+        if (!onlyEntities) {
+          result = result.merge(LayoutHandler.upgrade(layout, verbose));
+        }
+        if (result.isEmpty()) {
+          result.success("Nothing to do");
+        }
+        return result;
       default:
         return Result.failure("Unknown command: " + cmd);
     }
   }
 
-  private Result connect(Map<String, String> parameters) {
+  private Result connect(Map<String, String> parameters, boolean verbose) {
     try {
       this.ldproxyCfg = new LdproxyCfg(Path.of(parameters.get("source")), true);
       ldproxyCfg.init();
       this.layout = Layout.of(Path.of(parameters.get("source")));
+
+      if (verbose) {
+        return Result.ok(String.format("Store source: %s", layout.info().label()));
+      }
     } catch (Throwable e) {
       return Result.failure(e.getMessage());
     }
-
-    return new Result();
+    return Result.empty();
   }
 
   private Result info() {
@@ -161,5 +214,9 @@ public class CommandHandler {
     }
 
     return params;
+  }
+
+  private static boolean flag(Map<String, String> parameters, String flag) {
+    return Objects.equals(parameters.getOrDefault(flag, "false"), "true");
   }
 }

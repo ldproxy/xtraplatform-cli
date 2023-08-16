@@ -1,42 +1,41 @@
 package de.ii.xtraplatform.cli;
 
-import de.ii.xtraplatform.store.domain.Identifier;
 import de.ii.xtraplatform.store.domain.entities.EntityData;
 import java.nio.file.Path;
 import java.util.*;
 
 public class Upgrade {
 
-  private final Entities.Type type;
+  private final EntitiesHandler.Type type;
   private final Path path;
   private final Map<String, Object> original;
   private final Map<String, Object> upgrade;
   private final String error;
   private final Migration migration;
-  private final Map<Identifier, EntityData> additionalEntities;
+  private final Map<Path, EntityData> additionalEntities;
 
   public Upgrade(
-      Entities.Type type,
+      EntitiesHandler.Type type,
       Path path,
       Map<String, Object> original,
       Map<String, Object> upgrade,
       Migration migration,
-      Map<Identifier, EntityData> additionalEntities) {
+      Map<Path, EntityData> additionalEntities) {
     this(type, path, original, upgrade, null, migration, additionalEntities);
   }
 
-  public Upgrade(Entities.Type type, Path path, String error) {
+  public Upgrade(EntitiesHandler.Type type, Path path, String error) {
     this(type, path, null, null, error, null, Map.of());
   }
 
   private Upgrade(
-      Entities.Type type,
+      EntitiesHandler.Type type,
       Path path,
       Map<String, Object> original,
       Map<String, Object> upgrade,
       String error,
       Migration migration,
-      Map<Identifier, EntityData> additionalEntities) {
+      Map<Path, EntityData> additionalEntities) {
     this.type = type;
     this.path = path;
     this.original = original;
@@ -46,7 +45,7 @@ public class Upgrade {
     this.additionalEntities = additionalEntities;
   }
 
-  public Entities.Type getType() {
+  public EntitiesHandler.Type getType() {
     return type;
   }
 
@@ -70,7 +69,7 @@ public class Upgrade {
     return Optional.ofNullable(migration);
   }
 
-  public Map<Identifier, EntityData> getAdditionalEntities() {
+  public Map<Path, EntityData> getAdditionalEntities() {
     return additionalEntities;
   }
 }

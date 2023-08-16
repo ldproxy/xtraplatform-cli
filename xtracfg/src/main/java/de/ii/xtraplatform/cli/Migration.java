@@ -7,11 +7,11 @@ import java.util.Objects;
 import shadow.com.networknt.schema.ValidationMessage;
 
 public class Migration extends Messages {
-  public Migration(Entities.Type type, Identifier identifier, Path path) {
+  public Migration(EntitiesHandler.Type type, Identifier identifier, Path path) {
     super(type, identifier, path);
   }
 
-  public Migration(Entities.Type type, Identifier identifier, Path path, String error) {
+  public Migration(EntitiesHandler.Type type, Identifier identifier, Path path, String error) {
     super(type, identifier, path, error);
   }
 

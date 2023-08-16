@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Result {
 
-  enum Status {
+  public enum Status {
     ERROR,
     WARNING,
     SUCCESS,
@@ -12,8 +12,18 @@ public class Result {
     CONFIRMATION
   }
 
+  public static Result empty() {
+    return new Result();
+  }
+
   public static Result failure(String message) {
     return new Result(message);
+  }
+
+  public static Result ok(String message) {
+    Result result = new Result();
+    result.add(Status.INFO, message);
+    return result;
   }
 
   private final List<Map<String, String>> results;
@@ -54,7 +64,7 @@ public class Result {
   }
 
   public boolean isEmpty() {
-    return results.isEmpty();
+    return results.isEmpty() && failure.isEmpty();
   }
 
   public boolean has(Status status) {
@@ -66,5 +76,21 @@ public class Result {
       return Map.of("error", failure.get());
     }
     return Map.of("results", results);
+  }
+
+  public Result merge(Result other) {
+    if (this.failure.isPresent()) {
+      return this;
+    }
+    if (other.failure.isPresent()) {
+      return other;
+    }
+
+    Result merged = new Result();
+
+    merged.results.addAll(this.results);
+    merged.results.addAll(other.results);
+
+    return merged;
   }
 }

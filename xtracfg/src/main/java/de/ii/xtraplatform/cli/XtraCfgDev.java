@@ -7,7 +7,7 @@ public class XtraCfgDev {
       throw new IllegalArgumentException("No command given");
     }
 
-    Entities.DEV = true;
+    EntitiesHandler.DEV = true;
     String parameters = "";
 
     try {
@@ -27,7 +27,7 @@ public class XtraCfgDev {
 
       String connect = "/connect" + parameters;
 
-      String connectResult = commandHandler.handle(connect);
+      String connectResult = commandHandler.handleCommand(connect);
 
       System.out.println(connectResult);
 
@@ -35,7 +35,7 @@ public class XtraCfgDev {
 
       System.out.println("COMMAND: " + command);
 
-      String result = commandHandler.handle(command);
+      String result = commandHandler.handleCommand(command);
 
       System.out.println(result);
 

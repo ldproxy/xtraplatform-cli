@@ -8,17 +8,17 @@ import shadow.com.networknt.schema.ValidationMessage;
 
 public abstract class Messages {
 
-  private final Entities.Type type;
+  private final EntitiesHandler.Type type;
   private final Path path;
   private final Identifier identifier;
   private final Set<ValidationMessage> validationMessages;
   private String error;
 
-  public Messages(Entities.Type type, Identifier identifier, Path path) {
+  public Messages(EntitiesHandler.Type type, Identifier identifier, Path path) {
     this(type, identifier, path, null);
   }
 
-  public Messages(Entities.Type type, Identifier identifier, Path path, String error) {
+  public Messages(EntitiesHandler.Type type, Identifier identifier, Path path, String error) {
     this.type = type;
     this.identifier = identifier;
     this.path = path;
@@ -26,7 +26,7 @@ public abstract class Messages {
     this.validationMessages = new LinkedHashSet<>();
   }
 
-  public Entities.Type getType() {
+  public EntitiesHandler.Type getType() {
     return type;
   }
 

@@ -18,9 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.collect.ImmutableList;
-import shadow.com.networknt.schema.ValidationMessage;
 
-public class Entities {
+public class EntitiesHandler {
 
   enum Type {
     Entity,
@@ -38,7 +37,8 @@ public class Entities {
       Type type,
       Optional<String> path,
       boolean ignoreRedundant,
-      boolean verbose) {
+      boolean verbose,
+      boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -47,7 +47,7 @@ public class Entities {
     Map<Path, Validation> validations = new LinkedHashMap<>();
     Map<Path, Migration> migrations = new LinkedHashMap<>();
 
-    for (Validation validation : getValidations(ldproxyCfg, type, path, ignoreRedundant)) {
+    for (Validation validation : getValidations(ldproxyCfg, type, path)) {
       validations.put(validation.getPath(), validation);
 
       if (validation.getError().isPresent() || validation.hasErrors()) {
@@ -61,11 +61,9 @@ public class Entities {
       }
     }
 
-    // TODO: need to check migrations
-    // if (!ignoreRedundant) {
     ldproxyCfg.initStore();
 
-    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant)) {
+    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, false, debug)) {
       if (upgrade.getError().isPresent()) {
         result.error(
             String.format("Could not read %s: %s", upgrade.getPath(), upgrade.getError().get()));
@@ -88,7 +86,6 @@ public class Entities {
         }
       }
     }
-    // }
 
     for (Validation validation : validations.values()) {
       validation.log(result, verbose);
@@ -96,10 +93,6 @@ public class Entities {
       if (migrations.containsKey(validation.getPath())) {
         migrations.get(validation.getPath()).log(result, verbose);
       }
-    }
-
-    if (result.isEmpty()) {
-      result.success("Everything is fine");
     }
 
     return result;
@@ -110,14 +103,16 @@ public class Entities {
       Type type,
       Optional<String> path,
       boolean ignoreRedundant,
-      boolean verbose) {
+      boolean force,
+      boolean verbose,
+      boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
 
     Result result = new Result();
 
-    for (Validation validation : getValidations(ldproxyCfg, type, path, true)) {
+    for (Validation validation : getValidations(ldproxyCfg, type, path)) {
       if (validation.getError().isPresent() || validation.hasErrors()) {
         validation.logErrors(result, verbose);
 
@@ -133,7 +128,7 @@ public class Entities {
 
     ldproxyCfg.initStore();
 
-    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant)) {
+    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
       if (upgrade.getError().isPresent()) {
         result.error(
             String.format("Could not read %s: %s", upgrade.getPath(), upgrade.getError().get()));
@@ -145,25 +140,22 @@ public class Entities {
                   upgrade.getType().name().toLowerCase()));
         }
         result.info("  - " + upgrade.getPath());
-        // TODO: upgrade contains migrations, apply messages if additional entities should be
-        // created
+
         int i = 0;
-        for (Map.Entry<Identifier, EntityData> entry : upgrade.getAdditionalEntities().entrySet()) {
-          Identifier identifier = entry.getKey();
+        for (Map.Entry<Path, EntityData> entry : upgrade.getAdditionalEntities().entrySet()) {
+          Path pathAdd = ldproxyCfg.getDataDirectory().relativize(entry.getKey());
           if (i++ == 0) {
             result.info(
                 String.format(
                     "The following new %s configurations will be created:",
                     upgrade.getType().name().toLowerCase()));
           }
-          result.info("  - " + identifier.asPath());
+          result.info("  - " + pathAdd);
         }
       }
     }
 
-    if (result.isEmpty()) {
-      result.success("Nothing to do");
-    } else if (result.has(Result.Status.INFO)) {
+    if (result.has(Result.Status.INFO)) {
       result.confirmation("Are you sure?");
     }
 
@@ -176,7 +168,9 @@ public class Entities {
       Optional<String> path,
       boolean doBackup,
       boolean ignoreRedundant,
-      boolean verbose) {
+      boolean force,
+      boolean verbose,
+      boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -185,7 +179,7 @@ public class Entities {
 
     // already happened in preUpgrade when not in dev
     if (DEV) {
-      for (Validation validation : getValidations(ldproxyCfg, type, path, true)) {
+      for (Validation validation : getValidations(ldproxyCfg, type, path)) {
         if (validation.getError().isPresent() || validation.hasErrors()) {
           ldproxyCfg
               .getEventSubscriptions()
@@ -200,15 +194,14 @@ public class Entities {
       ldproxyCfg.initStore();
     }
 
-    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant)) {
+    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
       Path upgradePath = ldproxyCfg.getDataDirectory().resolve(upgrade.getPath());
 
       if (upgrade.getUpgrade().isPresent()) {
         boolean error = false;
 
-        for (Map.Entry<Identifier, EntityData> entry : upgrade.getAdditionalEntities().entrySet()) {
-          Path additionalPath =
-              ldproxyCfg.getEntitiesPath().resolve(entry.getKey().asPath().toString() + ".yml");
+        for (Map.Entry<Path, EntityData> entry : upgrade.getAdditionalEntities().entrySet()) {
+          Path additionalPath = entry.getKey();
           if (!error) {
             try {
               // ldproxyCfg.writeEntity(entry.getValue());
@@ -277,19 +270,14 @@ public class Entities {
       }
     }
 
-    if (result.isEmpty()) {
-      result.success("Nothing to do");
-    }
-
     return result;
   }
 
   private static List<Validation> getValidations(
-      LdproxyCfg ldproxyCfg, Type type, Optional<String> path, boolean ignoreRedundant) {
-    Path store = ldproxyCfg.getDataDirectory().resolve("store");
-    Path entities = store.resolve("entities");
-    Path defaults = store.resolve("defaults");
-    Path entitiesRel = Path.of("store").resolve("entities");
+      LdproxyCfg ldproxyCfg, Type type, Optional<String> path) {
+    Path entities = ldproxyCfg.getEntitiesPath();
+    Path defaults = ldproxyCfg.getEntitiesPath().getParent().resolve("defaults");
+    Path entitiesRel = ldproxyCfg.getDataDirectory().relativize(entities);
 
     List<Identifier> entityIdentifiers =
         type == Type.Entity || type == Type.All ? ldproxyCfg.getEntityIdentifiers() : List.of();
@@ -307,24 +295,22 @@ public class Entities {
                             || Objects.equals(
                                 path.get(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .sorted()
-                .map(
-                    identifier ->
-                        getValidation(
-                            ldproxyCfg, Type.Entity, entities, identifier, ignoreRedundant)),
+                .map(identifier -> getValidation(ldproxyCfg, entities, identifier)),
             defaultIdentifiers.stream()
-                .map(
-                    identifier ->
-                        getValidation(
-                            ldproxyCfg, Type.Default, defaults, identifier, ignoreRedundant)))
+                .map(identifier -> getValidation(ldproxyCfg, defaults, identifier)))
         .collect(Collectors.toList());
   }
 
   private static List<Upgrade> getUpgrades(
-      LdproxyCfg ldproxyCfg, Type type, Optional<String> path, boolean ignoreRedundant) {
-    Path store = ldproxyCfg.getDataDirectory().resolve("store");
-    Path entities = store.resolve("entities");
-    Path defaults = store.resolve("defaults");
-    Path entitiesRel = Path.of("store").resolve("entities");
+      LdproxyCfg ldproxyCfg,
+      Type type,
+      Optional<String> path,
+      boolean ignoreRedundant,
+      boolean force,
+      boolean debug) {
+    Path entities = ldproxyCfg.getEntitiesPath();
+    Path defaults = ldproxyCfg.getEntitiesPath().getParent().resolve("defaults");
+    Path entitiesRel = ldproxyCfg.getDataDirectory().relativize(entities);
 
     List<Identifier> entityIdentifiers =
         type == Type.Entity || type == Type.All
@@ -345,19 +331,31 @@ public class Entities {
                                 path.get(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
-                        getUpgrade(ldproxyCfg, Type.Entity, entities, identifier, ignoreRedundant)),
+                        getUpgrade(
+                            ldproxyCfg,
+                            Type.Entity,
+                            entities,
+                            identifier,
+                            ignoreRedundant,
+                            force,
+                            debug)),
             defaultIdentifiers.stream()
                 .map(
                     identifier ->
                         getUpgrade(
-                            ldproxyCfg, Type.Default, defaults, identifier, ignoreRedundant)))
+                            ldproxyCfg,
+                            Type.Default,
+                            defaults,
+                            identifier,
+                            ignoreRedundant,
+                            force,
+                            debug)))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
   }
 
-  private static Validation getValidation(
-      LdproxyCfg ldproxyCfg, Type type, Path root, Identifier identifier, boolean ignoreRedundant) {
+  private static Validation getValidation(LdproxyCfg ldproxyCfg, Path root, Identifier identifier) {
     Path base = root.resolve(identifier.asPath());
     Path yml = base.getParent().resolve(base.getFileName().toString() + ".yml");
 
@@ -370,37 +368,63 @@ public class Entities {
   }
 
   private static Optional<Upgrade> getUpgrade(
-      LdproxyCfg ldproxyCfg, Type type, Path root, Identifier identifier, boolean ignoreRedundant) {
+      LdproxyCfg ldproxyCfg,
+      Type type,
+      Path root,
+      Identifier identifier,
+      boolean ignoreRedundant,
+      boolean force,
+      boolean debug) {
     Path base = root.resolve(identifier.asPath());
     Path yml = base.getParent().resolve(base.getFileName().toString() + ".yml");
 
     try {
       return type == Type.Entity
-          ? getEntityUpgrade(ldproxyCfg, yml, identifier, ignoreRedundant)
+          ? getEntityUpgrade(ldproxyCfg, yml, identifier, ignoreRedundant, force, debug)
           : type == Type.Default
               ? getDefaultUpgrade(ldproxyCfg, yml, identifier)
               : Optional.empty();
-    } catch (IOException e) {
+    } catch (Throwable e) {
+      if (debug) {
+        System.err.println("Could not read " + yml);
+        e.printStackTrace(System.err);
+      }
       return Optional.of(
           new Upgrade(type, ldproxyCfg.getDataDirectory().relativize(yml), e.getMessage()));
     }
   }
 
   private static Optional<Upgrade> getEntityUpgrade(
-      LdproxyCfg ldproxyCfg, Path yml, Identifier identifier, boolean ignoreRedundant)
+      LdproxyCfg ldproxyCfg,
+      Path yml,
+      Identifier identifier,
+      boolean ignoreRedundant,
+      boolean force,
+      boolean debug)
       throws IOException {
     LinkedHashMap<String, Object> original =
         ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     EntityData entityData = ldproxyCfg.getEntityDataStore().get(identifier);
 
-    Map<Identifier, EntityData> additionalEntities = new LinkedHashMap<>();
+    Map<Path, EntityData> additionalEntities = new LinkedHashMap<>();
     Migration migration =
         new Migration(Type.Entity, identifier, ldproxyCfg.getDataDirectory().relativize(yml));
     for (EntityMigration<?, ?> entityMigration : ldproxyCfg.migrations().entity()) {
       if (entityMigration.isApplicable(entityData)) {
         migration.addMessage(
             Migration.migration(entityMigration.getSubject(), entityMigration.getDescription()));
-        additionalEntities.putAll(entityMigration.getAdditionalEntities(entityData));
+
+        entityMigration
+            .getAdditionalEntities(entityData)
+            .forEach(
+                ((identifierAdd, entityDataAdd) -> {
+                  Path ymlAdd =
+                      ldproxyCfg
+                          .getEntitiesPath()
+                          .resolve(identifierAdd.asPath().toString() + ".yml");
+                  additionalEntities.put(ymlAdd, entityDataAdd);
+                }));
+
         entityData = entityMigration.migrateRaw(entityData);
       }
     }
@@ -431,11 +455,15 @@ public class Entities {
     if (!original.containsKey("lastModified")) {
       upgraded.remove("lastModified");
     }
-    if (!original.containsKey("entityStorageVersion")) {
-      upgraded.remove("entityStorageVersion");
+    original.remove("entityStorageVersion");
+    upgraded.remove("entityStorageVersion");
+
+    Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
+    if (debug) {
+      System.out.println("DIFF " + diff);
     }
 
-    if (!Objects.equals(original, upgraded)) {
+    if (force || !diff.isEmpty()) {
       return Optional.of(
           new Upgrade(
               Type.Entity,
