@@ -30,7 +30,7 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - gh release create next --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (${platform})"
+      - gh release create next --title next --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (${platform})"
     secrets: [github_token]
 
   docker:
