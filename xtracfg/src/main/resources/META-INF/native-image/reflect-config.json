@@ -454,6 +454,19 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.features.csv.domain.ImmutableCsvConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"maxMultiplicity","parameterTypes":["java.lang.Integer"] }
+  ]
+},
+{
   "name":"de.ii.ogcapi.features.custom.extensions.domain.FeaturesExtensionsConfiguration",
   "queryAllDeclaredMethods":true
 },
@@ -1190,7 +1203,6 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"fromJson","parameterTypes":["de.ii.ogcapi.foundation.domain.ImmutableLink$Json"] }, 
     {"name":"getAnchor","parameterTypes":[] }, 
     {"name":"getHref","parameterTypes":[] }, 
     {"name":"getHreflang","parameterTypes":[] }, 
@@ -1203,17 +1215,22 @@
   ]
 },
 {
-  "name":"de.ii.ogcapi.foundation.domain.ImmutableLink$Json",
+  "name":"de.ii.ogcapi.foundation.domain.ImmutableLink$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
-    {"name":"setHref","parameterTypes":["java.lang.String"] }, 
-    {"name":"setHreflang","parameterTypes":["java.lang.String"] }, 
-    {"name":"setRel","parameterTypes":["java.lang.String"] }, 
-    {"name":"setTitle","parameterTypes":["java.lang.String"] }, 
-    {"name":"setType","parameterTypes":["java.lang.String"] }
+    {"name":"anchor","parameterTypes":["java.lang.String"] }, 
+    {"name":"href","parameterTypes":["java.lang.String"] }, 
+    {"name":"hreflang","parameterTypes":["java.lang.String"] }, 
+    {"name":"rel","parameterTypes":["java.lang.String"] }, 
+    {"name":"title","parameterTypes":["java.lang.String"] }, 
+    {"name":"type","parameterTypes":["java.lang.String"] }, 
+    {"name":"length","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"templated","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"varBase","parameterTypes":["java.lang.String"] }, 
+    {"name":"build","parameterTypes":[] }
   ]
 },
 {
@@ -1677,8 +1694,16 @@
   ]
 },
 {
-  "name":"de.ii.ogcapi.text.search.domain.TextSearchConfiguration",
-  "queryAllDeclaredMethods":true
+  "name":"de.ii.ogcapi.text.search.domain.ImmutableTextSearchConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"properties","parameterTypes":["java.lang.Iterable"] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.tilematrixsets.domain.ImmutableTileMatrixSetsConfiguration",
@@ -1695,6 +1720,19 @@
 {
   "name":"de.ii.ogcapi.tilematrixsets.domain.TileMatrixSetsConfiguration",
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.tilematrixsets.domain.ImmutableTileMatrixSetsConfiguration$Builder",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"build","parameterTypes":[] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"includePredefined","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"cachingBuilder","parameterTypes":[] }
+  ]
 },
 {
   "name":"de.ii.ogcapi.tiles.domain.ImmutableTileProviderFeatures",
@@ -1813,7 +1851,9 @@
     {"name":"tileProvider","parameterTypes":["de.ii.ogcapi.tiles.domain.TileProvider"] }, 
     {"name":"transformations","parameterTypes":["java.util.Map"] },
     {"name":"zoomLevels","parameterTypes":["java.util.Map"] }, 
-    {"name":"zoomLevelsCache","parameterTypes":["java.util.Map"] }
+    {"name":"zoomLevelsCache","parameterTypes":["java.util.Map"] }, 
+    {"name":"tileProviderId","parameterTypes":["java.lang.String"] }, 
+    {"name":"tileProviderTileset","parameterTypes":["java.lang.String"] }
   ]
 },
 {
@@ -2165,7 +2205,8 @@
     {"name":"getTransformations","parameterTypes":[] }, 
     {"name":"getType","parameterTypes":[] }, 
     {"name":"getUnit","parameterTypes":[] }, 
-    {"name":"getValueType","parameterTypes":[] }
+    {"name":"getValueType","parameterTypes":[] }, 
+    {"name":"getIsLastModified","parameterTypes":[] }
   ]
 },
 {
@@ -2189,7 +2230,8 @@
     {"name":"transformations","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"type","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }, 
     {"name":"unit","parameterTypes":["java.util.Optional"] },
-    {"name":"valueType","parameterTypes":["java.util.Optional"] }
+    {"name":"valueType","parameterTypes":["java.util.Optional"] },
+    {"name":"lastModified","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
@@ -2886,7 +2928,11 @@
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }, 
-    {"name":"tilesetDefaultsBuilder","parameterTypes":[] }
+    {"name":"tilesetDefaultsBuilder","parameterTypes":[] },
+    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] },
+    {"name":"seedingBuilder","parameterTypes":[] }
   ]
 },
 {
@@ -2915,7 +2961,10 @@
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }, 
-    {"name":"tilesetDefaultsBuilder","parameterTypes":[] }
+    {"name":"tilesetDefaultsBuilder","parameterTypes":[] },
+    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] }
   ]
 },
 {
@@ -2943,7 +2992,11 @@
     {"name":"id","parameterTypes":["java.lang.String"] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }, 
-    {"name":"tilesets","parameterTypes":["java.util.Map"] }
+    {"name":"tilesets","parameterTypes":["java.util.Map"] },
+    {"name":"tilesetDefaultsBuilder","parameterTypes":[] },
+    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] }
   ]
 },
 {
@@ -2976,7 +3029,8 @@
     {"name":"filters","parameterTypes":["java.util.Map"] }, 
     {"name":"getLevels","parameterTypes":[] }, 
     {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }
+    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"centerBuilder","parameterTypes":[] }
   ]
 },
 {
