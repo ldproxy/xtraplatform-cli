@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
-	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd/util"
 	"github.com/spf13/cobra"
 )
 
@@ -21,14 +20,14 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 		Short: "Check the store source",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			if *verbose {
+			if *debug {
 				fmt.Fprint(os.Stdout, "Checking store source: ", store.Label(), "\n")
 			}
 			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check")
 
-			util.PrintResults(results, err)
+			client.PrintResults(results, err)
 
-			printFix(err, name)
+			printFix(results, err, name)
 		},
 	}
 
@@ -52,7 +51,7 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 			return fmt.Errorf("invalid entity path specified: %s", args[0])
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			if *verbose {
+			if *debug {
 				fmt.Fprint(os.Stdout, "Checking store source: ", store.Label(), "\n")
 			}
 			path := ""
@@ -62,9 +61,9 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 
 			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "onlyEntities": "true", "path": path}, "check")
 
-			util.PrintResults(results, err)
+			client.PrintResults(results, err)
 
-			printFix(err, name)
+			printFix(results, err, name)
 		},
 	}
 
@@ -72,15 +71,15 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 		Use:   "layout",
 		Short: "Check layout of the store source",
 		Run: func(cmd *cobra.Command, args []string) {
-			if *verbose {
+			if *debug {
 				fmt.Fprint(os.Stdout, "Checking layout of store source: ", store.Label(), "\n")
 			}
 
 			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "onlyLayout": "true"}, "check")
 
-			util.PrintResults(results, err)
+			client.PrintResults(results, err)
 
-			printFix(err, name)
+			printFix(results, err, name)
 		},
 	}
 
@@ -90,8 +89,10 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 	return check
 }
 
-func printFix(err error, name string) {
-	if err == nil {
-		fmt.Fprint(os.Stdout, "\n", "To fix all detected issues, run: ", name, " upgrade ", strings.Join(os.Args[2:], " "), "\n")
+func printFix(results []client.Result, err error, name string) {
+	if err == nil && client.HasStatus(results, client.Warning) {
+		fmt.Fprint(os.Stdout, "\n", "Run '", name, " upgrade ", strings.Join(os.Args[2:], " "), "' to fix all detected issues.", "\n")
+	} else {
+		fmt.Fprint(os.Stdout, "\n")
 	}
 }

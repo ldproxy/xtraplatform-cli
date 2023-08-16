@@ -2,7 +2,6 @@ package store
 
 import (
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
-	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd/util"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +14,7 @@ func InfoCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra
 		Run: func(cmd *cobra.Command, args []string) {
 			results, err := store.Handle(map[string]string{}, "info")
 
-			util.PrintResults(results, err)
+			client.PrintResults(results, err)
 		},
 	}
 

@@ -66,7 +66,8 @@ func (store Store) Connect() error {
 
 	if err == nil {
 		if *store.verbose {
-			fmt.Printf("Connected to store source %s\n\n", store.Label())
+			PrintResults(*response.Results, err)
+			// fmt.Printf("Connected to store source %s\n\n", store.Label())
 		}
 		return nil
 	}

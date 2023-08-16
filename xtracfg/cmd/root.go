@@ -58,10 +58,13 @@ func init() {
 
 	storeSrc = *client.New(src, typ, verbose, debug)
 
+	infoCmd := store.InfoCmd(storeSrc, name, verbose, debug)
+
 	checkCmd := store.CheckCmd(storeSrc, name, verbose, debug)
 
 	upgradeCmd := store.UpgradeCmd(storeSrc, name, verbose, debug)
 
+	RootCmd.AddCommand(infoCmd)
 	RootCmd.AddCommand(checkCmd)
 	RootCmd.AddCommand(upgradeCmd)
 	RootCmd.CompletionOptions.DisableDefaultCmd = true

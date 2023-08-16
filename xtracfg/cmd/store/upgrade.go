@@ -7,11 +7,11 @@ import (
 	"strconv"
 
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
-	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd/util"
 	"github.com/spf13/cobra"
 )
 
 var backup *bool
+var force *bool
 var noConfirm *bool
 var keepRedundant *bool
 
@@ -21,24 +21,39 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 		Use:   "upgrade",
 		Short: "Upgrade the store source",
 		Run: func(cmd *cobra.Command, args []string) {
-			if *verbose {
+			if *debug {
 				fmt.Fprint(os.Stdout, "Upgrading store source: ", store.Label(), "\n")
 			}
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade")
+			results, err := store.Handle(map[string]string{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "onlyEntities": "true"}, "pre_upgrade")
 
 			if !*noConfirm {
-				util.PrintResults(results, err)
+				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade")
+				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "onlyEntities": "true"}, "upgrade")
 
-				util.PrintResults(results, err)
+				client.PrintResults(results, err)
 			}
+
+			results, err = store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant), "onlyLayout": "true"}, "pre_upgrade")
+
+			if !*noConfirm {
+				client.PrintResults(results, err)
+			}
+
+			if client.HasStatus(results, client.Confirmation) {
+				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "onlyLayout": "true"}, "upgrade")
+
+				client.PrintResults(results, err)
+			}
+
+			fmt.Fprint(os.Stdout, "\n")
 		},
 	}
 
 	backup = upgrade.PersistentFlags().BoolP("backup", "b", false, "backup files before upgrading")
+	force = upgrade.PersistentFlags().BoolP("force", "f", false, "upgrade files even if there are no detected issues; useful to harmonize yaml details like quoting and property order")
 	keepRedundant = upgrade.PersistentFlags().BoolP("ignore-redundant", "r", false, "keep reduntant settings instead of deleting them")
 	noConfirm = upgrade.PersistentFlags().BoolP("yes", "y", false, "do not ask for confirmation")
 
@@ -60,7 +75,7 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 			return fmt.Errorf("invalid entity path specified: %s", args[0])
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			if *verbose {
+			if *debug {
 				fmt.Fprint(os.Stdout, "Upgrading entities for store source: ", store.Label(), "\n")
 			}
 			path := ""
@@ -68,17 +83,19 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 				path = args[0]
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant), "onlyEntities": "true", "path": path}, "pre_upgrade")
+			results, err := store.Handle(map[string]string{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "onlyEntities": "true", "path": path}, "pre_upgrade")
 
 			if !*noConfirm {
-				util.PrintResults(results, err)
+				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "onlyEntities": "true", "path": path}, "upgrade")
+				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "onlyEntities": "true", "path": path}, "upgrade")
 
-				util.PrintResults(results, err)
+				client.PrintResults(results, err)
 			}
+
+			fmt.Fprint(os.Stdout, "\n")
 		},
 	}
 
@@ -86,21 +103,23 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 		Use:   "layout",
 		Short: "Upgrade layout of the store source",
 		Run: func(cmd *cobra.Command, args []string) {
-			if *verbose {
+			if *debug {
 				fmt.Fprint(os.Stdout, "Upgrading layout of the store source: ", store.Label(), "\n")
 			}
 
 			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant), "onlyLayout": "true"}, "pre_upgrade")
 
 			if !*noConfirm {
-				util.PrintResults(results, err)
+				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
 				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "onlyLayout": "true"}, "upgrade")
 
-				util.PrintResults(results, err)
+				client.PrintResults(results, err)
 			}
+
+			fmt.Fprint(os.Stdout, "\n")
 		},
 	}
 
