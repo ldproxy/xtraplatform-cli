@@ -35,9 +35,9 @@ pipeline:
 
   docker:
     image: woodpeckerci/plugin-docker-buildx
-    # privileged: true
-    # volumes:
-    #   - /var/run/docker.sock:/var/run/docker.sock
+    # TODO: see https://codeberg.org/woodpecker-plugins/docker-buildx/issues/50
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     settings:
       registry: docker.ci.interactive-instruments.de
       repo: docker.ci.interactive-instruments.de/iide/xtracfg
