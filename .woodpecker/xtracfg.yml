@@ -50,3 +50,9 @@ pipeline:
       pull_image: true
       platforms:
         - ${platform}
+      logins:
+        - registry: ghcr.io
+          username:
+            from_secret: ghcr_username
+          password:
+            from_secret: ghcr_password
