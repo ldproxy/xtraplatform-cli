@@ -38,6 +38,8 @@ pipeline:
     # TODO: see https://codeberg.org/woodpecker-plugins/docker-buildx/issues/50
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - BUILDKIT_NO_CLIENT_TOKEN=1
     settings:
       registry: docker.ci.interactive-instruments.de
       repo: docker.ci.interactive-instruments.de/iide/xtracfg
