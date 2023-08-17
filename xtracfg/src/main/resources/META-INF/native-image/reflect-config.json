@@ -3055,7 +3055,13 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"centerBuilder","parameterTypes":[] }, 
-    {"name":"getLevels","parameterTypes":[] }
+    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"levels","parameterTypes":["java.util.Map"] }, 
+    {"name":"featureProvider","parameterTypes":["java.util.Optional"] }, 
+    {"name":"featureLimit","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] }, 
+    {"name":"ignoreInvalidGeometries","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] }
   ]
 },
 {

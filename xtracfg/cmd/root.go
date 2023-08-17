@@ -50,7 +50,7 @@ func Execute() {
 func init() {
 
 	src := RootCmd.PersistentFlags().StringP("src", "s", "./", "store source")
-	typ := RootCmd.PersistentFlags().StringP("driver", "d", "FS", "store source driver")
+	typ := RootCmd.PersistentFlags().StringP("driver", "d", "FS", "store source driver; currently the only option is FS")
 	RootCmd.PersistentFlags().Bool("help", false, "show help")
 	verbose := RootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
 	debug := RootCmd.PersistentFlags().Bool("debug", false, "debug output")

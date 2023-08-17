@@ -18,7 +18,9 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 	check := &cobra.Command{
 		Use:   "check",
 		Short: "Check the store source",
-		Args:  cobra.NoArgs,
+		Long: `Check the store source
+Executes all subcommands in order, see the subcommand help for details.`,
+		Args: cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
 				fmt.Fprint(os.Stdout, "Checking store source: ", store.Label(), "\n")
@@ -39,6 +41,9 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 	checkEntities := &cobra.Command{
 		Use:   "entities [path]",
 		Short: "Check entities in the store source",
+		Long: `Checks entity configurations for deprecated, unknown and redundant settings.
+To check only a single entity, pass the path to the file relative to the source as argument.`,
+		Example: name + " check entities -v -r \n" + name + " check entities -v -r store/entities/services/api.yml",
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) > 1 {
 				return errors.New("only one argument expected")
@@ -70,6 +75,7 @@ func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobr
 	checkLayout := &cobra.Command{
 		Use:   "layout",
 		Short: "Check layout of the store source",
+		Long:  `Checks for a deprecated directory layout.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
 				fmt.Fprint(os.Stdout, "Checking layout of store source: ", store.Label(), "\n")

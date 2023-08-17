@@ -20,6 +20,9 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 	upgrade := &cobra.Command{
 		Use:   "upgrade",
 		Short: "Upgrade the store source",
+		Long: `Upgrade the store source
+Executes all subcommands in order, see the subcommand help for details.
+No changes are made without confirmation (unless --yes is set).`,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
 				fmt.Fprint(os.Stdout, "Upgrading store source: ", store.Label(), "\n")
@@ -61,8 +64,12 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 	upgrade.Flags().SortFlags = false
 
 	upgradeEntities := &cobra.Command{
-		Use:   "entities",
+		Use:   "entities [path]",
 		Short: "Upgrade entities in the store source",
+		Long: `Upgrades entity configurations with deprecated, unknown and redundant settings.
+To upgrade only a single entity, pass the path to the file relative to the source as argument.
+No changes are made without confirmation (unless --yes is set).`,
+		Example: name + " upgrade entities -v -r \n" + name + " upgrade entities -v -r store/entities/services/api.yml",
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) > 1 {
 				return errors.New("only one argument expected")
@@ -102,6 +109,8 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 	upgradeLayout := &cobra.Command{
 		Use:   "layout",
 		Short: "Upgrade layout of the store source",
+		Long: `Upgrades a deprecated directory layout.
+No changes are made without confirmation (unless --yes is set).`,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
 				fmt.Fprint(os.Stdout, "Upgrading layout of the store source: ", store.Label(), "\n")
