@@ -71,7 +71,14 @@ public class Validation extends Messages {
   }
 
   public void validateRedundant(Map<String, Object> original, Map<String, Object> upgraded) {
-    Map<String, Object> redundant = MapSubtractor.subtract(original, upgraded, List.of(), true);
+    // TODO
+    Map<String, Object> redundant =
+        MapSubtractor.subtract(
+            original,
+            upgraded,
+            List.of(),
+            Map.of("api", "buildingBlock", "extensions", "type"),
+            true);
     List<String> redundantPath = paths(redundant, "");
     List<String> upgradedPaths = paths(upgraded, "");
 

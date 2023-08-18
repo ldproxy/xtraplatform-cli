@@ -34,9 +34,9 @@ configurations.all {
 }
 
 graalvmNative {
-    agent {
+    /*agent {
         enableExperimentalPredefinedClasses = true
-    }
+    }*/
     binaries.all {
         verbose = true
         fallback = false
@@ -51,7 +51,7 @@ graalvmNative {
         //buildArgs("--install-exit-handlers")
         //buildArgs("--initialize-at-run-time=org.kortforsyningen.proj")
 
-        runtimeArgs('/src/cfgapp')
+        //runtimeArgs('/src/cfgapp')
 
         //jvmArgs.add('-Xmx16573624520')
         //buildArgs('-H:Log=registerResource:3')
@@ -62,8 +62,8 @@ graalvmNative {
         buildArgs('-H:+StaticExecutableWithDynamicLibC')
 
         // for jackson???
-        buildArgs('-H:+PrintClassInitialization')
-        buildArgs("--allow-incomplete-classpath")
+        //buildArgs('-H:+PrintClassInitialization')
+        //buildArgs("--allow-incomplete-classpath")
 
         // for statically linking xtracfg
         buildArgs("-H:CLibraryPath=${project.projectDir}/dist")
