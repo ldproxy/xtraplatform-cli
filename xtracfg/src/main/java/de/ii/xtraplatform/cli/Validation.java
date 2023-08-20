@@ -56,9 +56,9 @@ public class Validation extends Messages {
             ldproxyCfg.validateEntity(
                 ldproxyCfg.getDataDirectory().resolve(getPath()),
                 getIdentifier().path().get(getIdentifier().path().size() - 1))) {
-          if (msg.getMessage().contains("string found, boolean expected")
-              || msg.getMessage().contains("integer found, string expected")
-              || msg.getMessage().contains(".tileProviderId: is deprecated")) {
+          if (//msg.getMessage().contains("string found, boolean expected") ||
+              //msg.getMessage().contains("integer found, string expected") ||
+              msg.getMessage().contains(".tileProviderId: is deprecated")) {
             // ignore
             continue;
           }

@@ -693,7 +693,7 @@
     {"name":"build","parameterTypes":[] }, 
     {"name":"componentType","parameterTypes":["java.util.Optional"] }, 
     {"name":"noData","parameterTypes":["java.lang.String"] }, 
-    {"name":"stringOffsetType","parameterTypes":["de.ii.ogcapi.features.gltf.domain.SchemaProperty$ComponentType"] }, 
+    {"name":"stringOffsetType","parameterTypes":["java.util.Optional"] }, 
     {"name":"type","parameterTypes":["de.ii.ogcapi.features.gltf.domain.SchemaProperty$Type"] }
   ]
 },
@@ -2515,7 +2515,7 @@
     {"name":"getSourcePath","parameterTypes":[] }, 
     {"name":"getSourcePaths","parameterTypes":[] }, 
     {"name":"getTransformations","parameterTypes":[] }, 
-    {"name":"getType","parameterTypes":[] }, 
+    {"name":"getDesiredType","parameterTypes":[] }, 
     {"name":"getUnit","parameterTypes":[] }, 
     {"name":"getValueType","parameterTypes":[] }, 
     {"name":"getIsLastModified","parameterTypes":[] }
@@ -2550,7 +2550,7 @@
     {"name":"sourcePath","parameterTypes":["java.util.Optional"] }, 
     {"name":"sourcePaths","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"transformations","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"type","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }, 
+    {"name":"desiredType","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }, 
     {"name":"unit","parameterTypes":["java.util.Optional"] },
     {"name":"valueType","parameterTypes":["java.util.Optional"] },
     {"name":"isLastModified","parameterTypes":["java.util.Optional"] },
@@ -3893,7 +3893,15 @@
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
 },
 {
+  "name":"shadow.com.networknt.schema.PatternValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
   "name":"shadow.com.networknt.schema.PropertiesValidator",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.com.networknt.schema.OneOfValidator",
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
 },
 {
