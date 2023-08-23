@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import shadow.com.fasterxml.jackson.annotation.JsonInclude;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.collect.ImmutableList;
 
@@ -204,8 +205,6 @@ public class EntitiesHandler {
           Path additionalPath = entry.getKey();
           if (!error) {
             try {
-              // ldproxyCfg.writeEntity(entry.getValue());
-              // TODO: rm defaults
               ldproxyCfg.getObjectMapper().writeValue(additionalPath.toFile(), entry.getValue());
             } catch (Throwable e) {
               error = true;
@@ -251,7 +250,10 @@ public class EntitiesHandler {
               upgraded.put("lastModified", Instant.now().toEpochMilli());
             }
 
-            ldproxyCfg.getObjectMapper().writeValue(upgradePath.toFile(), upgraded);
+            ldproxyCfg
+                .getObjectMapper()
+                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
+                .writeValue(upgradePath.toFile(), upgraded);
           } catch (IOException e) {
             error = true;
             result.error(String.format("Could not upgrade %s: %s", upgradePath, e.getMessage()));
