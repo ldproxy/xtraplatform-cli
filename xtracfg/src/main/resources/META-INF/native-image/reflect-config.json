@@ -2471,7 +2471,11 @@
 {
   "name":"de.ii.xtraplatform.features.domain.FeatureSchema$Builder",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[
+    {"name":"concatBuilders","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"coalesceBuilders","parameterTypes":["java.lang.Iterable"] }
+  ]
 },
 {
   "name":"de.ii.xtraplatform.features.domain.FeatureSchemaBase",
@@ -2530,8 +2534,10 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"additionalInfo","parameterTypes":["java.util.Map"] }, 
-    {"name":"concat","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"concat","parameterTypes":["java.lang.Iterable"] },  
+    {"name":"concatBuilders","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"coalesce","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"coalesceBuilders","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"constantValue","parameterTypes":["java.util.Optional"] }, 
     {"name":"constraintsBuilder","parameterTypes":[] }, 
     {"name":"description","parameterTypes":["java.util.Optional"] }, 
