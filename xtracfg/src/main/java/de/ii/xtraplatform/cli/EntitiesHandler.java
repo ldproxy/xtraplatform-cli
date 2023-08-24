@@ -1,7 +1,6 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
-import de.ii.xtraplatform.store.app.entities.EntityDataStoreImpl;
 import de.ii.xtraplatform.store.app.entities.MapAligner;
 import de.ii.xtraplatform.store.domain.Identifier;
 import de.ii.xtraplatform.store.domain.entities.EntityData;
@@ -404,20 +403,28 @@ public class EntitiesHandler {
       boolean force,
       boolean debug)
       throws IOException {
-    LinkedHashMap<String, Object> original =
-        ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
+    Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     EntityData entityData = ldproxyCfg.getEntityDataStore().get(identifier);
+
+    Identifier defaultsIdentifier =
+        EntityDataStore.defaults(identifier, entityData.getEntitySubType());
+    EntityData defaults =
+        ldproxyCfg
+            .getEntityDataDefaultsStore()
+            .getBuilder(defaultsIdentifier)
+            .fillRequiredFieldsWithPlaceholders()
+            .build();
 
     Map<Path, EntityData> additionalEntities = new LinkedHashMap<>();
     Migration migration =
         new Migration(Type.Entity, identifier, ldproxyCfg.getDataDirectory().relativize(yml));
     for (EntityMigration<?, ?> entityMigration : ldproxyCfg.migrations().entity()) {
-      if (entityMigration.isApplicable(entityData)) {
+      if (entityMigration.isApplicable(entityData, Optional.of(defaults))) {
         migration.addMessage(
             Migration.migration(entityMigration.getSubject(), entityMigration.getDescription()));
 
         entityMigration
-            .getAdditionalEntities(entityData)
+            .getAdditionalEntities(entityData, Optional.of(defaults))
             .forEach(
                 ((identifierAdd, entityDataAdd) -> {
                   Path ymlAdd =
@@ -427,7 +434,7 @@ public class EntitiesHandler {
                   additionalEntities.put(ymlAdd, entityDataAdd);
                 }));
 
-        entityData = entityMigration.migrateRaw(entityData);
+        entityData = entityMigration.migrateRaw(entityData, Optional.of(defaults));
       }
     }
 
@@ -449,7 +456,7 @@ public class EntitiesHandler {
             value -> value instanceof String && ((String) value).startsWith("${"),
             ldproxyCfg
                 .getEntityFactories()
-                .get(EntityDataStoreImpl.entityType(identifier), entityData.getEntitySubType()));
+                .get(EntityDataStore.entityType(identifier), entityData.getEntitySubType()));
 
     if (!original.containsKey("createdAt")) {
       upgraded.remove("createdAt");
