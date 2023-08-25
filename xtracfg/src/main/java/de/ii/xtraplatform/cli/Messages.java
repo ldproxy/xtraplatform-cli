@@ -103,6 +103,7 @@ public abstract class Messages {
   public void logErrors(Result result, boolean verbose) {
     if (getError().isPresent()) {
       result.error(String.format("Could not read %s: %s", getPath(), getError().get()));
+      result.info("");
       return;
     }
 
@@ -111,6 +112,7 @@ public abstract class Messages {
       if (verbose) {
         getErrors().forEach(message -> result.info("  - " + message));
       }
+      result.info("");
     }
   }
 

@@ -2221,7 +2221,7 @@
     {"name":"entityStorageVersion","parameterTypes":["long"] }, 
     {"name":"entries","parameterTypes":["java.util.Map"] }, 
     {"name":"fallback","parameterTypes":["java.util.Optional"] }, 
-    {"name":"label","parameterTypes":["java.lang.String"] }, 
+    {"name":"label","parameterTypes":["java.util.Optional"] }, 
     {"name":"sourceType","parameterTypes":["de.ii.xtraplatform.codelists.domain.CodelistData$ImportType"] }, 
     {"name":"sourceUrl","parameterTypes":["java.util.Optional"] }
   ]

@@ -128,27 +128,32 @@ public class EntitiesHandler {
 
     ldproxyCfg.initStore();
 
+    int i = 0;
     for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
       if (upgrade.getError().isPresent()) {
         result.error(
             String.format("Could not read %s: %s", upgrade.getPath(), upgrade.getError().get()));
       } else if (upgrade.getUpgrade().isPresent()) {
-        if (!result.has(Result.Status.INFO)) {
+        if (i++ == 0) {
           result.info(
               String.format(
                   "The following %s configurations will be upgraded:",
                   upgrade.getType().name().toLowerCase()));
         }
         result.info("  - " + upgrade.getPath());
+      }
+    }
 
-        int i = 0;
+    int j = 0;
+    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
+      if (upgrade.getUpgrade().isPresent()) {
         for (Map.Entry<Path, EntityData> entry : upgrade.getAdditionalEntities().entrySet()) {
           Path pathAdd = ldproxyCfg.getDataDirectory().relativize(entry.getKey());
-          if (i++ == 0) {
+          if (j++ == 0) {
             result.info(
-                String.format(
-                    "The following new %s configurations will be created:",
-                    upgrade.getType().name().toLowerCase()));
+                    String.format(
+                            "The following new %s configurations will be created:",
+                            upgrade.getType().name().toLowerCase()));
           }
           result.info("  - " + pathAdd);
         }
