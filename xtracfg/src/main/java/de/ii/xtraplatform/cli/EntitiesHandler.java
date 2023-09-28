@@ -255,7 +255,7 @@ public class EntitiesHandler {
             }
 
             ldproxyCfg
-                .getObjectMapper()
+                .getObjectMapper().copy()
                 .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
                 .writeValue(upgradePath.toFile(), upgraded);
           } catch (IOException e) {

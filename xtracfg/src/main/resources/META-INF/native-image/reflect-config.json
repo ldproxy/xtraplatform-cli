@@ -773,9 +773,19 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"applicationNamespaces","parameterTypes":["java.util.Map"] }, 
+    {"name":"defaultNamespace","parameterTypes":["java.lang.String"] }, 
     {"name":"featureCollectionElementName","parameterTypes":["java.lang.String"] }, 
-    {"name":"featureMemberElementName","parameterTypes":["java.lang.String"] }, 
-    {"name":"supportsStandardResponseParameters","parameterTypes":["java.lang.Boolean"] }
+    {"name":"featureMemberElementName","parameterTypes":["java.lang.String"] },     
+    {"name":"gmlIdPrefix","parameterTypes":["java.lang.String"] }, 
+    {"name":"gmlSfLevel","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"gmlVersion","parameterTypes":["de.ii.ogcapi.features.gml.domain.GmlConfiguration$GmlVersion"] }, 
+    {"name":"objectTypeNamespaces","parameterTypes":["java.util.Map"] }, 
+    {"name":"schemaLocations","parameterTypes":["java.util.Map"] }, 
+    {"name":"supportsStandardResponseParameters","parameterTypes":["java.lang.Boolean"] },
+    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"variableObjectElementNames","parameterTypes":["java.util.Map"] }, 
+    {"name":"xmlAttributes","parameterTypes":["java.util.List"] }
   ]
 },
 {
@@ -2630,6 +2640,8 @@
     {"name":"enumValues","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"max","parameterTypes":["java.util.Optional"] }, 
     {"name":"min","parameterTypes":["java.util.Optional"] }, 
+    {"name":"maxOccurrence","parameterTypes":["java.util.Optional"] }, 
+    {"name":"minOccurrence","parameterTypes":["java.util.Optional"] }, 
     {"name":"regex","parameterTypes":["java.util.Optional"] }, 
     {"name":"required","parameterTypes":["java.util.Optional"] }
   ]
