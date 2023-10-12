@@ -51,13 +51,11 @@ public class EntitiesHandler {
       validations.put(validation.getPath(), validation);
 
       if (validation.getError().isPresent() || validation.hasErrors()) {
-        ldproxyCfg
-            .getEventSubscriptions()
-            .addIgnore(
-                validation.getType() == Type.Default
-                    ? EntityDataDefaultsStore.EVENT_TYPE
-                    : EntityDataStore.EVENT_TYPE_ENTITIES,
-                validation.getIdentifier());
+        ldproxyCfg.ignoreEventsFor(
+            validation.getType() == Type.Default
+                ? EntityDataDefaultsStore.EVENT_TYPE
+                : EntityDataStore.EVENT_TYPE_ENTITIES,
+            validation.getIdentifier());
       }
     }
 
@@ -116,13 +114,11 @@ public class EntitiesHandler {
       if (validation.getError().isPresent() || validation.hasErrors()) {
         validation.logErrors(result, verbose);
 
-        ldproxyCfg
-            .getEventSubscriptions()
-            .addIgnore(
-                validation.getType() == Type.Default
-                    ? EntityDataDefaultsStore.EVENT_TYPE
-                    : EntityDataStore.EVENT_TYPE_ENTITIES,
-                validation.getIdentifier());
+        ldproxyCfg.ignoreEventsFor(
+            validation.getType() == Type.Default
+                ? EntityDataDefaultsStore.EVENT_TYPE
+                : EntityDataStore.EVENT_TYPE_ENTITIES,
+            validation.getIdentifier());
       }
     }
 
@@ -151,9 +147,9 @@ public class EntitiesHandler {
           Path pathAdd = ldproxyCfg.getDataDirectory().relativize(entry.getKey());
           if (j++ == 0) {
             result.info(
-                    String.format(
-                            "The following new %s configurations will be created:",
-                            upgrade.getType().name().toLowerCase()));
+                String.format(
+                    "The following new %s configurations will be created:",
+                    upgrade.getType().name().toLowerCase()));
           }
           result.info("  - " + pathAdd);
         }
@@ -186,13 +182,11 @@ public class EntitiesHandler {
     if (DEV) {
       for (Validation validation : getValidations(ldproxyCfg, type, path)) {
         if (validation.getError().isPresent() || validation.hasErrors()) {
-          ldproxyCfg
-              .getEventSubscriptions()
-              .addIgnore(
-                  validation.getType() == Type.Default
-                      ? EntityDataDefaultsStore.EVENT_TYPE
-                      : EntityDataStore.EVENT_TYPE_ENTITIES,
-                  validation.getIdentifier());
+          ldproxyCfg.ignoreEventsFor(
+              validation.getType() == Type.Default
+                  ? EntityDataDefaultsStore.EVENT_TYPE
+                  : EntityDataStore.EVENT_TYPE_ENTITIES,
+              validation.getIdentifier());
         }
       }
 
@@ -255,7 +249,8 @@ public class EntitiesHandler {
             }
 
             ldproxyCfg
-                .getObjectMapper().copy()
+                .getObjectMapper()
+                .copy()
                 .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
                 .writeValue(upgradePath.toFile(), upgraded);
           } catch (IOException e) {
@@ -317,6 +312,7 @@ public class EntitiesHandler {
     Path entities = ldproxyCfg.getEntitiesPath();
     Path defaults = ldproxyCfg.getEntitiesPath().getParent().resolve("defaults");
     Path entitiesRel = ldproxyCfg.getDataDirectory().relativize(entities);
+    Path defaultsRel = ldproxyCfg.getDataDirectory().relativize(defaults);
 
     List<Identifier> entityIdentifiers =
         type == Type.Entity || type == Type.All
@@ -346,6 +342,11 @@ public class EntitiesHandler {
                             force,
                             debug)),
             defaultIdentifiers.stream()
+                .filter(
+                    identifier ->
+                        path.isEmpty()
+                            || Objects.equals(
+                                path.get(), defaultsRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
                         getUpgrade(
@@ -388,7 +389,7 @@ public class EntitiesHandler {
       return type == Type.Entity
           ? getEntityUpgrade(ldproxyCfg, yml, identifier, ignoreRedundant, force, debug)
           : type == Type.Default
-              ? getDefaultUpgrade(ldproxyCfg, yml, identifier)
+              ? getDefaultUpgrade(ldproxyCfg, yml, identifier, force, debug)
               : Optional.empty();
     } catch (Throwable e) {
       if (debug) {
@@ -492,12 +493,18 @@ public class EntitiesHandler {
   }
 
   private static Optional<Upgrade> getDefaultUpgrade(
-      LdproxyCfg ldproxyCfg, Path yml, Identifier identifier) throws IOException {
+      LdproxyCfg ldproxyCfg, Path yml, Identifier identifier, boolean force, boolean debug)
+      throws IOException {
     LinkedHashMap<String, Object> original =
         ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded = ldproxyCfg.getEntityDataDefaultsStore().get(identifier);
 
-    if (!Objects.equals(original, upgraded)) {
+    Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
+    if (debug) {
+      System.out.println("DIFF " + diff);
+    }
+
+    if (force || !diff.isEmpty()) {
       return Optional.of(
           new Upgrade(
               Type.Default,

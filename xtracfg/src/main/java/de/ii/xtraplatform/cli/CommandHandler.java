@@ -78,6 +78,7 @@ public class CommandHandler {
     boolean verbose = flag(parameters, "verbose");
     boolean debug = flag(parameters, "debug");
     boolean ignoreRedundant = flag(parameters, "ignoreRedundant");
+    boolean onlyDefaults = flag(parameters, "onlyDefaults");
     boolean onlyEntities = flag(parameters, "onlyEntities");
     boolean onlyLayout = flag(parameters, "onlyLayout");
     Optional<String> path = Optional.ofNullable(Strings.emptyToNull(parameters.get("path")));
@@ -96,13 +97,19 @@ public class CommandHandler {
       case info:
         return info();
       case check:
-        if (!onlyLayout) {
+        if (!onlyLayout && !onlyEntities) {
+          result =
+                  result.merge(
+                          EntitiesHandler.check(
+                                  ldproxyCfg, Type.Default, path, ignoreRedundant, verbose, debug));
+        }
+        if (!onlyLayout && !onlyDefaults) {
           result =
               result.merge(
                   EntitiesHandler.check(
                       ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose, debug));
         }
-        if (!onlyEntities) {
+        if (!onlyEntities && !onlyDefaults) {
           result = result.merge(LayoutHandler.check(layout, verbose));
         }
         if (result.isEmpty()) {
@@ -156,8 +163,7 @@ public class CommandHandler {
 
   private Result connect(Map<String, String> parameters, boolean verbose) {
     try {
-      this.ldproxyCfg = new LdproxyCfg(Path.of(parameters.get("source")), true);
-      ldproxyCfg.init();
+      this.ldproxyCfg = LdproxyCfg.create(Path.of(parameters.get("source")));
       this.layout = Layout.of(Path.of(parameters.get("source")));
 
       if (verbose) {
