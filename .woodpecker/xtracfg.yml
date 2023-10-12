@@ -4,7 +4,9 @@ when:
 matrix:
   include:
     - platform: linux/amd64
+      suffix: -amd64 
     - platform: linux/arm64
+      suffix: ''
 #    - platform: darwin/arm64
 #      image: bash
 #      # override default /cache/gradle which does not exist on local
@@ -40,7 +42,7 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     settings:
       registry: docker.ci.interactive-instruments.de
-      repo: docker.ci.interactive-instruments.de/iide/xtracfg
+      repo: docker.ci.interactive-instruments.de/iide/xtracfg${suffix}
       tags: latest
       force_tag: true
       dockerfile: xtracfg/Dockerfile

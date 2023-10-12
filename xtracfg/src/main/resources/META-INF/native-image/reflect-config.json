@@ -1430,7 +1430,8 @@
     {"name":"getPrivacyUrl","parameterTypes":[] }, 
     {"name":"getSchemaOrgEnabled","parameterTypes":[] }, 
     {"name":"getSendEtags","parameterTypes":[] }, 
-    {"name":"getSuppressEmptyCollectionsInOverview","parameterTypes":[] }
+    {"name":"getSuppressEmptyCollectionsInOverview","parameterTypes":[] },
+    {"name":"getLoginProvider","parameterTypes":[] }
   ]
 },
 {
@@ -1458,7 +1459,8 @@
     {"name":"privacyUrl","parameterTypes":["java.lang.String"] }, 
     {"name":"schemaOrgEnabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"sendEtags","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"suppressEmptyCollectionsInOverview","parameterTypes":["java.lang.Boolean"] }
+    {"name":"suppressEmptyCollectionsInOverview","parameterTypes":["java.lang.Boolean"] },
+    {"name":"loginProvider","parameterTypes":["java.lang.String"] }
   ]
 },
 {
