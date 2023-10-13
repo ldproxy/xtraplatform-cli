@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'org.graalvm.buildtools.native' version '0.9.22'
+    id "org.gretty" version "3.0.5" apply false
 }
 
 group = 'de.interactive_instruments'
@@ -16,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '3.5.0-cfglib-SNAPSHOT'
+    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '3.6.0-editor-SNAPSHOT'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
 
     compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '22.3.2'
@@ -72,4 +73,8 @@ graalvmNative {
         buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted.c=ALL-UNNAMED")
     }
     toolchainDetection = false
+}
+
+if (!project.hasProperty('CI')) {
+    apply from: 'dev.gradle'
 }

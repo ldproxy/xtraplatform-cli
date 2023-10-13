@@ -1,0 +1,10 @@
+apply plugin: 'org.gretty'
+
+gretty {
+    servletContainer = 'jetty9.4'
+    contextPath = '/'
+}
+
+dependencies {
+    implementation 'javax.websocket:javax.websocket-api:1.1'
+}
