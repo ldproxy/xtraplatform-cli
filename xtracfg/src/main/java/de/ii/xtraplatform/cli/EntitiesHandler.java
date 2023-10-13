@@ -1,12 +1,12 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
-import de.ii.xtraplatform.store.app.entities.MapAligner;
-import de.ii.xtraplatform.store.domain.Identifier;
-import de.ii.xtraplatform.store.domain.entities.EntityData;
-import de.ii.xtraplatform.store.domain.entities.EntityDataDefaultsStore;
-import de.ii.xtraplatform.store.domain.entities.EntityDataStore;
-import de.ii.xtraplatform.store.domain.entities.EntityMigration;
+import de.ii.xtraplatform.entities.app.MapAligner;
+import de.ii.xtraplatform.entities.domain.Identifier;
+import de.ii.xtraplatform.entities.domain.EntityData;
+import de.ii.xtraplatform.entities.domain.EntityDataDefaultsStore;
+import de.ii.xtraplatform.entities.domain.EntityDataStore;
+import de.ii.xtraplatform.entities.domain.EntityMigration;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

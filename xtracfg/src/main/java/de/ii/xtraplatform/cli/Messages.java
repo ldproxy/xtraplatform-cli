@@ -1,6 +1,6 @@
 package de.ii.xtraplatform.cli;
 
-import de.ii.xtraplatform.store.domain.Identifier;
+import de.ii.xtraplatform.entities.domain.Identifier;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;

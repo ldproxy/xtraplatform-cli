@@ -1,6 +1,6 @@
 package de.ii.xtraplatform.cli;
 
-import de.ii.xtraplatform.store.domain.entities.EntityData;
+import de.ii.xtraplatform.entities.domain.EntityData;
 import java.nio.file.Path;
 import java.util.*;
 

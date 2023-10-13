@@ -1,7 +1,7 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.Layout;
-import de.ii.xtraplatform.store.domain.StoreMigration;
+import de.ii.xtraplatform.blobs.domain.StoreMigration;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

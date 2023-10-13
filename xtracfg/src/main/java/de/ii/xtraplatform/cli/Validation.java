@@ -2,8 +2,8 @@ package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.DeprecatedKeyword;
 import de.ii.ldproxy.cfg.LdproxyCfg;
-import de.ii.xtraplatform.store.app.entities.MapSubtractor;
-import de.ii.xtraplatform.store.domain.Identifier;
+import de.ii.xtraplatform.entities.app.MapSubtractor;
+import de.ii.xtraplatform.entities.domain.Identifier;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.MessageFormat;
