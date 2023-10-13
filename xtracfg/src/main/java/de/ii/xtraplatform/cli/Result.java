@@ -26,17 +26,27 @@ public class Result {
     return result;
   }
 
+  public static Result ok(String message, Map<String, Object> details) {
+    Result result = new Result();
+    result.add(Status.INFO, message);
+    result.details.putAll(details);
+    return result;
+  }
+
   private final List<Map<String, String>> results;
+  private final Map<String, Object> details;
   private final Optional<String> failure;
 
   public Result() {
     this.results = new ArrayList<>();
+    this.details = new LinkedHashMap<>();
     this.failure = Optional.empty();
   }
 
   private Result(String failure) {
     this.results = new ArrayList<>();
-    this.failure = Optional.of(failure);
+    this.details = new LinkedHashMap<>();
+    this.failure = Optional.ofNullable(failure).or(() -> Optional.of("unknown error"));
   }
 
   private void add(Status status, String message) {
@@ -63,6 +73,10 @@ public class Result {
     add(Status.CONFIRMATION, message);
   }
 
+  public void details(String key, Object value) {
+    details.put(key, value);
+  }
+
   public boolean isEmpty() {
     return results.isEmpty() && failure.isEmpty();
   }
@@ -75,7 +89,7 @@ public class Result {
     if (failure.isPresent()) {
       return Map.of("error", failure.get());
     }
-    return Map.of("results", results);
+    return Map.of("results", results, "details", details);
   }
 
   public Result merge(Result other) {
@@ -90,6 +104,9 @@ public class Result {
 
     merged.results.addAll(this.results);
     merged.results.addAll(other.results);
+
+    merged.details.putAll(this.details);
+    merged.details.putAll(other.details);
 
     return merged;
   }

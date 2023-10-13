@@ -6,8 +6,8 @@ import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.base.domain.Jackson;
 import de.ii.xtraplatform.base.domain.JacksonProvider;
 import de.ii.xtraplatform.cli.EntitiesHandler.Type;
-import de.ii.xtraplatform.store.app.ValueEncodingJackson;
-import de.ii.xtraplatform.store.domain.ValueEncoding;
+import de.ii.xtraplatform.entities.app.ValueEncodingJackson;
+import de.ii.xtraplatform.entities.domain.ValueEncoding;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,7 +31,8 @@ public class CommandHandler {
     info,
     check,
     pre_upgrade,
-    upgrade
+    upgrade,
+    auto
   }
 
   private final Jackson jackson;
@@ -99,9 +100,9 @@ public class CommandHandler {
       case check:
         if (!onlyLayout && !onlyEntities) {
           result =
-                  result.merge(
-                          EntitiesHandler.check(
-                                  ldproxyCfg, Type.Default, path, ignoreRedundant, verbose, debug));
+              result.merge(
+                  EntitiesHandler.check(
+                      ldproxyCfg, Type.Default, path, ignoreRedundant, verbose, debug));
         }
         if (!onlyLayout && !onlyDefaults) {
           result =
@@ -156,6 +157,8 @@ public class CommandHandler {
           result.success("Nothing to do");
         }
         return result;
+      case auto:
+        return AutoHandler.handle(parameters, ldproxyCfg, path, verbose, debug);
       default:
         return Result.failure("Unknown command: " + cmd);
     }
