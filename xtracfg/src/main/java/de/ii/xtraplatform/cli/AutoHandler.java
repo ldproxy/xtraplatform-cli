@@ -12,6 +12,8 @@ import de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql;
 import de.ii.xtraplatform.features.sql.domain.ImmutableFeatureProviderSqlData;
 import java.util.*;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
+import java.io.File;
+import java.io.IOException;
 
 public class AutoHandler {
 
@@ -103,19 +105,44 @@ public class AutoHandler {
       Optional<String> path,
       boolean verbose,
       boolean debug) {
-    return Result.ok("All good", Map.of("tables", List.of("table1", "table2", "table3")));
+    return Result.ok("All good", Map.of("schemas", Map.of("public", List.of("table1", "table2", "table3"), "schema2", List.of("table1", "table2", "table3"))));
   }
 
   static Result generate(
-      Map<String, String> parameters,
-      LdproxyCfg ldproxyCfg,
-      Optional<String> path,
-      boolean verbose,
-      boolean debug) {
-    return Result.failure("Not implemented yet");
+          Map<String, String> parameters,
+          LdproxyCfg ldproxyCfg,
+          Optional<String> path,
+          boolean verbose,
+          boolean debug) {
+
+    if (!parameters.containsKey("source")) {
+      return Result.failure("Parameter 'source' could not be found.");
+    }
+
+    String path2file = parameters.get("source");
+    String fileName = parameters.get("id");
+
+    if (path2file != null && !path2file.isEmpty() && fileName != null && !fileName.isEmpty()) {
+      String filePath = path2file + "/resources/features/" + fileName;
+
+      File file = new File(filePath);
+
+      try {
+        if (file.createNewFile()) {
+          return Result.ok("The file has been created.", null);
+        } else {
+          return Result.failure("The file already exists.");
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+        return Result.failure("An error occurred: " + e.getMessage());
+      }
+    }
+    return Result.failure("Unexpected error");
   }
 
-  private static FeatureProviderDataV2 parseFeatureProvider(
+
+      private static FeatureProviderDataV2 parseFeatureProvider(
       Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
     if (!parameters.containsKey("id")) {
       throw new IllegalArgumentException("No id given");
