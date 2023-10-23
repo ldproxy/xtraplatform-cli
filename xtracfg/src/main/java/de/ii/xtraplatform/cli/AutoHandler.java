@@ -10,10 +10,11 @@ import de.ii.xtraplatform.features.domain.FeatureProviderDataV2;
 import de.ii.xtraplatform.features.gml.domain.ImmutableFeatureProviderWfsData;
 import de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql;
 import de.ii.xtraplatform.features.sql.domain.ImmutableFeatureProviderSqlData;
-import java.util.*;
-import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import shadow.com.fasterxml.jackson.core.type.TypeReference;
 
 public class AutoHandler {
 
@@ -89,31 +90,46 @@ public class AutoHandler {
             .getEntityFactories()
             .get(EntityType.PROVIDERS.toString(), featureProvider.getEntitySubType());
 
-    /* TODO
-        FeatureProviderDataV2 entityData =
-            (FeatureProviderDataV2) factory.autoComplete(featureProvider);
-    */
+    try {
+      FeatureProviderDataV2 entityData =
+          (FeatureProviderDataV2) factory.autoComplete(featureProvider);
 
-    result.success("All good");
+      ldproxyCfg.writeEntity(entityData);
+
+      result.success("All good");
+      result.details("new_files", List.of(ldproxyCfg.getEntityPath(entityData)));
+    } catch (Throwable e) {
+      e.printStackTrace();
+      result.error(e.getMessage());
+    }
 
     return result;
   }
 
+  // TODO: SqlSchemaCrawler with table names only
   static Result analyze(
       Map<String, String> parameters,
       LdproxyCfg ldproxyCfg,
       Optional<String> path,
       boolean verbose,
       boolean debug) {
-    return Result.ok("All good", Map.of("schemas", Map.of("public", List.of("table1", "table2", "table3"), "schema2", List.of("table1", "table2", "table3"))));
+    return Result.ok(
+        "All good",
+        Map.of(
+            "schemas",
+            Map.of(
+                "public",
+                List.of("table1", "table2", "table3"),
+                "schema2",
+                List.of("table1", "table2", "table3"))));
   }
 
   static Result generate(
-          Map<String, String> parameters,
-          LdproxyCfg ldproxyCfg,
-          Optional<String> path,
-          boolean verbose,
-          boolean debug) {
+      Map<String, String> parameters,
+      LdproxyCfg ldproxyCfg,
+      Optional<String> path,
+      boolean verbose,
+      boolean debug) {
 
     if (!parameters.containsKey("source")) {
       return Result.failure("Parameter 'source' could not be found.");
@@ -141,8 +157,7 @@ public class AutoHandler {
     return Result.failure("Unexpected error");
   }
 
-
-      private static FeatureProviderDataV2 parseFeatureProvider(
+  private static FeatureProviderDataV2 parseFeatureProvider(
       Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
     if (!parameters.containsKey("id")) {
       throw new IllegalArgumentException("No id given");
@@ -181,15 +196,15 @@ public class AutoHandler {
   private static FeatureProviderDataV2 parseFeatureProviderPgis(
       ImmutableFeatureProviderSqlData.Builder builder, Map<String, String> parameters) {
     builder
-        .auto(true)
         .connectionInfoBuilder()
         .dialect(ConnectionInfoSql.Dialect.PGIS)
         .host(Optional.ofNullable(parameters.get("host")))
         .database(parameters.get("database"))
         .user(Optional.ofNullable(parameters.get("user")))
-        .password(Optional.ofNullable(parameters.get("password")))
-        .poolBuilder()
-        .maxConnections(0);
+        .password(
+            Optional.ofNullable(parameters.get("password"))
+                .map(pw -> Base64.getEncoder().encodeToString(pw.getBytes(StandardCharsets.UTF_8))))
+        .poolBuilder();
 
     return builder.build();
   }
