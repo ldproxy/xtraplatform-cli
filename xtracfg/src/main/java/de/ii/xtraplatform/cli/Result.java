@@ -81,6 +81,10 @@ public class Result {
     return results.isEmpty() && failure.isEmpty();
   }
 
+  public boolean isFailure() {
+    return failure.isPresent();
+  }
+
   public boolean has(Status status) {
     return results.stream().anyMatch(r -> Objects.equals(r.get("status"), status.name()));
   }

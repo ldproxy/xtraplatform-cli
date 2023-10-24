@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.logging.LogManager;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
 import shadow.com.google.common.base.Strings;
@@ -25,6 +27,10 @@ import shadow.org.apache.hc.core5.http.NameValuePair;
 import shadow.org.apache.hc.core5.net.URLEncodedUtils;
 
 public class CommandHandler {
+
+  static {
+    LogManager.getLogManager().reset();
+  }
 
   enum Command {
     connect,
@@ -48,24 +54,7 @@ public class CommandHandler {
   }
 
   public String handleCommand(String command) {
-    URI uri;
-    try {
-      uri = new URI(command);
-    } catch (URISyntaxException e) {
-      return String.format("{\"error\": \"Could not parse command: %s\"}", e.getMessage());
-    }
-
-    Command cmd;
-    String cmdString = uri.getPath().substring(1);
-    try {
-      cmd = Command.valueOf(cmdString);
-    } catch (Throwable e) {
-      return String.format("{\"error\": \"Unknown command: %s\"}", cmdString);
-    }
-
-    Map<String, String> parameters = parseParameters(uri.getQuery());
-
-    Result result = handle(cmd, parameters);
+    Result result = handle(command, ignore -> {});
 
     try {
       // System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(results));
@@ -75,7 +64,48 @@ public class CommandHandler {
     }
   }
 
-  private Result handle(Command cmd, Map<String, String> parameters) {
+  public String handleCommand(String command, Consumer<String> tracker) {
+    Consumer<Result> tracker2 =
+        progress -> {
+          try {
+            tracker.accept(jsonMapper.writeValueAsString(progress.asMap()));
+          } catch (JsonProcessingException e) {
+            // ignore
+          }
+        };
+
+    Result result = handle(command, tracker2);
+
+    try {
+      // System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(results));
+      return jsonMapper.writeValueAsString(result.asMap());
+    } catch (JsonProcessingException e) {
+      return String.format("{\"error\": \"Could not serialize result: %s\"}", e.getMessage());
+    }
+  }
+
+  private Result handle(String command, Consumer<Result> tracker) {
+    URI uri;
+    try {
+      uri = new URI(command);
+    } catch (URISyntaxException e) {
+      return Result.failure(String.format("Could not parse command: %s", e.getMessage()));
+    }
+
+    Command cmd;
+    String cmdString = uri.getPath().substring(1);
+    try {
+      cmd = Command.valueOf(cmdString);
+    } catch (Throwable e) {
+      return Result.failure(String.format("Unknown command: %s", cmdString));
+    }
+
+    Map<String, String> parameters = parseParameters(uri.getQuery());
+
+    return handle(cmd, parameters, tracker);
+  }
+
+  private Result handle(Command cmd, Map<String, String> parameters, Consumer<Result> tracker) {
     boolean verbose = flag(parameters, "verbose");
     boolean debug = flag(parameters, "debug");
     boolean ignoreRedundant = flag(parameters, "ignoreRedundant");
@@ -158,7 +188,7 @@ public class CommandHandler {
         }
         return result;
       case auto:
-        return AutoHandler.handle(parameters, ldproxyCfg, path, verbose, debug);
+        return AutoHandler.handle(parameters, ldproxyCfg, path, verbose, debug, tracker);
       default:
         return Result.failure("Unknown command: " + cmd);
     }
@@ -173,6 +203,7 @@ public class CommandHandler {
         return Result.ok(String.format("Store source: %s", layout.info().label()));
       }
     } catch (Throwable e) {
+      e.printStackTrace();
       return Result.failure(e.getMessage());
     }
     return Result.empty();

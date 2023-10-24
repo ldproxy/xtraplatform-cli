@@ -6,9 +6,12 @@ import de.ii.xtraplatform.entities.app.ValueEncodingJackson;
 import de.ii.xtraplatform.entities.domain.ValueEncoding;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -35,11 +38,20 @@ public class XtraCfgApiDev {
   @OnMessage
   public void handleTextMessage(Session session, String message) throws IOException {
     RemoteEndpoint.Basic remote = session.getBasicRemote();
-    try {
 
+    Consumer<String> tracker =
+        progress -> {
+          try {
+            remote.sendText(progress);
+          } catch (IOException e) {
+            // ignore
+          }
+        };
+
+    try {
       Map<String, Object> parameters = jsonMapper.readValue(message, AS_MAP);
 
-      String result = handleCommand(remote, parameters);
+      String result = handleCommand(parameters, tracker);
 
       remote.sendText(result);
     } catch (JsonProcessingException e) {
@@ -47,7 +59,7 @@ public class XtraCfgApiDev {
     }
   }
 
-  public String handleCommand(RemoteEndpoint.Basic remote, Map<String, Object> commandMap) {
+  public String handleCommand(Map<String, Object> commandMap, Consumer<String> tracker) {
     if (!commandMap.containsKey("command")) {
       return String.format("{\"error\": \"No 'command' given: %s\"}", commandMap);
     }
@@ -61,7 +73,7 @@ public class XtraCfgApiDev {
       for (String key : commandMap.keySet()) {
         parameters += i++ == 0 ? "?" : "&";
         parameters += key;
-        parameters += "=" + commandMap.get(key);
+        parameters += "=" + parseParameter(commandMap, key);
       }
 
       String connect = "/connect" + parameters;
@@ -74,7 +86,7 @@ public class XtraCfgApiDev {
 
       System.out.println("COMMAND: " + command);
 
-      String result = commandHandler.handleCommand(command);
+      String result = commandHandler.handleCommand(command, tracker);
 
       System.out.println(result);
 
@@ -85,5 +97,19 @@ public class XtraCfgApiDev {
       e.printStackTrace();
       return String.format("{\"error\": \"Could not handle command: %s\"}", e.getMessage());
     }
+  }
+
+  private String parseParameter(Map<String, Object> parameters, String key) {
+    if (Objects.equals(key, "types")) {
+      Map<String, List<String>> types = (Map<String, List<String>>) parameters.get(key);
+
+      return types.entrySet().stream()
+          .map(
+              entry ->
+                  entry.getKey() + ":" + entry.getValue().stream().collect(Collectors.joining(",")))
+          .collect(Collectors.joining("|"));
+    }
+
+    return parameters.get(key).toString();
   }
 }
