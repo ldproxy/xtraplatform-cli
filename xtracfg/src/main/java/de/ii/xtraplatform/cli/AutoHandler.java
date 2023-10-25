@@ -121,7 +121,13 @@ public class AutoHandler {
       result.details("types", types);
     } catch (Throwable e) {
       e.printStackTrace();
-      result.error(e.getMessage());
+      if (e instanceof RuntimeException
+          && Objects.nonNull(e.getCause())
+          && Objects.nonNull(e.getCause().getMessage())) {
+        result.error(e.getCause().getMessage());
+      } else if (Objects.nonNull(e.getMessage())) {
+        result.error(e.getMessage());
+      }
     }
 
     return result;
