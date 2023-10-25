@@ -252,6 +252,9 @@ public class AutoHandler {
 
   private static FeatureProviderDataV2 parseFeatureProviderPgis(
       ImmutableFeatureProviderSqlData.Builder builder, Map<String, String> parameters) {
+    Set<String> schemas =
+        parameters.containsKey("types") ? parseTypes(parameters.get("types")).keySet() : Set.of();
+
     builder
         .connectionInfoBuilder()
         .dialect(ConnectionInfoSql.Dialect.PGIS)
@@ -261,6 +264,7 @@ public class AutoHandler {
         .password(
             Optional.ofNullable(parameters.get("password"))
                 .map(pw -> Base64.getEncoder().encodeToString(pw.getBytes(StandardCharsets.UTF_8))))
+        .schemas(schemas)
         .poolBuilder();
 
     return builder.build();
