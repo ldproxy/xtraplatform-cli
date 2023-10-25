@@ -115,10 +115,10 @@ public class AutoHandler {
           getAutoFactory(
               ldproxyCfg, EntityType.PROVIDERS.toString(), featureProvider.getEntitySubType());
 
-      Map<String, List<String>> schemas = autoFactory.analyze(featureProvider);
+      Map<String, List<String>> types = autoFactory.analyze(featureProvider);
 
       result.success("All good");
-      result.details("schemas", schemas);
+      result.details("types", types);
     } catch (Throwable e) {
       e.printStackTrace();
       result.error(e.getMessage());
@@ -183,10 +183,18 @@ public class AutoHandler {
       ldproxyCfg.writeEntity(entityData);
 
       result.success("All good");
-      result.details("new_files", List.of(ldproxyCfg.getEntityPath(entityData)));
+      result.details(
+          "new_files",
+          List.of(
+              ldproxyCfg
+                  .getDataDirectory()
+                  .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
+                  .toString()));
     } catch (Throwable e) {
       e.printStackTrace();
-      result.error(e.getMessage());
+      if (Objects.nonNull(e.getMessage())) {
+        result.error(e.getMessage());
+      }
     }
 
     return result;

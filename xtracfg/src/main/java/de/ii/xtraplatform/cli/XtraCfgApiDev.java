@@ -5,6 +5,8 @@ import de.ii.xtraplatform.base.domain.JacksonProvider;
 import de.ii.xtraplatform.entities.app.ValueEncodingJackson;
 import de.ii.xtraplatform.entities.domain.ValueEncoding;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -33,6 +36,11 @@ public class XtraCfgApiDev {
     JacksonProvider jackson = new JacksonProvider(JacksonSubTypes::ids, false);
     this.jsonMapper =
         (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
+  }
+
+  @OnOpen
+  public void open(Session session) {
+    session.setMaxIdleTimeout(0);
   }
 
   @OnMessage
@@ -73,7 +81,8 @@ public class XtraCfgApiDev {
       for (String key : commandMap.keySet()) {
         parameters += i++ == 0 ? "?" : "&";
         parameters += key;
-        parameters += "=" + parseParameter(commandMap, key);
+        parameters +=
+            "=" + URLEncoder.encode(parseParameter(commandMap, key), StandardCharsets.UTF_8);
       }
 
       String connect = "/connect" + parameters;
