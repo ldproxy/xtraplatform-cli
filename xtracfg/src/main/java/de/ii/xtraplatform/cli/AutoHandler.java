@@ -11,6 +11,7 @@ import de.ii.xtraplatform.features.domain.FeatureProviderDataV2;
 import de.ii.xtraplatform.features.gml.domain.ImmutableFeatureProviderWfsData;
 import de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql;
 import de.ii.xtraplatform.features.sql.domain.ImmutableFeatureProviderSqlData;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
@@ -76,6 +77,8 @@ public class AutoHandler {
     if (!parameters.containsKey("id")) {
       return Result.failure("No id given");
     }
+
+    // TODO: min 3 chars
 
     String id = parameters.get("id");
 
@@ -278,11 +281,27 @@ public class AutoHandler {
 
   private static FeatureProviderDataV2 parseFeatureProviderGpkg(
       ImmutableFeatureProviderSqlData.Builder builder, Map<String, String> parameters) {
+
+    builder
+        .connectionInfoBuilder()
+        .dialect(ConnectionInfoSql.Dialect.GPKG)
+        .database(parameters.get("database"))
+        .poolBuilder();
+
     return builder.build();
   }
 
   private static FeatureProviderDataV2 parseFeatureProviderWfs(
       ImmutableFeatureProviderWfsData.Builder builder, Map<String, String> parameters) {
+
+    builder
+        .connectionInfoBuilder()
+        .uri(URI.create(parameters.get("url")))
+        .user(Optional.ofNullable(parameters.get("user")))
+        .password(
+            Optional.ofNullable(parameters.get("password"))
+                .map(
+                    pw -> Base64.getEncoder().encodeToString(pw.getBytes(StandardCharsets.UTF_8))));
     return builder.build();
   }
 
