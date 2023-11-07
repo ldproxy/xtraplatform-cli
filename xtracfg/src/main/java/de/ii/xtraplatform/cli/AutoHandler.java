@@ -228,6 +228,9 @@ public class AutoHandler {
     if (!parameters.containsKey("id")) {
       throw new IllegalArgumentException("No id given");
     }
+    if (parameters.get("id").length() < 3) {
+      throw new IllegalArgumentException("Id has to be at least 3 characters long");
+    }
 
     String id = parameters.get("id");
 
