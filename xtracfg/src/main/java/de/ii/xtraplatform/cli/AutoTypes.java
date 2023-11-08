@@ -1,6 +1,7 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
+import de.ii.ogcapi.foundation.domain.OgcApiDataV2;
 import de.ii.xtraplatform.entities.domain.EntityFactory;
 import de.ii.xtraplatform.features.domain.FeatureProviderDataV2;
 
@@ -28,6 +29,17 @@ public class AutoTypes {
                 .emptyDataBuilder())
         .providerType(providerType.toString())
         .providerSubType(featureProviderType.toString());
+  }
+
+  static EntityFactory getFactory(
+      LdproxyCfg ldproxyCfg, EntityType entityType, ServiceType serviceType) {
+    return ldproxyCfg.getEntityFactories().get(entityType.toString(), serviceType.toString());
+  }
+
+  static OgcApiDataV2.Builder getBuilder(
+      LdproxyCfg ldproxyCfg, EntityType entityType, ServiceType serviceType) {
+    return ((OgcApiDataV2.Builder)
+        getFactory(ldproxyCfg, entityType, serviceType).emptyDataBuilder());
   }
 
   enum Type {
@@ -77,6 +89,16 @@ public class AutoTypes {
     @Override
     public String toString() {
       return subType;
+    }
+  }
+
+  enum ServiceType {
+    OGC_API,
+    UNKNOWN;
+
+    @Override
+    public String toString() {
+      return name().toLowerCase();
     }
   }
 }

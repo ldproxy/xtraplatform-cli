@@ -1,9 +1,11 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
+import de.ii.ogcapi.foundation.domain.OgcApiDataV2;
 import de.ii.xtraplatform.cli.AutoTypes.EntityType;
 import de.ii.xtraplatform.cli.AutoTypes.FeatureProviderType;
 import de.ii.xtraplatform.cli.AutoTypes.ProviderType;
+import de.ii.xtraplatform.cli.AutoTypes.ServiceType;
 import de.ii.xtraplatform.entities.domain.AutoEntityFactory;
 import de.ii.xtraplatform.entities.domain.EntityFactory;
 import de.ii.xtraplatform.entities.domain.Identifier;
@@ -191,6 +193,20 @@ public class AutoHandler {
 
       ldproxyCfg.writeEntity(entityData);
 
+      // generate service
+      OgcApiDataV2 ogcApi = parseOgcApi(parameters, ldproxyCfg);
+
+      AutoEntityFactory autoFactory2 =
+          getAutoFactory(ldproxyCfg, EntityType.SERVICES.toString(), ogcApi.getEntitySubType());
+
+      Map<String, List<String>> types2 =
+          Map.of("", new ArrayList<>(entityData.getTypes().keySet()));
+
+
+      OgcApiDataV2 entityData2 = autoFactory2.generate(ogcApi, types2, ignore -> {});
+
+      ldproxyCfg.writeEntity(entityData2);
+
       result.success("All good");
       result.details(
           "new_files",
@@ -198,7 +214,10 @@ public class AutoHandler {
               ldproxyCfg
                   .getDataDirectory()
                   .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
-                  .toString()));
+                  .toString(), ldproxyCfg
+                          .getDataDirectory()
+                          .relativize(ldproxyCfg.getEntityPath(entityData2).normalize())
+                          .toString()));
     } catch (Throwable e) {
       e.printStackTrace();
       if (Objects.nonNull(e.getMessage())) {
@@ -305,6 +324,22 @@ public class AutoHandler {
             Optional.ofNullable(parameters.get("password"))
                 .map(
                     pw -> Base64.getEncoder().encodeToString(pw.getBytes(StandardCharsets.UTF_8))));
+    return builder.build();
+  }
+
+  private static OgcApiDataV2 parseOgcApi(Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
+    if (!parameters.containsKey("id")) {
+      throw new IllegalArgumentException("No id given");
+    }
+    if (parameters.get("id").length() < 3) {
+      throw new IllegalArgumentException("Id has to be at least 3 characters long");
+    }
+
+    String id = parameters.get("id");
+
+    OgcApiDataV2.Builder builder =
+        AutoTypes.getBuilder(ldproxyCfg, EntityType.SERVICES, ServiceType.OGC_API).id(id);
+
     return builder.build();
   }
 
