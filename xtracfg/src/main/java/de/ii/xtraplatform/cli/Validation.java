@@ -3,13 +3,14 @@ package de.ii.xtraplatform.cli;
 import de.ii.ldproxy.cfg.DeprecatedKeyword;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.entities.app.MapSubtractor;
-import de.ii.xtraplatform.entities.domain.Identifier;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import de.ii.xtraplatform.values.domain.Identifier;
 import shadow.com.networknt.schema.ValidationMessage;
 import shadow.com.networknt.schema.ValidatorTypeCode;
 

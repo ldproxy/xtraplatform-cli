@@ -1,9 +1,13 @@
 package de.ii.xtraplatform.cli;
 
-import de.ii.xtraplatform.entities.domain.Identifier;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import de.ii.xtraplatform.values.domain.Identifier;
 import shadow.com.networknt.schema.ValidationMessage;
 
 public abstract class Messages {

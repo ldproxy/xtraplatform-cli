@@ -1,6 +1,6 @@
 package de.ii.xtraplatform.cli;
 
-import de.ii.xtraplatform.entities.domain.Identifier;
+import de.ii.xtraplatform.values.domain.Identifier;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;

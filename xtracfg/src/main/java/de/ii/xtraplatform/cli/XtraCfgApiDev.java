@@ -2,8 +2,6 @@ package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.JacksonSubTypes;
 import de.ii.xtraplatform.base.domain.JacksonProvider;
-import de.ii.xtraplatform.entities.app.ValueEncodingJackson;
-import de.ii.xtraplatform.entities.domain.ValueEncoding;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +16,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+
+import de.ii.xtraplatform.values.api.ValueEncodingJackson;
+import de.ii.xtraplatform.values.domain.ValueEncoding;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;

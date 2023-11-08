@@ -6,8 +6,6 @@ import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.base.domain.Jackson;
 import de.ii.xtraplatform.base.domain.JacksonProvider;
 import de.ii.xtraplatform.cli.EntitiesHandler.Type;
-import de.ii.xtraplatform.entities.app.ValueEncodingJackson;
-import de.ii.xtraplatform.entities.domain.ValueEncoding;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,6 +18,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.LogManager;
+
+import de.ii.xtraplatform.values.api.ValueEncodingJackson;
+import de.ii.xtraplatform.values.domain.ValueEncoding;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
 import shadow.com.google.common.base.Strings;

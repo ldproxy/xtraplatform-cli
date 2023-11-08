@@ -8,11 +8,11 @@ import de.ii.xtraplatform.cli.AutoTypes.ProviderType;
 import de.ii.xtraplatform.cli.AutoTypes.ServiceType;
 import de.ii.xtraplatform.entities.domain.AutoEntityFactory;
 import de.ii.xtraplatform.entities.domain.EntityFactory;
-import de.ii.xtraplatform.entities.domain.Identifier;
 import de.ii.xtraplatform.features.domain.FeatureProviderDataV2;
 import de.ii.xtraplatform.features.gml.domain.ImmutableFeatureProviderWfsData;
 import de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql;
 import de.ii.xtraplatform.features.sql.domain.ImmutableFeatureProviderSqlData;
+import de.ii.xtraplatform.values.domain.Identifier;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -202,7 +202,6 @@ public class AutoHandler {
       Map<String, List<String>> types2 =
           Map.of("", new ArrayList<>(entityData.getTypes().keySet()));
 
-
       OgcApiDataV2 entityData2 = autoFactory2.generate(ogcApi, types2, ignore -> {});
 
       ldproxyCfg.writeEntity(entityData2);
@@ -214,10 +213,11 @@ public class AutoHandler {
               ldproxyCfg
                   .getDataDirectory()
                   .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
-                  .toString(), ldproxyCfg
-                          .getDataDirectory()
-                          .relativize(ldproxyCfg.getEntityPath(entityData2).normalize())
-                          .toString()));
+                  .toString(),
+              ldproxyCfg
+                  .getDataDirectory()
+                  .relativize(ldproxyCfg.getEntityPath(entityData2).normalize())
+                  .toString()));
     } catch (Throwable e) {
       e.printStackTrace();
       if (Objects.nonNull(e.getMessage())) {
