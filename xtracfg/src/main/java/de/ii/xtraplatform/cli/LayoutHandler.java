@@ -46,16 +46,16 @@ public class LayoutHandler {
 
     for (StoreMigration migration : layout.migrations()) {
       if (migration.isApplicable(null)) {
-        result.info("The following directories will be moved:");
+        result.info("The following directories and files will be moved:");
 
         migration
-            .migrate()
+            .getPreview()
             .forEach(
                 move ->
                     result.info(
                         "  - " + String.format("%s -> %s", move.getKey(), move.getValue())));
 
-        result.info("The following directories will be deleted:");
+        result.info("\nThe following directories will be deleted:");
 
         migration.getActualCleanups().forEach(cleanup -> result.info("  - " + cleanup.first()));
       }
@@ -99,7 +99,7 @@ public class LayoutHandler {
                         if (verbose) {
                           result.success(
                               String.format(
-                                  "Directory moved: %s -> %s",
+                                  "Successfully moved: %s -> %s",
                                   layout.info().path().relativize(child),
                                   layout
                                       .info()
@@ -115,7 +115,7 @@ public class LayoutHandler {
                       if (verbose) {
                         result.success(
                             String.format(
-                                "Directory moved: %s -> %s", fromTo.getKey(), fromTo.getValue()));
+                                "Successfully moved: %s -> %s", fromTo.getKey(), fromTo.getValue()));
                       }
                     }
                   } catch (IOException e) {
