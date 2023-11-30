@@ -23,6 +23,7 @@ func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *co
 		Long: `Upgrade the store source
 Executes all subcommands in order, see the subcommand help for details.
 No changes are made without confirmation (unless --yes is set).`,
+		Args: cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
 				fmt.Fprint(os.Stdout, "Upgrading store source: ", store.Label(), "\n")
@@ -111,6 +112,7 @@ No changes are made without confirmation (unless --yes is set).`,
 		Short: "Upgrade layout of the store source",
 		Long: `Upgrades a deprecated directory layout.
 No changes are made without confirmation (unless --yes is set).`,
+		Args: cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
 				fmt.Fprint(os.Stdout, "Upgrading layout of the store source: ", store.Label(), "\n")

@@ -271,7 +271,9 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getOptimisticLockingLastModified","parameterTypes":[] },
+    {"name":"getOptimisticLockingETag","parameterTypes":[] }
   ]
 },
 {
@@ -282,7 +284,9 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"optimisticLockingLastModified","parameterTypes":["java.lang.Boolean"] },
+    {"name":"optimisticLockingETag","parameterTypes":["java.lang.Boolean"] }
   ]
 },
 {
@@ -785,7 +789,7 @@
     {"name":"supportsStandardResponseParameters","parameterTypes":["java.lang.Boolean"] },
     {"name":"transformations","parameterTypes":["java.util.Map"] }, 
     {"name":"variableObjectElementNames","parameterTypes":["java.util.Map"] }, 
-    {"name":"xmlAttributes","parameterTypes":["java.util.List"] }
+    {"name":"xmlAttributes","parameterTypes":["java.lang.Iterable"] }
   ]
 },
 {
@@ -878,7 +882,8 @@
     {"name":"getLinks","parameterTypes":[] }, 
     {"name":"getSchemaCollection","parameterTypes":[] }, 
     {"name":"getSchemaFeature","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }
+    {"name":"getTransformations","parameterTypes":[] },
+    {"name":"getUseCuries","parameterTypes":[] }
   ]
 },
 {
@@ -894,7 +899,12 @@
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
     {"name":"featureType","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"geojsonCompatibility","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
+    {"name":"includeInGeoJson","parameterTypes":["java.lang.Iterable"] },
+    {"name":"links","parameterTypes":["java.lang.Iterable"] },
+    {"name":"schemaCollection","parameterTypes":["java.lang.String"] },
+    {"name":"schemaFeature","parameterTypes":["java.lang.String"] },
+    {"name":"useCuries","parameterTypes":["java.lang.Boolean"] }
   ]
 },
 {
@@ -981,6 +991,20 @@
 },
 {
   "name":"de.ii.ogcapi.foundation.domain.ApiSecurity",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.foundation.domain.ApiSecurity$Policies",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.foundation.domain.ApiSecurity$PolicyAttribute",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.foundation.domain.ApiSecurity$ScopeGranularity",
+  "allDeclaredFields":true,
+  "allPublicFields":true,
   "queryAllDeclaredMethods":true
 },
 {
@@ -1090,7 +1114,11 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getPublicScopes","parameterTypes":[] }
+    {"name":"getPublicScopes","parameterTypes":[] },
+    {"name":"getGroups","parameterTypes":[] },
+    {"name":"getScopes","parameterTypes":[] },
+    {"name":"getAudience","parameterTypes":[] },
+    {"name":"getPolicies","parameterTypes":[] }
   ]
 },
 {
@@ -1100,9 +1128,57 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"publicScopes","parameterTypes":["java.lang.Iterable"] }
+    {"name":"publicScopes","parameterTypes":["java.lang.Iterable"] },
+    {"name":"groups","parameterTypes":["java.util.Map"] },
+    {"name":"scopes","parameterTypes":["java.lang.Iterable"] },
+    {"name":"audience","parameterTypes":["java.lang.Iterable"] },
+    {"name":"policies","parameterTypes":["java.util.Optional"] }
   ]
 },
+  {
+    "name":"de.ii.ogcapi.foundation.domain.ImmutablePolicyAttribute",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"getConstant","parameterTypes":[] },
+      {"name":"getProperty","parameterTypes":[] },
+      {"name":"getParameter","parameterTypes":[] }
+    ]
+  },
+  {
+    "name":"de.ii.ogcapi.foundation.domain.ImmutablePolicyAttribute$Builder",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"constant","parameterTypes":["java.util.Optional"] },
+      {"name":"property","parameterTypes":["java.util.Optional"] },
+      {"name":"parameter","parameterTypes":["java.util.Optional"] }
+    ]
+  },
+  {
+    "name":"de.ii.ogcapi.foundation.domain.ImmutablePolicies",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"getEnabled","parameterTypes":[] },
+      {"name":"getAttributes","parameterTypes":[] },
+      {"name":"getObligations","parameterTypes":[] }
+    ]
+  },
+  {
+    "name":"de.ii.ogcapi.foundation.domain.ImmutablePolicies$Builder",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+      {"name":"attributes","parameterTypes":["java.util.Map"] },
+      {"name":"obligations","parameterTypes":["java.util.Map"] }
+    ]
+  },
 {
   "name":"de.ii.ogcapi.foundation.domain.ImmutableCaching",
   "allDeclaredFields":true,
@@ -1309,7 +1385,7 @@
   "methods":[
     {"name":"accessControlBuilder","parameterTypes":[] }, 
     {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"apiValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }, 
+    {"name":"apiValidation","parameterTypes":["de.ii.xtraplatform.entities.domain.ValidationResult$MODE"] },
     {"name":"apiVersion","parameterTypes":["java.util.Optional"] }, 
     {"name":"auto","parameterTypes":["java.util.Optional"] }, 
     {"name":"createdAt","parameterTypes":["long"] }, 
@@ -2190,51 +2266,43 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.codelists.domain.CodelistData",
+  "name":"de.ii.xtraplatform.codelists.domain.Codelist",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.codelists.domain.CodelistData$Builder",
+  "name":"de.ii.xtraplatform.codelists.domain.Codelist$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.codelists.domain.CodelistData$ImportType",
+  "name":"de.ii.xtraplatform.codelists.domain.Codelist$ImportType",
   "allDeclaredFields":true,
   "allPublicFields":true,
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.codelists.domain.ImmutableCodelistData",
+  "name":"de.ii.xtraplatform.codelists.domain.ImmutableCodelist",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
     {"name":"getEntries","parameterTypes":[] }, 
-    {"name":"getFallback","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLabel","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
+    {"name":"getFallback","parameterTypes":[] },
+    {"name":"getLabel","parameterTypes":[] },
     {"name":"getSourceType","parameterTypes":[] }, 
     {"name":"getSourceUrl","parameterTypes":[] }
   ]
 },
 {
-  "name":"de.ii.xtraplatform.codelists.domain.ImmutableCodelistData$Builder",
+  "name":"de.ii.xtraplatform.codelists.domain.ImmutableCodelist$Builder",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[    
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"createdAt","parameterTypes":["long"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
-    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
+  "methods":[
     {"name":"entries","parameterTypes":["java.util.Map"] }, 
     {"name":"fallback","parameterTypes":["java.util.Optional"] }, 
     {"name":"label","parameterTypes":["java.util.Optional"] }, 
-    {"name":"sourceType","parameterTypes":["de.ii.xtraplatform.codelists.domain.CodelistData$ImportType"] }, 
+    {"name":"sourceType","parameterTypes":["de.ii.xtraplatform.codelists.domain.Codelist$ImportType"] },
     {"name":"sourceUrl","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -2337,8 +2405,7 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"type","parameterTypes":["java.lang.String"] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"listenForTypes","parameterTypes":["java.lang.Iterable"] }, 
     {"name":"pollingInterval","parameterTypes":["shadow.io.dropwizard.util.Duration"] }
   ]
@@ -2369,8 +2436,7 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"type","parameterTypes":["java.lang.String"] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"objectTypeRefs","parameterTypes":["java.util.Map"] }, 
     {"name":"geometryTypeRefs","parameterTypes":["java.util.Map"] }, 
     {"name":"relationRefs","parameterTypes":["java.util.Map"] }, 
@@ -2410,8 +2476,7 @@
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"type","parameterTypes":["java.lang.String"] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"fromToQuery","parameterTypes":["java.util.Map"] }, 
     {"name":"edgesQuery","parameterTypes":["java.util.Map"] }, 
     {"name":"routeQuery","parameterTypes":["java.lang.String"] }, 
@@ -2485,7 +2550,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[
-    {"name":"concatBuilders","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"concatBuilders","parameterTypes":["java.lang.Iterable"] },
     {"name":"coalesceBuilders","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -2494,7 +2559,7 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.features.domain.FeatureSchemaBase$Scope",
+  "name":"de.ii.xtraplatform.features.domain.SchemaBase$Scope",
   "allDeclaredFields":true,
   "allPublicFields":true,
   "queryAllDeclaredMethods":true
@@ -2524,10 +2589,12 @@
     {"name":"getObjectType","parameterTypes":[] }, 
     {"name":"getPropertyMap","parameterTypes":[] }, 
     {"name":"getRefType","parameterTypes":[] }, 
-    {"name":"getRefUriTemplate","parameterTypes":[] }, 
+    {"name":"getRefKeyTemplate","parameterTypes":[] },
+    {"name":"getRefUriTemplate","parameterTypes":[] },
     {"name":"getRole","parameterTypes":[] }, 
     {"name":"getSchema","parameterTypes":[] }, 
-    {"name":"getScope","parameterTypes":[] }, 
+    {"name":"getScope","parameterTypes":[] },
+    {"name":"getExcludedScopes","parameterTypes":[] },
     {"name":"getSourcePath","parameterTypes":[] }, 
     {"name":"getSourcePaths","parameterTypes":[] }, 
     {"name":"getTransformations","parameterTypes":[] }, 
@@ -2546,10 +2613,8 @@
     {"name":"<init>","parameterTypes":[] }, 
     {"name":"build","parameterTypes":[] }, 
     {"name":"additionalInfo","parameterTypes":["java.util.Map"] }, 
-    {"name":"concat","parameterTypes":["java.lang.Iterable"] },  
-    {"name":"concatBuilders","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"coalesce","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"coalesceBuilders","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"concat","parameterTypes":["java.lang.Iterable"] },
+    {"name":"coalesce","parameterTypes":["java.lang.Iterable"] },
     {"name":"constantValue","parameterTypes":["java.util.Optional"] }, 
     {"name":"constraintsBuilder","parameterTypes":[] }, 
     {"name":"description","parameterTypes":["java.util.Optional"] }, 
@@ -2562,17 +2627,19 @@
     {"name":"objectType","parameterTypes":["java.util.Optional"] }, 
     {"name":"propertyMap","parameterTypes":["java.util.Map"] }, 
     {"name":"refType","parameterTypes":["java.util.Optional"] }, 
-    {"name":"refUriTemplate","parameterTypes":["java.util.Optional"] }, 
+    {"name":"refKeyTemplate","parameterTypes":["java.util.Optional"] },
+    {"name":"refUriTemplate","parameterTypes":["java.util.Optional"] },
     {"name":"role","parameterTypes":["java.util.Optional"] }, 
     {"name":"schema","parameterTypes":["java.util.Optional"] }, 
     {"name":"sourcePath","parameterTypes":["java.util.Optional"] }, 
-    {"name":"sourcePaths","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"transformations","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"sourcePaths","parameterTypes":["java.lang.Iterable"] },
+    {"name":"transformations","parameterTypes":["java.lang.Iterable"] },
     {"name":"desiredType","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }, 
     {"name":"unit","parameterTypes":["java.util.Optional"] },
     {"name":"valueType","parameterTypes":["java.util.Optional"] },
     {"name":"isLastModified","parameterTypes":["java.util.Optional"] },
-    {"name":"scope","parameterTypes":["java.util.Optional"] }
+    {"name":"scope","parameterTypes":["java.util.Optional"] },
+    {"name":"excludedScopes","parameterTypes":["java.lang.Iterable"] }
   ]
 },
 {
@@ -2714,12 +2781,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAsLink","parameterTypes":[] }, 
     {"name":"getCodelist","parameterTypes":[] }, 
     {"name":"getDateFormat","parameterTypes":[] }, 
     {"name":"getFlatten","parameterTypes":[] }, 
-    {"name":"getNullify","parameterTypes":[] }, 
-    {"name":"getReduceStringFormat","parameterTypes":[] }, 
+    {"name":"getNullify","parameterTypes":[] },
+    {"name":"getObjectReduceFormat","parameterTypes":[] },
+    {"name":"getObjectReduceSelect","parameterTypes":[] },
+    {"name":"getObjectMapFormat","parameterTypes":[] },
     {"name":"getRemove","parameterTypes":[] }, 
     {"name":"getRename","parameterTypes":[] }, 
     {"name":"getStringFormat","parameterTypes":[] }
@@ -2732,14 +2800,15 @@
   "queryAllDeclaredConstructors":true,
   "methods":[
     {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"asLink","parameterTypes":["java.util.Optional"] }, 
+    {"name":"build","parameterTypes":[] },
     {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
     {"name":"dateFormat","parameterTypes":["java.util.Optional"] }, 
     {"name":"flatten","parameterTypes":["java.util.Optional"] }, 
     {"name":"getNull","parameterTypes":["java.util.Optional"] }, 
-    {"name":"nullify","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"reduceStringFormat","parameterTypes":["java.util.Optional"] }, 
+    {"name":"nullify","parameterTypes":["java.lang.Iterable"] },
+    {"name":"objectReduceFormat","parameterTypes":["java.util.Optional"] },
+    {"name":"objectReduceSelect","parameterTypes":["java.util.Optional"] },
+    {"name":"objectMapFormat","parameterTypes":["java.util.Map"] },
     {"name":"remove","parameterTypes":["java.util.Optional"] }, 
     {"name":"rename","parameterTypes":["java.util.Optional"] }, 
     {"name":"stringFormat","parameterTypes":["java.util.Optional"] }
@@ -2911,7 +2980,7 @@
     {"name":"queryGenerationBuilder","parameterTypes":[] }, 
     {"name":"queryGenerationBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableQueryGeneratorSettings$Builder"] }, 
     {"name":"sourcePathDefaultsBuilder","parameterTypes":[] }, 
-    {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }
+    {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.entities.domain.ValidationResult$MODE"] }
   ]
 },
 {
@@ -2958,7 +3027,7 @@
     {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] }, 
     {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
     {"name":"providerType","parameterTypes":["java.lang.String"] }, 
-    {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE"] }
+    {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.entities.domain.ValidationResult$MODE"] }
   ]
 },
 {
@@ -3108,50 +3177,50 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.Builder",
+  "name":"de.ii.xtraplatform.values.domain.ValueBuilder",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.Value",
+  "name":"de.ii.xtraplatform.values.domain.StoredValue",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.AutoEntity",
+  "name":"de.ii.xtraplatform.entities.domain.AutoEntity",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.EntityData",
+  "name":"de.ii.xtraplatform.entities.domain.EntityData",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.EntityDataBuilder",
+  "name":"de.ii.xtraplatform.entities.domain.EntityDataBuilder",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.Mergeable",
+  "name":"de.ii.xtraplatform.entities.domain.Mergeable",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.ValidationResult$MODE",
+  "name":"de.ii.xtraplatform.entities.domain.ValidationResult$MODE",
   "allDeclaredFields":true,
   "allPublicFields":true,
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.maptobuilder.Buildable",
+  "name":"de.ii.xtraplatform.entities.domain.maptobuilder.Buildable",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.maptobuilder.BuildableBuilder",
+  "name":"de.ii.xtraplatform.entities.domain.maptobuilder.BuildableBuilder",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.maptobuilder.BuildableMap",
+  "name":"de.ii.xtraplatform.entities.domain.maptobuilder.BuildableMap",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"de.ii.xtraplatform.store.domain.entities.maptobuilder.ImmutableBuildableMap",
+  "name":"de.ii.xtraplatform.entities.domain.maptobuilder.ImmutableBuildableMap",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true

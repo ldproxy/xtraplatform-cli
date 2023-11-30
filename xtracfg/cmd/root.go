@@ -25,6 +25,9 @@ var RootCmd = &cobra.Command{
 		interactive()
 	},*/
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		if cmd.Use == "help [command]" {
+			return nil
+		}
 
 		return storeSrc.Connect()
 	},

@@ -76,6 +76,7 @@ To check only a single entity, pass the path to the file relative to the source 
 		Use:   "layout",
 		Short: "Check layout of the store source",
 		Long:  `Checks for a deprecated directory layout.`,
+		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
 				fmt.Fprint(os.Stdout, "Checking layout of store source: ", store.Label(), "\n")
@@ -97,7 +98,7 @@ To check only a single entity, pass the path to the file relative to the source 
 
 func printFix(results []client.Result, err error, name string) {
 	if err == nil && client.HasStatus(results, client.Warning) {
-		fmt.Fprint(os.Stdout, "\n", "Run '", name, " upgrade ", strings.Join(os.Args[2:], " "), "' to fix all detected issues.", "\n")
+		fmt.Fprint(os.Stdout, "\n", "Run '", name, " ", strings.Replace(strings.Join(os.Args[1:], " "), "check", "upgrade", 1), "' to fix all detected issues.", "\n")
 	} else {
 		fmt.Fprint(os.Stdout, "\n")
 	}
