@@ -6,6 +6,8 @@ import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.base.domain.Jackson;
 import de.ii.xtraplatform.base.domain.JacksonProvider;
 import de.ii.xtraplatform.cli.EntitiesHandler.Type;
+import de.ii.xtraplatform.values.api.ValueEncodingJackson;
+import de.ii.xtraplatform.values.domain.ValueEncoding;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,9 +20,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.LogManager;
-
-import de.ii.xtraplatform.values.api.ValueEncodingJackson;
-import de.ii.xtraplatform.values.domain.ValueEncoding;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
 import shadow.com.google.common.base.Strings;
@@ -113,6 +112,7 @@ public class CommandHandler {
     boolean onlyDefaults = flag(parameters, "onlyDefaults");
     boolean onlyEntities = flag(parameters, "onlyEntities");
     boolean onlyLayout = flag(parameters, "onlyLayout");
+    boolean all = !onlyDefaults && !onlyEntities && !onlyLayout;
     Optional<String> path = Optional.ofNullable(Strings.emptyToNull(parameters.get("path")));
 
     // System.out.println("J - COMMAND " + cmd + " " + parameters);
@@ -129,19 +129,20 @@ public class CommandHandler {
       case info:
         return info();
       case check:
-        if (!onlyLayout && !onlyEntities) {
+        if (
+        /*all || */ onlyDefaults) {
           result =
               result.merge(
                   EntitiesHandler.check(
                       ldproxyCfg, Type.Default, path, ignoreRedundant, verbose, debug));
         }
-        if (!onlyLayout && !onlyDefaults) {
+        if (all || onlyEntities) {
           result =
               result.merge(
                   EntitiesHandler.check(
                       ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose, debug));
         }
-        if (!onlyEntities && !onlyDefaults) {
+        if (all || onlyLayout) {
           result = result.merge(LayoutHandler.check(layout, verbose));
         }
         if (result.isEmpty()) {
