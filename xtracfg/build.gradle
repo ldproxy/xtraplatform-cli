@@ -39,6 +39,7 @@ graalvmNative {
         enableExperimentalPredefinedClasses = true
     }*/
     binaries.all {
+        imageName = "xtracfg"
         verbose = true
         fallback = false
         quickBuild = false
