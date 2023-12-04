@@ -35,7 +35,7 @@ func init() {
 // with custom filePrepender and linkHandler.
 func generateDocs(cmd *cobra.Command) error {
 	dir := "./"
-	basename := "README.md" //strings.Replace(cmd.CommandPath(), " ", "_", -1) + ".md"
+	basename := "COMMANDS.md" //strings.Replace(cmd.CommandPath(), " ", "_", -1) + ".md"
 	filename := filepath.Join(dir, basename)
 	f, err := os.Create(filename)
 	if err != nil {
