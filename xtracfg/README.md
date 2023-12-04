@@ -2,7 +2,7 @@
 
 xtracfg provides tools to manage configurations for xtraplatform applications like [ldproxy](https://github.com/interactive-instruments/ldproxy) and XtraServer Web API.
 
-### Options
+#### Options
 
 ```
   -s, --src string      store source (default "./")
@@ -28,7 +28,7 @@ Executes all subcommands in order, see the subcommand help for details.
 xtracfg check [flags]
 ```
 
-### Options
+#### Options
 
 ```
   -r, --ignore-redundant   ignore redundant settings
@@ -60,7 +60,7 @@ To check only a single entity, pass the path to the file relative to the source 
 xtracfg check entities [path] [flags]
 ```
 
-### Examples
+#### Examples
 
 ```
 xtracfg check entities -v -r 
@@ -138,7 +138,7 @@ No changes are made without confirmation (unless --yes is set).
 xtracfg upgrade [flags]
 ```
 
-### Options
+#### Options
 
 ```
   -b, --backup             backup files before upgrading
@@ -174,7 +174,7 @@ No changes are made without confirmation (unless --yes is set).
 xtracfg upgrade entities [path] [flags]
 ```
 
-### Examples
+#### Examples
 
 ```
 xtracfg upgrade entities -v -r 

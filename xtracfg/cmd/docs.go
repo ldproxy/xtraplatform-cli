@@ -99,7 +99,7 @@ func generateMarkdown(cmd *cobra.Command, w io.Writer, depth int) error {
 	}
 
 	if len(cmd.Example) > 0 {
-		buf.WriteString("### Examples\n\n")
+		buf.WriteString("#### Examples\n\n")
 		buf.WriteString(fmt.Sprintf("```\n%s\n```\n\n", cmd.Example))
 	}
 
@@ -154,7 +154,7 @@ func printOptions(buf *bytes.Buffer, cmd *cobra.Command, name string) error {
 	flags := cmd.NonInheritedFlags()
 	flags.SetOutput(buf)
 	if flags.HasAvailableFlags() {
-		buf.WriteString("### Options\n\n```\n")
+		buf.WriteString("#### Options\n\n```\n")
 		flags.PrintDefaults()
 		buf.WriteString("```\n\n")
 	}

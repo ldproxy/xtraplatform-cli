@@ -1,15 +1,11 @@
-## xtractl
-
-
-
-### Synopsis
+# xtractl
 
 xtractl controls xtraplatform applications like [ldproxy](https://github.com/interactive-instruments/ldproxy) and XtraServer Web API.
 
 It provides control over certain parts of the running application 
 that would otherwise require a restart.
 
-### Options
+#### Options
 
 ```
       --help          show help
@@ -18,7 +14,7 @@ that would otherwise require a restart.
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl entity](#xtractl-entity)	 - Control entities
 * [xtractl log](#xtractl-log)	 - Control logging
@@ -28,13 +24,13 @@ that would otherwise require a restart.
 
 Control entities
 
-### Options
+#### Options
 
 ```
-  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default ['*'])
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
 ```
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -43,7 +39,7 @@ Control entities
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl](#xtractl)
 * [xtractl entity ls](#xtractl-entity-ls)	 - List entities
@@ -57,22 +53,22 @@ List entities
 xtractl entity ls [flags]
 ```
 
-### Examples
+#### Examples
 
 ```
 xtractl entity ls
 xtractl entity ls -t services
 ```
 
-### Options
+#### Options
 
 ```
   -j, --json            enable JSON output
   -n, --no-colors       disable colored output
-  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default ['*'])
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
 ```
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -81,15 +77,13 @@ xtractl entity ls -t services
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl entity](#xtractl-entity)	 - Control entities
 
 ## xtractl entity reload
 
 Reload entity configuration
-
-### Synopsis
 
 Reload entity configuration
 
@@ -101,7 +95,7 @@ Beware that erroneous configuration files will stop the affected entities.
 xtractl entity reload ids... [flags]
 ```
 
-### Examples
+#### Examples
 
 ```
 xtractl entity reload "*" -t services
@@ -109,13 +103,13 @@ xtractl entity reload id1
 xtractl entity reload id1,id2
 ```
 
-### Options
+#### Options
 
 ```
-  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default ['*'])
+  -t, --types strings   restrict entity types (either "*", a single type or a comma separated list) (default [*])
 ```
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -124,7 +118,7 @@ xtractl entity reload id1,id2
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl entity](#xtractl-entity)	 - Control entities
 
@@ -132,7 +126,7 @@ xtractl entity reload id1,id2
 
 Control logging
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -141,7 +135,7 @@ Control logging
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl](#xtractl)
 * [xtractl log filter](#xtractl-log-filter)	 - Switch the log filters
@@ -156,7 +150,7 @@ Switch the log filters
 xtractl log filter filters... [flags]
 ```
 
-### Examples
+#### Examples
 
 ```
 xtractl log filter sqlQueries,sqlResults
@@ -164,13 +158,13 @@ xtractl log filter "*" --disable
 
 ```
 
-### Options
+#### Options
 
 ```
   -d, --disable   disable filters, the default is to enable listed filters
 ```
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -179,7 +173,7 @@ xtractl log filter "*" --disable
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl log](#xtractl-log)	 - Control logging
 
@@ -191,14 +185,14 @@ Change the log level
 xtractl log level newLevel [flags]
 ```
 
-### Examples
+#### Examples
 
 ```
 xtractl log level DEBUG
 
 ```
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -207,7 +201,7 @@ xtractl log level DEBUG
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl log](#xtractl-log)	 - Control logging
 
@@ -219,14 +213,14 @@ Show log status
 xtractl log status [flags]
 ```
 
-### Options
+#### Options
 
 ```
   -j, --json        enable JSON output
   -n, --no-colors   disable colored output
 ```
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -235,7 +229,7 @@ xtractl log status [flags]
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl log](#xtractl-log)	 - Control logging
 
@@ -243,7 +237,7 @@ xtractl log status [flags]
 
 Manage tiles
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -252,7 +246,7 @@ Manage tiles
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl](#xtractl)
 * [xtractl tiles purge-cache](#xtractl-tiles-purge-cache)	 - Purge tile cache
@@ -260,8 +254,6 @@ Manage tiles
 ## xtractl tiles purge-cache
 
 Purge tile cache
-
-### Synopsis
 
 Purge tile cache
 
@@ -272,7 +264,7 @@ Only a subset of tiles can be deleted by using the optional parameters for the c
 xtractl tiles purge-cache id [flags]
 ```
 
-### Examples
+#### Examples
 
 ```
 xtractl tiles purge-cache api1 -c collection3 --tms WebMercatorQuad --bbox 8,49,9,50
@@ -280,7 +272,7 @@ xtractl tiles purge-cache api2 --bbox 8,49,9,50
 xtractl tiles purge-cache api3
 ```
 
-### Options
+#### Options
 
 ```
   -b, --bbox strings        WGS84 bounding box that should be purged
@@ -288,7 +280,7 @@ xtractl tiles purge-cache api3
   -t, --tms string          id of tile matrix set that should be purged
 ```
 
-### Options inherited from parent commands
+#### Options inherited from parent commands
 
 ```
       --help          show help
@@ -297,7 +289,7 @@ xtractl tiles purge-cache api3
   -v, --verbose       verbose output
 ```
 
-### SEE ALSO
+#### See Also
 
 * [xtractl tiles](#xtractl-tiles)	 - Manage tiles
 

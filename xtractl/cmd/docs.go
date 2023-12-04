@@ -45,7 +45,7 @@ func generateDocs(cmd *cobra.Command) error {
 
 	buf := new(bytes.Buffer)
 
-	if err := generateMarkdownTree(cmd, buf); err != nil {
+	if err := generateMarkdownTree(cmd, buf, 0); err != nil {
 		return err
 	}
 
@@ -55,8 +55,8 @@ func generateDocs(cmd *cobra.Command) error {
 
 	return nil
 }
-func generateMarkdownTree(cmd *cobra.Command, w io.Writer) error {
-	if err := generateMarkdown(cmd, w); err != nil {
+func generateMarkdownTree(cmd *cobra.Command, w io.Writer, depth int) error {
+	if err := generateMarkdown(cmd, w, depth); err != nil {
 		return err
 	}
 
@@ -64,7 +64,7 @@ func generateMarkdownTree(cmd *cobra.Command, w io.Writer) error {
 		if !c.IsAvailableCommand() || c.IsAdditionalHelpTopicCommand() {
 			continue
 		}
-		if err := generateMarkdownTree(c, w); err != nil {
+		if err := generateMarkdownTree(c, w, 1); err != nil {
 			return err
 		}
 	}
@@ -72,19 +72,25 @@ func generateMarkdownTree(cmd *cobra.Command, w io.Writer) error {
 	return nil
 }
 
-func generateMarkdown(cmd *cobra.Command, w io.Writer) error {
+func generateMarkdown(cmd *cobra.Command, w io.Writer, depth int) error {
 	cmd.InitDefaultHelpCmd()
 	cmd.InitDefaultHelpFlag()
 
 	buf := new(bytes.Buffer)
 	name := cmd.CommandPath()
 
-	buf.WriteString("## " + name + "\n\n")
-	buf.WriteString(cmd.Short + "\n\n")
+	if depth == 0 {
+		buf.WriteString("# " + name + "\n\n")
+	} else {
+		buf.WriteString("## " + name + "\n\n")
+	}
+	if len(cmd.Short) > 0 {
+		buf.WriteString(cmd.Short + "\n\n")
+	}
 	if len(cmd.Long) > 0 {
 		var long string
 		long = strings.Replace(cmd.Long, "ldproxy", "[ldproxy](https://github.com/interactive-instruments/ldproxy)", 1)
-		buf.WriteString("### Synopsis\n\n")
+		//buf.WriteString("### Synopsis\n\n")
 		buf.WriteString(long + "\n\n")
 	}
 
@@ -93,7 +99,7 @@ func generateMarkdown(cmd *cobra.Command, w io.Writer) error {
 	}
 
 	if len(cmd.Example) > 0 {
-		buf.WriteString("### Examples\n\n")
+		buf.WriteString("#### Examples\n\n")
 		buf.WriteString(fmt.Sprintf("```\n%s\n```\n\n", cmd.Example))
 	}
 
@@ -101,7 +107,7 @@ func generateMarkdown(cmd *cobra.Command, w io.Writer) error {
 		return err
 	}
 	if hasSeeAlso(cmd) {
-		buf.WriteString("### SEE ALSO\n\n")
+		buf.WriteString("#### See Also\n\n")
 		if cmd.HasParent() {
 			parent := cmd.Parent()
 			pname := parent.CommandPath()
@@ -148,7 +154,7 @@ func printOptions(buf *bytes.Buffer, cmd *cobra.Command, name string) error {
 	flags := cmd.NonInheritedFlags()
 	flags.SetOutput(buf)
 	if flags.HasAvailableFlags() {
-		buf.WriteString("### Options\n\n```\n")
+		buf.WriteString("#### Options\n\n```\n")
 		flags.PrintDefaults()
 		buf.WriteString("```\n\n")
 	}
@@ -156,7 +162,7 @@ func printOptions(buf *bytes.Buffer, cmd *cobra.Command, name string) error {
 	parentFlags := cmd.InheritedFlags()
 	parentFlags.SetOutput(buf)
 	if parentFlags.HasAvailableFlags() {
-		buf.WriteString("### Options inherited from parent commands\n\n```\n")
+		buf.WriteString("#### Options inherited from parent commands\n\n```\n")
 		parentFlags.PrintDefaults()
 		buf.WriteString("```\n\n")
 	}
