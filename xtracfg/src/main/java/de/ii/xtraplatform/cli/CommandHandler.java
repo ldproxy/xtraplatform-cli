@@ -41,6 +41,15 @@ public class CommandHandler {
     auto
   }
 
+  enum Subcommand {
+    cfg,
+    defaults,
+    entities,
+    overrides,
+    layout,
+    unknown
+  }
+
   private final Jackson jackson;
   private final ObjectMapper jsonMapper;
 
@@ -109,11 +118,12 @@ public class CommandHandler {
     boolean verbose = flag(parameters, "verbose");
     boolean debug = flag(parameters, "debug");
     boolean ignoreRedundant = flag(parameters, "ignoreRedundant");
-    boolean onlyDefaults = flag(parameters, "onlyDefaults");
-    boolean onlyEntities = flag(parameters, "onlyEntities");
-    boolean onlyLayout = flag(parameters, "onlyLayout");
-    boolean all = !onlyDefaults && !onlyEntities && !onlyLayout;
     Optional<String> path = Optional.ofNullable(Strings.emptyToNull(parameters.get("path")));
+    Optional<Subcommand> subcommand = subcommand(parameters);
+
+    if (subcommand.isPresent() && subcommand.get() == Subcommand.unknown) {
+      return Result.failure(String.format("Unknown command: %s", parameters.get("subcommand")));
+    }
 
     // System.out.println("J - COMMAND " + cmd + " " + parameters);
 
@@ -129,20 +139,23 @@ public class CommandHandler {
       case info:
         return info();
       case check:
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.cfg) {
+          result = result.merge(CfgHandler.check(ldproxyCfg, ignoreRedundant, verbose, debug));
+        }
         if (
-        /*all || */ onlyDefaults) {
+        /*subcommand.isEmpty() || */subcommand.isPresent() && subcommand.get() == Subcommand.defaults) {
           result =
               result.merge(
                   EntitiesHandler.check(
                       ldproxyCfg, Type.Default, path, ignoreRedundant, verbose, debug));
         }
-        if (all || onlyEntities) {
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.entities) {
           result =
               result.merge(
                   EntitiesHandler.check(
                       ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose, debug));
         }
-        if (all || onlyLayout) {
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.layout) {
           result = result.merge(LayoutHandler.check(layout, verbose));
         }
         if (result.isEmpty()) {
@@ -150,7 +163,14 @@ public class CommandHandler {
         }
         return result;
       case pre_upgrade:
-        if (!onlyLayout) {
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.cfg) {
+          boolean force = flag(parameters, "force");
+
+          result =
+              result.merge(
+                  CfgHandler.preUpgrade(ldproxyCfg, ignoreRedundant, force, verbose, debug));
+        }
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.entities) {
           boolean force = flag(parameters, "force");
 
           result =
@@ -158,7 +178,7 @@ public class CommandHandler {
                   EntitiesHandler.preUpgrade(
                       ldproxyCfg, Type.Entity, path, ignoreRedundant, force, verbose, debug));
         }
-        if (!onlyEntities) {
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.layout) {
           result = result.merge(LayoutHandler.preUpgrade(layout, verbose));
         }
         if (result.isEmpty()) {
@@ -166,7 +186,15 @@ public class CommandHandler {
         }
         return result;
       case upgrade:
-        if (!onlyLayout) {
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.cfg) {
+          boolean backup = flag(parameters, "backup");
+          boolean force = flag(parameters, "force");
+
+          result =
+              result.merge(
+                  CfgHandler.upgrade(ldproxyCfg, backup, ignoreRedundant, force, verbose, debug));
+        }
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.entities) {
           boolean backup = flag(parameters, "backup");
           boolean force = flag(parameters, "force");
 
@@ -182,7 +210,7 @@ public class CommandHandler {
                       verbose,
                       debug));
         }
-        if (!onlyEntities) {
+        if (subcommand.isEmpty() || subcommand.get() == Subcommand.layout) {
           result = result.merge(LayoutHandler.upgrade(layout, verbose));
         }
         if (result.isEmpty()) {
@@ -227,9 +255,18 @@ public class CommandHandler {
         result.info("  " + type + ": " + number);
       }
 
+      Map<String, Long> values = info.values();
+      long all2 = values.values().stream().mapToLong(l -> l).sum();
+      result.info("Values: " + all2);
+      for (Map.Entry<String, Long> entry : values.entrySet()) {
+        String type = entry.getKey();
+        Long number = entry.getValue();
+        result.info("  " + type + ": " + number);
+      }
+
       Map<String, Long> resources = info.resources();
-      long all2 = resources.values().stream().mapToLong(l -> l).sum();
-      result.info("Resources: " + all2);
+      long all3 = resources.values().stream().mapToLong(l -> l).sum();
+      result.info("Resources: " + all3);
 
       for (Map.Entry<String, Long> entry : resources.entrySet()) {
         String type = entry.getKey();
@@ -260,5 +297,17 @@ public class CommandHandler {
 
   private static boolean flag(Map<String, String> parameters, String flag) {
     return Objects.equals(parameters.getOrDefault(flag, "false"), "true");
+  }
+
+  private static Optional<Subcommand> subcommand(Map<String, String> parameters) {
+    if (!parameters.containsKey("subcommand") || parameters.get("subcommand").isEmpty()) {
+      return Optional.empty();
+    }
+
+    try {
+      return Optional.of(Subcommand.valueOf(parameters.get("subcommand")));
+    } catch (Throwable e) {
+      return Optional.of(Subcommand.unknown);
+    }
   }
 }

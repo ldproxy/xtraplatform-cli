@@ -38,6 +38,24 @@ Executes all subcommands in order, see the subcommand help for details.`,
 	check.PersistentFlags().SortFlags = false
 	check.Flags().SortFlags = false
 
+	checkCfg := &cobra.Command{
+		Use:   "cfg",
+		Short: "Check cfg.yml in the store source",
+		Long:  `Checks cfg.yml for deprecated settings.`,
+		Args:  cobra.NoArgs,
+		Run: func(cmd *cobra.Command, args []string) {
+			if *debug {
+				fmt.Fprint(os.Stdout, "Checking cfg.yml in the store source: ", store.Label(), "\n")
+			}
+
+			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "subcommand": "cfg"}, "check")
+
+			client.PrintResults(results, err)
+
+			printFix(results, err, name)
+		},
+	}
+
 	checkEntities := &cobra.Command{
 		Use:   "entities [path]",
 		Short: "Check entities in the store source",
@@ -64,7 +82,7 @@ To check only a single entity, pass the path to the file relative to the source 
 				path = args[0]
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "onlyEntities": "true", "path": path}, "check")
+			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "subcommand": "entities", "path": path}, "check")
 
 			client.PrintResults(results, err)
 
@@ -82,7 +100,7 @@ To check only a single entity, pass the path to the file relative to the source 
 				fmt.Fprint(os.Stdout, "Checking layout of store source: ", store.Label(), "\n")
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "onlyLayout": "true"}, "check")
+			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "subcommand": "layout"}, "check")
 
 			client.PrintResults(results, err)
 
@@ -90,6 +108,7 @@ To check only a single entity, pass the path to the file relative to the source 
 		},
 	}
 
+	check.AddCommand(checkCfg)
 	check.AddCommand(checkEntities)
 	check.AddCommand(checkLayout)
 

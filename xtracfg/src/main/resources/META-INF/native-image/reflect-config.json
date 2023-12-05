@@ -2788,6 +2788,7 @@
     {"name":"getObjectReduceFormat","parameterTypes":[] },
     {"name":"getObjectReduceSelect","parameterTypes":[] },
     {"name":"getObjectMapFormat","parameterTypes":[] },
+    {"name":"getArrayReduceFormat","parameterTypes":[] },
     {"name":"getRemove","parameterTypes":[] }, 
     {"name":"getRename","parameterTypes":[] }, 
     {"name":"getStringFormat","parameterTypes":[] }
@@ -2809,6 +2810,7 @@
     {"name":"objectReduceFormat","parameterTypes":["java.util.Optional"] },
     {"name":"objectReduceSelect","parameterTypes":["java.util.Optional"] },
     {"name":"objectMapFormat","parameterTypes":["java.util.Map"] },
+    {"name":"arrayReduceFormat","parameterTypes":["java.util.Optional"] },
     {"name":"remove","parameterTypes":["java.util.Optional"] }, 
     {"name":"rename","parameterTypes":["java.util.Optional"] }, 
     {"name":"stringFormat","parameterTypes":["java.util.Optional"] }
