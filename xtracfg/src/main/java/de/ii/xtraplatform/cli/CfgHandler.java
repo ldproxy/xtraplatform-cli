@@ -205,11 +205,9 @@ public class CfgHandler {
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
 
-    if (!upgraded.containsKey("store") || !(upgraded.get("store") instanceof Map)) {
-      return Optional.empty();
-    }
-
-    Map<String, Object> store = (Map<String, Object>) upgraded.get("store");
+    boolean isUpgraded = false;
+    Map<String, Object> store = (Map<String, Object>) upgraded.getOrDefault("store", Map.of());
+    Map<String, Object> proj = (Map<String, Object>) upgraded.getOrDefault("proj", Map.of());
 
     if (store.containsKey("additionalLocations")
         && store.get("additionalLocations") instanceof List
@@ -226,6 +224,30 @@ public class CfgHandler {
 
       store.remove("additionalLocations");
 
+      isUpgraded = true;
+    }
+
+    if (proj.containsKey("location")
+        && proj.get("location") instanceof String
+        && !((String) proj.get("location")).isBlank()) {
+
+      String location = ((String) proj.get("location")).trim();
+
+      if (!Objects.equals(location, "proj")) {
+        List<Map<String, Object>> sources =
+            (List<Map<String, Object>>)
+                store.computeIfAbsent("sources", ignore -> new ArrayList<Map<String, Object>>());
+
+        sources.add(
+            Map.of("type", "FS", "content", "RESOURCES", "src", location, "prefix", "proj"));
+      }
+
+      upgraded.remove("proj");
+
+      isUpgraded = true;
+    }
+
+    if (isUpgraded) {
       return Optional.of(
           new Upgrade(
               EntitiesHandler.Type.Entity,

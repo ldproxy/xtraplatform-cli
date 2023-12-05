@@ -50,18 +50,25 @@ public class CfgValidation extends Messages {
     try {
       Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
 
-      if (!original.containsKey("store") || !(original.get("store") instanceof Map)) {
-        return;
+      if (original.containsKey("store") && (original.get("store") instanceof Map)) {
+        Map<String, Object> store = (Map<String, Object>) original.get("store");
+
+        if (store.containsKey("additionalLocations")
+            && store.get("additionalLocations") instanceof List
+            && !((List<?>) store.get("additionalLocations")).isEmpty()) {
+          addMessage(deprecated("store.additionalLocations"));
+        }
       }
 
-      Map<String, Object> store = (Map<String, Object>) original.get("store");
+      if (original.containsKey("proj") && (original.get("proj") instanceof Map)) {
+        Map<String, Object> proj = (Map<String, Object>) original.get("proj");
 
-      if (store.containsKey("additionalLocations")
-          && store.get("additionalLocations") instanceof List
-          && !((List<?>) store.get("additionalLocations")).isEmpty()) {
-        addMessage(deprecated("store.additionalLocations"));
+        if (proj.containsKey("location")
+                && proj.get("location") instanceof String
+                && !((String) proj.get("location")).isBlank()) {
+          addMessage(deprecated("proj.location"));
+        }
       }
-
     } catch (IOException e) {
       setError(e.getMessage());
     }
