@@ -33,10 +33,6 @@ pipeline:
       platforms:
         - linux/amd64
         - linux/arm64
-      username:
-        from_secret: ghcr_username
-      password:
-        from_secret: ghcr_password
       logins:
         - registry: ghcr.io
           username:
