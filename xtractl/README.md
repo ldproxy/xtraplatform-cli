@@ -4,11 +4,11 @@
 
 ## Installation
 
-### Binary
+#### Binary
 
 Download the binary for your platform from the [releases](https://github.com/interactive-instruments/xtraplatform-cli/releases) page and copy it to path of your liking. You may have to set the executable flag with `chmod +x xtractl`.
 
-### Docker
+#### Docker
 
 Pull the latest image: `docker pull ghcr.io/ldproxy/xtractl`
 

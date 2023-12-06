@@ -4,11 +4,11 @@
 
 ## Installation
 
-### Binary
+#### Binary
 
 Das Binary für die gewünschte Platform von der [Releases](https://github.com/interactive-instruments/xtraplatform-cli/releases) Seite herunterladen und in das gewünschte Verzeichnis kopieren. Es kann sein, dass das Executable-Flag gesetzt werden muss: `chmod +x xtracfg`
 
-### Docker
+#### Docker
 
 Das neueste Image herunterladen: `docker pull ghcr.io/ldproxy/xtracfg`
 
