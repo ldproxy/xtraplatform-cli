@@ -1,5 +1,5 @@
 when:
-  event: tag
+  event: push
 
 matrix:
   include:
@@ -15,6 +15,14 @@ matrix:
 platform: ${platform}
 
 pipeline:
+  restore-cache:
+    image: drillster/drone-volume-cache
+    restore: true
+    mount:
+      - ./xtracfg/build/dist
+    volumes:
+      - /tmp/cache:/cache
+
   lib:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:
@@ -29,10 +37,19 @@ pipeline:
       - ./gradlew nativeCompile
       - ls -la build/native/nativeCompile
 
+  upx:
+    image: harshavardhanj/upx:3.95
+    commands:
+      - cd xtracfg
+      - upx --brute build/native/nativeCompile/xtracfg
+      - mkdir -p build/dist/${platform}/
+      - cp build/native/nativeCompile/xtracfg build/dist/${platform}/
+      - ls -la build/dist/${platform}/
+
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - gh release create next --title next --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (${platform})"
+      - gh release create next --title "xtracfg snapshot (${platform})" --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (${platform})"
     secrets: [github_token]
 
   docker:
@@ -41,15 +58,16 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     settings:
-      registry: docker.ci.interactive-instruments.de
-      repo: docker.ci.interactive-instruments.de/iide/xtracfg${suffix}
-      tags: latest
+      registry: ghcr.io
+      repo: ghcr.io/ldproxy/xtracfg
+      tags: next
       force_tag: true
-      dockerfile: xtracfg/Dockerfile
-      context: xtracfg/build/native/nativeCompile
       pull_image: true
+      dockerfile: xtracfg/Dockerfile
+      context: xtracfg/build/dist
       platforms:
-        - ${platform}
+        - linux/amd64
+        - linux/arm64
       logins:
         # needed to pull ni-base
         - registry: ghcr.io
@@ -57,3 +75,13 @@ pipeline:
             from_secret: ghcr_username
           password:
             from_secret: ghcr_password
+    when:
+      platform: linux/arm64
+
+  rebuild-cache:
+    image: drillster/drone-volume-cache
+    rebuild: true
+    mount:
+      - ./xtracfg/build/dist
+    volumes:
+      - /tmp/cache:/cache

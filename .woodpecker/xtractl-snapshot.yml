@@ -16,7 +16,7 @@ pipeline:
     commands:
       - upx --brute xtractl/dist/linux-amd64/xtractl
       - upx --brute xtractl/dist/linux-arm64/xtractl
-      - ls -laR dist
+      - ls -laR xtractl/dist
 
   github:
     image: meltwaterfoundation/github-cli:2.29.0
