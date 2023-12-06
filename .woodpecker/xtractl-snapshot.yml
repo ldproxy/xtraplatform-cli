@@ -11,6 +11,13 @@ pipeline:
       - GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/linux-arm64/xtractl
       - ls -laR dist
 
+  upx:
+    image: harshavardhanj/upx:3.95
+    commands:
+      - --brute xtractl/dist/linux-amd64/xtractl
+      - --brute xtractl/dist/linux-arm64/xtractl
+      - ls -laR dist
+
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
