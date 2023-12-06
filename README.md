@@ -2,6 +2,6 @@
 
 Command line tools for [xtraplatform](https://github.com/interactive-instruments/xtraplatform).
 
-- [xtracfg](xtracfg)
-- [xtractl](xtractl)
+- [xtracfg](xtracfg#readme)
+- [xtractl](xtractl#readme)
 
