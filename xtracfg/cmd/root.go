@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "2.0.0-SNAPSHOT"
+const version = "2.0.0"
 
 var name string = filepath.Base(os.Args[0])
 var storeSrc client.Store
