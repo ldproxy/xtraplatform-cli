@@ -14,8 +14,8 @@ pipeline:
   upx:
     image: harshavardhanj/upx:3.95
     commands:
-      - --brute xtractl/dist/linux-amd64/xtractl
-      - --brute xtractl/dist/linux-arm64/xtractl
+      - upx --brute xtractl/dist/linux-amd64/xtractl
+      - upx --brute xtractl/dist/linux-arm64/xtractl
       - ls -laR dist
 
   github:
