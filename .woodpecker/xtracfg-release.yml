@@ -23,8 +23,10 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - gh release upload ${CI_COMMIT_TAG} "xtracfg/linux/amd64/xtracfg#xtracfg (linux/amd64)"
-      - gh release upload ${CI_COMMIT_TAG} "xtracfg/linux/arm64/xtracfg#xtracfg (linux/arm64)"
+      - tar -czvf xtracfg_${CI_COMMIT_TAG}_linux_amd64.tar.gz xtracfg/linux/amd64/xtracfg
+      - tar -czvf xtracfg_${CI_COMMIT_TAG}_linux_arm64.tar.gz xtracfg/linux/arm64/xtracfg
+      - gh release upload ${CI_COMMIT_TAG} xtracfg_${CI_COMMIT_TAG}_linux_amd64.tar.gz
+      - gh release upload ${CI_COMMIT_TAG} xtracfg_${CI_COMMIT_TAG}_linux_arm64.tar.gz
     secrets: [github_token]
 
   docker:

@@ -24,8 +24,6 @@ pipeline:
       - gh release create ${CI_COMMIT_SHA:0:8} --title "snapshot ${CI_COMMIT_SHA:0:8}" --draft 
       - gh release upload ${CI_COMMIT_SHA:0:8} xtractl_${CI_COMMIT_SHA:0:8}_linux_amd64.tar.gz
       - gh release upload ${CI_COMMIT_SHA:0:8} xtractl_${CI_COMMIT_SHA:0:8}_linux_arm64.tar.gz
-#      - gh release create next --title "xtractl snapshot (linux/amd64)" --draft "xtractl/dist/linux-amd64/xtractl#xtractl (linux/amd64)"
-#      - gh release create next --title "xtractl snapshot (linux/arm64)" --draft "xtractl/dist/linux-arm64/xtractl#xtractl (linux/arm64)"
     secrets: [github_token]
 
   docker:
