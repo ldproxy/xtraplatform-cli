@@ -21,11 +21,15 @@ pipeline:
       target: /xtracfg
 
   github:
-    image: meltwaterfoundation/github-cli:2.29.0
-    commands:
-      - ls -lR xtracfg
-#      - gh release create next --title "xtracfg snapshot (${platform})" --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (${platform})"
-    secrets: [github_token]
+    image: woodpeckerci/plugin-github-release
+    settings:
+      draft: true
+      files:
+        - xtracfg/linux/amd64/xtracfg
+        - xtracfg/linux/arm64/xtracfg
+      title: snapshot (${CI_COMMIT_SHA})
+      api-key:
+        from_secret: github_token
 
   docker:
     image: woodpeckerci/plugin-docker-buildx
