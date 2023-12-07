@@ -4,5 +4,5 @@ ARG TARGETOS
 ARG TARGETARCH
 COPY ./$TARGETOS-$TARGETARCH/xtractl /xtractl
 WORKDIR /src
-RUN ls -lR /
+RUN ls -l /
 ENTRYPOINT ["/xtractl"]
