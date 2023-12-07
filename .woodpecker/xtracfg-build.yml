@@ -32,11 +32,8 @@ pipeline:
     image: harshavardhanj/upx:3.95
     commands:
       - cd xtracfg
-#      - upx --best build/native/nativeCompile/xtracfg
-      - mkdir -p build/dist/${platform}/
-      - cp build/native/nativeCompile/xtracfg build/dist/${platform}/
-      - ls -laR build/dist/
-      - echo "${CI_WORKSPACE}/${platform}"
+      - upx --best build/native/nativeCompile/xtracfg
+      - ls -la build/native/nativeCompile
 
   save:
     image: woodpeckerci/plugin-s3
@@ -46,6 +43,6 @@ pipeline:
       bucket: woodpecker
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
-      source: xtracfg/build/dist/${platform}/xtracfg
-      strip_prefix: xtracfg/build/dist/${platform}
-      target: $${CI_WORKSPACE}/${platform}
+      source: build/native/nativeCompile/xtracfg
+      strip_prefix: build/native/nativeCompile
+      target: ${CI_WORKSPACE}/xtracfg/${platform}
