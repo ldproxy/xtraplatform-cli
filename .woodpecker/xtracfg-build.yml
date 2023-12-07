@@ -36,6 +36,7 @@ pipeline:
       - mkdir -p build/dist/${platform}/
       - cp build/native/nativeCompile/xtracfg build/dist/${platform}/
       - ls -laR build/dist/
+      - echo "${CI_WORKSPACE}/${platform}"
 
   save:
     image: woodpeckerci/plugin-s3
