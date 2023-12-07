@@ -15,13 +15,16 @@ matrix:
 platform: ${platform}
 
 pipeline:
-  restore-cache:
-    image: drillster/drone-volume-cache
-    restore: true
-    mount:
-      - ./xtracfg/build/dist
-    volumes:
-      - /tmp/cache:/cache
+
+  load:
+    image: plugins/s3-cache
+    settings:
+      debug: true
+      restore: true
+      endpoint: https://s3.ldproxy.net
+      access_key: woodpecker
+      secret_key: woodpecker
+      root: woodpecker
 
   lib:
     image: ghcr.io/ldproxy/golang-jdk:1.2
@@ -78,10 +81,13 @@ pipeline:
     when:
       platform: linux/arm64
 
-  rebuild-cache:
-    image: drillster/drone-volume-cache
-    rebuild: true
-    mount:
-      - ./xtracfg/build/dist
-    volumes:
-      - /tmp/cache:/cache
+  save:
+    image: plugins/s3-cache
+    settings:
+      debug: true
+      rebuild: true
+      endpoint: https://s3.ldproxy.net
+      access_key: woodpecker
+      secret_key: woodpecker
+      root: woodpecker
+      mount: ['xtracfg/build/dist/']
