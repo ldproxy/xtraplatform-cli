@@ -40,8 +40,8 @@ pipeline:
   save:
     image: woodpeckerci/plugin-s3
     settings:
-      debug: true
-      rebuild: true
+      path_style: true
+      strip_prefix: true
       endpoint: https://s3.ldproxy.net
       bucket: woodpecker
       access_key: qluSRa6nIanEr6KY9wzf
