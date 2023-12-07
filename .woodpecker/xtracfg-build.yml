@@ -32,7 +32,7 @@ pipeline:
     image: harshavardhanj/upx:3.95
     commands:
       - cd xtracfg
-#      - upx --brute build/native/nativeCompile/xtracfg
+#      - upx --best build/native/nativeCompile/xtracfg
       - mkdir -p build/dist/${platform}/
       - cp build/native/nativeCompile/xtracfg build/dist/${platform}/
       - ls -laR build/dist/
@@ -42,10 +42,10 @@ pipeline:
     image: woodpeckerci/plugin-s3
     settings:
       path_style: true
-      strip_prefix: true
       endpoint: https://s3.ldproxy.net
       bucket: woodpecker
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
-      source: xtracfg/build/dist/${platform}/*
-      target: ${CI_WORKSPACE}/${platform}
+      source: xtracfg/build/dist/${platform}/xtracfg
+      strip_prefix: xtracfg/build/dist/${platform}
+      target: $${CI_WORKSPACE}/${platform}
