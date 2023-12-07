@@ -10,21 +10,17 @@ pipeline:
       - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/linux-amd64/xtractl
       - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/linux-arm64/xtractl
 
-#  upx:
-#    image: harshavardhanj/upx:3.95
-#    commands:
-#      - upx --best xtractl/dist/linux-amd64/xtractl
-#      - upx --best xtractl/dist/linux-arm64/xtractl
+  upx:
+    image: harshavardhanj/upx:3.95
+    commands:
+      - upx --best xtractl/dist/linux-amd64/xtractl
+      - upx --best xtractl/dist/linux-arm64/xtractl
 
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-#      - apk update && apk add upx
-#      - upx --best xtractl/dist/linux-amd64/xtractl
-#      - upx --best xtractl/dist/linux-arm64/xtractl
       - chmod +x xtractl/dist/linux-amd64/xtractl
       - chmod +x xtractl/dist/linux-arm64/xtractl
-      - ls -lR xtractl/dist
       - tar -czvf xtractl_${CI_COMMIT_SHA:0:8}_linux_amd64.tar.gz -C xtractl/dist/linux-amd64 xtractl
       - tar -czvf xtractl_${CI_COMMIT_SHA:0:8}_linux_arm64.tar.gz -C xtractl/dist/linux-arm64 xtractl
       - gh release create ${CI_COMMIT_SHA:0:8} --title "snapshot ${CI_COMMIT_SHA:0:8}" --draft 
