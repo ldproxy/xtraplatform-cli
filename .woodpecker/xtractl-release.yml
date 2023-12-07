@@ -19,8 +19,10 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - tar -czvf xtractl_${CI_COMMIT_TAG}_linux_amd64.tar.gz xtractl/dist/linux-amd64/xtractl
-      - tar -czvf xtractl_${CI_COMMIT_TAG}_linux_arm64.tar.gz xtractl/dist/linux-arm64/xtractl
+      - chmod +x xtractl/dist/linux-amd64/xtractl
+      - chmod +x xtractl/dist/linux-arm64/xtractl
+      - tar -czvf xtractl_${CI_COMMIT_TAG}_linux_amd64.tar.gz -C xtractl/dist/linux-amd64 xtractl
+      - tar -czvf xtractl_${CI_COMMIT_TAG}_linux_arm64.tar.gz -C xtractl/dist/linux-arm64 xtractl
       - gh release create ${CI_COMMIT_TAG} --title ${CI_COMMIT_TAG} --draft 
       - gh release upload ${CI_COMMIT_TAG} xtractl_${CI_COMMIT_TAG}_linux_amd64.tar.gz
       - gh release upload ${CI_COMMIT_TAG} xtractl_${CI_COMMIT_TAG}_linux_arm64.tar.gz
