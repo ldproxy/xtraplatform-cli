@@ -11,6 +11,7 @@ pipeline:
   load:
     #image: woodpeckerci/plugin-s3
     image: docker.ci.interactive-instruments.de/cicd/drone-s3
+    pull: true
     settings:
       download: true
       path_style: true
