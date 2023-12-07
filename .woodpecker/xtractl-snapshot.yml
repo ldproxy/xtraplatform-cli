@@ -1,5 +1,5 @@
 when:
-  event: tag
+  event: push
 
 
 pipeline:
@@ -9,14 +9,12 @@ pipeline:
       - cd xtractl
       - GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/linux-amd64/xtractl
       - GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/linux-arm64/xtractl
-      - ls -laR dist
 
   upx:
     image: harshavardhanj/upx:3.95
     commands:
       - upx --brute xtractl/dist/linux-amd64/xtractl
       - upx --brute xtractl/dist/linux-arm64/xtractl
-      - ls -laR xtractl/dist
 
   github:
     image: meltwaterfoundation/github-cli:2.29.0

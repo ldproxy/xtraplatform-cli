@@ -15,21 +15,17 @@ pipeline:
       path_style: true
       endpoint: https://s3.ldproxy.net
       bucket: woodpecker
+      target: /xtracfg
+      strip_prefix: xtracfg/
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
-      strip_prefix: xtracfg/
-      target: /xtracfg
 
   github:
-    image: woodpeckerci/plugin-github-release
-    settings:
-      draft: true
-      files:
-        - xtracfg/linux/amd64/xtracfg
-        - xtracfg/linux/arm64/xtracfg
-      title: snapshot (${CI_COMMIT_SHA})
-      api-key:
-        from_secret: github_token
+    image: meltwaterfoundation/github-cli:2.29.0
+    commands:
+      - gh release create next --title "xtracfg snapshot (linux/amd64)" --draft "xtractl/dist/linux-amd64/xtractl#xtractl (linux/amd64)"
+      - gh release create next --title "xtracfg snapshot (linux/arm64)" --draft "xtractl/dist/linux-arm64/xtractl#xtractl (linux/arm64)"
+    secrets: [github_token]
 
   docker:
     image: woodpeckerci/plugin-docker-buildx

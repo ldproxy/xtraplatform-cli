@@ -1,10 +1,10 @@
 when:
-  event: push
+  event: [push,tag]
 
 matrix:
   include:
     - platform: linux/amd64
-#    - platform: linux/arm64
+    - platform: linux/arm64
 #    - platform: darwin/arm64
 #      image: bash
 #      # override default /cache/gradle which does not exist on local
@@ -19,21 +19,18 @@ pipeline:
     commands:
       - cd xtracfg
       - CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" go build -ldflags="-s -w '-extldflags=-z noexecstack'" -buildmode c-archive -o dist/libxtracfg.a
-      - ls -la dist
 
   bin:
     image: ghcr.io/ldproxy/liberica-nik:22-jdk11
     commands:
       - cd xtracfg
       - ./gradlew nativeCompile
-      - ls -la build/native/nativeCompile
 
   upx:
     image: harshavardhanj/upx:3.95
     commands:
       - cd xtracfg
-#      - upx --best build/native/nativeCompile/xtracfg
-      - ls -la build/native/nativeCompile
+      - upx --best build/native/nativeCompile/xtracfg
 
   save:
     #image: woodpeckerci/plugin-s3
@@ -42,8 +39,8 @@ pipeline:
       path_style: true
       endpoint: https://s3.ldproxy.net
       bucket: woodpecker
-      access_key: qluSRa6nIanEr6KY9wzf
-      secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
+      target: /xtracfg/${platform}
       source: xtracfg/build/native/nativeCompile/xtracfg
       strip_prefix: xtracfg/build/native/nativeCompile
-      target: /xtracfg/${platform}
+      access_key: qluSRa6nIanEr6KY9wzf
+      secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
