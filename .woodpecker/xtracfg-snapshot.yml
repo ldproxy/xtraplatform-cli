@@ -22,8 +22,8 @@ pipeline:
       debug: true
       restore: true
       endpoint: https://s3.ldproxy.net
-      access_key: woodpecker
-      secret_key: woodpecker
+      access_key: qluSRa6nIanEr6KY9wzf
+      secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
       root: woodpecker
 
   lib:
@@ -44,7 +44,7 @@ pipeline:
     image: harshavardhanj/upx:3.95
     commands:
       - cd xtracfg
-      - upx --brute build/native/nativeCompile/xtracfg
+#      - upx --brute build/native/nativeCompile/xtracfg
       - mkdir -p build/dist/${platform}/
       - cp build/native/nativeCompile/xtracfg build/dist/${platform}/
       - ls -la build/dist/${platform}/
@@ -87,7 +87,7 @@ pipeline:
       debug: true
       rebuild: true
       endpoint: https://s3.ldproxy.net
-      access_key: woodpecker
-      secret_key: woodpecker
+      access_key: qluSRa6nIanEr6KY9wzf
+      secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
       root: woodpecker
       mount: ['xtracfg/build/dist/']
