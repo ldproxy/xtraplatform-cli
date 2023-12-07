@@ -1,6 +1,8 @@
 depends_on:
   - xtracfg-build
 
+skip_clone: true
+
 when:
   event: push
 
@@ -16,7 +18,7 @@ pipeline:
       bucket: woodpecker
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
-      strip_prefix: xtracfg
+      strip_prefix: xtracfg/
       target: /xtracfg
 
   github:
