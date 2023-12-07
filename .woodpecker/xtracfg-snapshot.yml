@@ -1,8 +1,6 @@
 depends_on:
   - xtracfg-build
 
-skip_clone: true
-
 when:
   event: push
 
