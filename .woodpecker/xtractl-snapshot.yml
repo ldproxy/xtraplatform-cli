@@ -7,8 +7,8 @@ pipeline:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:
       - cd xtractl
-      - GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/linux-amd64/xtractl
-      - GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/linux-arm64/xtractl
+      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/linux-amd64/xtractl
+      - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/linux-arm64/xtractl
 
 #  upx:
 #    image: harshavardhanj/upx:3.95
