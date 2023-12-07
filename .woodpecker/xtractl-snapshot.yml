@@ -19,6 +19,7 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
+      - tar --help
       - gh release create next --title "xtractl snapshot (linux/amd64)" --draft "xtractl/dist/linux-amd64/xtractl#xtractl (linux/amd64)"
       - gh release create next --title "xtractl snapshot (linux/arm64)" --draft "xtractl/dist/linux-arm64/xtractl#xtractl (linux/arm64)"
     secrets: [github_token]
