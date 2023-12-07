@@ -47,5 +47,5 @@ pipeline:
       bucket: woodpecker
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
-      source: xtracfg/build/dist/${platform}
+      source: xtracfg/build/dist/${platform}/*
       target: ${CI_WORKSPACE}/${platform}
