@@ -16,7 +16,8 @@ pipeline:
       bucket: woodpecker
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
-      target: /xtracfg/${platform}
+      strip_prefix: xtracfg
+      target: /xtracfg
 
   github:
     image: meltwaterfoundation/github-cli:2.29.0
