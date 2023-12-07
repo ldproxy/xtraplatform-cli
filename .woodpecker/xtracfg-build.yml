@@ -1,10 +1,10 @@
 when:
-  event: tag
+  event: push
 
 matrix:
   include:
     - platform: linux/amd64
-    - platform: linux/arm64
+#    - platform: linux/arm64
 #    - platform: darwin/arm64
 #      image: bash
 #      # override default /cache/gradle which does not exist on local
