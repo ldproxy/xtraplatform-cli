@@ -19,9 +19,9 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - apk update && apk add upx
-      - upx --best xtractl/dist/linux-amd64/xtractl
-      - upx --best xtractl/dist/linux-arm64/xtractl
+#      - apk update && apk add upx
+#      - upx --best xtractl/dist/linux-amd64/xtractl
+#      - upx --best xtractl/dist/linux-arm64/xtractl
       - chmod +x xtractl/dist/linux-amd64/xtractl
       - chmod +x xtractl/dist/linux-arm64/xtractl
       - tar -czvf xtractl_${CI_COMMIT_SHA:0:8}_linux_amd64.tar.gz -C xtractl/dist/linux-amd64 xtractl
