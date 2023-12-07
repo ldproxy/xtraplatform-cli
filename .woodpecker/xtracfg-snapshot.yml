@@ -1,5 +1,5 @@
 when:
-  event: push
+  event: tag
 
 matrix:
   include:
@@ -47,7 +47,7 @@ pipeline:
 #      - upx --brute build/native/nativeCompile/xtracfg
       - mkdir -p build/dist/${platform}/
       - cp build/native/nativeCompile/xtracfg build/dist/${platform}/
-      - ls -la build/dist/${platform}/
+      - ls -laR build/dist/
 
   github:
     image: meltwaterfoundation/github-cli:2.29.0
