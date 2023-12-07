@@ -25,7 +25,7 @@ pipeline:
   github:
     image: meltwaterfoundation/github-cli:2.29.0
     commands:
-      - ls -lR xtracfg/linux
+      - ls -lR xtracfg
 #      - gh release create next --title "xtracfg snapshot (${platform})" --draft "xtracfg/build/native/nativeCompile/xtracfg#xtracfg (${platform})"
     secrets: [github_token]
 
