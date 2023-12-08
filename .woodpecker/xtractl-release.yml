@@ -13,8 +13,8 @@ pipeline:
   upx:
     image: docker.ci.interactive-instruments.de/cicd/upx
     commands:
-      - upx --best --no-zlma xtractl/dist/linux-amd64/xtractl
-      - upx --best --no-zlma xtractl/dist/linux-arm64/xtractl
+      - upx --best xtractl/dist/linux-amd64/xtractl
+      - upx --best xtractl/dist/linux-arm64/xtractl
 
   github:
     image: meltwaterfoundation/github-cli:2.29.0

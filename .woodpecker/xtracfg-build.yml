@@ -30,7 +30,7 @@ pipeline:
     image: docker.ci.interactive-instruments.de/cicd/upx
     commands:
       - cd xtracfg
-      - upx --best --no-zlma build/native/nativeCompile/xtracfg
+      - upx --best build/native/nativeCompile/xtracfg
 
   save:
     #image: woodpeckerci/plugin-s3
