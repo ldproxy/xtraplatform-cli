@@ -14,8 +14,8 @@ public class CfgHandler {
   static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
       new TypeReference<LinkedHashMap<String, Object>>() {};
 
-  static Result check(
-      LdproxyCfg ldproxyCfg, boolean ignoreRedundant, boolean verbose, boolean debug) {
+  public static Result check(
+          LdproxyCfg ldproxyCfg, boolean ignoreRedundant, boolean verbose, boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -63,12 +63,12 @@ public class CfgHandler {
     return result;
   }
 
-  static Result preUpgrade(
-      LdproxyCfg ldproxyCfg,
-      boolean ignoreRedundant,
-      boolean force,
-      boolean verbose,
-      boolean debug) {
+  public static Result preUpgrade(
+          LdproxyCfg ldproxyCfg,
+          boolean ignoreRedundant,
+          boolean force,
+          boolean verbose,
+          boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -101,13 +101,13 @@ public class CfgHandler {
     return result;
   }
 
-  static Result upgrade(
-      LdproxyCfg ldproxyCfg,
-      boolean doBackup,
-      boolean ignoreRedundant,
-      boolean force,
-      boolean verbose,
-      boolean debug) {
+  public static Result upgrade(
+          LdproxyCfg ldproxyCfg,
+          boolean doBackup,
+          boolean ignoreRedundant,
+          boolean force,
+          boolean verbose,
+          boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }

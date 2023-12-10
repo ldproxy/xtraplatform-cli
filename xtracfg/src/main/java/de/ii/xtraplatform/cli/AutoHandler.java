@@ -32,7 +32,7 @@ public class AutoHandler {
   private static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
       new TypeReference<LinkedHashMap<String, Object>>() {};
 
-  static Result handle(
+  public static Result handle(
       Map<String, String> parameters,
       LdproxyCfg ldproxyCfg,
       Optional<String> path,

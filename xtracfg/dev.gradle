@@ -1,13 +1,16 @@
 apply plugin: 'org.gretty'
 
+// start with ./gradlew appRun or ./gradlew appRunDebug
+
 gretty {
     servletContainer = 'jetty9.4'
     contextPath = '/'
 }
 
 sourceSets {
-    dev {
+    main {
         java {
+            srcDirs 'src/dev/java'
         }
     }
 }

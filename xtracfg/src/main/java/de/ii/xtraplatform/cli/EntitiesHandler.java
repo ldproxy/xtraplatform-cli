@@ -26,24 +26,24 @@ import shadow.com.google.common.collect.ImmutableList;
 
 public class EntitiesHandler {
 
-  enum Type {
+  public enum Type {
     Entity,
     Default,
     All
   }
 
-  static boolean DEV = false;
+  public static boolean DEV = false;
 
   private static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
       new TypeReference<LinkedHashMap<String, Object>>() {};
 
-  static Result check(
-      LdproxyCfg ldproxyCfg,
-      Type type,
-      Optional<String> path,
-      boolean ignoreRedundant,
-      boolean verbose,
-      boolean debug) {
+  public static Result check(
+          LdproxyCfg ldproxyCfg,
+          Type type,
+          Optional<String> path,
+          boolean ignoreRedundant,
+          boolean verbose,
+          boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -101,14 +101,14 @@ public class EntitiesHandler {
     return result;
   }
 
-  static Result preUpgrade(
-      LdproxyCfg ldproxyCfg,
-      Type type,
-      Optional<String> path,
-      boolean ignoreRedundant,
-      boolean force,
-      boolean verbose,
-      boolean debug) {
+  public static Result preUpgrade(
+          LdproxyCfg ldproxyCfg,
+          Type type,
+          Optional<String> path,
+          boolean ignoreRedundant,
+          boolean force,
+          boolean verbose,
+          boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -168,15 +168,15 @@ public class EntitiesHandler {
     return result;
   }
 
-  static Result upgrade(
-      LdproxyCfg ldproxyCfg,
-      Type type,
-      Optional<String> path,
-      boolean doBackup,
-      boolean ignoreRedundant,
-      boolean force,
-      boolean verbose,
-      boolean debug) {
+  public static Result upgrade(
+          LdproxyCfg ldproxyCfg,
+          Type type,
+          Optional<String> path,
+          boolean doBackup,
+          boolean ignoreRedundant,
+          boolean force,
+          boolean verbose,
+          boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
