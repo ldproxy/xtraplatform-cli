@@ -18,3 +18,5 @@ sourceSets {
 dependencies {
     implementation 'javax.websocket:javax.websocket-api:1.1'
 }
+
+tasks.run.mainClass = 'de.ii.xtraplatform.cli.dev.XtraCfgDev'
