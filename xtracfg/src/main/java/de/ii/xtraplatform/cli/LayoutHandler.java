@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class LayoutHandler {
-  static Result check(Layout layout, boolean verbose) {
+  public static Result check(Layout layout, boolean verbose) {
     if (Objects.isNull(layout)) {
       return Result.failure("Not connected to store");
     }
@@ -37,7 +37,7 @@ public class LayoutHandler {
     return result;
   }
 
-  static Result preUpgrade(Layout layout, boolean verbose) {
+  public static Result preUpgrade(Layout layout, boolean verbose) {
     if (Objects.isNull(layout)) {
       return Result.failure("Not connected to store");
     }
@@ -68,7 +68,7 @@ public class LayoutHandler {
     return result;
   }
 
-  static Result upgrade(Layout layout, boolean verbose) {
+  public static Result upgrade(Layout layout, boolean verbose) {
     if (Objects.isNull(layout)) {
       return Result.failure("Not connected to store");
     }

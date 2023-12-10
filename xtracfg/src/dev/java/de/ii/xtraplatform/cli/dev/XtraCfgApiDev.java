@@ -1,10 +1,12 @@
-package de.ii.xtraplatform.cli;
+package de.ii.xtraplatform.cli.dev;
 
 import de.ii.ldproxy.cfg.JacksonSubTypes;
 import de.ii.xtraplatform.base.domain.JacksonProvider;
+import de.ii.xtraplatform.cli.CommandHandler;
+import de.ii.xtraplatform.cli.EntitiesHandler;
+import de.ii.xtraplatform.values.api.ValueEncodingJackson;
+import de.ii.xtraplatform.values.domain.ValueEncoding;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +18,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-
-import de.ii.xtraplatform.values.api.ValueEncodingJackson;
-import de.ii.xtraplatform.values.domain.ValueEncoding;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,9 +57,14 @@ public class XtraCfgApiDev {
         };
 
     try {
-      Map<String, Object> parameters = jsonMapper.readValue(message, AS_MAP);
+      // Map<String, Object> parameters = jsonMapper.readValue(message, AS_MAP);
 
-      String result = handleCommand(parameters, tracker);
+      // String result = handleCommand(parameters, tracker);
+      //
+      // TODO?
+      EntitiesHandler.DEV = true;
+
+      String result = commandHandler.handleCommand(message, true, tracker);
 
       remote.sendText(result);
     } catch (JsonProcessingException e) {
@@ -68,7 +72,7 @@ public class XtraCfgApiDev {
     }
   }
 
-  public String handleCommand(Map<String, Object> commandMap, Consumer<String> tracker) {
+  /*public String handleCommand(Map<String, Object> commandMap, Consumer<String> tracker) {
     if (!commandMap.containsKey("command")) {
       return String.format("{\"error\": \"No 'command' given: %s\"}", commandMap);
     }
@@ -107,7 +111,7 @@ public class XtraCfgApiDev {
       e.printStackTrace();
       return String.format("{\"error\": \"Could not handle command: %s\"}", e.getMessage());
     }
-  }
+  }*/
 
   private String parseParameter(Map<String, Object> parameters, String key) {
     if (Objects.equals(key, "types")) {

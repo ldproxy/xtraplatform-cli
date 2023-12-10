@@ -1,30 +1,19 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.JacksonSubTypes;
-import de.ii.ldproxy.cfg.Layout;
-import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.base.domain.Jackson;
 import de.ii.xtraplatform.base.domain.JacksonProvider;
-import de.ii.xtraplatform.cli.EntitiesHandler.Type;
+import de.ii.xtraplatform.cli.cmd.*;
+import de.ii.xtraplatform.cli.cmd.Upgrade;
 import de.ii.xtraplatform.values.api.ValueEncodingJackson;
 import de.ii.xtraplatform.values.domain.ValueEncoding;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.LogManager;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
+import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
-import shadow.com.google.common.base.Strings;
-import shadow.org.apache.hc.core5.http.NameValuePair;
-import shadow.org.apache.hc.core5.net.URLEncodedUtils;
 
 public class CommandHandler {
 
@@ -32,48 +21,23 @@ public class CommandHandler {
     LogManager.getLogManager().reset();
   }
 
-  enum Command {
-    connect,
-    info,
-    check,
-    pre_upgrade,
-    upgrade,
-    auto
-  }
+  private static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
+      new TypeReference<>() {};
 
-  enum Subcommand {
-    cfg,
-    defaults,
-    entities,
-    overrides,
-    layout,
-    unknown
-  }
-
-  private final Jackson jackson;
   private final ObjectMapper jsonMapper;
-
-  private LdproxyCfg ldproxyCfg;
-  private Layout layout;
+  private Context context;
 
   public CommandHandler() {
-    this.jackson = new JacksonProvider(JacksonSubTypes::ids, false);
+    Jackson jackson = new JacksonProvider(JacksonSubTypes::ids, false);
     this.jsonMapper =
         (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
   }
 
   public String handleCommand(String command) {
-    Result result = handle(command, ignore -> {});
-
-    try {
-      // System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(results));
-      return jsonMapper.writeValueAsString(result.asMap());
-    } catch (JsonProcessingException e) {
-      return String.format("{\"error\": \"Could not serialize result: %s\"}", e.getMessage());
-    }
+    return handleCommand(command, false, ignore -> {});
   }
 
-  public String handleCommand(String command, Consumer<String> tracker) {
+  public String handleCommand(String command, boolean autoConnect, Consumer<String> tracker) {
     Consumer<Result> tracker2 =
         progress -> {
           try {
@@ -83,17 +47,19 @@ public class CommandHandler {
           }
         };
 
-    Result result = handle(command, tracker2);
-
     try {
-      // System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(results));
+      System.out.println("CALL " + command);
+      Call call = Call.parse(jsonMapper.readValue(command, AS_MAP));
+
+      Result result = handle(call, autoConnect, tracker2);
+
       return jsonMapper.writeValueAsString(result.asMap());
     } catch (JsonProcessingException e) {
-      return String.format("{\"error\": \"Could not serialize result: %s\"}", e.getMessage());
+      return String.format("{\"error\": \"Invalid call: %s\"}", e.getMessage());
     }
   }
 
-  private Result handle(String command, Consumer<Result> tracker) {
+  /*private Result handle(String command, Consumer<Result> tracker) {
     URI uri;
     try {
       uri = new URI(command);
@@ -101,10 +67,10 @@ public class CommandHandler {
       return Result.failure(String.format("Could not parse command: %s", e.getMessage()));
     }
 
-    Command cmd;
+    Call.Command cmd;
     String cmdString = uri.getPath().substring(1);
     try {
-      cmd = Command.valueOf(cmdString);
+      cmd = Call.Command.valueOf(cmdString);
     } catch (Throwable e) {
       return Result.failure(String.format("Unknown command: %s", cmdString));
     }
@@ -112,22 +78,65 @@ public class CommandHandler {
     Map<String, String> parameters = parseParameters(uri.getQuery());
 
     return handle(cmd, parameters, tracker);
+  }*/
+
+  public boolean isConnected() {
+    return Objects.nonNull(context)
+        && Objects.nonNull(context.ldproxyCfg)
+        && Objects.nonNull(context.layout);
   }
 
-  private Result handle(Command cmd, Map<String, String> parameters, Consumer<Result> tracker) {
+  private Result handle(Call call, boolean autoConnect, Consumer<Result> tracker) {
+    if (call.command != Call.Command.connect && !isConnected()) {
+      if (!autoConnect) {
+        return Result.failure("Not connected to store");
+      }
+
+      Result result = handle(call.with(Call.Command.connect), false, ignore -> {});
+
+      if (result.isFailure()) {
+        return result;
+      }
+    }
+
+    switch (call.command) {
+      case connect:
+        Context.Builder builder = new Context.Builder();
+        Result result = new Connect(call.parameters).run(builder);
+
+        this.context = builder.build();
+
+        return result;
+      case info:
+        return new Info(call.parameters).run(context.layout);
+      case check:
+        return new Check(call.subcommand, call.parameters).run(context);
+      case pre_upgrade:
+        return new Upgrade(call.subcommand, call.parameters, true).run(context);
+      case upgrade:
+        return new Upgrade(call.subcommand, call.parameters, false).run(context);
+      case auto:
+        return new Auto(call.subcommand, call.parameters, tracker).run(context.ldproxyCfg);
+      default:
+        return Result.failure("Unknown command: " + call.command);
+    }
+  }
+
+  /*private Result handle(
+      Call.Command cmd, Map<String, String> parameters, Consumer<Result> tracker) {
     boolean verbose = flag(parameters, "verbose");
     boolean debug = flag(parameters, "debug");
     boolean ignoreRedundant = flag(parameters, "ignoreRedundant");
     Optional<String> path = Optional.ofNullable(Strings.emptyToNull(parameters.get("path")));
-    Optional<Subcommand> subcommand = subcommand(parameters);
+    Optional<Call.Subcommand> subcommand = subcommand(parameters);
 
-    if (subcommand.isPresent() && subcommand.get() == Subcommand.unknown) {
+    if (subcommand.isPresent() && subcommand.get() == Call.Subcommand.unknown) {
       return Result.failure(String.format("Unknown command: %s", parameters.get("subcommand")));
     }
 
     // System.out.println("J - COMMAND " + cmd + " " + parameters);
 
-    if (cmd != Command.connect && (Objects.isNull(ldproxyCfg) || Objects.isNull(layout))) {
+    if (cmd != Call.Command.connect && (Objects.isNull(ldproxyCfg) || Objects.isNull(layout))) {
       return Result.failure("Not connected to store");
     }
 
@@ -139,23 +148,25 @@ public class CommandHandler {
       case info:
         return info();
       case check:
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.cfg) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.cfg) {
           result = result.merge(CfgHandler.check(ldproxyCfg, ignoreRedundant, verbose, debug));
         }
         if (
-        /*subcommand.isEmpty() || */subcommand.isPresent() && subcommand.get() == Subcommand.defaults) {
+        //subcommand.isEmpty() ||
+         subcommand.isPresent()
+            && subcommand.get() == Call.Subcommand.defaults) {
           result =
               result.merge(
                   EntitiesHandler.check(
                       ldproxyCfg, Type.Default, path, ignoreRedundant, verbose, debug));
         }
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.entities) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.entities) {
           result =
               result.merge(
                   EntitiesHandler.check(
                       ldproxyCfg, Type.Entity, path, ignoreRedundant, verbose, debug));
         }
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.layout) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.layout) {
           result = result.merge(LayoutHandler.check(layout, verbose));
         }
         if (result.isEmpty()) {
@@ -163,14 +174,14 @@ public class CommandHandler {
         }
         return result;
       case pre_upgrade:
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.cfg) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.cfg) {
           boolean force = flag(parameters, "force");
 
           result =
               result.merge(
                   CfgHandler.preUpgrade(ldproxyCfg, ignoreRedundant, force, verbose, debug));
         }
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.entities) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.entities) {
           boolean force = flag(parameters, "force");
 
           result =
@@ -178,7 +189,7 @@ public class CommandHandler {
                   EntitiesHandler.preUpgrade(
                       ldproxyCfg, Type.Entity, path, ignoreRedundant, force, verbose, debug));
         }
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.layout) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.layout) {
           result = result.merge(LayoutHandler.preUpgrade(layout, verbose));
         }
         if (result.isEmpty()) {
@@ -186,7 +197,7 @@ public class CommandHandler {
         }
         return result;
       case upgrade:
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.cfg) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.cfg) {
           boolean backup = flag(parameters, "backup");
           boolean force = flag(parameters, "force");
 
@@ -194,7 +205,7 @@ public class CommandHandler {
               result.merge(
                   CfgHandler.upgrade(ldproxyCfg, backup, ignoreRedundant, force, verbose, debug));
         }
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.entities) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.entities) {
           boolean backup = flag(parameters, "backup");
           boolean force = flag(parameters, "force");
 
@@ -210,7 +221,7 @@ public class CommandHandler {
                       verbose,
                       debug));
         }
-        if (subcommand.isEmpty() || subcommand.get() == Subcommand.layout) {
+        if (subcommand.isEmpty() || subcommand.get() == Call.Subcommand.layout) {
           result = result.merge(LayoutHandler.upgrade(layout, verbose));
         }
         if (result.isEmpty()) {
@@ -240,44 +251,7 @@ public class CommandHandler {
   }
 
   private Result info() {
-    try {
-      Layout.Info info = layout.info();
-      Result result = new Result();
-      result.info("Source: " + info.label());
-      result.info("Size: " + info.size());
-
-      Map<String, Long> entities = info.entities();
-      long all = entities.values().stream().mapToLong(l -> l).sum();
-      result.info("Entities: " + all);
-      for (Map.Entry<String, Long> entry : entities.entrySet()) {
-        String type = entry.getKey();
-        Long number = entry.getValue();
-        result.info("  " + type + ": " + number);
-      }
-
-      Map<String, Long> values = info.values();
-      long all2 = values.values().stream().mapToLong(l -> l).sum();
-      result.info("Values: " + all2);
-      for (Map.Entry<String, Long> entry : values.entrySet()) {
-        String type = entry.getKey();
-        Long number = entry.getValue();
-        result.info("  " + type + ": " + number);
-      }
-
-      Map<String, Long> resources = info.resources();
-      long all3 = resources.values().stream().mapToLong(l -> l).sum();
-      result.info("Resources: " + all3);
-
-      for (Map.Entry<String, Long> entry : resources.entrySet()) {
-        String type = entry.getKey();
-        Long number = entry.getValue();
-        result.info("  " + type + ": " + number);
-      }
-
-      return result;
-    } catch (IOException e) {
-      return Result.failure("Could not access store source: " + e.getMessage());
-    }
+    return null;
   }
 
   private static Map<String, String> parseParameters(String query) {
@@ -299,15 +273,15 @@ public class CommandHandler {
     return Objects.equals(parameters.getOrDefault(flag, "false"), "true");
   }
 
-  private static Optional<Subcommand> subcommand(Map<String, String> parameters) {
+  private static Optional<Call.Subcommand> subcommand(Map<String, String> parameters) {
     if (!parameters.containsKey("subcommand") || parameters.get("subcommand").isEmpty()) {
       return Optional.empty();
     }
 
     try {
-      return Optional.of(Subcommand.valueOf(parameters.get("subcommand")));
+      return Optional.of(Call.Subcommand.valueOf(parameters.get("subcommand")));
     } catch (Throwable e) {
-      return Optional.of(Subcommand.unknown);
+      return Optional.of(Call.Subcommand.unknown);
     }
-  }
+  }*/
 }

@@ -7,3 +7,4 @@ build
 *.code-workspace
 .gradle
 .idea
+.DS_Store
