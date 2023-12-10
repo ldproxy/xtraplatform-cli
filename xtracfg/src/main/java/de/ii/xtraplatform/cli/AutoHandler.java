@@ -17,59 +17,12 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
-import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.base.Splitter;
 import shadow.com.google.common.collect.ImmutableMap;
 
 public class AutoHandler {
 
-  enum SubCommand {
-    check,
-    analyze,
-    generate
-  }
-
-  private static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
-      new TypeReference<LinkedHashMap<String, Object>>() {};
-
-  public static Result handle(
-      Map<String, String> parameters,
-      LdproxyCfg ldproxyCfg,
-      Optional<String> path,
-      boolean verbose,
-      boolean debug,
-      Consumer<Result> tracker) {
-    SubCommand cmd;
-    try {
-      cmd = SubCommand.valueOf(parameters.get("subcommand"));
-    } catch (Throwable e) {
-      return Result.failure("Unknown subcommand for auto: " + parameters.get("subcommand"));
-    }
-
-    Result result = preCheck(parameters, ldproxyCfg);
-
-    if (result.isFailure()) {
-      return result;
-    }
-
-    try {
-      switch (cmd) {
-        case check:
-          return check(parameters, ldproxyCfg, path, verbose, debug);
-        case analyze:
-          return analyze(parameters, ldproxyCfg, path, verbose, debug);
-        case generate:
-          return generate(parameters, ldproxyCfg, path, verbose, debug, tracker);
-      }
-    } catch (Throwable e) {
-      e.printStackTrace();
-      return Result.failure("Unexpected error: " + e.getMessage());
-    }
-
-    return Result.failure("WTF");
-  }
-
-  static Result preCheck(Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
+  public static Result preCheck(Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -80,9 +33,11 @@ public class AutoHandler {
       return Result.failure("No id given");
     }
 
-    // TODO: min 3 chars
-
     String id = parameters.get("id");
+
+    if (id.length() < 3) {
+      return Result.failure("Id has to be at least 3 characters long");
+    }
 
     Identifier identifier = Identifier.from(id, "providers");
 
@@ -93,7 +48,7 @@ public class AutoHandler {
     return Result.empty();
   }
 
-  static Result check(
+  public static Result check(
       Map<String, String> parameters,
       LdproxyCfg ldproxyCfg,
       Optional<String> path,
@@ -105,7 +60,7 @@ public class AutoHandler {
     return Result.ok("All good");
   }
 
-  static Result analyze(
+  public static Result analyze(
       Map<String, String> parameters,
       LdproxyCfg ldproxyCfg,
       Optional<String> path,
@@ -138,7 +93,7 @@ public class AutoHandler {
     return result;
   }
 
-  static Result generate(
+  public static Result generate(
       Map<String, String> parameters,
       LdproxyCfg ldproxyCfg,
       Optional<String> path,
