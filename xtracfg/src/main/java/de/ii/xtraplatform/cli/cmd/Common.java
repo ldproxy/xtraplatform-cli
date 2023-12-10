@@ -1,6 +1,7 @@
 package de.ii.xtraplatform.cli.cmd;
 
 import de.ii.xtraplatform.cli.Result;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,6 +46,16 @@ public abstract class Common<T> {
     return Optional.ofNullable(string(parameters, name));
   }
 
+  protected Map<String, String> stringMap(Map<String, Object> parameters, String... names) {
+    Map<String, String> stringMap = new LinkedHashMap<>();
+
+    for (String name : names) {
+      stringMap.put(name, string(parameters, name));
+    }
+
+    return stringMap;
+  }
+
   protected final <T extends Enum<T>> Optional<T> subcommand(
       Optional<String> subcommand, Function<String, T> valueOf) {
     if (subcommand.isPresent()) {
@@ -52,6 +63,12 @@ public abstract class Common<T> {
     }
 
     return Optional.empty();
+  }
+
+  protected final <T extends Enum<T>> T requiredSubcommand(
+      Optional<String> subcommand, Function<String, T> valueOf) {
+    return subcommand(subcommand, valueOf)
+        .orElseThrow(() -> new IllegalArgumentException("No subcommand given"));
   }
 
   public abstract Result run(T context);
