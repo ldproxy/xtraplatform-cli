@@ -75,7 +75,6 @@ public class Upgrade extends Store {
 
     for (Subcommand cmd : Subcommand.values()) {
       if (shouldRun(cmd)) {
-        System.out.println("SUB " + cmd);
         result = result.merge(run(cmd, context.ldproxyCfg, context.layout));
       }
     }

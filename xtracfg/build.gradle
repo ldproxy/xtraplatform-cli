@@ -9,15 +9,18 @@ group = 'de.interactive_instruments'
 version = '1.0.0'
 
 repositories {
-  //mavenLocal()
-  maven {
-    url "https://dl.interactive-instruments.de/repository/maven-snapshots/"
-  }
-  mavenCentral()
+    //mavenLocal()
+    maven {
+        url "https://dl.interactive-instruments.de/repository/maven-snapshots/"
+    }
+    maven {
+        url "https://dl.interactive-instruments.de/repository/maven-releases/"
+    }
+    mavenCentral()
 }
 
 dependencies {
-    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '3.6.0-SNAPSHOT'
+    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '3.6.0'
     implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.35'
 
     compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '22.3.2'
@@ -25,10 +28,7 @@ dependencies {
 
 application {
     mainClass = 'de.ii.xtraplatform.cli.XtraCfg'
-    //applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005"]
 }
-
-tasks.run.mainClass = 'de.ii.xtraplatform.cli.XtraCfgDev'
 
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'minutes'
