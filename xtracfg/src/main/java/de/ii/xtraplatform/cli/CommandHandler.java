@@ -34,7 +34,7 @@ public class CommandHandler {
   }
 
   public String handleCommand(String command) {
-    return handleCommand(command, false, ignore -> {});
+    return handleCommand(command, true, ignore -> {});
   }
 
   public String handleCommand(String command, boolean autoConnect, Consumer<String> tracker) {

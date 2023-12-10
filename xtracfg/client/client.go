@@ -106,19 +106,13 @@ func (store Store) request(parameters map[string]string, command string, subcomm
 		parameters["subcommand"] = subcommands[0]
 	}
 
-	bytes, err := json.Marshal(parameters)
+	request, err := json.Marshal(parameters)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error: Failed to marshal the request body. %s", err)
 	}
 
-	request := string(bytes)
-
-	if *store.debug {
-		fmt.Println("->", request)
-	}
-
-	resp := requestC(request)
+	resp := store.Request(request)
 
 	response = &Response{}
 	err = json.Unmarshal(resp, response)
@@ -128,6 +122,16 @@ func (store Store) request(parameters map[string]string, command string, subcomm
 	}
 
 	return response, nil
+}
+
+func (store Store) Request(request []byte) (response []byte) {
+	request2 := string(request)
+
+	if *store.debug {
+		fmt.Println("->", request2)
+	}
+
+	return requestC(request2)
 }
 
 func requestC(command string) (response []byte) {

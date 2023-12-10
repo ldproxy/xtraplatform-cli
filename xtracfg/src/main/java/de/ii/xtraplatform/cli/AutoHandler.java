@@ -303,6 +303,10 @@ public class AutoHandler {
   private static final Splitter TABLE_SPLITTER = Splitter.on(',').trimResults().omitEmptyStrings();
 
   private static Map<String, List<String>> parseTypes(String types) {
+    if (Objects.isNull(types)) {
+      return Map.of();
+    }
+
     return SCHEMA_SPLITTER.split(types).entrySet().stream()
         .map(entry -> Map.entry(entry.getKey(), TABLE_SPLITTER.splitToList(entry.getValue())))
         .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));

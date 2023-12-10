@@ -86,11 +86,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAdditionalLinks","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getCollectionDefinitionsAreIdentical","parameterTypes":[] }, 
-    {"name":"getCollectionIdAsParameter","parameterTypes":[] }, 
+    {"name":"getAdditionalLinks","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getCollectionDefinitionsAreIdentical","parameterTypes":[] },
+    {"name":"getCollectionIdAsParameter","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -100,11 +100,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"collectionDefinitionsAreIdentical","parameterTypes":["java.util.Optional"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] },
+    {"name":"collectionDefinitionsAreIdentical","parameterTypes":["java.util.Optional"] },
     {"name":"collectionIdAsParameter","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -114,13 +114,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAsQueryParameters","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getEnableEndpoint","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getExcluded","parameterTypes":[] }, 
-    {"name":"getIncluded","parameterTypes":[] }, 
+    {"name":"getAsQueryParameters","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getEnableEndpoint","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getExcluded","parameterTypes":[] },
+    {"name":"getIncluded","parameterTypes":[] },
     {"name":"getPathSeparator","parameterTypes":[] }
   ]
 },
@@ -130,13 +130,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"asQueryParameters","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enableEndpoint","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"excluded","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"included","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"asQueryParameters","parameterTypes":["java.lang.Boolean"] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enableEndpoint","parameterTypes":["java.lang.Boolean"] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"excluded","parameterTypes":["java.lang.Iterable"] },
+    {"name":"included","parameterTypes":["java.lang.Iterable"] },
     {"name":"pathSeparator","parameterTypes":["de.ii.ogcapi.collections.queryables.domain.QueryablesConfiguration$PathSeparator"] }
   ]
 },
@@ -161,9 +161,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
     {"name":"getVersions","parameterTypes":[] }
   ]
 },
@@ -173,9 +173,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"versions","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -203,9 +203,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAdditionalLinks","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
+    {"name":"getAdditionalLinks","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -215,9 +215,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -236,9 +236,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAdditionalCrs","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getAdditionalCrs","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
     {"name":"getSuppressGlobalCrsList","parameterTypes":[] }
   ]
 },
@@ -248,10 +248,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"additionalCrs","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"additionalCrs","parameterTypes":["java.lang.Iterable"] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"suppressGlobalCrsList","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -270,7 +270,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] },
     {"name":"getOptimisticLockingLastModified","parameterTypes":[] },
     {"name":"getOptimisticLockingETag","parameterTypes":[] }
@@ -282,8 +282,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"optimisticLockingLastModified","parameterTypes":["java.lang.Boolean"] },
     {"name":"optimisticLockingETag","parameterTypes":["java.lang.Boolean"] }
@@ -310,10 +310,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getTextSequences","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getTextSequences","parameterTypes":[] },
+    {"name":"getTransformations","parameterTypes":[] },
     {"name":"getVersion","parameterTypes":[] }
   ]
 },
@@ -323,10 +323,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"textSequences","parameterTypes":["java.util.Optional"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"textSequences","parameterTypes":["java.util.Optional"] },
     {"name":"version","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -366,9 +366,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getOther","parameterTypes":[] }, 
-    {"name":"getQ","parameterTypes":[] }, 
-    {"name":"getSpatial","parameterTypes":[] }, 
+    {"name":"getOther","parameterTypes":[] },
+    {"name":"getQ","parameterTypes":[] },
+    {"name":"getSpatial","parameterTypes":[] },
     {"name":"getTemporal","parameterTypes":[] }
   ]
 },
@@ -378,11 +378,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"other","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"q","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"spatial","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"other","parameterTypes":["java.lang.Iterable"] },
+    {"name":"q","parameterTypes":["java.lang.Iterable"] },
+    {"name":"spatial","parameterTypes":["java.lang.Iterable"] },
     {"name":"temporal","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -392,21 +392,21 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getCoordinatePrecision","parameterTypes":[] }, 
-    {"name":"getDefaultCrs","parameterTypes":[] }, 
-    {"name":"getDefaultPageSize","parameterTypes":[] }, 
-    {"name":"getEmbeddedFeatureLinkRels","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFeatureProvider","parameterTypes":[] }, 
-    {"name":"getFeatureType","parameterTypes":[] }, 
-    {"name":"getItemType","parameterTypes":[] }, 
-    {"name":"getMaximumPageSize","parameterTypes":[] }, 
-    {"name":"getMinimumPageSize","parameterTypes":[] }, 
-    {"name":"getQueryables","parameterTypes":[] }, 
-    {"name":"getShowsFeatureSelfLink","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getCoordinatePrecision","parameterTypes":[] },
+    {"name":"getDefaultCrs","parameterTypes":[] },
+    {"name":"getDefaultPageSize","parameterTypes":[] },
+    {"name":"getEmbeddedFeatureLinkRels","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFeatureProvider","parameterTypes":[] },
+    {"name":"getFeatureType","parameterTypes":[] },
+    {"name":"getItemType","parameterTypes":[] },
+    {"name":"getMaximumPageSize","parameterTypes":[] },
+    {"name":"getMinimumPageSize","parameterTypes":[] },
+    {"name":"getQueryables","parameterTypes":[] },
+    {"name":"getShowsFeatureSelfLink","parameterTypes":[] },
+    {"name":"getTransformations","parameterTypes":[] },
     {"name":"getValidateCoordinatesInQueries","parameterTypes":[] }
   ]
 },
@@ -416,20 +416,20 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"coordinatePrecision","parameterTypes":["java.util.Map"] }, 
-    {"name":"defaultCrs","parameterTypes":["de.ii.ogcapi.features.core.domain.FeaturesCoreConfiguration$DefaultCrs"] }, 
-    {"name":"defaultPageSize","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"featureProvider","parameterTypes":["java.util.Optional"] }, 
-    {"name":"featureType","parameterTypes":["java.util.Optional"] }, 
-    {"name":"itemType","parameterTypes":["java.util.Optional"] }, 
-    {"name":"maximumPageSize","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"minimumPageSize","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"queryables","parameterTypes":["java.util.Optional"] }, 
-    {"name":"showsFeatureSelfLink","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"coordinatePrecision","parameterTypes":["java.util.Map"] },
+    {"name":"defaultCrs","parameterTypes":["de.ii.ogcapi.features.core.domain.FeaturesCoreConfiguration$DefaultCrs"] },
+    {"name":"defaultPageSize","parameterTypes":["java.lang.Integer"] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"featureProvider","parameterTypes":["java.util.Optional"] },
+    {"name":"featureType","parameterTypes":["java.util.Optional"] },
+    {"name":"itemType","parameterTypes":["java.util.Optional"] },
+    {"name":"maximumPageSize","parameterTypes":["java.lang.Integer"] },
+    {"name":"minimumPageSize","parameterTypes":["java.lang.Integer"] },
+    {"name":"queryables","parameterTypes":["java.util.Optional"] },
+    {"name":"showsFeatureSelfLink","parameterTypes":["java.lang.Boolean"] },
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
     {"name":"validateCoordinatesInQueries","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -453,9 +453,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getMaxMultiplicity","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getMaxMultiplicity","parameterTypes":[] },
     {"name":"getTransformations","parameterTypes":[] }
   ]
 },
@@ -465,10 +465,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
     {"name":"maxMultiplicity","parameterTypes":["java.lang.Integer"] }
   ]
 },
@@ -487,9 +487,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getIntersectsParameter","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getIntersectsParameter","parameterTypes":[] },
     {"name":"getPostOnItems","parameterTypes":[] }
   ]
 },
@@ -499,10 +499,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"intersectsParameter","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"intersectsParameter","parameterTypes":["java.lang.Boolean"] },
     {"name":"postOnItems","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -521,9 +521,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getMaxMultiplicity","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getMaxMultiplicity","parameterTypes":[] },
     {"name":"getTransformations","parameterTypes":[] }
   ]
 },
@@ -533,10 +533,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"maxMultiplicity","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"maxMultiplicity","parameterTypes":["java.lang.Integer"] },
     {"name":"transformations","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -567,12 +567,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getMultiplicityStrategy","parameterTypes":[] }, 
-    {"name":"getNestedObjectStrategy","parameterTypes":[] }, 
-    {"name":"getSeparator","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getMultiplicityStrategy","parameterTypes":[] },
+    {"name":"getNestedObjectStrategy","parameterTypes":[] },
+    {"name":"getSeparator","parameterTypes":[] },
+    {"name":"getTransformations","parameterTypes":[] },
     {"name":"getUseFormattedJsonOutput","parameterTypes":[] }
   ]
 },
@@ -582,13 +582,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"multiplicityStrategy","parameterTypes":["de.ii.ogcapi.features.geojson.domain.GeoJsonConfiguration$MULTIPLICITY"] }, 
-    {"name":"nestedObjectStrategy","parameterTypes":["de.ii.ogcapi.features.geojson.domain.GeoJsonConfiguration$NESTED_OBJECTS"] }, 
-    {"name":"separator","parameterTypes":["java.lang.String"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"multiplicityStrategy","parameterTypes":["de.ii.ogcapi.features.geojson.domain.GeoJsonConfiguration$MULTIPLICITY"] },
+    {"name":"nestedObjectStrategy","parameterTypes":["de.ii.ogcapi.features.geojson.domain.GeoJsonConfiguration$NESTED_OBJECTS"] },
+    {"name":"separator","parameterTypes":["java.lang.String"] },
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
     {"name":"useFormattedJsonOutput","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -607,11 +607,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getContext","parameterTypes":[] }, 
-    {"name":"getContextFileName","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getIdTemplate","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getContext","parameterTypes":[] },
+    {"name":"getContextFileName","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getIdTemplate","parameterTypes":[] },
     {"name":"getTypes","parameterTypes":[] }
   ]
 },
@@ -621,8 +621,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -645,15 +645,15 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getMaxMultiplicity","parameterTypes":[] }, 
-    {"name":"getMeshQuantization","parameterTypes":[] }, 
-    {"name":"getPolygonOrientationNotGuaranteed","parameterTypes":[] }, 
-    {"name":"getProperties","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }, 
-    {"name":"getWithNormals","parameterTypes":[] }, 
-    {"name":"getWithOutline","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getMaxMultiplicity","parameterTypes":[] },
+    {"name":"getMeshQuantization","parameterTypes":[] },
+    {"name":"getPolygonOrientationNotGuaranteed","parameterTypes":[] },
+    {"name":"getProperties","parameterTypes":[] },
+    {"name":"getTransformations","parameterTypes":[] },
+    {"name":"getWithNormals","parameterTypes":[] },
+    {"name":"getWithOutline","parameterTypes":[] },
     {"name":"getWithSurfaceType","parameterTypes":[] }
   ]
 },
@@ -663,15 +663,15 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"meshQuantization","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"polygonOrientationNotGuaranteed","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"properties","parameterTypes":["java.util.Map"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
-    {"name":"withNormals","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"withOutline","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"meshQuantization","parameterTypes":["java.lang.Boolean"] },
+    {"name":"polygonOrientationNotGuaranteed","parameterTypes":["java.lang.Boolean"] },
+    {"name":"properties","parameterTypes":["java.util.Map"] },
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
+    {"name":"withNormals","parameterTypes":["java.lang.Boolean"] },
+    {"name":"withOutline","parameterTypes":["java.lang.Boolean"] },
     {"name":"withSurfaceType","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -681,9 +681,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getComponentType","parameterTypes":[] }, 
-    {"name":"getNoData","parameterTypes":[] }, 
-    {"name":"getStringOffsetType","parameterTypes":[] }, 
+    {"name":"getComponentType","parameterTypes":[] },
+    {"name":"getNoData","parameterTypes":[] },
+    {"name":"getStringOffsetType","parameterTypes":[] },
     {"name":"getType","parameterTypes":[] }
   ]
 },
@@ -693,11 +693,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"componentType","parameterTypes":["java.util.Optional"] }, 
-    {"name":"noData","parameterTypes":["java.lang.String"] }, 
-    {"name":"stringOffsetType","parameterTypes":["java.util.Optional"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"componentType","parameterTypes":["java.util.Optional"] },
+    {"name":"noData","parameterTypes":["java.lang.String"] },
+    {"name":"stringOffsetType","parameterTypes":["java.util.Optional"] },
     {"name":"type","parameterTypes":["de.ii.ogcapi.features.gltf.domain.SchemaProperty$Type"] }
   ]
 },
@@ -719,8 +719,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -750,21 +750,21 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getApplicationNamespaces","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getConformance","parameterTypes":[] }, 
-    {"name":"getDefaultNamespace","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFeatureCollectionElementName","parameterTypes":[] }, 
-    {"name":"getFeatureMemberElementName","parameterTypes":[] }, 
-    {"name":"getGmlIdPrefix","parameterTypes":[] }, 
-    {"name":"getGmlSfLevel","parameterTypes":[] }, 
-    {"name":"getGmlVersion","parameterTypes":[] }, 
-    {"name":"getObjectTypeNamespaces","parameterTypes":[] }, 
-    {"name":"getSchemaLocations","parameterTypes":[] }, 
-    {"name":"getSupportsStandardResponseParameters","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }, 
-    {"name":"getVariableObjectElementNames","parameterTypes":[] }, 
+    {"name":"getApplicationNamespaces","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getConformance","parameterTypes":[] },
+    {"name":"getDefaultNamespace","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFeatureCollectionElementName","parameterTypes":[] },
+    {"name":"getFeatureMemberElementName","parameterTypes":[] },
+    {"name":"getGmlIdPrefix","parameterTypes":[] },
+    {"name":"getGmlSfLevel","parameterTypes":[] },
+    {"name":"getGmlVersion","parameterTypes":[] },
+    {"name":"getObjectTypeNamespaces","parameterTypes":[] },
+    {"name":"getSchemaLocations","parameterTypes":[] },
+    {"name":"getSupportsStandardResponseParameters","parameterTypes":[] },
+    {"name":"getTransformations","parameterTypes":[] },
+    {"name":"getVariableObjectElementNames","parameterTypes":[] },
     {"name":"getXmlAttributes","parameterTypes":[] }
   ]
 },
@@ -774,21 +774,21 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"applicationNamespaces","parameterTypes":["java.util.Map"] }, 
-    {"name":"defaultNamespace","parameterTypes":["java.lang.String"] }, 
-    {"name":"featureCollectionElementName","parameterTypes":["java.lang.String"] }, 
-    {"name":"featureMemberElementName","parameterTypes":["java.lang.String"] },     
-    {"name":"gmlIdPrefix","parameterTypes":["java.lang.String"] }, 
-    {"name":"gmlSfLevel","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"gmlVersion","parameterTypes":["de.ii.ogcapi.features.gml.domain.GmlConfiguration$GmlVersion"] }, 
-    {"name":"objectTypeNamespaces","parameterTypes":["java.util.Map"] }, 
-    {"name":"schemaLocations","parameterTypes":["java.util.Map"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"applicationNamespaces","parameterTypes":["java.util.Map"] },
+    {"name":"defaultNamespace","parameterTypes":["java.lang.String"] },
+    {"name":"featureCollectionElementName","parameterTypes":["java.lang.String"] },
+    {"name":"featureMemberElementName","parameterTypes":["java.lang.String"] },
+    {"name":"gmlIdPrefix","parameterTypes":["java.lang.String"] },
+    {"name":"gmlSfLevel","parameterTypes":["java.lang.Integer"] },
+    {"name":"gmlVersion","parameterTypes":["de.ii.ogcapi.features.gml.domain.GmlConfiguration$GmlVersion"] },
+    {"name":"objectTypeNamespaces","parameterTypes":["java.util.Map"] },
+    {"name":"schemaLocations","parameterTypes":["java.util.Map"] },
     {"name":"supportsStandardResponseParameters","parameterTypes":["java.lang.Boolean"] },
-    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
-    {"name":"variableObjectElementNames","parameterTypes":["java.util.Map"] }, 
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
+    {"name":"variableObjectElementNames","parameterTypes":["java.util.Map"] },
     {"name":"xmlAttributes","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -829,18 +829,18 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFeatureTitleTemplate","parameterTypes":[] }, 
-    {"name":"getGeometryProperties","parameterTypes":[] }, 
-    {"name":"getLayout","parameterTypes":[] }, 
-    {"name":"getMapClientType","parameterTypes":[] }, 
-    {"name":"getMapPosition","parameterTypes":[] }, 
-    {"name":"getMaximumPageSize","parameterTypes":[] }, 
-    {"name":"getPropertyTooltips","parameterTypes":[] }, 
-    {"name":"getPropertyTooltipsOnItems","parameterTypes":[] }, 
-    {"name":"getRemoveZoomLevelConstraints","parameterTypes":[] }, 
-    {"name":"getStyle","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFeatureTitleTemplate","parameterTypes":[] },
+    {"name":"getGeometryProperties","parameterTypes":[] },
+    {"name":"getLayout","parameterTypes":[] },
+    {"name":"getMapClientType","parameterTypes":[] },
+    {"name":"getMapPosition","parameterTypes":[] },
+    {"name":"getMaximumPageSize","parameterTypes":[] },
+    {"name":"getPropertyTooltips","parameterTypes":[] },
+    {"name":"getPropertyTooltipsOnItems","parameterTypes":[] },
+    {"name":"getRemoveZoomLevelConstraints","parameterTypes":[] },
+    {"name":"getStyle","parameterTypes":[] },
     {"name":"getTransformations","parameterTypes":[] }
   ]
 },
@@ -850,19 +850,19 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"featureTitleTemplate","parameterTypes":["java.util.Optional"] }, 
-    {"name":"geometryProperties","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"layout","parameterTypes":["de.ii.ogcapi.features.html.domain.FeaturesHtmlConfiguration$LAYOUT"] }, 
-    {"name":"mapClientType","parameterTypes":["de.ii.ogcapi.html.domain.MapClient$Type"] }, 
-    {"name":"mapPosition","parameterTypes":["de.ii.ogcapi.features.html.domain.FeaturesHtmlConfiguration$POSITION"] }, 
-    {"name":"maximumPageSize","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"propertyTooltips","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"propertyTooltipsOnItems","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"removeZoomLevelConstraints","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"style","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"featureTitleTemplate","parameterTypes":["java.util.Optional"] },
+    {"name":"geometryProperties","parameterTypes":["java.lang.Iterable"] },
+    {"name":"layout","parameterTypes":["de.ii.ogcapi.features.html.domain.FeaturesHtmlConfiguration$LAYOUT"] },
+    {"name":"mapClientType","parameterTypes":["de.ii.ogcapi.html.domain.MapClient$Type"] },
+    {"name":"mapPosition","parameterTypes":["de.ii.ogcapi.features.html.domain.FeaturesHtmlConfiguration$POSITION"] },
+    {"name":"maximumPageSize","parameterTypes":["java.lang.Integer"] },
+    {"name":"propertyTooltips","parameterTypes":["java.lang.Boolean"] },
+    {"name":"propertyTooltipsOnItems","parameterTypes":["java.lang.Boolean"] },
+    {"name":"removeZoomLevelConstraints","parameterTypes":["java.lang.Boolean"] },
+    {"name":"style","parameterTypes":["java.lang.String"] },
     {"name":"transformations","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -872,16 +872,16 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCoordRefSys","parameterTypes":[] }, 
-    {"name":"getDescribedby","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFeatureType","parameterTypes":[] }, 
-    {"name":"getGeojsonCompatibility","parameterTypes":[] }, 
-    {"name":"getIncludeInGeoJson","parameterTypes":[] }, 
-    {"name":"getLinks","parameterTypes":[] }, 
-    {"name":"getSchemaCollection","parameterTypes":[] }, 
-    {"name":"getSchemaFeature","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCoordRefSys","parameterTypes":[] },
+    {"name":"getDescribedby","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFeatureType","parameterTypes":[] },
+    {"name":"getGeojsonCompatibility","parameterTypes":[] },
+    {"name":"getIncludeInGeoJson","parameterTypes":[] },
+    {"name":"getLinks","parameterTypes":[] },
+    {"name":"getSchemaCollection","parameterTypes":[] },
+    {"name":"getSchemaFeature","parameterTypes":[] },
     {"name":"getTransformations","parameterTypes":[] },
     {"name":"getUseCuries","parameterTypes":[] }
   ]
@@ -892,13 +892,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"coordRefSys","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"describedby","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"featureType","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"geojsonCompatibility","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"coordRefSys","parameterTypes":["java.lang.Boolean"] },
+    {"name":"describedby","parameterTypes":["java.lang.Boolean"] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"featureType","parameterTypes":["java.lang.Iterable"] },
+    {"name":"geojsonCompatibility","parameterTypes":["java.lang.Boolean"] },
     {"name":"transformations","parameterTypes":["java.util.Map"] },
     {"name":"includeInGeoJson","parameterTypes":["java.lang.Iterable"] },
     {"name":"links","parameterTypes":["java.lang.Iterable"] },
@@ -928,11 +928,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAllLinksAreLocal","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getManagerEnabled","parameterTypes":[] }, 
+    {"name":"getAllLinksAreLocal","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getManagerEnabled","parameterTypes":[] },
     {"name":"getValidationEnabled","parameterTypes":[] }
   ]
 },
@@ -942,12 +942,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"allLinksAreLocal","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"managerEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"validationEnabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"allLinksAreLocal","parameterTypes":["java.lang.Boolean"] },
+    {"name":"managerEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"validationEnabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"caching","parameterTypes":["de.ii.ogcapi.foundation.domain.Caching"] }
   ]
 },
@@ -970,7 +970,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -980,8 +980,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1067,20 +1067,20 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAttribution","parameterTypes":[] }, 
-    {"name":"getContactEmail","parameterTypes":[] }, 
-    {"name":"getContactName","parameterTypes":[] }, 
-    {"name":"getContactPhone","parameterTypes":[] }, 
-    {"name":"getContactUrl","parameterTypes":[] }, 
-    {"name":"getCreatorLogoUrl","parameterTypes":[] }, 
-    {"name":"getCreatorName","parameterTypes":[] }, 
-    {"name":"getCreatorUrl","parameterTypes":[] }, 
-    {"name":"getKeywords","parameterTypes":[] }, 
-    {"name":"getLicenseName","parameterTypes":[] }, 
-    {"name":"getLicenseUrl","parameterTypes":[] }, 
-    {"name":"getPublisherLogoUrl","parameterTypes":[] }, 
-    {"name":"getPublisherName","parameterTypes":[] }, 
-    {"name":"getPublisherUrl","parameterTypes":[] }, 
+    {"name":"getAttribution","parameterTypes":[] },
+    {"name":"getContactEmail","parameterTypes":[] },
+    {"name":"getContactName","parameterTypes":[] },
+    {"name":"getContactPhone","parameterTypes":[] },
+    {"name":"getContactUrl","parameterTypes":[] },
+    {"name":"getCreatorLogoUrl","parameterTypes":[] },
+    {"name":"getCreatorName","parameterTypes":[] },
+    {"name":"getCreatorUrl","parameterTypes":[] },
+    {"name":"getKeywords","parameterTypes":[] },
+    {"name":"getLicenseName","parameterTypes":[] },
+    {"name":"getLicenseUrl","parameterTypes":[] },
+    {"name":"getPublisherLogoUrl","parameterTypes":[] },
+    {"name":"getPublisherName","parameterTypes":[] },
+    {"name":"getPublisherUrl","parameterTypes":[] },
     {"name":"getVersion","parameterTypes":[] }
   ]
 },
@@ -1090,20 +1090,20 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"attribution","parameterTypes":["java.util.Optional"] }, 
-    {"name":"contactEmail","parameterTypes":["java.util.Optional"] }, 
-    {"name":"contactName","parameterTypes":["java.util.Optional"] }, 
-    {"name":"contactPhone","parameterTypes":["java.util.Optional"] }, 
-    {"name":"contactUrl","parameterTypes":["java.util.Optional"] }, 
-    {"name":"creatorLogoUrl","parameterTypes":["java.util.Optional"] }, 
-    {"name":"creatorName","parameterTypes":["java.util.Optional"] }, 
-    {"name":"creatorUrl","parameterTypes":["java.util.Optional"] }, 
-    {"name":"keywords","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"licenseName","parameterTypes":["java.util.Optional"] }, 
-    {"name":"licenseUrl","parameterTypes":["java.util.Optional"] }, 
-    {"name":"publisherLogoUrl","parameterTypes":["java.util.Optional"] }, 
-    {"name":"publisherName","parameterTypes":["java.util.Optional"] }, 
-    {"name":"publisherUrl","parameterTypes":["java.util.Optional"] }, 
+    {"name":"attribution","parameterTypes":["java.util.Optional"] },
+    {"name":"contactEmail","parameterTypes":["java.util.Optional"] },
+    {"name":"contactName","parameterTypes":["java.util.Optional"] },
+    {"name":"contactPhone","parameterTypes":["java.util.Optional"] },
+    {"name":"contactUrl","parameterTypes":["java.util.Optional"] },
+    {"name":"creatorLogoUrl","parameterTypes":["java.util.Optional"] },
+    {"name":"creatorName","parameterTypes":["java.util.Optional"] },
+    {"name":"creatorUrl","parameterTypes":["java.util.Optional"] },
+    {"name":"keywords","parameterTypes":["java.lang.Iterable"] },
+    {"name":"licenseName","parameterTypes":["java.util.Optional"] },
+    {"name":"licenseUrl","parameterTypes":["java.util.Optional"] },
+    {"name":"publisherLogoUrl","parameterTypes":["java.util.Optional"] },
+    {"name":"publisherName","parameterTypes":["java.util.Optional"] },
+    {"name":"publisherUrl","parameterTypes":["java.util.Optional"] },
     {"name":"version","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -1113,7 +1113,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] },
     {"name":"getPublicScopes","parameterTypes":[] },
     {"name":"getGroups","parameterTypes":[] },
     {"name":"getScopes","parameterTypes":[] },
@@ -1127,7 +1127,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"publicScopes","parameterTypes":["java.lang.Iterable"] },
     {"name":"groups","parameterTypes":["java.util.Map"] },
     {"name":"scopes","parameterTypes":["java.lang.Iterable"] },
@@ -1185,9 +1185,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getExpires","parameterTypes":[] }, 
-    {"name":"getCacheControl","parameterTypes":[] }, 
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getExpires","parameterTypes":[] },
+    {"name":"getCacheControl","parameterTypes":[] },
     {"name":"getCacheControlItems","parameterTypes":[] }
   ]
 },
@@ -1197,11 +1197,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"lastModified","parameterTypes":["java.util.Date"] }, 
-    {"name":"expires","parameterTypes":["java.util.Date"] }, 
-    {"name":"cacheControl","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"lastModified","parameterTypes":["java.util.Date"] },
+    {"name":"expires","parameterTypes":["java.util.Date"] },
+    {"name":"cacheControl","parameterTypes":["java.lang.String"] },
     {"name":"cacheControlItems","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -1211,9 +1211,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getSpatial","parameterTypes":[] }, 
-    {"name":"getSpatialComputed","parameterTypes":[] }, 
-    {"name":"getTemporal","parameterTypes":[] }, 
+    {"name":"getSpatial","parameterTypes":[] },
+    {"name":"getSpatialComputed","parameterTypes":[] },
+    {"name":"getTemporal","parameterTypes":[] },
     {"name":"getTemporalComputed","parameterTypes":[] }
   ]
 },
@@ -1223,11 +1223,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"spatialBuilder","parameterTypes":[] }, 
-    {"name":"spatialComputed","parameterTypes":["java.util.Optional"] }, 
-    {"name":"temporalBuilder","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"spatialBuilder","parameterTypes":[] },
+    {"name":"spatialComputed","parameterTypes":["java.util.Optional"] },
+    {"name":"temporalBuilder","parameterTypes":[] },
     {"name":"temporalComputed","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -1237,7 +1237,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getDescription","parameterTypes":[] }, 
+    {"name":"getDescription","parameterTypes":[] },
     {"name":"getUrl","parameterTypes":[] }
   ]
 },
@@ -1247,7 +1247,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"description","parameterTypes":["java.util.Optional"] }, 
+    {"name":"description","parameterTypes":["java.util.Optional"] },
     {"name":"url","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -1257,13 +1257,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAdditionalLinks","parameterTypes":[] }, 
-    {"name":"getDescription","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getExtensions","parameterTypes":[] }, 
-    {"name":"getExtent","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLabel","parameterTypes":[] }, 
+    {"name":"getAdditionalLinks","parameterTypes":[] },
+    {"name":"getDescription","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getExtensions","parameterTypes":[] },
+    {"name":"getExtent","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLabel","parameterTypes":[] },
     {"name":"getPersistentUriTemplate","parameterTypes":[] }
   ]
 },
@@ -1273,14 +1273,14 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"description","parameterTypes":["java.util.Optional"] }, 
-    {"name":"enabled","parameterTypes":["boolean"] }, 
-    {"name":"extentBuilder","parameterTypes":[] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"label","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] },
+    {"name":"additionalLinks","parameterTypes":["java.lang.Iterable"] },
+    {"name":"description","parameterTypes":["java.util.Optional"] },
+    {"name":"enabled","parameterTypes":["boolean"] },
+    {"name":"extentBuilder","parameterTypes":[] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"label","parameterTypes":["java.lang.String"] },
     {"name":"persistentUriTemplate","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -1290,12 +1290,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getApiCatalogDescription","parameterTypes":[] }, 
-    {"name":"getApiCatalogLabel","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getGoogleSiteVerification","parameterTypes":[] }, 
-    {"name":"getIncludeLinkHeader","parameterTypes":[] }, 
+    {"name":"getApiCatalogDescription","parameterTypes":[] },
+    {"name":"getApiCatalogLabel","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getGoogleSiteVerification","parameterTypes":[] },
+    {"name":"getIncludeLinkHeader","parameterTypes":[] },
     {"name":"getUseLangParameter","parameterTypes":[] }
   ]
 },
@@ -1305,13 +1305,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"apiCatalogDescription","parameterTypes":["java.lang.String"] }, 
-    {"name":"apiCatalogLabel","parameterTypes":["java.lang.String"] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"apiCatalogDescription","parameterTypes":["java.lang.String"] },
+    {"name":"apiCatalogLabel","parameterTypes":["java.lang.String"] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"googleSiteVerification","parameterTypes":["java.lang.String"] },
-    {"name":"includeLinkHeader","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"includeLinkHeader","parameterTypes":["java.lang.Boolean"] },
     {"name":"useLangParameter","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1321,14 +1321,14 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAnchor","parameterTypes":[] }, 
-    {"name":"getHref","parameterTypes":[] }, 
-    {"name":"getHreflang","parameterTypes":[] }, 
-    {"name":"getLength","parameterTypes":[] }, 
-    {"name":"getRel","parameterTypes":[] }, 
-    {"name":"getTemplated","parameterTypes":[] }, 
-    {"name":"getTitle","parameterTypes":[] }, 
-    {"name":"getType","parameterTypes":[] }, 
+    {"name":"getAnchor","parameterTypes":[] },
+    {"name":"getHref","parameterTypes":[] },
+    {"name":"getHreflang","parameterTypes":[] },
+    {"name":"getLength","parameterTypes":[] },
+    {"name":"getRel","parameterTypes":[] },
+    {"name":"getTemplated","parameterTypes":[] },
+    {"name":"getTitle","parameterTypes":[] },
+    {"name":"getType","parameterTypes":[] },
     {"name":"getVarBase","parameterTypes":[] }
   ]
 },
@@ -1338,16 +1338,16 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"anchor","parameterTypes":["java.lang.String"] }, 
-    {"name":"href","parameterTypes":["java.lang.String"] }, 
-    {"name":"hreflang","parameterTypes":["java.lang.String"] }, 
-    {"name":"rel","parameterTypes":["java.lang.String"] }, 
-    {"name":"title","parameterTypes":["java.lang.String"] }, 
-    {"name":"type","parameterTypes":["java.lang.String"] }, 
-    {"name":"length","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"templated","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"varBase","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"anchor","parameterTypes":["java.lang.String"] },
+    {"name":"href","parameterTypes":["java.lang.String"] },
+    {"name":"hreflang","parameterTypes":["java.lang.String"] },
+    {"name":"rel","parameterTypes":["java.lang.String"] },
+    {"name":"title","parameterTypes":["java.lang.String"] },
+    {"name":"type","parameterTypes":["java.lang.String"] },
+    {"name":"length","parameterTypes":["java.lang.Integer"] },
+    {"name":"templated","parameterTypes":["java.lang.Boolean"] },
+    {"name":"varBase","parameterTypes":["java.lang.String"] },
     {"name":"build","parameterTypes":[] }
   ]
 },
@@ -1357,23 +1357,23 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAccessControl","parameterTypes":[] }, 
-    {"name":"getApiValidation","parameterTypes":[] }, 
-    {"name":"getApiVersion","parameterTypes":[] }, 
-    {"name":"getCollections","parameterTypes":[] }, 
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getDefaultCaching","parameterTypes":[] }, 
-    {"name":"getDefaultExtent","parameterTypes":[] }, 
-    {"name":"getDescription","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
-    {"name":"getExtensions","parameterTypes":[] }, 
-    {"name":"getExternalDocs","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLabel","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getMetadata","parameterTypes":[] }, 
-    {"name":"getServiceType","parameterTypes":[] }, 
+    {"name":"getAccessControl","parameterTypes":[] },
+    {"name":"getApiValidation","parameterTypes":[] },
+    {"name":"getApiVersion","parameterTypes":[] },
+    {"name":"getCollections","parameterTypes":[] },
+    {"name":"getCreatedAt","parameterTypes":[] },
+    {"name":"getDefaultCaching","parameterTypes":[] },
+    {"name":"getDefaultExtent","parameterTypes":[] },
+    {"name":"getDescription","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getEntityStorageVersion","parameterTypes":[] },
+    {"name":"getExtensions","parameterTypes":[] },
+    {"name":"getExternalDocs","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLabel","parameterTypes":[] },
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getMetadata","parameterTypes":[] },
+    {"name":"getServiceType","parameterTypes":[] },
     {"name":"getTags","parameterTypes":[] }
   ]
 },
@@ -1383,24 +1383,24 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"accessControlBuilder","parameterTypes":[] }, 
-    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"accessControlBuilder","parameterTypes":[] },
+    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] },
     {"name":"apiValidation","parameterTypes":["de.ii.xtraplatform.entities.domain.ValidationResult$MODE"] },
-    {"name":"apiVersion","parameterTypes":["java.util.Optional"] }, 
-    {"name":"auto","parameterTypes":["java.util.Optional"] }, 
-    {"name":"createdAt","parameterTypes":["long"] }, 
-    {"name":"defaultCachingBuilder","parameterTypes":[] }, 
-    {"name":"defaultExtentBuilder","parameterTypes":["de.ii.ogcapi.foundation.domain.ImmutableCollectionExtent$Builder"] }, 
-    {"name":"description","parameterTypes":["java.util.Optional"] }, 
-    {"name":"enabled","parameterTypes":["boolean"] }, 
-    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
-    {"name":"externalDocsBuilder","parameterTypes":[] }, 
-    {"name":"getCollections","parameterTypes":[] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"label","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
-    {"name":"metadataBuilder","parameterTypes":[] }, 
-    {"name":"serviceType","parameterTypes":["java.lang.String"] }, 
+    {"name":"apiVersion","parameterTypes":["java.util.Optional"] },
+    {"name":"auto","parameterTypes":["java.util.Optional"] },
+    {"name":"createdAt","parameterTypes":["long"] },
+    {"name":"defaultCachingBuilder","parameterTypes":[] },
+    {"name":"defaultExtentBuilder","parameterTypes":["de.ii.ogcapi.foundation.domain.ImmutableCollectionExtent$Builder"] },
+    {"name":"description","parameterTypes":["java.util.Optional"] },
+    {"name":"enabled","parameterTypes":["boolean"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] },
+    {"name":"externalDocsBuilder","parameterTypes":[] },
+    {"name":"getCollections","parameterTypes":[] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"label","parameterTypes":["java.lang.String"] },
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"metadataBuilder","parameterTypes":[] },
+    {"name":"serviceType","parameterTypes":["java.lang.String"] },
     {"name":"tags","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -1410,7 +1410,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getEnd","parameterTypes":[] }, 
+    {"name":"getEnd","parameterTypes":[] },
     {"name":"getStart","parameterTypes":[] }
   ]
 },
@@ -1420,7 +1420,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"end","parameterTypes":["java.lang.Long"] }, 
+    {"name":"end","parameterTypes":["java.lang.Long"] },
     {"name":"start","parameterTypes":["java.lang.Long"] }
   ]
 },
@@ -1457,7 +1457,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -1467,8 +1467,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1487,25 +1487,25 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAdditionalApis","parameterTypes":[] }, 
-    {"name":"getBasemapAttribution","parameterTypes":[] }, 
-    {"name":"getBasemapUrl","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCollectionDescriptionsInOverview","parameterTypes":[] }, 
-    {"name":"getDefaultStyle","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFooterText","parameterTypes":[] }, 
-    {"name":"getLeafletAttribution","parameterTypes":[] }, 
-    {"name":"getLeafletUrl","parameterTypes":[] }, 
-    {"name":"getLegalName","parameterTypes":[] }, 
-    {"name":"getLegalUrl","parameterTypes":[] }, 
-    {"name":"getNoIndexEnabled","parameterTypes":[] }, 
-    {"name":"getOpenLayersAttribution","parameterTypes":[] }, 
-    {"name":"getOpenLayersUrl","parameterTypes":[] }, 
-    {"name":"getPrivacyName","parameterTypes":[] }, 
-    {"name":"getPrivacyUrl","parameterTypes":[] }, 
-    {"name":"getSchemaOrgEnabled","parameterTypes":[] }, 
-    {"name":"getSendEtags","parameterTypes":[] }, 
+    {"name":"getAdditionalApis","parameterTypes":[] },
+    {"name":"getBasemapAttribution","parameterTypes":[] },
+    {"name":"getBasemapUrl","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCollectionDescriptionsInOverview","parameterTypes":[] },
+    {"name":"getDefaultStyle","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFooterText","parameterTypes":[] },
+    {"name":"getLeafletAttribution","parameterTypes":[] },
+    {"name":"getLeafletUrl","parameterTypes":[] },
+    {"name":"getLegalName","parameterTypes":[] },
+    {"name":"getLegalUrl","parameterTypes":[] },
+    {"name":"getNoIndexEnabled","parameterTypes":[] },
+    {"name":"getOpenLayersAttribution","parameterTypes":[] },
+    {"name":"getOpenLayersUrl","parameterTypes":[] },
+    {"name":"getPrivacyName","parameterTypes":[] },
+    {"name":"getPrivacyUrl","parameterTypes":[] },
+    {"name":"getSchemaOrgEnabled","parameterTypes":[] },
+    {"name":"getSendEtags","parameterTypes":[] },
     {"name":"getSuppressEmptyCollectionsInOverview","parameterTypes":[] },
     {"name":"getLoginProvider","parameterTypes":[] }
   ]
@@ -1516,25 +1516,25 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"basemapAttribution","parameterTypes":["java.lang.String"] }, 
-    {"name":"basemapUrl","parameterTypes":["java.lang.String"] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"collectionDescriptionsInOverview","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"defaultStyle","parameterTypes":["java.lang.String"] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"footerText","parameterTypes":["java.lang.String"] }, 
-    {"name":"leafletAttribution","parameterTypes":["java.lang.String"] }, 
-    {"name":"leafletUrl","parameterTypes":["java.lang.String"] }, 
-    {"name":"legalName","parameterTypes":["java.lang.String"] }, 
-    {"name":"legalUrl","parameterTypes":["java.lang.String"] }, 
-    {"name":"noIndexEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"openLayersAttribution","parameterTypes":["java.lang.String"] }, 
-    {"name":"openLayersUrl","parameterTypes":["java.lang.String"] }, 
-    {"name":"privacyName","parameterTypes":["java.lang.String"] }, 
-    {"name":"privacyUrl","parameterTypes":["java.lang.String"] }, 
-    {"name":"schemaOrgEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"sendEtags","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"basemapAttribution","parameterTypes":["java.lang.String"] },
+    {"name":"basemapUrl","parameterTypes":["java.lang.String"] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"collectionDescriptionsInOverview","parameterTypes":["java.lang.Boolean"] },
+    {"name":"defaultStyle","parameterTypes":["java.lang.String"] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"footerText","parameterTypes":["java.lang.String"] },
+    {"name":"leafletAttribution","parameterTypes":["java.lang.String"] },
+    {"name":"leafletUrl","parameterTypes":["java.lang.String"] },
+    {"name":"legalName","parameterTypes":["java.lang.String"] },
+    {"name":"legalUrl","parameterTypes":["java.lang.String"] },
+    {"name":"noIndexEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"openLayersAttribution","parameterTypes":["java.lang.String"] },
+    {"name":"openLayersUrl","parameterTypes":["java.lang.String"] },
+    {"name":"privacyName","parameterTypes":["java.lang.String"] },
+    {"name":"privacyUrl","parameterTypes":["java.lang.String"] },
+    {"name":"schemaOrgEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"sendEtags","parameterTypes":["java.lang.Boolean"] },
     {"name":"suppressEmptyCollectionsInOverview","parameterTypes":["java.lang.Boolean"] },
     {"name":"loginProvider","parameterTypes":["java.lang.String"] }
   ]
@@ -1551,7 +1551,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -1561,8 +1561,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1581,7 +1581,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -1591,8 +1591,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1611,7 +1611,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -1621,8 +1621,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1641,9 +1641,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
     {"name":"getManagerEnabled","parameterTypes":[] }
   ]
 },
@@ -1653,9 +1653,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"managerEnabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1678,8 +1678,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getLabel","parameterTypes":[] }, 
-    {"name":"getDefault","parameterTypes":[] }, 
+    {"name":"getLabel","parameterTypes":[] },
+    {"name":"getDefault","parameterTypes":[] },
     {"name":"getProviderFlag","parameterTypes":[] }
   ]
 },
@@ -1689,10 +1689,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"label","parameterTypes":["java.lang.String"] }, 
-    {"name":"getDefault","parameterTypes":["boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"label","parameterTypes":["java.lang.String"] },
+    {"name":"getDefault","parameterTypes":["boolean"] },
     {"name":"providerFlag","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -1706,7 +1706,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getDefaults","parameterTypes":[] }, 
+    {"name":"getDefaults","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -1716,9 +1716,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"defaults","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -1732,10 +1732,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getName","parameterTypes":[] }, 
-    {"name":"getStart","parameterTypes":[] }, 
-    {"name":"getEnd","parameterTypes":[] }, 
-    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getName","parameterTypes":[] },
+    {"name":"getStart","parameterTypes":[] },
+    {"name":"getEnd","parameterTypes":[] },
+    {"name":"getCenter","parameterTypes":[] },
     {"name":"getCenterLevel","parameterTypes":[] }
   ]
 },
@@ -1745,12 +1745,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"name","parameterTypes":["java.util.Optional"] }, 
-    {"name":"start","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"end","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"center","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"name","parameterTypes":["java.util.Optional"] },
+    {"name":"start","parameterTypes":["java.lang.Iterable"] },
+    {"name":"end","parameterTypes":["java.lang.Iterable"] },
+    {"name":"center","parameterTypes":["java.lang.Iterable"] },
     {"name":"centerLevel","parameterTypes":["java.lang.Integer"] }
   ]
 },
@@ -1760,22 +1760,22 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAdditionalFlags","parameterTypes":[] }, 
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getCoordinatePrecision","parameterTypes":[] }, 
-    {"name":"getDefaultCrs","parameterTypes":[] }, 
-    {"name":"getDefaultMode","parameterTypes":[] }, 
-    {"name":"getDefaultPreference","parameterTypes":[] }, 
-    {"name":"getElevationProfileSimplificationTolerance","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFeatureType","parameterTypes":[] }, 
-    {"name":"getHeightRestrictions","parameterTypes":[] }, 
-    {"name":"getHtml","parameterTypes":[] }, 
-    {"name":"getIntermediateWaypoints","parameterTypes":[] }, 
-    {"name":"getManageRoutes","parameterTypes":[] }, 
-    {"name":"getObstacles","parameterTypes":[] }, 
-    {"name":"getSpeedLimitUnit","parameterTypes":[] }, 
+    {"name":"getAdditionalFlags","parameterTypes":[] },
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getCoordinatePrecision","parameterTypes":[] },
+    {"name":"getDefaultCrs","parameterTypes":[] },
+    {"name":"getDefaultMode","parameterTypes":[] },
+    {"name":"getDefaultPreference","parameterTypes":[] },
+    {"name":"getElevationProfileSimplificationTolerance","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFeatureType","parameterTypes":[] },
+    {"name":"getHeightRestrictions","parameterTypes":[] },
+    {"name":"getHtml","parameterTypes":[] },
+    {"name":"getIntermediateWaypoints","parameterTypes":[] },
+    {"name":"getManageRoutes","parameterTypes":[] },
+    {"name":"getObstacles","parameterTypes":[] },
+    {"name":"getSpeedLimitUnit","parameterTypes":[] },
     {"name":"getWeightRestrictions","parameterTypes":[] }
   ]
 },
@@ -1785,23 +1785,23 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"additionalFlags","parameterTypes":["java.util.Map"] }, 
-    {"name":"caching","parameterTypes":["de.ii.ogcapi.foundation.domain.Caching"] }, 
-    {"name":"coordinatePrecision","parameterTypes":["java.util.Map"] }, 
-    {"name":"defaultCrs","parameterTypes":["de.ii.ogcapi.features.core.domain.FeaturesCoreConfiguration$DefaultCrs"] }, 
-    {"name":"defaultMode","parameterTypes":["java.lang.String"] }, 
-    {"name":"defaultPreference","parameterTypes":["java.lang.String"] }, 
-    {"name":"elevationProfileSimplificationTolerance","parameterTypes":["java.lang.Double"] }, 
-    {"name":"featureType","parameterTypes":["java.lang.String"] }, 
-    {"name":"heightRestrictions","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"html","parameterTypes":["de.ii.ogcapi.routes.domain.HtmlForm"] }, 
-    {"name":"intermediateWaypoints","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"manageRoutes","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"obstacles","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"speedLimitUnit","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"additionalFlags","parameterTypes":["java.util.Map"] },
+    {"name":"caching","parameterTypes":["de.ii.ogcapi.foundation.domain.Caching"] },
+    {"name":"coordinatePrecision","parameterTypes":["java.util.Map"] },
+    {"name":"defaultCrs","parameterTypes":["de.ii.ogcapi.features.core.domain.FeaturesCoreConfiguration$DefaultCrs"] },
+    {"name":"defaultMode","parameterTypes":["java.lang.String"] },
+    {"name":"defaultPreference","parameterTypes":["java.lang.String"] },
+    {"name":"elevationProfileSimplificationTolerance","parameterTypes":["java.lang.Double"] },
+    {"name":"featureType","parameterTypes":["java.lang.String"] },
+    {"name":"heightRestrictions","parameterTypes":["java.lang.Boolean"] },
+    {"name":"html","parameterTypes":["de.ii.ogcapi.routes.domain.HtmlForm"] },
+    {"name":"intermediateWaypoints","parameterTypes":["java.lang.Boolean"] },
+    {"name":"manageRoutes","parameterTypes":["java.lang.Boolean"] },
+    {"name":"obstacles","parameterTypes":["java.lang.Boolean"] },
+    {"name":"speedLimitUnit","parameterTypes":["java.lang.String"] },
     {"name":"weightRestrictions","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1815,11 +1815,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getExcluded","parameterTypes":[] }, 
-    {"name":"getIncluded","parameterTypes":[] }, 
-    {"name":"getPathSeparator","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getExcluded","parameterTypes":[] },
+    {"name":"getIncluded","parameterTypes":[] },
+    {"name":"getPathSeparator","parameterTypes":[] },
     {"name":"getSortables","parameterTypes":[] }
   ]
 },
@@ -1829,11 +1829,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"included","parameterTypes":["java.lang.Iterable"] },
-    {"name":"pathSeparator","parameterTypes":["de.ii.ogcapi.collections.queryables.domain.QueryablesConfiguration$PathSeparator"] }, 
+    {"name":"pathSeparator","parameterTypes":["de.ii.ogcapi.collections.queryables.domain.QueryablesConfiguration$PathSeparator"] },
     {"name":"sortables","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -1852,19 +1852,19 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getDefaultStyle","parameterTypes":[] }, 
-    {"name":"getDeriveCollectionStyles","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getLayerControlAllLayers","parameterTypes":[] }, 
-    {"name":"getManagerEnabled","parameterTypes":[] }, 
-    {"name":"getResourceManagerEnabled","parameterTypes":[] }, 
-    {"name":"getResourcesEnabled","parameterTypes":[] }, 
-    {"name":"getStyleEncodings","parameterTypes":[] }, 
-    {"name":"getUseIdFromStylesheet","parameterTypes":[] }, 
-    {"name":"getValidationEnabled","parameterTypes":[] }, 
-    {"name":"getWebmapWithLayerControl","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getDefaultStyle","parameterTypes":[] },
+    {"name":"getDeriveCollectionStyles","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getLayerControlAllLayers","parameterTypes":[] },
+    {"name":"getManagerEnabled","parameterTypes":[] },
+    {"name":"getResourceManagerEnabled","parameterTypes":[] },
+    {"name":"getResourcesEnabled","parameterTypes":[] },
+    {"name":"getStyleEncodings","parameterTypes":[] },
+    {"name":"getUseIdFromStylesheet","parameterTypes":[] },
+    {"name":"getValidationEnabled","parameterTypes":[] },
+    {"name":"getWebmapWithLayerControl","parameterTypes":[] },
     {"name":"getWebmapWithPopup","parameterTypes":[] }
   ]
 },
@@ -1874,19 +1874,19 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"defaultStyle","parameterTypes":["java.lang.String"] }, 
-    {"name":"deriveCollectionStyles","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"layerControlAllLayers","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"managerEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"resourceManagerEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"resourcesEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"styleEncodings","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"useIdFromStylesheet","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"validationEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"webmapWithLayerControl","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"defaultStyle","parameterTypes":["java.lang.String"] },
+    {"name":"deriveCollectionStyles","parameterTypes":["java.lang.Boolean"] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"layerControlAllLayers","parameterTypes":["java.lang.Boolean"] },
+    {"name":"managerEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"resourceManagerEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"resourcesEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"styleEncodings","parameterTypes":["java.lang.Iterable"] },
+    {"name":"useIdFromStylesheet","parameterTypes":["java.lang.Boolean"] },
+    {"name":"validationEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"webmapWithLayerControl","parameterTypes":["java.lang.Boolean"] },
     {"name":"webmapWithPopup","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -1905,8 +1905,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
     {"name":"getProperties","parameterTypes":[] }
   ]
 },
@@ -1916,9 +1916,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"properties","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -1928,9 +1928,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
     {"name":"getIncludePredefined","parameterTypes":[] }
   ]
 },
@@ -1944,10 +1944,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"includePredefined","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"includePredefined","parameterTypes":["java.lang.Iterable"] },
     {"name":"caching","parameterTypes":["de.ii.ogcapi.foundation.domain.Caching"] }
   ]
 },
@@ -1957,19 +1957,19 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCenter","parameterTypes":[] }, 
-    {"name":"getFilters","parameterTypes":[] }, 
-    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] }, 
-    {"name":"getLimit","parameterTypes":[] }, 
-    {"name":"getMinimumSizeInPixel","parameterTypes":[] }, 
-    {"name":"getMultiCollectionEnabled","parameterTypes":[] }, 
-    {"name":"getRules","parameterTypes":[] }, 
-    {"name":"getSeeding","parameterTypes":[] }, 
-    {"name":"getSeedingOptions","parameterTypes":[] }, 
-    {"name":"getSingleCollectionEnabled","parameterTypes":[] }, 
-    {"name":"getTileEncodings","parameterTypes":[] }, 
-    {"name":"getType","parameterTypes":[] }, 
-    {"name":"getZoomLevels","parameterTypes":[] }, 
+    {"name":"getCenter","parameterTypes":[] },
+    {"name":"getFilters","parameterTypes":[] },
+    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] },
+    {"name":"getLimit","parameterTypes":[] },
+    {"name":"getMinimumSizeInPixel","parameterTypes":[] },
+    {"name":"getMultiCollectionEnabled","parameterTypes":[] },
+    {"name":"getRules","parameterTypes":[] },
+    {"name":"getSeeding","parameterTypes":[] },
+    {"name":"getSeedingOptions","parameterTypes":[] },
+    {"name":"getSingleCollectionEnabled","parameterTypes":[] },
+    {"name":"getTileEncodings","parameterTypes":[] },
+    {"name":"getType","parameterTypes":[] },
+    {"name":"getZoomLevels","parameterTypes":[] },
     {"name":"getZoomLevelsCache","parameterTypes":[] }
   ]
 },
@@ -1979,20 +1979,20 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"center","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"filters","parameterTypes":["java.util.Map"] }, 
-    {"name":"ignoreInvalidGeometries","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"limit","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] }, 
-    {"name":"multiCollectionEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"rules","parameterTypes":["java.util.Map"] }, 
-    {"name":"seeding","parameterTypes":["java.util.Map"] }, 
-    {"name":"seedingOptions","parameterTypes":["java.util.Optional"] }, 
-    {"name":"singleCollectionEnabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"tileEncodings","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"zoomLevels","parameterTypes":["java.util.Map"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"center","parameterTypes":["java.lang.Iterable"] },
+    {"name":"filters","parameterTypes":["java.util.Map"] },
+    {"name":"ignoreInvalidGeometries","parameterTypes":["java.lang.Boolean"] },
+    {"name":"limit","parameterTypes":["java.lang.Integer"] },
+    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] },
+    {"name":"multiCollectionEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"rules","parameterTypes":["java.util.Map"] },
+    {"name":"seeding","parameterTypes":["java.util.Map"] },
+    {"name":"seedingOptions","parameterTypes":["java.util.Optional"] },
+    {"name":"singleCollectionEnabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"tileEncodings","parameterTypes":["java.lang.Iterable"] },
+    {"name":"zoomLevels","parameterTypes":["java.util.Map"] },
     {"name":"zoomLevelsCache","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -2002,8 +2002,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getFilename","parameterTypes":[] }, 
-    {"name":"getTileMatrixSetId","parameterTypes":[] }, 
+    {"name":"getFilename","parameterTypes":[] },
+    {"name":"getTileMatrixSetId","parameterTypes":[] },
     {"name":"getType","parameterTypes":[] }
   ]
 },
@@ -2013,9 +2013,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"filename","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"filename","parameterTypes":["java.lang.String"] },
     {"name":"tileMatrixSetId","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -2025,9 +2025,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getUrlTemplate","parameterTypes":[] }, 
-    {"name":"getUrlTemplateSingleCollection","parameterTypes":[] }, 
-    {"name":"getTileEncodings","parameterTypes":[] }, 
+    {"name":"getUrlTemplate","parameterTypes":[] },
+    {"name":"getUrlTemplateSingleCollection","parameterTypes":[] },
+    {"name":"getTileEncodings","parameterTypes":[] },
     {"name":"getType","parameterTypes":[] }
   ]
 },
@@ -2037,10 +2037,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"urlTemplate","parameterTypes":["java.lang.String"] }, 
-    {"name":"urlTemplateSingleCollection","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"urlTemplate","parameterTypes":["java.lang.String"] },
+    {"name":"urlTemplateSingleCollection","parameterTypes":["java.lang.String"] },
     {"name":"tileEncodings","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -2050,31 +2050,31 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getCache","parameterTypes":[] }, 
-    {"name":"getCaching","parameterTypes":[] }, 
-    {"name":"getCenter","parameterTypes":[] }, 
-    {"name":"getCollectionTiles","parameterTypes":[] }, 
-    {"name":"getDatasetTiles","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFilters","parameterTypes":[] }, 
-    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] }, 
-    {"name":"getLimit","parameterTypes":[] }, 
-    {"name":"getMapClientType","parameterTypes":[] }, 
-    {"name":"getMaxMultiplicity","parameterTypes":[] }, 
-    {"name":"getMinimumSizeInPixel","parameterTypes":[] }, 
-    {"name":"getRemoveZoomLevelConstraints","parameterTypes":[] }, 
-    {"name":"getRules","parameterTypes":[] }, 
-    {"name":"getSeeding","parameterTypes":[] }, 
-    {"name":"getSeedingOptions","parameterTypes":[] }, 
-    {"name":"getStyle","parameterTypes":[] }, 
-    {"name":"getTileEncodings","parameterTypes":[] }, 
-    {"name":"getTileProvider","parameterTypes":[] }, 
-    {"name":"getTileProviderId","parameterTypes":[] }, 
-    {"name":"getTileProviderTileset","parameterTypes":[] }, 
-    {"name":"getTileSetEncodings","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }, 
-    {"name":"getZoomLevels","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getCache","parameterTypes":[] },
+    {"name":"getCaching","parameterTypes":[] },
+    {"name":"getCenter","parameterTypes":[] },
+    {"name":"getCollectionTiles","parameterTypes":[] },
+    {"name":"getDatasetTiles","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFilters","parameterTypes":[] },
+    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] },
+    {"name":"getLimit","parameterTypes":[] },
+    {"name":"getMapClientType","parameterTypes":[] },
+    {"name":"getMaxMultiplicity","parameterTypes":[] },
+    {"name":"getMinimumSizeInPixel","parameterTypes":[] },
+    {"name":"getRemoveZoomLevelConstraints","parameterTypes":[] },
+    {"name":"getRules","parameterTypes":[] },
+    {"name":"getSeeding","parameterTypes":[] },
+    {"name":"getSeedingOptions","parameterTypes":[] },
+    {"name":"getStyle","parameterTypes":[] },
+    {"name":"getTileEncodings","parameterTypes":[] },
+    {"name":"getTileProvider","parameterTypes":[] },
+    {"name":"getTileProviderId","parameterTypes":[] },
+    {"name":"getTileProviderTileset","parameterTypes":[] },
+    {"name":"getTileSetEncodings","parameterTypes":[] },
+    {"name":"getTransformations","parameterTypes":[] },
+    {"name":"getZoomLevels","parameterTypes":[] },
     {"name":"getZoomLevelsCache","parameterTypes":[] }
   ]
 },
@@ -2084,30 +2084,30 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"cache","parameterTypes":["de.ii.ogcapi.tiles.domain.TilesConfiguration$TileCacheType"] }, 
-    {"name":"center","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"collectionTiles","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"datasetTiles","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"filters","parameterTypes":["java.util.Map"] }, 
-    {"name":"ignoreInvalidGeometries","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"limit","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"mapClientType","parameterTypes":["de.ii.ogcapi.html.domain.MapClient$Type"] }, 
-    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] }, 
-    {"name":"removeZoomLevelConstraints","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"rules","parameterTypes":["java.util.Map"] }, 
-    {"name":"seeding","parameterTypes":["java.util.Map"] }, 
-    {"name":"seedingOptions","parameterTypes":["java.util.Optional"] }, 
-    {"name":"style","parameterTypes":["java.lang.String"] }, 
-    {"name":"tileEncodings","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"tileProvider","parameterTypes":["de.ii.ogcapi.tiles.domain.TileProvider"] }, 
-    {"name":"tileProviderId","parameterTypes":["java.lang.String"] }, 
-    {"name":"tileProviderTileset","parameterTypes":["java.lang.String"] }, 
-    {"name":"tileSetEncodings","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"cache","parameterTypes":["de.ii.ogcapi.tiles.domain.TilesConfiguration$TileCacheType"] },
+    {"name":"center","parameterTypes":["java.lang.Iterable"] },
+    {"name":"collectionTiles","parameterTypes":["java.lang.Boolean"] },
+    {"name":"datasetTiles","parameterTypes":["java.lang.Boolean"] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"filters","parameterTypes":["java.util.Map"] },
+    {"name":"ignoreInvalidGeometries","parameterTypes":["java.lang.Boolean"] },
+    {"name":"limit","parameterTypes":["java.lang.Integer"] },
+    {"name":"mapClientType","parameterTypes":["de.ii.ogcapi.html.domain.MapClient$Type"] },
+    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] },
+    {"name":"removeZoomLevelConstraints","parameterTypes":["java.lang.Boolean"] },
+    {"name":"rules","parameterTypes":["java.util.Map"] },
+    {"name":"seeding","parameterTypes":["java.util.Map"] },
+    {"name":"seedingOptions","parameterTypes":["java.util.Optional"] },
+    {"name":"style","parameterTypes":["java.lang.String"] },
+    {"name":"tileEncodings","parameterTypes":["java.lang.Iterable"] },
+    {"name":"tileProvider","parameterTypes":["de.ii.ogcapi.tiles.domain.TileProvider"] },
+    {"name":"tileProviderId","parameterTypes":["java.lang.String"] },
+    {"name":"tileProviderTileset","parameterTypes":["java.lang.String"] },
+    {"name":"tileSetEncodings","parameterTypes":["java.lang.Iterable"] },
     {"name":"transformations","parameterTypes":["java.util.Map"] },
-    {"name":"zoomLevels","parameterTypes":["java.util.Map"] }, 
+    {"name":"zoomLevels","parameterTypes":["java.util.Map"] },
     {"name":"zoomLevelsCache","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -2148,20 +2148,20 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
-    {"name":"getClampToEllipsoid","parameterTypes":[] }, 
-    {"name":"getContentFilters","parameterTypes":[] }, 
-    {"name":"getCustomTerrainProviderUri","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getFirstLevelWithContent","parameterTypes":[] }, 
-    {"name":"getGeometricErrorRoot","parameterTypes":[] }, 
-    {"name":"getIonAccessToken","parameterTypes":[] }, 
-    {"name":"getMaptilerApiKey","parameterTypes":[] }, 
-    {"name":"getMaxLevel","parameterTypes":[] }, 
-    {"name":"getSeeding","parameterTypes":[] }, 
-    {"name":"getStyle","parameterTypes":[] }, 
-    {"name":"getSubtreeLevels","parameterTypes":[] }, 
-    {"name":"getTerrainHeightDifference","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
+    {"name":"getClampToEllipsoid","parameterTypes":[] },
+    {"name":"getContentFilters","parameterTypes":[] },
+    {"name":"getCustomTerrainProviderUri","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getFirstLevelWithContent","parameterTypes":[] },
+    {"name":"getGeometricErrorRoot","parameterTypes":[] },
+    {"name":"getIonAccessToken","parameterTypes":[] },
+    {"name":"getMaptilerApiKey","parameterTypes":[] },
+    {"name":"getMaxLevel","parameterTypes":[] },
+    {"name":"getSeeding","parameterTypes":[] },
+    {"name":"getStyle","parameterTypes":[] },
+    {"name":"getSubtreeLevels","parameterTypes":[] },
+    {"name":"getTerrainHeightDifference","parameterTypes":[] },
     {"name":"getTileFilters","parameterTypes":[] }
   ]
 },
@@ -2171,14 +2171,14 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"clampToEllipsoid","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"firstLevelWithContent","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"geometricErrorRoot","parameterTypes":["java.lang.Float"] }, 
-    {"name":"maxLevel","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"seedingBuilder","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"clampToEllipsoid","parameterTypes":["java.lang.Boolean"] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
+    {"name":"firstLevelWithContent","parameterTypes":["java.lang.Integer"] },
+    {"name":"geometricErrorRoot","parameterTypes":["java.lang.Float"] },
+    {"name":"maxLevel","parameterTypes":["java.lang.Integer"] },
+    {"name":"seedingBuilder","parameterTypes":[] },
     {"name":"subtreeLevels","parameterTypes":["java.lang.Integer"] }
   ]
 },
@@ -2197,7 +2197,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getBuildingBlock","parameterTypes":[] }, 
+    {"name":"getBuildingBlock","parameterTypes":[] },
     {"name":"getEnabled","parameterTypes":[] }
   ]
 },
@@ -2207,8 +2207,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -2227,12 +2227,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getPassword","parameterTypes":[] }, 
-    {"name":"getPasswordExpiresAt","parameterTypes":[] }, 
+    {"name":"getCreatedAt","parameterTypes":[] },
+    {"name":"getEntityStorageVersion","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getPassword","parameterTypes":[] },
+    {"name":"getPasswordExpiresAt","parameterTypes":[] },
     {"name":"getRole","parameterTypes":[] }
   ]
 },
@@ -2242,11 +2242,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"createdAt","parameterTypes":["long"] }, 
-    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
-    {"name":"password","parameterTypes":["java.lang.String"] }, 
+    {"name":"createdAt","parameterTypes":["long"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"password","parameterTypes":["java.lang.String"] },
     {"name":"role","parameterTypes":["de.ii.xtraplatform.auth.domain.Role"] }
   ]
 },
@@ -2286,10 +2286,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getEntries","parameterTypes":[] }, 
+    {"name":"getEntries","parameterTypes":[] },
     {"name":"getFallback","parameterTypes":[] },
     {"name":"getLabel","parameterTypes":[] },
-    {"name":"getSourceType","parameterTypes":[] }, 
+    {"name":"getSourceType","parameterTypes":[] },
     {"name":"getSourceUrl","parameterTypes":[] }
   ]
 },
@@ -2299,9 +2299,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"entries","parameterTypes":["java.util.Map"] }, 
-    {"name":"fallback","parameterTypes":["java.util.Optional"] }, 
-    {"name":"label","parameterTypes":["java.util.Optional"] }, 
+    {"name":"entries","parameterTypes":["java.util.Map"] },
+    {"name":"fallback","parameterTypes":["java.util.Optional"] },
+    {"name":"label","parameterTypes":["java.util.Optional"] },
     {"name":"sourceType","parameterTypes":["de.ii.xtraplatform.codelists.domain.Codelist$ImportType"] },
     {"name":"sourceUrl","parameterTypes":["java.util.Optional"] }
   ]
@@ -2326,12 +2326,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getEpsgCrs","parameterTypes":[] }, 
-    {"name":"getXmax","parameterTypes":[] }, 
-    {"name":"getXmin","parameterTypes":[] }, 
-    {"name":"getYmax","parameterTypes":[] }, 
-    {"name":"getYmin","parameterTypes":[] }, 
-    {"name":"getZmax","parameterTypes":[] }, 
+    {"name":"getEpsgCrs","parameterTypes":[] },
+    {"name":"getXmax","parameterTypes":[] },
+    {"name":"getXmin","parameterTypes":[] },
+    {"name":"getYmax","parameterTypes":[] },
+    {"name":"getYmin","parameterTypes":[] },
+    {"name":"getZmax","parameterTypes":[] },
     {"name":"getZmin","parameterTypes":[] }
   ]
 },
@@ -2341,10 +2341,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"epsgCrs","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs"] }, 
-    {"name":"xmax","parameterTypes":["double"] }, 
-    {"name":"xmin","parameterTypes":["double"] }, 
-    {"name":"ymax","parameterTypes":["double"] }, 
+    {"name":"epsgCrs","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs"] },
+    {"name":"xmax","parameterTypes":["double"] },
+    {"name":"xmin","parameterTypes":["double"] },
+    {"name":"ymax","parameterTypes":["double"] },
     {"name":"ymin","parameterTypes":["double"] }
   ]
 },
@@ -2354,8 +2354,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCode","parameterTypes":[] }, 
-    {"name":"getForceAxisOrder","parameterTypes":[] }, 
+    {"name":"getCode","parameterTypes":[] },
+    {"name":"getForceAxisOrder","parameterTypes":[] },
     {"name":"getVerticalCode","parameterTypes":[] }
   ]
 },
@@ -2365,11 +2365,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"code","parameterTypes":["int"] }, 
-    {"name":"verticalCode","parameterTypes":["java.util.OptionalInt"] }, 
-    {"name":"forceAxisOrder","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs$Force"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"code","parameterTypes":["int"] },
+    {"name":"verticalCode","parameterTypes":["java.util.OptionalInt"] },
+    {"name":"forceAxisOrder","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs$Force"] },
     {"name":"forceLongitudeFirst","parameterTypes":["boolean"] }
   ]
 },
@@ -2391,9 +2391,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getType","parameterTypes":[] }, 
-    {"name":"getListenForTypes","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getType","parameterTypes":[] },
+    {"name":"getListenForTypes","parameterTypes":[] },
     {"name":"getPollingInterval","parameterTypes":[] }
   ]
 },
@@ -2403,10 +2403,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
-    {"name":"listenForTypes","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"listenForTypes","parameterTypes":["java.lang.Iterable"] },
     {"name":"pollingInterval","parameterTypes":["shadow.io.dropwizard.util.Duration"] }
   ]
 },
@@ -2420,11 +2420,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getType","parameterTypes":[] }, 
-    {"name":"getObjectTypeRefs","parameterTypes":[] }, 
-    {"name":"getGeometryTypeRefs","parameterTypes":[] }, 
-    {"name":"getRelationRefs","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getType","parameterTypes":[] },
+    {"name":"getObjectTypeRefs","parameterTypes":[] },
+    {"name":"getGeometryTypeRefs","parameterTypes":[] },
+    {"name":"getRelationRefs","parameterTypes":[] },
     {"name":"getCompositionIndexes","parameterTypes":[] }
   ]
 },
@@ -2434,12 +2434,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
-    {"name":"objectTypeRefs","parameterTypes":["java.util.Map"] }, 
-    {"name":"geometryTypeRefs","parameterTypes":["java.util.Map"] }, 
-    {"name":"relationRefs","parameterTypes":["java.util.Map"] }, 
+    {"name":"objectTypeRefs","parameterTypes":["java.util.Map"] },
+    {"name":"geometryTypeRefs","parameterTypes":["java.util.Map"] },
+    {"name":"relationRefs","parameterTypes":["java.util.Map"] },
     {"name":"compositionIndexes","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -2453,18 +2453,18 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getType","parameterTypes":[] }, 
-    {"name":"getFromToQuery","parameterTypes":[] }, 
-    {"name":"getEdgesQuery","parameterTypes":[] }, 
-    {"name":"getRouteQuery","parameterTypes":[] }, 
-    {"name":"getFlags","parameterTypes":[] }, 
-    {"name":"getNativeCrs","parameterTypes":[] }, 
-    {"name":"getModes","parameterTypes":[] }, 
-    {"name":"getWeightDefault","parameterTypes":[] }, 
-    {"name":"getHeightDefault","parameterTypes":[] }, 
-    {"name":"getObstaclesDefault","parameterTypes":[] }, 
-    {"name":"getWarmup","parameterTypes":[] }, 
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getType","parameterTypes":[] },
+    {"name":"getFromToQuery","parameterTypes":[] },
+    {"name":"getEdgesQuery","parameterTypes":[] },
+    {"name":"getRouteQuery","parameterTypes":[] },
+    {"name":"getFlags","parameterTypes":[] },
+    {"name":"getNativeCrs","parameterTypes":[] },
+    {"name":"getModes","parameterTypes":[] },
+    {"name":"getWeightDefault","parameterTypes":[] },
+    {"name":"getHeightDefault","parameterTypes":[] },
+    {"name":"getObstaclesDefault","parameterTypes":[] },
+    {"name":"getWarmup","parameterTypes":[] },
     {"name":"getPreferences","parameterTypes":[] }
   ]
 },
@@ -2474,19 +2474,19 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
-    {"name":"fromToQuery","parameterTypes":["java.util.Map"] }, 
-    {"name":"edgesQuery","parameterTypes":["java.util.Map"] }, 
-    {"name":"routeQuery","parameterTypes":["java.lang.String"] }, 
-    {"name":"flags","parameterTypes":["java.util.Map"] }, 
-    {"name":"nativeCrs","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs"] }, 
-    {"name":"modes","parameterTypes":["java.util.Map"] }, 
-    {"name":"weightDefault","parameterTypes":["java.lang.String"] }, 
-    {"name":"heightDefault","parameterTypes":["java.lang.String"] }, 
-    {"name":"obstaclesDefault","parameterTypes":["java.lang.String"] }, 
-    {"name":"warmup","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"fromToQuery","parameterTypes":["java.util.Map"] },
+    {"name":"edgesQuery","parameterTypes":["java.util.Map"] },
+    {"name":"routeQuery","parameterTypes":["java.lang.String"] },
+    {"name":"flags","parameterTypes":["java.util.Map"] },
+    {"name":"nativeCrs","parameterTypes":["de.ii.xtraplatform.crs.domain.EpsgCrs"] },
+    {"name":"modes","parameterTypes":["java.util.Map"] },
+    {"name":"weightDefault","parameterTypes":["java.lang.String"] },
+    {"name":"heightDefault","parameterTypes":["java.lang.String"] },
+    {"name":"obstaclesDefault","parameterTypes":["java.lang.String"] },
+    {"name":"warmup","parameterTypes":["java.lang.Boolean"] },
     {"name":"preferences","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -2500,8 +2500,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getLabel","parameterTypes":[] }, 
-    {"name":"getCostColumn","parameterTypes":[] }, 
+    {"name":"getLabel","parameterTypes":[] },
+    {"name":"getCostColumn","parameterTypes":[] },
     {"name":"getReverseCostColumn","parameterTypes":[] }
   ]
 },
@@ -2511,11 +2511,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"label","parameterTypes":["java.lang.String"] }, 
-    {"name":"costColumn","parameterTypes":["java.lang.String"] }, 
-    {"name":"reverseCostColumn","parameterTypes":["java.lang.String"] } 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"label","parameterTypes":["java.lang.String"] },
+    {"name":"costColumn","parameterTypes":["java.lang.String"] },
+    {"name":"reverseCostColumn","parameterTypes":["java.lang.String"] }
   ]
 },
 {
@@ -2537,7 +2537,7 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[
-    {"name":"getFragments2","parameterTypes":[] }, 
+    {"name":"getFragments2","parameterTypes":[] },
     {"name":"getTypes2","parameterTypes":[] }
   ]
 },
@@ -2574,33 +2574,33 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAdditionalInfo","parameterTypes":[] }, 
-    {"name":"getCoalesce","parameterTypes":[] }, 
-    {"name":"getConcat","parameterTypes":[] }, 
-    {"name":"getConstantValue","parameterTypes":[] }, 
-    {"name":"getConstraints","parameterTypes":[] }, 
-    {"name":"getDescription","parameterTypes":[] }, 
-    {"name":"getForcePolygonCCW","parameterTypes":[] }, 
-    {"name":"getGeometryType","parameterTypes":[] }, 
-    {"name":"getIsQueryable","parameterTypes":[] }, 
-    {"name":"getIsSortable","parameterTypes":[] }, 
-    {"name":"getLabel","parameterTypes":[] }, 
-    {"name":"getMerge","parameterTypes":[] }, 
-    {"name":"getObjectType","parameterTypes":[] }, 
-    {"name":"getPropertyMap","parameterTypes":[] }, 
-    {"name":"getRefType","parameterTypes":[] }, 
+    {"name":"getAdditionalInfo","parameterTypes":[] },
+    {"name":"getCoalesce","parameterTypes":[] },
+    {"name":"getConcat","parameterTypes":[] },
+    {"name":"getConstantValue","parameterTypes":[] },
+    {"name":"getConstraints","parameterTypes":[] },
+    {"name":"getDescription","parameterTypes":[] },
+    {"name":"getForcePolygonCCW","parameterTypes":[] },
+    {"name":"getGeometryType","parameterTypes":[] },
+    {"name":"getIsQueryable","parameterTypes":[] },
+    {"name":"getIsSortable","parameterTypes":[] },
+    {"name":"getLabel","parameterTypes":[] },
+    {"name":"getMerge","parameterTypes":[] },
+    {"name":"getObjectType","parameterTypes":[] },
+    {"name":"getPropertyMap","parameterTypes":[] },
+    {"name":"getRefType","parameterTypes":[] },
     {"name":"getRefKeyTemplate","parameterTypes":[] },
     {"name":"getRefUriTemplate","parameterTypes":[] },
-    {"name":"getRole","parameterTypes":[] }, 
-    {"name":"getSchema","parameterTypes":[] }, 
+    {"name":"getRole","parameterTypes":[] },
+    {"name":"getSchema","parameterTypes":[] },
     {"name":"getScope","parameterTypes":[] },
     {"name":"getExcludedScopes","parameterTypes":[] },
-    {"name":"getSourcePath","parameterTypes":[] }, 
-    {"name":"getSourcePaths","parameterTypes":[] }, 
-    {"name":"getTransformations","parameterTypes":[] }, 
-    {"name":"getDesiredType","parameterTypes":[] }, 
-    {"name":"getUnit","parameterTypes":[] }, 
-    {"name":"getValueType","parameterTypes":[] }, 
+    {"name":"getSourcePath","parameterTypes":[] },
+    {"name":"getSourcePaths","parameterTypes":[] },
+    {"name":"getTransformations","parameterTypes":[] },
+    {"name":"getDesiredType","parameterTypes":[] },
+    {"name":"getUnit","parameterTypes":[] },
+    {"name":"getValueType","parameterTypes":[] },
     {"name":"getIsLastModified","parameterTypes":[] }
   ]
 },
@@ -2610,31 +2610,31 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"additionalInfo","parameterTypes":["java.util.Map"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"additionalInfo","parameterTypes":["java.util.Map"] },
     {"name":"concat","parameterTypes":["java.lang.Iterable"] },
     {"name":"coalesce","parameterTypes":["java.lang.Iterable"] },
-    {"name":"constantValue","parameterTypes":["java.util.Optional"] }, 
-    {"name":"constraintsBuilder","parameterTypes":[] }, 
-    {"name":"description","parameterTypes":["java.util.Optional"] }, 
-    {"name":"forcePolygonCCW","parameterTypes":["java.util.Optional"] }, 
-    {"name":"geometryType","parameterTypes":["java.util.Optional"] }, 
-    {"name":"isQueryable","parameterTypes":["java.util.Optional"] }, 
-    {"name":"isSortable","parameterTypes":["java.util.Optional"] }, 
-    {"name":"label","parameterTypes":["java.util.Optional"] },  
-    {"name":"merge","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"objectType","parameterTypes":["java.util.Optional"] }, 
-    {"name":"propertyMap","parameterTypes":["java.util.Map"] }, 
-    {"name":"refType","parameterTypes":["java.util.Optional"] }, 
+    {"name":"constantValue","parameterTypes":["java.util.Optional"] },
+    {"name":"constraintsBuilder","parameterTypes":[] },
+    {"name":"description","parameterTypes":["java.util.Optional"] },
+    {"name":"forcePolygonCCW","parameterTypes":["java.util.Optional"] },
+    {"name":"geometryType","parameterTypes":["java.util.Optional"] },
+    {"name":"isQueryable","parameterTypes":["java.util.Optional"] },
+    {"name":"isSortable","parameterTypes":["java.util.Optional"] },
+    {"name":"label","parameterTypes":["java.util.Optional"] },
+    {"name":"merge","parameterTypes":["java.lang.Iterable"] },
+    {"name":"objectType","parameterTypes":["java.util.Optional"] },
+    {"name":"propertyMap","parameterTypes":["java.util.Map"] },
+    {"name":"refType","parameterTypes":["java.util.Optional"] },
     {"name":"refKeyTemplate","parameterTypes":["java.util.Optional"] },
     {"name":"refUriTemplate","parameterTypes":["java.util.Optional"] },
-    {"name":"role","parameterTypes":["java.util.Optional"] }, 
-    {"name":"schema","parameterTypes":["java.util.Optional"] }, 
-    {"name":"sourcePath","parameterTypes":["java.util.Optional"] }, 
+    {"name":"role","parameterTypes":["java.util.Optional"] },
+    {"name":"schema","parameterTypes":["java.util.Optional"] },
+    {"name":"sourcePath","parameterTypes":["java.util.Optional"] },
     {"name":"sourcePaths","parameterTypes":["java.lang.Iterable"] },
     {"name":"transformations","parameterTypes":["java.lang.Iterable"] },
-    {"name":"desiredType","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] }, 
+    {"name":"desiredType","parameterTypes":["de.ii.xtraplatform.features.domain.SchemaBase$Type"] },
     {"name":"unit","parameterTypes":["java.util.Optional"] },
     {"name":"valueType","parameterTypes":["java.util.Optional"] },
     {"name":"isLastModified","parameterTypes":["java.util.Optional"] },
@@ -2648,8 +2648,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getPropertyMap","parameterTypes":[] }, 
-    {"name":"getSchema","parameterTypes":[] }, 
+    {"name":"getPropertyMap","parameterTypes":[] },
+    {"name":"getSchema","parameterTypes":[] },
     {"name":"getSourcePath","parameterTypes":[] }
   ]
 },
@@ -2659,9 +2659,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"schema","parameterTypes":["java.util.Optional"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"schema","parameterTypes":["java.util.Optional"] },
     {"name":"sourcePath","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -2671,11 +2671,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"createdAt","parameterTypes":["long"] }, 
-    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
-    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
+    {"name":"createdAt","parameterTypes":["long"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] },
     {"name":"providerType","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -2685,15 +2685,15 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getClosed","parameterTypes":[] }, 
-    {"name":"getCodelist","parameterTypes":[] }, 
-    {"name":"getComposite","parameterTypes":[] }, 
-    {"name":"getEnumValues","parameterTypes":[] }, 
-    {"name":"getMax","parameterTypes":[] }, 
-    {"name":"getMaxOccurrence","parameterTypes":[] }, 
-    {"name":"getMin","parameterTypes":[] }, 
-    {"name":"getMinOccurrence","parameterTypes":[] }, 
-    {"name":"getRegex","parameterTypes":[] }, 
+    {"name":"getClosed","parameterTypes":[] },
+    {"name":"getCodelist","parameterTypes":[] },
+    {"name":"getComposite","parameterTypes":[] },
+    {"name":"getEnumValues","parameterTypes":[] },
+    {"name":"getMax","parameterTypes":[] },
+    {"name":"getMaxOccurrence","parameterTypes":[] },
+    {"name":"getMin","parameterTypes":[] },
+    {"name":"getMinOccurrence","parameterTypes":[] },
+    {"name":"getRegex","parameterTypes":[] },
     {"name":"getRequired","parameterTypes":[] }
   ]
 },
@@ -2703,15 +2703,15 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"closed","parameterTypes":["java.util.Optional"] }, 
-    {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
-    {"name":"composite","parameterTypes":["java.util.Optional"] }, 
-    {"name":"enumValues","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"max","parameterTypes":["java.util.Optional"] }, 
-    {"name":"min","parameterTypes":["java.util.Optional"] }, 
-    {"name":"maxOccurrence","parameterTypes":["java.util.Optional"] }, 
-    {"name":"minOccurrence","parameterTypes":["java.util.Optional"] }, 
-    {"name":"regex","parameterTypes":["java.util.Optional"] }, 
+    {"name":"closed","parameterTypes":["java.util.Optional"] },
+    {"name":"codelist","parameterTypes":["java.util.Optional"] },
+    {"name":"composite","parameterTypes":["java.util.Optional"] },
+    {"name":"enumValues","parameterTypes":["java.lang.Iterable"] },
+    {"name":"max","parameterTypes":["java.util.Optional"] },
+    {"name":"min","parameterTypes":["java.util.Optional"] },
+    {"name":"maxOccurrence","parameterTypes":["java.util.Optional"] },
+    {"name":"minOccurrence","parameterTypes":["java.util.Optional"] },
+    {"name":"regex","parameterTypes":["java.util.Optional"] },
     {"name":"required","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -2781,16 +2781,16 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCodelist","parameterTypes":[] }, 
-    {"name":"getDateFormat","parameterTypes":[] }, 
-    {"name":"getFlatten","parameterTypes":[] }, 
+    {"name":"getCodelist","parameterTypes":[] },
+    {"name":"getDateFormat","parameterTypes":[] },
+    {"name":"getFlatten","parameterTypes":[] },
     {"name":"getNullify","parameterTypes":[] },
     {"name":"getObjectReduceFormat","parameterTypes":[] },
     {"name":"getObjectReduceSelect","parameterTypes":[] },
     {"name":"getObjectMapFormat","parameterTypes":[] },
     {"name":"getArrayReduceFormat","parameterTypes":[] },
-    {"name":"getRemove","parameterTypes":[] }, 
-    {"name":"getRename","parameterTypes":[] }, 
+    {"name":"getRemove","parameterTypes":[] },
+    {"name":"getRename","parameterTypes":[] },
     {"name":"getStringFormat","parameterTypes":[] }
   ]
 },
@@ -2800,19 +2800,19 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
+    {"name":"<init>","parameterTypes":[] },
     {"name":"build","parameterTypes":[] },
-    {"name":"codelist","parameterTypes":["java.util.Optional"] }, 
-    {"name":"dateFormat","parameterTypes":["java.util.Optional"] }, 
-    {"name":"flatten","parameterTypes":["java.util.Optional"] }, 
-    {"name":"getNull","parameterTypes":["java.util.Optional"] }, 
+    {"name":"codelist","parameterTypes":["java.util.Optional"] },
+    {"name":"dateFormat","parameterTypes":["java.util.Optional"] },
+    {"name":"flatten","parameterTypes":["java.util.Optional"] },
+    {"name":"getNull","parameterTypes":["java.util.Optional"] },
     {"name":"nullify","parameterTypes":["java.lang.Iterable"] },
     {"name":"objectReduceFormat","parameterTypes":["java.util.Optional"] },
     {"name":"objectReduceSelect","parameterTypes":["java.util.Optional"] },
     {"name":"objectMapFormat","parameterTypes":["java.util.Map"] },
     {"name":"arrayReduceFormat","parameterTypes":["java.util.Optional"] },
-    {"name":"remove","parameterTypes":["java.util.Optional"] }, 
-    {"name":"rename","parameterTypes":["java.util.Optional"] }, 
+    {"name":"remove","parameterTypes":["java.util.Optional"] },
+    {"name":"rename","parameterTypes":["java.util.Optional"] },
     {"name":"stringFormat","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -2862,16 +2862,16 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getConnectionUri","parameterTypes":[] }, 
-    {"name":"getConnectorType","parameterTypes":[] }, 
-    {"name":"getDatabase","parameterTypes":[] }, 
-    {"name":"getDialect","parameterTypes":[] }, 
-    {"name":"getDriverOptions","parameterTypes":[] }, 
-    {"name":"getHost","parameterTypes":[] }, 
-    {"name":"getPassword","parameterTypes":[] }, 
-    {"name":"getPool","parameterTypes":[] }, 
-    {"name":"getSchemas","parameterTypes":[] }, 
-    {"name":"getTriggers","parameterTypes":[] }, 
+    {"name":"getConnectionUri","parameterTypes":[] },
+    {"name":"getConnectorType","parameterTypes":[] },
+    {"name":"getDatabase","parameterTypes":[] },
+    {"name":"getDialect","parameterTypes":[] },
+    {"name":"getDriverOptions","parameterTypes":[] },
+    {"name":"getHost","parameterTypes":[] },
+    {"name":"getPassword","parameterTypes":[] },
+    {"name":"getPool","parameterTypes":[] },
+    {"name":"getSchemas","parameterTypes":[] },
+    {"name":"getTriggers","parameterTypes":[] },
     {"name":"getUser","parameterTypes":[] }
   ]
 },
@@ -2881,14 +2881,14 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"database","parameterTypes":["java.lang.String"] }, 
-    {"name":"dialect","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql$Dialect"] }, 
-    {"name":"host","parameterTypes":["java.util.Optional"] }, 
-    {"name":"password","parameterTypes":["java.util.Optional"] }, 
-    {"name":"pathSyntaxBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableSqlPathDefaults$Builder"] }, 
-    {"name":"poolBuilder","parameterTypes":[] }, 
-    {"name":"poolBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutablePoolSettings$Builder"] }, 
-    {"name":"schemas","parameterTypes":["java.lang.Iterable"] }, 
+    {"name":"database","parameterTypes":["java.lang.String"] },
+    {"name":"dialect","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ConnectionInfoSql$Dialect"] },
+    {"name":"host","parameterTypes":["java.util.Optional"] },
+    {"name":"password","parameterTypes":["java.util.Optional"] },
+    {"name":"pathSyntaxBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableSqlPathDefaults$Builder"] },
+    {"name":"poolBuilder","parameterTypes":[] },
+    {"name":"poolBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutablePoolSettings$Builder"] },
+    {"name":"schemas","parameterTypes":["java.lang.Iterable"] },
     {"name":"user","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -2898,16 +2898,16 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getUri","parameterTypes":[] }, 
-    {"name":"getConnectionUri","parameterTypes":[] }, 
-    {"name":"getConnectorType","parameterTypes":[] }, 
-    {"name":"getMethod","parameterTypes":[] }, 
-    {"name":"getPassword","parameterTypes":[] }, 
-    {"name":"getDatasetIdentifier","parameterTypes":[] }, 
-    {"name":"getUser","parameterTypes":[] }, 
-    {"name":"getVersion","parameterTypes":[] }, 
-    {"name":"getGmlVersion","parameterTypes":[] }, 
-    {"name":"getNamespaces","parameterTypes":[] }, 
+    {"name":"getUri","parameterTypes":[] },
+    {"name":"getConnectionUri","parameterTypes":[] },
+    {"name":"getConnectorType","parameterTypes":[] },
+    {"name":"getMethod","parameterTypes":[] },
+    {"name":"getPassword","parameterTypes":[] },
+    {"name":"getDatasetIdentifier","parameterTypes":[] },
+    {"name":"getUser","parameterTypes":[] },
+    {"name":"getVersion","parameterTypes":[] },
+    {"name":"getGmlVersion","parameterTypes":[] },
+    {"name":"getNamespaces","parameterTypes":[] },
     {"name":"getOtherUrls","parameterTypes":[] }
   ]
 },
@@ -2917,13 +2917,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"uri","parameterTypes":["java.net.URI"] }, 
-    {"name":"method","parameterTypes":["de.ii.xtraplatform.features.gml.domain.ConnectionInfoWfsHttp$METHOD"] }, 
-    {"name":"password","parameterTypes":["java.util.Optional"] }, 
-    {"name":"version","parameterTypes":["java.lang.String"] }, 
-    {"name":"gmlVersion","parameterTypes":["java.util.Optional"] }, 
-    {"name":"namespaces","parameterTypes":["java.util.Map"] }, 
-    {"name":"otherUrls","parameterTypes":["java.util.Map"] }, 
+    {"name":"uri","parameterTypes":["java.net.URI"] },
+    {"name":"method","parameterTypes":["de.ii.xtraplatform.features.gml.domain.ConnectionInfoWfsHttp$METHOD"] },
+    {"name":"password","parameterTypes":["java.util.Optional"] },
+    {"name":"version","parameterTypes":["java.lang.String"] },
+    {"name":"gmlVersion","parameterTypes":["java.util.Optional"] },
+    {"name":"namespaces","parameterTypes":["java.util.Map"] },
+    {"name":"otherUrls","parameterTypes":["java.util.Map"] },
     {"name":"user","parameterTypes":["java.util.Optional"] }
   ]
 },
@@ -2939,26 +2939,26 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAuto","parameterTypes":[] }, 
-    {"name":"getAutoPersist","parameterTypes":[] }, 
-    {"name":"getAutoTypes","parameterTypes":[] }, 
-    {"name":"getCodelists","parameterTypes":[] }, 
-    {"name":"getConnectionInfo","parameterTypes":[] }, 
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getDefaultLanguage","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
-    {"name":"getExtensions","parameterTypes":[] }, 
-    {"name":"getFragments","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLabelTemplate","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getNativeCrs","parameterTypes":[] }, 
-    {"name":"getNativeTimeZone","parameterTypes":[] }, 
-    {"name":"getProviderSubType","parameterTypes":[] }, 
-    {"name":"getProviderType","parameterTypes":[] }, 
-    {"name":"getQueryGeneration","parameterTypes":[] }, 
-    {"name":"getSourcePathDefaults","parameterTypes":[] }, 
-    {"name":"getTypeValidation","parameterTypes":[] }, 
+    {"name":"getAuto","parameterTypes":[] },
+    {"name":"getAutoPersist","parameterTypes":[] },
+    {"name":"getAutoTypes","parameterTypes":[] },
+    {"name":"getCodelists","parameterTypes":[] },
+    {"name":"getConnectionInfo","parameterTypes":[] },
+    {"name":"getCreatedAt","parameterTypes":[] },
+    {"name":"getDefaultLanguage","parameterTypes":[] },
+    {"name":"getEntityStorageVersion","parameterTypes":[] },
+    {"name":"getExtensions","parameterTypes":[] },
+    {"name":"getFragments","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLabelTemplate","parameterTypes":[] },
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getNativeCrs","parameterTypes":[] },
+    {"name":"getNativeTimeZone","parameterTypes":[] },
+    {"name":"getProviderSubType","parameterTypes":[] },
+    {"name":"getProviderType","parameterTypes":[] },
+    {"name":"getQueryGeneration","parameterTypes":[] },
+    {"name":"getSourcePathDefaults","parameterTypes":[] },
+    {"name":"getTypeValidation","parameterTypes":[] },
     {"name":"getTypes","parameterTypes":[] }
   ]
 },
@@ -2968,20 +2968,20 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"connectionInfoBuilder","parameterTypes":[] }, 
-    {"name":"createdAt","parameterTypes":["long"] }, 
-    {"name":"defaultLanguage","parameterTypes":["java.util.Optional"] }, 
-    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
-    {"name":"nativeCrsBuilder","parameterTypes":[] }, 
-    {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] }, 
-    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
-    {"name":"queryGenerationBuilder","parameterTypes":[] }, 
-    {"name":"queryGenerationBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableQueryGeneratorSettings$Builder"] }, 
-    {"name":"sourcePathDefaultsBuilder","parameterTypes":[] }, 
+    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] },
+    {"name":"connectionInfoBuilder","parameterTypes":[] },
+    {"name":"createdAt","parameterTypes":["long"] },
+    {"name":"defaultLanguage","parameterTypes":["java.util.Optional"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"nativeCrsBuilder","parameterTypes":[] },
+    {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] },
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] },
+    {"name":"providerType","parameterTypes":["java.lang.String"] },
+    {"name":"queryGenerationBuilder","parameterTypes":[] },
+    {"name":"queryGenerationBuilder","parameterTypes":["de.ii.xtraplatform.features.sql.domain.ImmutableQueryGeneratorSettings$Builder"] },
+    {"name":"sourcePathDefaultsBuilder","parameterTypes":[] },
     {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.entities.domain.ValidationResult$MODE"] }
   ]
 },
@@ -2991,24 +2991,24 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAuto","parameterTypes":[] }, 
-    {"name":"getAutoPersist","parameterTypes":[] }, 
-    {"name":"getAutoTypes","parameterTypes":[] }, 
-    {"name":"getCodelists","parameterTypes":[] }, 
-    {"name":"getConnectionInfo","parameterTypes":[] }, 
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getDefaultLanguage","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
-    {"name":"getExtensions","parameterTypes":[] }, 
-    {"name":"getFragments","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLabelTemplate","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getNativeCrs","parameterTypes":[] }, 
-    {"name":"getNativeTimeZone","parameterTypes":[] }, 
-    {"name":"getProviderSubType","parameterTypes":[] }, 
-    {"name":"getProviderType","parameterTypes":[] }, 
-    {"name":"getTypeValidation","parameterTypes":[] }, 
+    {"name":"getAuto","parameterTypes":[] },
+    {"name":"getAutoPersist","parameterTypes":[] },
+    {"name":"getAutoTypes","parameterTypes":[] },
+    {"name":"getCodelists","parameterTypes":[] },
+    {"name":"getConnectionInfo","parameterTypes":[] },
+    {"name":"getCreatedAt","parameterTypes":[] },
+    {"name":"getDefaultLanguage","parameterTypes":[] },
+    {"name":"getEntityStorageVersion","parameterTypes":[] },
+    {"name":"getExtensions","parameterTypes":[] },
+    {"name":"getFragments","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLabelTemplate","parameterTypes":[] },
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getNativeCrs","parameterTypes":[] },
+    {"name":"getNativeTimeZone","parameterTypes":[] },
+    {"name":"getProviderSubType","parameterTypes":[] },
+    {"name":"getProviderType","parameterTypes":[] },
+    {"name":"getTypeValidation","parameterTypes":[] },
     {"name":"getTypes","parameterTypes":[] }
   ]
 },
@@ -3018,17 +3018,17 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"connectionInfoBuilder","parameterTypes":[] }, 
-    {"name":"createdAt","parameterTypes":["long"] }, 
-    {"name":"defaultLanguage","parameterTypes":["java.util.Optional"] }, 
-    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
-    {"name":"nativeCrsBuilder","parameterTypes":[] }, 
-    {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] }, 
-    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"addAllExtensions","parameterTypes":["java.lang.Iterable"] },
+    {"name":"connectionInfoBuilder","parameterTypes":[] },
+    {"name":"createdAt","parameterTypes":["long"] },
+    {"name":"defaultLanguage","parameterTypes":["java.util.Optional"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"lastModified","parameterTypes":["long"] },
+    {"name":"nativeCrsBuilder","parameterTypes":[] },
+    {"name":"nativeTimeZone","parameterTypes":["java.util.Optional"] },
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] },
+    {"name":"providerType","parameterTypes":["java.lang.String"] },
     {"name":"typeValidation","parameterTypes":["de.ii.xtraplatform.entities.domain.ValidationResult$MODE"] }
   ]
 },
@@ -3038,11 +3038,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getIdleTimeout","parameterTypes":[] }, 
-    {"name":"getInitFailFast","parameterTypes":[] }, 
-    {"name":"getInitFailTimeout","parameterTypes":[] }, 
-    {"name":"getMaxConnections","parameterTypes":[] }, 
-    {"name":"getMinConnections","parameterTypes":[] }, 
+    {"name":"getIdleTimeout","parameterTypes":[] },
+    {"name":"getInitFailFast","parameterTypes":[] },
+    {"name":"getInitFailTimeout","parameterTypes":[] },
+    {"name":"getMaxConnections","parameterTypes":[] },
+    {"name":"getMinConnections","parameterTypes":[] },
     {"name":"getShared","parameterTypes":[] }
   ]
 },
@@ -3052,12 +3052,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"idleTimeout","parameterTypes":["java.lang.String"] }, 
-    {"name":"initFailFast","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"initFailTimeout","parameterTypes":["java.lang.String"] }, 
-    {"name":"maxConnections","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"minConnections","parameterTypes":["java.lang.Integer"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"idleTimeout","parameterTypes":["java.lang.String"] },
+    {"name":"initFailFast","parameterTypes":["java.lang.Boolean"] },
+    {"name":"initFailTimeout","parameterTypes":["java.lang.String"] },
+    {"name":"maxConnections","parameterTypes":["java.lang.Integer"] },
+    {"name":"minConnections","parameterTypes":["java.lang.Integer"] },
     {"name":"shared","parameterTypes":["java.lang.Boolean"] }
   ]
 },
@@ -3067,8 +3067,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAccentiCollation","parameterTypes":[] }, 
-    {"name":"getChunkSize","parameterTypes":[] }, 
+    {"name":"getAccentiCollation","parameterTypes":[] },
+    {"name":"getChunkSize","parameterTypes":[] },
     {"name":"getComputeNumberMatched","parameterTypes":[] }
   ]
 },
@@ -3078,8 +3078,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"chunkSize","parameterTypes":["int"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"chunkSize","parameterTypes":["int"] },
     {"name":"computeNumberMatched","parameterTypes":["boolean"] }
   ]
 },
@@ -3089,9 +3089,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getJunctionTablePattern","parameterTypes":[] }, 
-    {"name":"getPrimaryKey","parameterTypes":[] }, 
-    {"name":"getSchema","parameterTypes":[] }, 
+    {"name":"getJunctionTablePattern","parameterTypes":[] },
+    {"name":"getPrimaryKey","parameterTypes":[] },
+    {"name":"getSchema","parameterTypes":[] },
     {"name":"getSortKey","parameterTypes":[] }
   ]
 },
@@ -3101,9 +3101,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"junctionTablePattern","parameterTypes":["java.util.Optional"] }, 
-    {"name":"primaryKey","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"junctionTablePattern","parameterTypes":["java.util.Optional"] },
+    {"name":"primaryKey","parameterTypes":["java.lang.String"] },
     {"name":"sortKey","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -3123,10 +3123,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCompositionIndexes","parameterTypes":[] }, 
-    {"name":"getEnabled","parameterTypes":[] }, 
-    {"name":"getGeometryTypeRefs","parameterTypes":[] }, 
-    {"name":"getObjectTypeRefs","parameterTypes":[] }, 
+    {"name":"getCompositionIndexes","parameterTypes":[] },
+    {"name":"getEnabled","parameterTypes":[] },
+    {"name":"getGeometryTypeRefs","parameterTypes":[] },
+    {"name":"getObjectTypeRefs","parameterTypes":[] },
     {"name":"getRelationRefs","parameterTypes":[] }
   ]
 },
@@ -3136,9 +3136,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"enabled","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"objectTypeRefs","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -3157,15 +3157,15 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"apiVersion","parameterTypes":["java.util.Optional"] }, 
-    {"name":"auto","parameterTypes":["java.util.Optional"] }, 
-    {"name":"createdAt","parameterTypes":["long"] }, 
-    {"name":"description","parameterTypes":["java.util.Optional"] }, 
-    {"name":"enabled","parameterTypes":["boolean"] }, 
-    {"name":"entityStorageVersion","parameterTypes":["long"] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"label","parameterTypes":["java.lang.String"] }, 
-    {"name":"lastModified","parameterTypes":["long"] }, 
+    {"name":"apiVersion","parameterTypes":["java.util.Optional"] },
+    {"name":"auto","parameterTypes":["java.util.Optional"] },
+    {"name":"createdAt","parameterTypes":["long"] },
+    {"name":"description","parameterTypes":["java.util.Optional"] },
+    {"name":"enabled","parameterTypes":["boolean"] },
+    {"name":"entityStorageVersion","parameterTypes":["long"] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"label","parameterTypes":["java.lang.String"] },
+    {"name":"lastModified","parameterTypes":["long"] },
     {"name":"serviceType","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -3249,10 +3249,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getLevels","parameterTypes":[] }, 
-    {"name":"getSeeded","parameterTypes":[] }, 
-    {"name":"getStorage","parameterTypes":[] }, 
-    {"name":"getTilesetLevels","parameterTypes":[] }, 
+    {"name":"getLevels","parameterTypes":[] },
+    {"name":"getSeeded","parameterTypes":[] },
+    {"name":"getStorage","parameterTypes":[] },
+    {"name":"getTilesetLevels","parameterTypes":[] },
     {"name":"getType","parameterTypes":[] }
   ]
 },
@@ -3262,11 +3262,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"levels","parameterTypes":["java.util.Map"] }, 
-    {"name":"seeded","parameterTypes":["boolean"] }, 
-    {"name":"storage","parameterTypes":["de.ii.xtraplatform.tiles.domain.Cache$Storage"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"levels","parameterTypes":["java.util.Map"] },
+    {"name":"seeded","parameterTypes":["boolean"] },
+    {"name":"storage","parameterTypes":["de.ii.xtraplatform.tiles.domain.Cache$Storage"] },
     {"name":"type","parameterTypes":["de.ii.xtraplatform.tiles.domain.Cache$Type"] }
   ]
 },
@@ -3276,8 +3276,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getFilter","parameterTypes":[] }, 
-    {"name":"getMax","parameterTypes":[] }, 
+    {"name":"getFilter","parameterTypes":[] },
+    {"name":"getMax","parameterTypes":[] },
     {"name":"getMin","parameterTypes":[] }
   ]
 },
@@ -3287,10 +3287,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"filter","parameterTypes":["java.lang.String"] }, 
-    {"name":"max","parameterTypes":["int"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"filter","parameterTypes":["java.lang.String"] },
+    {"name":"max","parameterTypes":["int"] },
     {"name":"min","parameterTypes":["int"] }
   ]
 },
@@ -3300,10 +3300,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getGroupBy","parameterTypes":[] }, 
-    {"name":"getMax","parameterTypes":[] }, 
-    {"name":"getMerge","parameterTypes":[] }, 
-    {"name":"getMin","parameterTypes":[] }, 
+    {"name":"getGroupBy","parameterTypes":[] },
+    {"name":"getMax","parameterTypes":[] },
+    {"name":"getMerge","parameterTypes":[] },
+    {"name":"getMin","parameterTypes":[] },
     {"name":"getProperties","parameterTypes":[] }
   ]
 },
@@ -3313,12 +3313,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"groupBy","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"max","parameterTypes":["int"] }, 
-    {"name":"merge","parameterTypes":["java.util.Optional"] }, 
-    {"name":"min","parameterTypes":["int"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"groupBy","parameterTypes":["java.lang.Iterable"] },
+    {"name":"max","parameterTypes":["int"] },
+    {"name":"merge","parameterTypes":["java.util.Optional"] },
+    {"name":"min","parameterTypes":["int"] },
     {"name":"properties","parameterTypes":["java.lang.Iterable"] }
   ]
 },
@@ -3328,7 +3328,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getLat","parameterTypes":[] }, 
+    {"name":"getLat","parameterTypes":[] },
     {"name":"getLon","parameterTypes":[] }
   ]
 },
@@ -3338,7 +3338,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"lat","parameterTypes":["double"] }, 
+    {"name":"lat","parameterTypes":["double"] },
     {"name":"lon","parameterTypes":["double"] }
   ]
 },
@@ -3348,8 +3348,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getDefault","parameterTypes":[] }, 
-    {"name":"getMax","parameterTypes":[] }, 
+    {"name":"getDefault","parameterTypes":[] },
+    {"name":"getMax","parameterTypes":[] },
     {"name":"getMin","parameterTypes":[] }
   ]
 },
@@ -3359,10 +3359,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"getDefault","parameterTypes":["java.util.Optional"] }, 
-    {"name":"max","parameterTypes":["int"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"getDefault","parameterTypes":["java.util.Optional"] },
+    {"name":"max","parameterTypes":["int"] },
     {"name":"min","parameterTypes":["int"] }
   ]
 },
@@ -3372,9 +3372,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getMaxThreads","parameterTypes":[] }, 
-    {"name":"getPurge","parameterTypes":[] }, 
-    {"name":"getRunOnStartup","parameterTypes":[] }, 
+    {"name":"getMaxThreads","parameterTypes":[] },
+    {"name":"getPurge","parameterTypes":[] },
+    {"name":"getRunOnStartup","parameterTypes":[] },
     {"name":"getRunPeriodic","parameterTypes":[] }
   ]
 },
@@ -3384,11 +3384,11 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"maxThreads","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"purge","parameterTypes":["java.lang.Boolean"] }, 
-    {"name":"runOnStartup","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"maxThreads","parameterTypes":["java.lang.Integer"] },
+    {"name":"purge","parameterTypes":["java.lang.Boolean"] },
+    {"name":"runOnStartup","parameterTypes":["java.lang.Boolean"] },
     {"name":"runPeriodic","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -3398,17 +3398,17 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getAuto","parameterTypes":[] }, 
-    {"name":"getAutoPersist","parameterTypes":[] }, 
-    {"name":"getCaches","parameterTypes":[] }, 
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getProviderSubType","parameterTypes":[] }, 
-    {"name":"getProviderType","parameterTypes":[] }, 
-    {"name":"getSeeding","parameterTypes":[] }, 
-    {"name":"getTilesetDefaults","parameterTypes":[] }, 
+    {"name":"getAuto","parameterTypes":[] },
+    {"name":"getAutoPersist","parameterTypes":[] },
+    {"name":"getCaches","parameterTypes":[] },
+    {"name":"getCreatedAt","parameterTypes":[] },
+    {"name":"getEntityStorageVersion","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getProviderSubType","parameterTypes":[] },
+    {"name":"getProviderType","parameterTypes":[] },
+    {"name":"getSeeding","parameterTypes":[] },
+    {"name":"getTilesetDefaults","parameterTypes":[] },
     {"name":"getTilesets","parameterTypes":[] }
   ]
 },
@@ -3418,13 +3418,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"caches","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"getTilesets","parameterTypes":[] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"caches","parameterTypes":["java.lang.Iterable"] },
+    {"name":"getTilesets","parameterTypes":[] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] },
+    {"name":"providerType","parameterTypes":["java.lang.String"] },
     {"name":"tilesetDefaultsBuilder","parameterTypes":[] },
-    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"createdAt","parameterTypes":["long"] },
     {"name":"lastModified","parameterTypes":["long"] },
     {"name":"entityStorageVersion","parameterTypes":["long"] },
     {"name":"seedingBuilder","parameterTypes":[] }
@@ -3436,13 +3436,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getProviderSubType","parameterTypes":[] }, 
-    {"name":"getProviderType","parameterTypes":[] }, 
-    {"name":"getTilesetDefaults","parameterTypes":[] }, 
+    {"name":"getCreatedAt","parameterTypes":[] },
+    {"name":"getEntityStorageVersion","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getProviderSubType","parameterTypes":[] },
+    {"name":"getProviderType","parameterTypes":[] },
+    {"name":"getTilesetDefaults","parameterTypes":[] },
     {"name":"getTilesets","parameterTypes":[] }
   ]
 },
@@ -3452,12 +3452,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getTilesets","parameterTypes":[] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"getTilesets","parameterTypes":[] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] },
+    {"name":"providerType","parameterTypes":["java.lang.String"] },
     {"name":"tilesetDefaultsBuilder","parameterTypes":[] },
-    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"createdAt","parameterTypes":["long"] },
     {"name":"lastModified","parameterTypes":["long"] },
     {"name":"entityStorageVersion","parameterTypes":["long"] }
   ]
@@ -3468,13 +3468,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCreatedAt","parameterTypes":[] }, 
-    {"name":"getEntityStorageVersion","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLastModified","parameterTypes":[] }, 
-    {"name":"getProviderSubType","parameterTypes":[] }, 
-    {"name":"getProviderType","parameterTypes":[] }, 
-    {"name":"getTilesetDefaults","parameterTypes":[] }, 
+    {"name":"getCreatedAt","parameterTypes":[] },
+    {"name":"getEntityStorageVersion","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLastModified","parameterTypes":[] },
+    {"name":"getProviderSubType","parameterTypes":[] },
+    {"name":"getProviderType","parameterTypes":[] },
+    {"name":"getTilesetDefaults","parameterTypes":[] },
     {"name":"getTilesets","parameterTypes":[] }
   ]
 },
@@ -3484,12 +3484,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerSubType","parameterTypes":["java.lang.String"] }, 
-    {"name":"providerType","parameterTypes":["java.lang.String"] }, 
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"providerSubType","parameterTypes":["java.lang.String"] },
+    {"name":"providerType","parameterTypes":["java.lang.String"] },
     {"name":"tilesets","parameterTypes":["java.util.Map"] },
     {"name":"tilesetDefaults","parameterTypes":["de.ii.xtraplatform.tiles.domain.ImmutableTilesetMbTilesDefaults"] },
-    {"name":"createdAt","parameterTypes":["long"] }, 
+    {"name":"createdAt","parameterTypes":["long"] },
     {"name":"lastModified","parameterTypes":["long"] },
     {"name":"entityStorageVersion","parameterTypes":["long"] }
   ]
@@ -3500,16 +3500,16 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCenter","parameterTypes":[] }, 
-    {"name":"getCombine","parameterTypes":[] }, 
-    {"name":"getFeatureLimit","parameterTypes":[] }, 
-    {"name":"getFeatureProvider","parameterTypes":[] }, 
-    {"name":"getFeatureType","parameterTypes":[] }, 
-    {"name":"getFilters","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] }, 
-    {"name":"getLevels","parameterTypes":[] }, 
-    {"name":"getMinimumSizeInPixel","parameterTypes":[] }, 
+    {"name":"getCenter","parameterTypes":[] },
+    {"name":"getCombine","parameterTypes":[] },
+    {"name":"getFeatureLimit","parameterTypes":[] },
+    {"name":"getFeatureProvider","parameterTypes":[] },
+    {"name":"getFeatureType","parameterTypes":[] },
+    {"name":"getFilters","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] },
+    {"name":"getLevels","parameterTypes":[] },
+    {"name":"getMinimumSizeInPixel","parameterTypes":[] },
     {"name":"getTransformations","parameterTypes":[] }
   ]
 },
@@ -3519,12 +3519,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"combine","parameterTypes":["java.lang.Iterable"] }, 
-    {"name":"filters","parameterTypes":["java.util.Map"] }, 
-    {"name":"getLevels","parameterTypes":[] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
-    {"name":"transformations","parameterTypes":["java.util.Map"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"combine","parameterTypes":["java.lang.Iterable"] },
+    {"name":"filters","parameterTypes":["java.util.Map"] },
+    {"name":"getLevels","parameterTypes":[] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
+    {"name":"transformations","parameterTypes":["java.util.Map"] },
     {"name":"centerBuilder","parameterTypes":[] }
   ]
 },
@@ -3534,12 +3534,12 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCenter","parameterTypes":[] }, 
-    {"name":"getFeatureLimit","parameterTypes":[] }, 
-    {"name":"getFeatureProvider","parameterTypes":[] }, 
-    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] }, 
-    {"name":"getLevels","parameterTypes":[] }, 
-    {"name":"getMinimumSizeInPixel","parameterTypes":[] }, 
+    {"name":"getCenter","parameterTypes":[] },
+    {"name":"getFeatureLimit","parameterTypes":[] },
+    {"name":"getFeatureProvider","parameterTypes":[] },
+    {"name":"getIgnoreInvalidGeometries","parameterTypes":[] },
+    {"name":"getLevels","parameterTypes":[] },
+    {"name":"getMinimumSizeInPixel","parameterTypes":[] },
     {"name":"getTransformations","parameterTypes":[] }
   ]
 },
@@ -3549,13 +3549,13 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"centerBuilder","parameterTypes":[] }, 
-    {"name":"getLevels","parameterTypes":[] }, 
-    {"name":"levels","parameterTypes":["java.util.Map"] }, 
-    {"name":"featureProvider","parameterTypes":["java.util.Optional"] }, 
-    {"name":"featureLimit","parameterTypes":["java.lang.Integer"] }, 
-    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] }, 
-    {"name":"ignoreInvalidGeometries","parameterTypes":["java.lang.Boolean"] }, 
+    {"name":"centerBuilder","parameterTypes":[] },
+    {"name":"getLevels","parameterTypes":[] },
+    {"name":"levels","parameterTypes":["java.util.Map"] },
+    {"name":"featureProvider","parameterTypes":["java.util.Optional"] },
+    {"name":"featureLimit","parameterTypes":["java.lang.Integer"] },
+    {"name":"minimumSizeInPixel","parameterTypes":["java.lang.Double"] },
+    {"name":"ignoreInvalidGeometries","parameterTypes":["java.lang.Boolean"] },
     {"name":"transformations","parameterTypes":["java.util.Map"] }
   ]
 },
@@ -3565,10 +3565,10 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCenter","parameterTypes":[] }, 
-    {"name":"getEncodings","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"getCenter","parameterTypes":[] },
+    {"name":"getEncodings","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLevels","parameterTypes":[] },
     {"name":"getUrlTemplate","parameterTypes":[] }
   ]
 },
@@ -3578,9 +3578,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"encodings","parameterTypes":["java.util.Map"] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"encodings","parameterTypes":["java.util.Map"] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
     {"name":"urlTemplate","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -3590,8 +3590,8 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCenter","parameterTypes":[] }, 
-    {"name":"getEncodings","parameterTypes":[] }, 
+    {"name":"getCenter","parameterTypes":[] },
+    {"name":"getEncodings","parameterTypes":[] },
     {"name":"getLevels","parameterTypes":[] }
   ]
 },
@@ -3608,9 +3608,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCenter","parameterTypes":[] }, 
-    {"name":"getId","parameterTypes":[] }, 
-    {"name":"getLevels","parameterTypes":[] }, 
+    {"name":"getCenter","parameterTypes":[] },
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getLevels","parameterTypes":[] },
     {"name":"getSource","parameterTypes":[] }
   ]
 },
@@ -3620,9 +3620,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"<init>","parameterTypes":[] }, 
-    {"name":"build","parameterTypes":[] }, 
-    {"name":"id","parameterTypes":["java.lang.String"] }, 
+    {"name":"<init>","parameterTypes":[] },
+    {"name":"build","parameterTypes":[] },
+    {"name":"id","parameterTypes":["java.lang.String"] },
     {"name":"source","parameterTypes":["java.lang.String"] }
   ]
 },
@@ -3632,7 +3632,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"getCenter","parameterTypes":[] }, 
+    {"name":"getCenter","parameterTypes":[] },
     {"name":"getLevels","parameterTypes":[] }
   ]
 },
@@ -3951,7 +3951,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[
-    {"name":"parse","parameterTypes":["java.lang.String"] }, 
+    {"name":"parse","parameterTypes":["java.lang.String"] },
     {"name":"toString","parameterTypes":[] }
   ]
 },
@@ -4006,5 +4006,9 @@
 {
   "name":"shadow.com.networknt.schema.TypeValidator",
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String","shadow.com.fasterxml.jackson.databind.JsonNode","shadow.com.networknt.schema.JsonSchema","shadow.com.networknt.schema.ValidationContext"] }]
+},
+{
+  "name":"shadow.org.postgresql.Driver",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 }
 ]

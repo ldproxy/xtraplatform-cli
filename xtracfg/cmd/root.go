@@ -15,20 +15,26 @@ const version = "2.0.0"
 
 var name string = filepath.Base(os.Args[0])
 var storeSrc client.Store
+var listen *bool
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:     name,
 	Version: version,
 	Long:    name + ` provides tools to manage configurations for xtraplatform applications like ldproxy and XtraServer Web API.`,
-	/*Run: func(cmd *cobra.Command, args []string) {
-		interactive()
-	},*/
+	Run: func(cmd *cobra.Command, args []string) {
+		//interactive()
+		if *listen {
+			fmt.Println("WEBSOCKET")
+			client.OpenWebsocket(storeSrc)
+		} else {
+			cmd.Help()
+		}
+	},
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		if cmd.Use == "help [command]" {
+		if cmd.Name() == "help" || cmd.Name() == name {
 			return nil
 		}
-
 		return storeSrc.Connect()
 	},
 	DisableAutoGenTag: true,
@@ -58,6 +64,8 @@ func init() {
 	verbose := RootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
 	debug := RootCmd.PersistentFlags().Bool("debug", false, "debug output")
 	RootCmd.PersistentFlags().MarkHidden("debug")
+	listen = RootCmd.PersistentFlags().Bool("listen", false, "open websocket")
+	RootCmd.PersistentFlags().MarkHidden("listen")
 
 	storeSrc = *client.New(src, typ, verbose, debug)
 
