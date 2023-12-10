@@ -5,6 +5,7 @@ apply plugin: 'org.gretty'
 gretty {
     servletContainer = 'jetty9.4'
     contextPath = '/'
+    httpPort = 8081
 }
 
 sourceSets {

@@ -3,9 +3,33 @@
   "includes":[
     {
       "pattern":"json-schema/.*\\.json$"
-    }, 
+    },
     {
       "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
+    },
+    {
+      "pattern":"\\Qsql2003_reserved_words.txt\\E"
+    },
+    {
+      "pattern":"\\Qschemacrawler-postgresql.config.properties\\E"
+    },
+    {
+      "pattern":"\\Qschemacrawler-sqlite.config.properties\\E"
+    },
+    {
+      "pattern":"\\Qhelp/SchemaCrawler.txt\\E"
+    },
+    {
+      "pattern":"schemas/.*\\.xsd$"
+    },
+    {
+      "pattern":"shadow/com/sun/xml/xsom/impl/parser/.*\\.xsd$"
+    },
+    {
+      "pattern":"\\Qorg/sqlite/native/Linux/x86_64/libsqlitejdbc.so\\E"
+    },
+    {
+      "pattern":"\\Qorg/sqlite/native/Linux/aarch64/libsqlitejdbc.so\\E"
     }
   ]},
   "bundles":[{
