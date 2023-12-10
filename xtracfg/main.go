@@ -33,7 +33,7 @@ func handle(command string) string {
 
 	messages := make(chan string)
 
-	// has to run concurrently since are being called from java and calling into java at the same time
+	// has to run concurrently since we are being called from java and calling into java at the same time
 	go func() {
 		r := C.handle_command_2(handleC, C.CString(command))
 		messages <- C.GoString(r)

@@ -58,7 +58,7 @@ func params(store Store) map[string]string {
 func (store Store) Connect() error {
 	params := params(store)
 
-	response, err := store.Request(params, "connect")
+	response, err := store.request(params, "connect")
 
 	if err == nil && response.Error != nil {
 		err = fmt.Errorf(*response.Error)
@@ -82,7 +82,7 @@ func (store Store) Handle(parameters map[string]string, command string, subcomma
 		params[key] = value
 	}
 
-	response, err := store.Request(params, command, subcommands...)
+	response, err := store.request(params, command, subcommands...)
 
 	if err != nil {
 		return nil, err
@@ -99,26 +99,26 @@ func (store Store) Handle(parameters map[string]string, command string, subcomma
 	return *response.Results, nil
 }
 
-func (store Store) Request(parameters map[string]string, command string, subcommands ...string) (response *Response, err error) {
+func (store Store) request(parameters map[string]string, command string, subcommands ...string) (response *Response, err error) {
+	parameters["command"] = command
 
-	var uri = fmt.Sprintf("/%s", command)
-	var first = true
-
-	for key, val := range parameters {
-		if first {
-			uri += "?"
-			first = false
-		} else {
-			uri += "&"
-		}
-		uri += fmt.Sprintf("%s=%s", key, val)
+	if len(subcommands) > 0 {
+		parameters["subcommand"] = subcommands[0]
 	}
+
+	bytes, err := json.Marshal(parameters)
+
+	if err != nil {
+		return nil, fmt.Errorf("Error: Failed to marshal the request body. %s", err)
+	}
+
+	request := string(bytes)
 
 	if *store.debug {
-		fmt.Println("->", uri)
+		fmt.Println("->", request)
 	}
 
-	resp := requestC(uri)
+	resp := requestC(request)
 
 	response = &Response{}
 	err = json.Unmarshal(resp, response)
