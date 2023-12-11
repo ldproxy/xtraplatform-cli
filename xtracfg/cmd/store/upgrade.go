@@ -33,42 +33,42 @@ No changes are made without confirmation (unless --yes is set).`,
 
 			fmt.Fprint(os.Stdout, "\n", "Upgrading cfg.yml", "\n")
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "cfg")
+			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "cfg")
 
 			if !*noConfirm {
 				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "cfg")
+				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "cfg")
 
 				client.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n", "Upgrading entities", "\n")
 
-			results, err = store.Handle(map[string]string{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "entities")
+			results, err = store.Handle(map[string]interface{}{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "entities")
 
 			if !*noConfirm {
 				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "entities")
+				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "entities")
 
 				client.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n", "Upgrading layout", "\n")
 
-			results, err = store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "layout")
+			results, err = store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "layout")
 
 			if !*noConfirm {
 				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "layout")
+				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "layout")
 
 				client.PrintResults(results, err)
 			}
@@ -96,14 +96,14 @@ No changes are made without confirmation (unless --yes is set).`,
 				fmt.Fprint(os.Stdout, "Upgrading cfg.yml in the store source: ", store.Label(), "\n")
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "cfg")
+			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "cfg")
 
 			if !*noConfirm {
 				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "cfg")
+				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "cfg")
 
 				client.PrintResults(results, err)
 			}
@@ -139,14 +139,14 @@ No changes are made without confirmation (unless --yes is set).`,
 				path = args[0]
 			}
 
-			results, err := store.Handle(map[string]string{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "path": path}, "pre_upgrade", "entities")
+			results, err := store.Handle(map[string]interface{}{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "path": path}, "pre_upgrade", "entities")
 
 			if !*noConfirm {
 				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "path": path}, "upgrade", "entities")
+				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "path": path}, "upgrade", "entities")
 
 				client.PrintResults(results, err)
 			}
@@ -166,14 +166,14 @@ No changes are made without confirmation (unless --yes is set).`,
 				fmt.Fprint(os.Stdout, "Upgrading layout of the store source: ", store.Label(), "\n")
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "layout")
+			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "layout")
 
 			if !*noConfirm {
 				client.PrintResults(results, err)
 			}
 
 			if client.HasStatus(results, client.Confirmation) {
-				results, err = store.Handle(map[string]string{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "layout")
+				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "layout")
 
 				client.PrintResults(results, err)
 			}

@@ -17,8 +17,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
-import shadow.com.google.common.base.Splitter;
-import shadow.com.google.common.collect.ImmutableMap;
 
 public class AutoHandler {
 
@@ -69,7 +67,8 @@ public class AutoHandler {
     Result result = new Result();
 
     try {
-      FeatureProviderDataV2 featureProvider = parseFeatureProvider(parameters, ldproxyCfg);
+      FeatureProviderDataV2 featureProvider =
+          parseFeatureProvider(parameters, ldproxyCfg, Map.of());
 
       AutoEntityFactory autoFactory =
           getAutoFactory(
@@ -99,18 +98,16 @@ public class AutoHandler {
       Optional<String> path,
       boolean verbose,
       boolean debug,
+      Map<String, List<String>> types,
       Consumer<Result> tracker) {
     Result result = new Result();
 
     try {
-      FeatureProviderDataV2 featureProvider = parseFeatureProvider(parameters, ldproxyCfg);
+      FeatureProviderDataV2 featureProvider = parseFeatureProvider(parameters, ldproxyCfg, types);
 
       AutoEntityFactory autoFactory =
           getAutoFactory(
               ldproxyCfg, EntityType.PROVIDERS.toString(), featureProvider.getEntitySubType());
-
-      Map<String, List<String>> types =
-          parameters.containsKey("types") ? parseTypes(parameters.get("types")) : Map.of();
 
       long count = types.values().stream().mapToLong(List::size).sum();
 
@@ -198,7 +195,7 @@ public class AutoHandler {
   }
 
   private static FeatureProviderDataV2 parseFeatureProvider(
-      Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
+      Map<String, String> parameters, LdproxyCfg ldproxyCfg, Map<String, List<String>> types) {
     if (!parameters.containsKey("id")) {
       throw new IllegalArgumentException("No id given");
     }
@@ -224,7 +221,7 @@ public class AutoHandler {
     switch (featureProviderType) {
       case PGIS:
         return parseFeatureProviderPgis(
-            (ImmutableFeatureProviderSqlData.Builder) builder, parameters);
+            (ImmutableFeatureProviderSqlData.Builder) builder, parameters, types);
       case GPKG:
         return parseFeatureProviderGpkg(
             (ImmutableFeatureProviderSqlData.Builder) builder, parameters);
@@ -237,9 +234,10 @@ public class AutoHandler {
   }
 
   private static FeatureProviderDataV2 parseFeatureProviderPgis(
-      ImmutableFeatureProviderSqlData.Builder builder, Map<String, String> parameters) {
-    Set<String> schemas =
-        parameters.containsKey("types") ? parseTypes(parameters.get("types")).keySet() : Set.of();
+      ImmutableFeatureProviderSqlData.Builder builder,
+      Map<String, String> parameters,
+      Map<String, List<String>> types) {
+    Set<String> schemas = types.keySet();
 
     builder
         .connectionInfoBuilder()
@@ -296,19 +294,5 @@ public class AutoHandler {
         AutoTypes.getBuilder(ldproxyCfg, EntityType.SERVICES, ServiceType.OGC_API).id(id);
 
     return builder.build();
-  }
-
-  private static final Splitter.MapSplitter SCHEMA_SPLITTER =
-      Splitter.on('|').trimResults().omitEmptyStrings().withKeyValueSeparator(':');
-  private static final Splitter TABLE_SPLITTER = Splitter.on(',').trimResults().omitEmptyStrings();
-
-  private static Map<String, List<String>> parseTypes(String types) {
-    if (Objects.isNull(types)) {
-      return Map.of();
-    }
-
-    return SCHEMA_SPLITTER.split(types).entrySet().stream()
-        .map(entry -> Map.entry(entry.getKey(), TABLE_SPLITTER.splitToList(entry.getValue())))
-        .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 }
