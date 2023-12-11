@@ -39,6 +39,10 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+
+	// listen indefinitely for new  progress messages coming from the store and pass them to the websocket
+	progress_writer(ws)
+
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
 	reader(ws)
@@ -65,4 +69,19 @@ func reader(conn *websocket.Conn) {
 		}
 
 	}
+}
+
+func progress_writer(conn *websocket.Conn) {
+	go func() {
+		for {
+			msg, more := <-*store.progress
+			if more {
+				if err := conn.WriteMessage(websocket.TextMessage, []byte(msg)); err != nil {
+					log.Println(err)
+				}
+			} else {
+				return
+			}
+		}
+	}()
 }

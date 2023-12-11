@@ -12,21 +12,24 @@ type CommandHandler func(command string) string
 
 // Store is
 type Store struct {
-	source  *string
-	driver  *string
-	verbose *bool
-	debug   *bool
+	source   *string
+	driver   *string
+	verbose  *bool
+	debug    *bool
+	progress *<-chan string
 }
 
 var handle CommandHandler
+var progress <-chan string
 
 // New is
 func New(source *string, driver *string, verbose *bool, debug *bool) *Store {
-	return &Store{source: source, driver: driver, debug: debug, verbose: verbose}
+	return &Store{source: source, driver: driver, debug: debug, verbose: verbose, progress: &progress}
 }
 
-func Init(handle_command CommandHandler) {
+func Init(handle_command CommandHandler, progress_chan <-chan string) {
 	handle = handle_command
+	progress = progress_chan
 }
 
 // Label is
@@ -36,7 +39,7 @@ func (store Store) Label() string {
 	return label
 }
 
-func params(store Store) map[string]string {
+func params(store Store) map[string]interface{} {
 	var src string
 	if strings.HasPrefix(*store.source, "/") {
 		if *store.debug {
@@ -51,7 +54,7 @@ func params(store Store) map[string]string {
 		src = path
 	}
 
-	return map[string]string{"source": src, "driver": *store.driver, "verbose": strconv.FormatBool(*store.verbose), "debug": strconv.FormatBool(*store.debug)}
+	return map[string]interface{}{"source": src, "driver": *store.driver, "verbose": strconv.FormatBool(*store.verbose), "debug": strconv.FormatBool(*store.debug)}
 }
 
 // Connect is
@@ -76,7 +79,7 @@ func (store Store) Connect() error {
 }
 
 // Handle is
-func (store Store) Handle(parameters map[string]string, command string, subcommands ...string) ([]Result, error) {
+func (store Store) Handle(parameters map[string]interface{}, command string, subcommands ...string) ([]Result, error) {
 	params := params(store)
 	for key, value := range parameters {
 		params[key] = value
@@ -99,7 +102,7 @@ func (store Store) Handle(parameters map[string]string, command string, subcomma
 	return *response.Results, nil
 }
 
-func (store Store) request(parameters map[string]string, command string, subcommands ...string) (response *Response, err error) {
+func (store Store) request(parameters map[string]interface{}, command string, subcommands ...string) (response *Response, err error) {
 	parameters["command"] = command
 
 	if len(subcommands) > 0 {

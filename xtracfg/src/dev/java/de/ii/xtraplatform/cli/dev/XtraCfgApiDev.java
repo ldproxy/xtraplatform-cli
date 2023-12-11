@@ -2,8 +2,8 @@ package de.ii.xtraplatform.cli.dev;
 
 import de.ii.xtraplatform.cli.CommandHandler;
 import de.ii.xtraplatform.cli.EntitiesHandler;
+import de.ii.xtraplatform.cli.Progress;
 import java.io.IOException;
-import java.util.function.Consumer;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.RemoteEndpoint;
@@ -28,7 +28,7 @@ public class XtraCfgApiDev {
   public void handleTextMessage(Session session, String message) throws IOException {
     RemoteEndpoint.Basic remote = session.getBasicRemote();
 
-    Consumer<String> tracker =
+    Progress tracker =
         progress -> {
           try {
             remote.sendText(progress);
