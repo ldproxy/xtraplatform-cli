@@ -25,7 +25,7 @@ Executes all subcommands in order, see the subcommand help for details.`,
 			if *debug {
 				fmt.Fprint(os.Stdout, "Checking store source: ", store.Label(), "\n")
 			}
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check")
+			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check")
 
 			client.PrintResults(results, err)
 
@@ -48,7 +48,7 @@ Executes all subcommands in order, see the subcommand help for details.`,
 				fmt.Fprint(os.Stdout, "Checking cfg.yml in the store source: ", store.Label(), "\n")
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check", "cfg")
+			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check", "cfg")
 
 			client.PrintResults(results, err)
 
@@ -82,7 +82,7 @@ To check only a single entity, pass the path to the file relative to the source 
 				path = args[0]
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "path": path}, "check", "entities")
+			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "path": path}, "check", "entities")
 
 			client.PrintResults(results, err)
 
@@ -100,7 +100,7 @@ To check only a single entity, pass the path to the file relative to the source 
 				fmt.Fprint(os.Stdout, "Checking layout of store source: ", store.Label(), "\n")
 			}
 
-			results, err := store.Handle(map[string]string{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check", "layout")
+			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check", "layout")
 
 			client.PrintResults(results, err)
 

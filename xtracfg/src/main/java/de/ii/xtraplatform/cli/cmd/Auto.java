@@ -3,6 +3,7 @@ package de.ii.xtraplatform.cli.cmd;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.cli.AutoHandler;
 import de.ii.xtraplatform.cli.Result;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -18,6 +19,7 @@ public class Auto extends Common<LdproxyCfg> {
   public final Subcommand subcommand;
   public final Optional<String> path;
   public final Map<String, String> parameters;
+  public final Map<String, List<String>> types;
   public final Consumer<Result> tracker;
 
   public Auto(
@@ -28,16 +30,20 @@ public class Auto extends Common<LdproxyCfg> {
     this.path = optionalString(parameters, "path");
     this.parameters =
         stringMap(
-            parameters,
-            "id",
-            "types",
-            "featureProviderType",
-            "host",
-            "database",
-            "user",
-            "password",
-            "url");
+            parameters, "id", "featureProviderType", "host", "database", "user", "password", "url");
+    this.types = parseTypes(parameters);
     this.tracker = tracker;
+  }
+
+  private Map<String, List<String>> parseTypes(Map<String, Object> parameters) {
+    if (parameters.containsKey("types") && parameters.get("types") instanceof Map) {
+      try {
+        return (Map<String, List<String>>) parameters.get("types");
+      } catch (ClassCastException e) {
+        // continue
+      }
+    }
+    return Map.of();
   }
 
   @Override
@@ -55,7 +61,7 @@ public class Auto extends Common<LdproxyCfg> {
         case analyze:
           return AutoHandler.analyze(parameters, ldproxyCfg, path, verbose, debug);
         case generate:
-          return AutoHandler.generate(parameters, ldproxyCfg, path, verbose, debug, tracker);
+          return AutoHandler.generate(parameters, ldproxyCfg, path, verbose, debug, types, tracker);
         default:
           throw new IllegalStateException("Unexpected subcommand: " + subcommand);
       }

@@ -12,7 +12,7 @@ func InfoCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra
 		Short: "Print info about the store source",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			results, err := store.Handle(map[string]string{}, "info")
+			results, err := store.Handle(map[string]interface{}{}, "info")
 
 			client.PrintResults(results, err)
 		},
