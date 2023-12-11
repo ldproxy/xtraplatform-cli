@@ -37,11 +37,15 @@ public class CommandHandler {
     return handleCommand(command, true, ignore -> {});
   }
 
-  public String handleCommand(String command, boolean autoConnect, Consumer<String> tracker) {
+  public String handleCommand(String command, Progress tracker) {
+    return handleCommand(command, true, tracker);
+  }
+
+  public String handleCommand(String command, boolean autoConnect, Progress tracker) {
     Consumer<Result> tracker2 =
         progress -> {
           try {
-            tracker.accept(jsonMapper.writeValueAsString(progress.asMap()));
+            tracker.update(jsonMapper.writeValueAsString(progress.asMap()));
           } catch (JsonProcessingException e) {
             // ignore
           }

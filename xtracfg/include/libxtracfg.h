@@ -84,6 +84,7 @@ extern "C" {
 #endif
 
 extern void cmd_execute(handle_command_func handle_command);
+extern void progress(char* msg);
 
 #ifdef __cplusplus
 }

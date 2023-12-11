@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (Lde/ii/xtraplatform/cli/CommandHandler;)V
  */
 JNIEXPORT void JNICALL Java_de_ii_xtraplatform_cli_Cli_execute
-  (JNIEnv *, jclass, jobject);
+  (JNIEnv *, jclass, jobject, jobject);
 
 #ifdef __cplusplus
 }
