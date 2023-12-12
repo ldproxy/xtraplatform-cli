@@ -43,6 +43,13 @@ public class AutoHandler {
       return Result.failure("A provider with id '" + id + "' already exists");
     }
 
+    if (parameters.containsKey("featureProviderType")
+        && parameters.get("featureProviderType").equals("PGIS")
+        && parameters.containsKey("host")
+        && parameters.get("host").isBlank()) {
+      return Result.failure("Host is required for PGIS connection");
+    }
+
     return Result.empty();
   }
 
