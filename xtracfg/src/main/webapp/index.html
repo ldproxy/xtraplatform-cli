@@ -13,6 +13,8 @@
 <body>
 <div class="container">
     <div id="messages" class="messages" style="height:150px; overflow: auto;"></div>
+    <button id="clear">Clear</button>
+    <button id="close">Close</button>
     <div class="input-fields">
         <p>Type a message and hit send:</p>
         <textarea id="message" rows="20" cols="50"></textarea><br/><br/>
@@ -22,6 +24,8 @@
 </body>
 <script>
     const messageWindow = document.getElementById("messages");
+    const clearButton = document.getElementById("clear");
+    const closeButton = document.getElementById("close");
 
     const sendButton = document.getElementById("send");
     const messageInput = document.getElementById("message");
@@ -31,6 +35,10 @@
 
     socket.onopen = function (event) {
         addMessageToWindow("Connected to ws://localhost:8080/sock");
+    };
+
+    socket.onclose = function (event) {
+        addMessageToWindow("Closed connection to ws://localhost:8080/sock");
     };
 
     socket.onmessage = function (event) {
@@ -44,6 +52,15 @@
     sendButton.onclick = function (event) {
         sendMessage(messageInput.value);
         //messageInput.value = "";
+    };
+
+    clearButton.onclick = function (event) {
+        messageWindow.innerHTML = "";
+    };
+
+    closeButton.onclick = function (event) {
+        messageWindow.innerHTML = "";
+        socket.close();
     };
 
     function sendMessage(message) {
