@@ -50,7 +50,7 @@ public abstract class Common<T> {
     Map<String, String> stringMap = new LinkedHashMap<>();
 
     for (String name : names) {
-      stringMap.put(name, string(parameters, name));
+      stringMap.put(name, string(parameters, name, ""));
     }
 
     return stringMap;

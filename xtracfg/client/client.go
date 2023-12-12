@@ -134,7 +134,13 @@ func (store Store) Request(request []byte) (response []byte) {
 		fmt.Println("->", request2)
 	}
 
-	return requestC(request2)
+	response = requestC(request2)
+
+	if *store.debug {
+		fmt.Println("<-", string(response))
+	}
+
+	return response
 }
 
 func requestC(command string) (response []byte) {
