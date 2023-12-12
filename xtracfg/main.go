@@ -23,7 +23,7 @@ func main() {
 //export cmd_execute
 func cmd_execute(handle_command C.handle_command_func) {
 	handleC = handle_command
-	progress_chan = make(chan string)
+	progress_chan = make(chan string, 16)
 
 	client.Init(handle, progress_chan)
 

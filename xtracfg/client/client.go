@@ -16,18 +16,18 @@ type Store struct {
 	driver   *string
 	verbose  *bool
 	debug    *bool
-	progress *<-chan string
+	progress *chan string
 }
 
 var handle CommandHandler
-var progress <-chan string
+var progress chan string
 
 // New is
 func New(source *string, driver *string, verbose *bool, debug *bool) *Store {
 	return &Store{source: source, driver: driver, debug: debug, verbose: verbose, progress: &progress}
 }
 
-func Init(handle_command CommandHandler, progress_chan <-chan string) {
+func Init(handle_command CommandHandler, progress_chan chan string) {
 	handle = handle_command
 	progress = progress_chan
 }

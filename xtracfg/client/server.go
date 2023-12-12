@@ -9,12 +9,12 @@ import (
 
 var store Store
 
-func OpenWebsocket(store2 Store) {
+func OpenWebsocket(store2 Store, port string) {
 	store = store2
 
-	http.HandleFunc("/sock", wsEndpoint)
+	handler := newLimitHandler(1, http.HandlerFunc(wsEndpoint))
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(port, handler))
 }
 
 // We'll need to define an Upgrader
@@ -23,6 +23,8 @@ var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
+
+const WS_CLOSED = "WS_CLOSED"
 
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
@@ -35,36 +37,34 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("Client Connected")
-	err = ws.WriteMessage(1, []byte("Hi Client!"))
-	if err != nil {
-		log.Println(err)
-	}
 
 	// listen indefinitely for new  progress messages coming from the store and pass them to the websocket
 	progress_writer(ws)
 
-	// listen indefinitely for new messages coming
-	// through on our WebSocket connection
+	log.Println("reading")
+
+	// listen indefinitely for new messages coming through on our WebSocket connection
 	reader(ws)
+
+	*store.progress <- WS_CLOSED
+
+	log.Println("done reading")
 }
 
-// define a reader which will listen for
-// new messages being sent to our WebSocket
-// endpoint
 func reader(conn *websocket.Conn) {
 	for {
 		// read in a message
-		messageType, request, err := conn.ReadMessage()
+		_, request, err := conn.ReadMessage()
 
 		if err != nil {
-			log.Println(err)
+			log.Println("ERR1", err)
 			return
 		}
 
 		response := store.Request(request)
 
-		if err := conn.WriteMessage(messageType, response); err != nil {
-			log.Println(err)
+		if err := conn.WriteMessage(websocket.TextMessage, response); err != nil {
+			log.Println("ERR2", err)
 			return
 		}
 
@@ -75,13 +75,40 @@ func progress_writer(conn *websocket.Conn) {
 	go func() {
 		for {
 			msg, more := <-*store.progress
-			if more {
-				if err := conn.WriteMessage(websocket.TextMessage, []byte(msg)); err != nil {
-					log.Println(err)
-				}
-			} else {
+			if !more || msg == WS_CLOSED {
+				log.Println("ERR5", more, msg)
+				return
+			}
+
+			if err := conn.WriteMessage(websocket.TextMessage, []byte(msg)); err != nil {
+				log.Println("ERR3", err)
 				return
 			}
 		}
 	}()
+}
+
+type limitHandler struct {
+	connc   chan struct{}
+	handler http.Handler
+}
+
+func (h *limitHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	select {
+	case <-h.connc:
+		h.handler.ServeHTTP(w, req)
+		h.connc <- struct{}{}
+	default:
+		http.Error(w, "503 too busy", http.StatusServiceUnavailable)
+	}
+}
+func newLimitHandler(maxConns int, handler http.Handler) http.Handler {
+	h := &limitHandler{
+		connc:   make(chan struct{}, maxConns),
+		handler: handler,
+	}
+	for i := 0; i < maxConns; i++ {
+		h.connc <- struct{}{}
+	}
+	return h
 }
