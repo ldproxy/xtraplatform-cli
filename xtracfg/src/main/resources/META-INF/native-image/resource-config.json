@@ -26,10 +26,7 @@
       "pattern":"shadow/com/sun/xml/xsom/impl/parser/.*\\.xsd$"
     },
     {
-      "pattern":"\\Qorg/sqlite/native/Linux/x86_64/libsqlitejdbc.so\\E"
-    },
-    {
-      "pattern":"\\Qorg/sqlite/native/Linux/aarch64/libsqlitejdbc.so\\E"
+      "pattern":"shadow/com/sun/xml/xsom/impl/parser/.*\\.properties$"
     }
   ]},
   "bundles":[{
