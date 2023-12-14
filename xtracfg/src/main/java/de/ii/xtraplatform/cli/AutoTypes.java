@@ -70,15 +70,15 @@ public class AutoTypes {
 
     @Override
     public String toString() {
-      return name().toLowerCase();
+      return name().toUpperCase();
     }
   }
 
   enum FeatureProviderType {
-    PGIS("sql"),
-    GPKG("sql"),
-    WFS("wfs"),
-    UNKNOWN("unknown");
+    PGIS("SQL"),
+    GPKG("SQL"),
+    WFS("WFS"),
+    UNKNOWN("UNKNOWN");
 
     private final String subType;
 
@@ -88,7 +88,7 @@ public class AutoTypes {
 
     @Override
     public String toString() {
-      return subType;
+      return subType.toUpperCase();
     }
   }
 
@@ -98,7 +98,7 @@ public class AutoTypes {
 
     @Override
     public String toString() {
-      return name().toLowerCase();
+      return name().toUpperCase();
     }
   }
 }
