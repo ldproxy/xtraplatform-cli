@@ -2,6 +2,9 @@
 
 `xtracfg` is a CLI tool that allows you to check your configurations for deprecated options and errors and can also automatically upgrade your configurations to the recent version.
 
+> [!IMPORTANT]
+> The functionality is not complete yet, currently you cannot check and upgrade defaults and overrides. That will be provided in the next release.
+
 ## Installation
 
 #### Binary
@@ -20,9 +23,9 @@ All commands and subcommands have a `--help` flag, for example:
 
 #### Binary
 
-- `xtracfg --help` 
-- `xtracfg check --help` 
-- `xtracfg check entities --help` 
+- `xtracfg --help`
+- `xtracfg check --help`
+- `xtracfg check entities --help`
 
 #### Docker
 
@@ -36,12 +39,12 @@ All Commands commands and subcommands need a directory to operate on.
 
 #### Binary
 
- The default is the current directory, to use another directory:
+The default is the current directory, to use another directory:
 
- - `xtracfg --src /ldproxy/data info` 
+- `xtracfg --src /ldproxy/data info`
 
- #### Docker
+#### Docker
 
- The default is `/src` inside of the container, so you have to mount the desired directory:
+The default is `/src` inside of the container, so you have to mount the desired directory:
 
- - `docker run -it --rm -v /ldproxy/data:/src ghcr.io/ldproxy/xtracfg info`
+- `docker run -it --rm -v /ldproxy/data:/src ghcr.io/ldproxy/xtracfg info`
