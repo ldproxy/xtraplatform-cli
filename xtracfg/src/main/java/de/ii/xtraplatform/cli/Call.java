@@ -15,6 +15,8 @@ public class Call {
     pre_upgrade,
     upgrade,
     auto,
+    schemas,
+    file_type,
     unknown
   }
 

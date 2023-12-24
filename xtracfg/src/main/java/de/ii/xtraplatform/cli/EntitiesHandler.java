@@ -49,6 +49,7 @@ public class EntitiesHandler {
     }
 
     Result result = new Result();
+    result.details("path", path.orElse(""));
     Map<Path, Validation> validations = new LinkedHashMap<>();
     Map<Path, Migration> migrations = new LinkedHashMap<>();
 

@@ -99,6 +99,10 @@ public class CommandHandler {
         return new Upgrade(call.subcommand, call.parameters, false).run(context);
       case auto:
         return new Auto(call.subcommand, call.parameters, tracker).run(context.ldproxyCfg);
+      case schemas:
+        return new Schemas(call.parameters).run(context.ldproxyCfg);
+      case file_type:
+        return new FileType(call.parameters).run(context.ldproxyCfg);
       default:
         return Result.failure("Unknown command: " + call.command);
     }

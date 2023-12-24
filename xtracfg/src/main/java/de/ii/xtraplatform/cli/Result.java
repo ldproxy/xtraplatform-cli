@@ -26,7 +26,7 @@ public class Result {
     return result;
   }
 
-  public static Result ok(String message, Map<String, Object> details) {
+  public static Result ok(String message, Map<String, ?> details) {
     Result result = new Result();
     result.add(Status.INFO, message);
     result.details.putAll(details);
