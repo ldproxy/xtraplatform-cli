@@ -15,6 +15,7 @@ public class FileType extends Common<LdproxyCfg> {
       List.of("defaults", "entities", "instances", "overrides");
   private static final List<String> ENTITY_TYPES = List.of("providers", "services");
 
+  public final String fullPathString;
   public final Path fullPath;
 
   public final Path path;
@@ -23,7 +24,8 @@ public class FileType extends Common<LdproxyCfg> {
 
   public FileType(Map<String, Object> parameters) {
     super(parameters);
-    this.fullPath = Path.of(string(parameters, "path"));
+    this.fullPathString = string(parameters, "path");
+    this.fullPath = Path.of(fullPathString);
 
     String file = Optional.ofNullable(fullPath.getFileName()).map(Path::toString).orElse("");
 
@@ -77,8 +79,8 @@ public class FileType extends Common<LdproxyCfg> {
   }
 
   private Result found(String entityType) {
-    System.out.println("FOUND entities/" + entityType);
+    System.out.println("FOUND entities/" + entityType + " - " + fullPathString);
     return Result.ok(
-        "found", Map.of("path", fullPath.toString(), "fileType", "entities/" + entityType));
+        "found", Map.of("path", fullPathString, "fileType", "entities/" + entityType));
   }
 }
