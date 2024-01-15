@@ -2601,6 +2601,7 @@
     {"name":"getDesiredType","parameterTypes":[] },
     {"name":"getUnit","parameterTypes":[] },
     {"name":"getValueType","parameterTypes":[] },
+    {"name":"getLinearizeCurves","parameterTypes":[] },
     {"name":"getIsLastModified","parameterTypes":[] }
   ]
 },
@@ -2639,7 +2640,8 @@
     {"name":"valueType","parameterTypes":["java.util.Optional"] },
     {"name":"isLastModified","parameterTypes":["java.util.Optional"] },
     {"name":"scope","parameterTypes":["java.util.Optional"] },
-    {"name":"excludedScopes","parameterTypes":["java.lang.Iterable"] }
+    {"name":"excludedScopes","parameterTypes":["java.lang.Iterable"] },
+    {"name":"linearizeCurves","parameterTypes":["java.util.Optional"] }
   ]
 },
 {
