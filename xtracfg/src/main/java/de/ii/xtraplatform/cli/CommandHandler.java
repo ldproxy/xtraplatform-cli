@@ -59,6 +59,10 @@ public class CommandHandler {
       return jsonMapper.writeValueAsString(result.asMap());
     } catch (JsonProcessingException e) {
       return String.format("{\"error\": \"Invalid call: %s\"}", e.getMessage());
+    } finally{
+      if (autoConnect) {
+        this.context = null;
+      }
     }
   }
 
