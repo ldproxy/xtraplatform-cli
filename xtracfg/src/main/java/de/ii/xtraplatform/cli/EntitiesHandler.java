@@ -296,6 +296,7 @@ public class EntitiesHandler {
 
     return Stream.concat(
             entityIdentifiers.stream()
+                    .peek(identifier -> System.out.println("FILTER " + path + " - FILE " + entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .filter(
                     identifier ->
                         path.isEmpty()
