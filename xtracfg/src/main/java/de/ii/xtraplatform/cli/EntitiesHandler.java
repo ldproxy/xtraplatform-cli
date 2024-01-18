@@ -6,6 +6,7 @@ import de.ii.xtraplatform.entities.domain.EntityData;
 import de.ii.xtraplatform.entities.domain.EntityDataDefaultsStore;
 import de.ii.xtraplatform.entities.domain.EntityDataStore;
 import de.ii.xtraplatform.entities.domain.EntityMigration;
+import de.ii.xtraplatform.values.domain.Identifier;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,8 +19,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import de.ii.xtraplatform.values.domain.Identifier;
 import shadow.com.fasterxml.jackson.annotation.JsonInclude;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.collect.ImmutableList;
@@ -38,12 +37,12 @@ public class EntitiesHandler {
       new TypeReference<LinkedHashMap<String, Object>>() {};
 
   public static Result check(
-          LdproxyCfg ldproxyCfg,
-          Type type,
-          Optional<String> path,
-          boolean ignoreRedundant,
-          boolean verbose,
-          boolean debug) {
+      LdproxyCfg ldproxyCfg,
+      Type type,
+      Optional<String> path,
+      boolean ignoreRedundant,
+      boolean verbose,
+      boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -103,13 +102,13 @@ public class EntitiesHandler {
   }
 
   public static Result preUpgrade(
-          LdproxyCfg ldproxyCfg,
-          Type type,
-          Optional<String> path,
-          boolean ignoreRedundant,
-          boolean force,
-          boolean verbose,
-          boolean debug) {
+      LdproxyCfg ldproxyCfg,
+      Type type,
+      Optional<String> path,
+      boolean ignoreRedundant,
+      boolean force,
+      boolean verbose,
+      boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -170,14 +169,14 @@ public class EntitiesHandler {
   }
 
   public static Result upgrade(
-          LdproxyCfg ldproxyCfg,
-          Type type,
-          Optional<String> path,
-          boolean doBackup,
-          boolean ignoreRedundant,
-          boolean force,
-          boolean verbose,
-          boolean debug) {
+      LdproxyCfg ldproxyCfg,
+      Type type,
+      Optional<String> path,
+      boolean doBackup,
+      boolean ignoreRedundant,
+      boolean force,
+      boolean verbose,
+      boolean debug) {
     if (Objects.isNull(ldproxyCfg)) {
       return Result.failure("Not connected to store");
     }
@@ -296,17 +295,21 @@ public class EntitiesHandler {
 
     return Stream.concat(
             entityIdentifiers.stream()
-                    .peek(identifier -> System.out.println("FILTER " + path.map(p -> Path.of(p).toString()) + " - FILE " + entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .filter(
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                Path.of(path.get()).toString(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()),
+                                entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .sorted()
                 .map(identifier -> getValidation(ldproxyCfg, entities, identifier)),
             defaultIdentifiers.stream()
                 .map(identifier -> getValidation(ldproxyCfg, defaults, identifier)))
         .collect(Collectors.toList());
+  }
+
+  private static String normalize(String path) {
+    return Path.of(path).toString();
   }
 
   private static List<Upgrade> getUpgrades(
@@ -337,7 +340,7 @@ public class EntitiesHandler {
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                path.get(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()), entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
                         getUpgrade(
@@ -353,7 +356,7 @@ public class EntitiesHandler {
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                path.get(), defaultsRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()), defaultsRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
                         getUpgrade(
