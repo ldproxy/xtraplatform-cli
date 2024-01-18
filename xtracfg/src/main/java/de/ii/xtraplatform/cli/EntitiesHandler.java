@@ -296,12 +296,12 @@ public class EntitiesHandler {
 
     return Stream.concat(
             entityIdentifiers.stream()
-                    .peek(identifier -> System.out.println("FILTER " + path + " - FILE " + entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                    .peek(identifier -> System.out.println("FILTER " + path.map(p -> Path.of(p).toString()) + " - FILE " + entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .filter(
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                path.get(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                                Path.of(path.get()).toString(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .sorted()
                 .map(identifier -> getValidation(ldproxyCfg, entities, identifier)),
             defaultIdentifiers.stream()
