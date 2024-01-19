@@ -2,11 +2,9 @@ package de.ii.xtraplatform.cli.cmd;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.cli.Result;
+import de.ii.xtraplatform.entities.domain.EntityFactory;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import shadow.com.google.common.io.Files;
 
 public class FileType extends Common<LdproxyCfg> {
@@ -36,9 +34,6 @@ public class FileType extends Common<LdproxyCfg> {
 
   @Override
   public Result run(LdproxyCfg ldproxyCfg) {
-
-    System.out.println(
-        "FILE_TYPE " + fullPath + " - " + path + " - " + fileName + " - " + fileExtension);
 
     if (Objects.isNull(path)
         || path.getNameCount() < 2
@@ -73,6 +68,46 @@ public class FileType extends Common<LdproxyCfg> {
       if (ENTITY_TYPES.contains(fileName)) {
         return found(fileName);
       }
+
+      if (path.getNameCount() >= 4 && ENTITY_TYPES.contains(path.getName(2).toString())) {
+        try {
+          EntityFactory entityFactory =
+              ldproxyCfg
+                  .getEntityFactories()
+                  .get(path.getName(2).toString(), path.getName(3).toString());
+
+          Optional<Set<Map.Entry<String, Object>>> keyPathAlias =
+              entityFactory
+                  .getKeyPathAlias(fileName)
+                  .map(keyPathAlias1 -> keyPathAlias1.wrapMap(Map.of()).entrySet());
+
+          if (keyPathAlias.isPresent() && !keyPathAlias.get().isEmpty()) {
+            Map.Entry<String, Object> next = keyPathAlias.get().iterator().next();
+            String property = next.getKey();
+            String discriminatorKey = null;
+            String discriminatorValue = null;
+            if (next.getValue() instanceof List
+                && !((List<?>) next.getValue()).isEmpty()
+                && ((List<?>) next.getValue()).get(0) instanceof Map) {
+              Map.Entry<String, Object> disc =
+                  ((Map<String, Object>) ((List<?>) next.getValue()).get(0))
+                      .entrySet()
+                      .iterator()
+                      .next();
+              discriminatorKey = disc.getKey();
+              if (disc.getValue() instanceof String) {
+                discriminatorValue = (String) disc.getValue();
+              }
+            }
+
+            return found(path.getName(2).toString(), property, discriminatorKey, discriminatorValue);
+          } else if (keyPathAlias.isEmpty()) {
+            return found(path.getName(2).toString(), fileName, null, null);
+          }
+        } catch (Throwable e) {
+          System.out.println("ERR " + e.getMessage());
+        }
+      }
     }
 
     return Result.empty();
@@ -80,7 +115,46 @@ public class FileType extends Common<LdproxyCfg> {
 
   private Result found(String entityType) {
     System.out.println("FOUND entities/" + entityType + " - " + fullPathString);
+    return Result.ok("found", Map.of("path", fullPathString, "fileType", "entities/" + entityType));
+  }
+
+  private Result found(
+      String entityType, String subProperty, String discriminatorKey, String discriminatorValue) {
+    System.out.println(
+        "FOUND entities/"
+            + entityType
+            + " - "
+            + fullPathString
+            + " - "
+            + subProperty
+            + " - "
+            + discriminatorKey
+            + " - "
+            + discriminatorValue);
+
+    if (Objects.nonNull(discriminatorKey) && Objects.nonNull(discriminatorValue)) {
+      return Result.ok(
+          "found",
+          Map.of(
+              "path",
+              fullPathString,
+              "fileType",
+              "entities/" + entityType,
+              "subProperty",
+              subProperty,
+              "discriminatorKey",
+              discriminatorKey,
+              "discriminatorValue",
+              discriminatorValue));
+    }
     return Result.ok(
-        "found", Map.of("path", fullPathString, "fileType", "entities/" + entityType));
+        "found",
+        Map.of(
+            "path",
+            fullPathString,
+            "fileType",
+            "entities/" + entityType,
+            "subProperty",
+            subProperty));
   }
 }
