@@ -6,6 +6,7 @@ import de.ii.xtraplatform.entities.domain.EntityData;
 import de.ii.xtraplatform.entities.domain.EntityDataDefaultsStore;
 import de.ii.xtraplatform.entities.domain.EntityDataStore;
 import de.ii.xtraplatform.entities.domain.EntityMigration;
+import de.ii.xtraplatform.values.domain.Identifier;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,8 +19,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import de.ii.xtraplatform.values.domain.Identifier;
 import shadow.com.fasterxml.jackson.annotation.JsonInclude;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.collect.ImmutableList;
@@ -299,12 +298,17 @@ public class EntitiesHandler {
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                path.get(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()),
+                                entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .sorted()
                 .map(identifier -> getValidation(ldproxyCfg, entities, identifier)),
             defaultIdentifiers.stream()
                 .map(identifier -> getValidation(ldproxyCfg, defaults, identifier)))
         .collect(Collectors.toList());
+  }
+
+  private static String normalize(String path) {
+    return Path.of(path).toString();
   }
 
   private static List<Upgrade> getUpgrades(
@@ -335,7 +339,8 @@ public class EntitiesHandler {
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                path.get(), entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()),
+                                entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
                         getUpgrade(
@@ -351,7 +356,8 @@ public class EntitiesHandler {
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                path.get(), defaultsRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()),
+                                defaultsRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
                         getUpgrade(
