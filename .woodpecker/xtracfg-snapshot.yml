@@ -20,16 +20,16 @@ pipeline:
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
 
-  github:
-    image: meltwaterfoundation/github-cli:2.29.0
-    commands:
-      - chmod +x xtracfg/linux/amd64/xtracfg
-      - chmod +x xtracfg/linux/arm64/xtracfg
-      - tar -czvf xtracfg_${CI_COMMIT_SHA:0:8}_linux_amd64.tar.gz -C xtracfg/linux/amd64 xtracfg
-      - tar -czvf xtracfg_${CI_COMMIT_SHA:0:8}_linux_arm64.tar.gz -C xtracfg/linux/arm64 xtracfg
-      - gh release upload ${CI_COMMIT_SHA:0:8} xtracfg_${CI_COMMIT_SHA:0:8}_linux_amd64.tar.gz
-      - gh release upload ${CI_COMMIT_SHA:0:8} xtracfg_${CI_COMMIT_SHA:0:8}_linux_arm64.tar.gz
-    secrets: [github_token]
+#  github:
+#    image: meltwaterfoundation/github-cli:2.29.0
+#    commands:
+#      - chmod +x xtracfg/linux/amd64/xtracfg
+#      - chmod +x xtracfg/linux/arm64/xtracfg
+#      - tar -czvf xtracfg_${CI_COMMIT_SHA:0:8}_linux_amd64.tar.gz -C xtracfg/linux/amd64 xtracfg
+#      - tar -czvf xtracfg_${CI_COMMIT_SHA:0:8}_linux_arm64.tar.gz -C xtracfg/linux/arm64 xtracfg
+#      - gh release upload ${CI_COMMIT_SHA:0:8} xtracfg_${CI_COMMIT_SHA:0:8}_linux_amd64.tar.gz
+#      - gh release upload ${CI_COMMIT_SHA:0:8} xtracfg_${CI_COMMIT_SHA:0:8}_linux_arm64.tar.gz
+#    secrets: [github_token]
 
   docker:
     image: woodpeckerci/plugin-docker-buildx
@@ -39,7 +39,7 @@ pipeline:
     settings:
       registry: ghcr.io
       repo: ghcr.io/ldproxy/xtracfg
-      tags: next
+      tags: 2.0-next
       force_tag: true
       pull_image: true
       dockerfile: xtracfg/Dockerfile
