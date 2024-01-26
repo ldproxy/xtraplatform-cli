@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '3.6.0'
+    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '3.6.1-maintenance-3.6-SNAPSHOT'
     implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.35'
 
     compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '22.3.2'
