@@ -30,6 +30,15 @@ type entity struct {
 	Status string
 }
 
+// Value is
+type Value struct {
+	Path, Typ string
+}
+
+type value struct {
+	Path string
+}
+
 // LogStatus is
 type LogStatus struct {
 	Level  string
@@ -111,6 +120,65 @@ func (client Client) Reload(ids []string, types []string) error {
 	query := fmt.Sprintf("?ids=%s&types=%s", strings.Join(ids, ","), strings.Join(types, ","))
 
 	_, err := client.Request("/tasks/reload-entities"+query, "POST", true, nil, "")
+
+	return err
+}
+
+// Values is
+func (client Client) Values() ([]Value, []string, error) {
+
+	body, err := client.Request("/values", "GET", false, nil, "")
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	if body != nil {
+		var result map[string][]value
+		err := json.Unmarshal(body, &result)
+
+		if err != nil {
+			return nil, nil, err
+		}
+
+		var values []Value
+
+		// needed to preserve order
+		types := make([]string, 0)
+		for typ := range result {
+			types = append(types, typ)
+		}
+		sort.Strings(types)
+
+		for _, typ := range types {
+			for _, value := range result[typ] {
+				values = append(values, Value{value.Path, typ})
+			}
+		}
+
+		return values, types, nil
+	}
+
+	return nil, nil, nil
+}
+
+// ValuesJson is
+func (client Client) ValuesJson() ([]byte, error) {
+
+	body, err := client.Request("/values", "GET", false, nil, "")
+
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+// ReloadValue is
+func (client Client) ReloadValue(paths []string) error {
+
+	query := fmt.Sprintf("?paths=%s", strings.Join(paths, ","))
+
+	_, err := client.Request("/tasks/reload-values"+query, "POST", true, nil, "")
 
 	return err
 }
@@ -203,7 +271,7 @@ func (client Client) PurgeTileCache(id string, collection string, tileMatrixSet 
 
 func (client Client) Request(path string, method string, ignoreBody bool, reqBody io.Reader, token string) (body []byte, err error) {
 
-	var uri = fmt.Sprintf("%s://%s:%d%s", client.protocol, *client.host, *client.port, path)
+	var uri = fmt.Sprintf("%s://%s:%d/api%s", client.protocol, *client.host, *client.port, path)
 
 	if *client.debug {
 		fmt.Println("->", uri)
