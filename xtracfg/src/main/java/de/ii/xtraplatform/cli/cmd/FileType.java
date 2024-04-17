@@ -32,6 +32,11 @@ public class FileType extends Common<LdproxyCfg> {
     this.fileExtension = Files.getFileExtension(file);
   }
 
+  public Map<String, String> get(LdproxyCfg ldproxyCfg) {
+    Result result = run(ldproxyCfg);
+    return (Map<String, String>) result.asMap().getOrDefault("details", Map.of());
+  }
+
   @Override
   public Result run(LdproxyCfg ldproxyCfg) {
 
@@ -63,10 +68,13 @@ public class FileType extends Common<LdproxyCfg> {
       return found(path.getFileName().toString());
     }
 
-    // TODO: multi-file defaults
     if (Objects.equals(type, "defaults")) {
       if (ENTITY_TYPES.contains(fileName)) {
         return found(fileName);
+      } else if (ENTITY_TYPES.stream().anyMatch(et -> fileName.startsWith(et + "."))) {
+        return found(
+            fileName.substring(0, fileName.indexOf('.')),
+            fileName.substring(fileName.indexOf('.') + 1));
       }
 
       if (path.getNameCount() >= 4 && ENTITY_TYPES.contains(path.getName(2).toString())) {
@@ -100,9 +108,15 @@ public class FileType extends Common<LdproxyCfg> {
               }
             }
 
-            return found(path.getName(2).toString(), property, discriminatorKey, discriminatorValue);
+            return found(
+                path.getName(2).toString(),
+                path.getName(3).toString(),
+                property,
+                discriminatorKey,
+                discriminatorValue);
           } else if (keyPathAlias.isEmpty()) {
-            return found(path.getName(2).toString(), fileName, null, null);
+            return found(
+                path.getName(2).toString(), path.getName(3).toString(), fileName, null, null);
           }
         } catch (Throwable e) {
           System.out.println("ERR " + e.getMessage());
@@ -115,14 +129,44 @@ public class FileType extends Common<LdproxyCfg> {
 
   private Result found(String entityType) {
     System.out.println("FOUND entities/" + entityType + " - " + fullPathString);
-    return Result.ok("found", Map.of("path", fullPathString, "fileType", "entities/" + entityType));
+    return Result.ok(
+        "found",
+        Map.of(
+            "path",
+            fullPathString,
+            "fileType",
+            "entities/" + entityType,
+            "entityType",
+            entityType));
+  }
+
+  private Result found(String entityType, String entitySubType) {
+    System.out.println(
+        "FOUND entities/" + entityType + " - " + entitySubType + " - " + fullPathString);
+    return Result.ok(
+        "found",
+        Map.of(
+            "path",
+            fullPathString,
+            "fileType",
+            "entities/" + entityType,
+            "entityType",
+            entityType,
+            entityType,
+            "entitySubType"));
   }
 
   private Result found(
-      String entityType, String subProperty, String discriminatorKey, String discriminatorValue) {
+      String entityType,
+      String entitySubType,
+      String subProperty,
+      String discriminatorKey,
+      String discriminatorValue) {
     System.out.println(
         "FOUND entities/"
             + entityType
+            + " - "
+            + entitySubType
             + " - "
             + fullPathString
             + " - "
@@ -140,6 +184,10 @@ public class FileType extends Common<LdproxyCfg> {
               fullPathString,
               "fileType",
               "entities/" + entityType,
+              "entityType",
+              entityType,
+              "entitySubType",
+              entitySubType,
               "subProperty",
               subProperty,
               "discriminatorKey",
@@ -154,6 +202,10 @@ public class FileType extends Common<LdproxyCfg> {
             fullPathString,
             "fileType",
             "entities/" + entityType,
+            "entityType",
+            entityType,
+            "entitySubType",
+            entitySubType,
             "subProperty",
             subProperty));
   }

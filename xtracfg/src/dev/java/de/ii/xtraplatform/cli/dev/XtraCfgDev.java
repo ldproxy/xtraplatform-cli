@@ -5,37 +5,21 @@ import de.ii.xtraplatform.cli.EntitiesHandler;
 
 public class XtraCfgDev {
 
-  // TODO: json
   public static void main(String[] args) {
     if (args.length == 0) {
       throw new IllegalArgumentException("No command given");
     }
 
     EntitiesHandler.DEV = true;
-    String parameters = "";
+    String command =
+        args[0]
+            .replaceAll("\\{", "{\"")
+            .replaceAll("\\}", "\"}")
+            .replaceAll("\\:", "\":\"")
+            .replaceAll("\\,", "\",\"");
 
     try {
       CommandHandler commandHandler = new CommandHandler();
-
-      for (int i = 1; i < args.length; i++) {
-        if (args[i].startsWith("-")) {
-          parameters += i == 1 ? "?" : "&";
-          parameters += args[i].replaceAll("-", "").replace("src", "source");
-          if (args.length <= i + 1 || args[i + 1].startsWith("-")) {
-            parameters += "=true";
-          }
-        } else {
-          parameters += "=" + args[i];
-        }
-      }
-
-      String connect = "/connect" + parameters;
-
-      String connectResult = commandHandler.handleCommand(connect);
-
-      System.out.println(connectResult);
-
-      String command = "/" + args[0] + parameters;
 
       System.out.println("COMMAND: " + command);
 
@@ -44,7 +28,7 @@ public class XtraCfgDev {
       System.out.println(result);
 
     } catch (Throwable e) {
-      System.out.println("ERROR: " + parameters + " | " + e.getMessage());
+      System.out.println("ERROR: " + command + " | " + e.getMessage());
       e.printStackTrace();
     }
   }

@@ -1,6 +1,7 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
+import de.ii.xtraplatform.cli.cmd.FileType;
 import de.ii.xtraplatform.entities.app.MapAligner;
 import de.ii.xtraplatform.entities.domain.EntityData;
 import de.ii.xtraplatform.entities.domain.EntityDataDefaultsStore;
@@ -27,7 +28,7 @@ public class EntitiesHandler {
 
   public enum Type {
     Entity,
-    Default,
+    Defaults,
     All
   }
 
@@ -57,7 +58,7 @@ public class EntitiesHandler {
 
       if (validation.getError().isPresent() || validation.hasErrors()) {
         ldproxyCfg.ignoreEventsFor(
-            validation.getType() == Type.Default
+            validation.getType() == Type.Defaults
                 ? EntityDataDefaultsStore.EVENT_TYPE
                 : EntityDataStore.EVENT_TYPE_ENTITIES,
             validation.getIdentifier());
@@ -120,7 +121,7 @@ public class EntitiesHandler {
         validation.logErrors(result, verbose);
 
         ldproxyCfg.ignoreEventsFor(
-            validation.getType() == Type.Default
+            validation.getType() == Type.Defaults
                 ? EntityDataDefaultsStore.EVENT_TYPE
                 : EntityDataStore.EVENT_TYPE_ENTITIES,
             validation.getIdentifier());
@@ -188,7 +189,7 @@ public class EntitiesHandler {
       for (Validation validation : getValidations(ldproxyCfg, type, path)) {
         if (validation.getError().isPresent() || validation.hasErrors()) {
           ldproxyCfg.ignoreEventsFor(
-              validation.getType() == Type.Default
+              validation.getType() == Type.Defaults
                   ? EntityDataDefaultsStore.EVENT_TYPE
                   : EntityDataStore.EVENT_TYPE_ENTITIES,
               validation.getIdentifier());
@@ -284,14 +285,12 @@ public class EntitiesHandler {
     Path entities = ldproxyCfg.getEntitiesPath();
     Path defaults = ldproxyCfg.getEntitiesPath().getParent().resolve("defaults");
     Path entitiesRel = ldproxyCfg.getDataDirectory().relativize(entities);
+    Path defaultsRel = ldproxyCfg.getDataDirectory().relativize(defaults);
 
     List<Identifier> entityIdentifiers =
         type == Type.Entity || type == Type.All ? ldproxyCfg.getEntityIdentifiers() : List.of();
     List<Identifier> defaultIdentifiers =
-        type == Type.Default || type == Type.All
-            // TODO
-            ? ldproxyCfg.getEntityDataDefaultsStore().identifiers()
-            : List.of();
+        type == Type.Defaults || type == Type.All ? ldproxyCfg.getDefaultIdentifiers() : List.of();
 
     return Stream.concat(
             entityIdentifiers.stream()
@@ -302,9 +301,16 @@ public class EntitiesHandler {
                                 normalize(path.get()),
                                 entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .sorted()
-                .map(identifier -> getValidation(ldproxyCfg, entities, identifier)),
+                .map(identifier -> getValidation(ldproxyCfg, entities, identifier, Type.Entity)),
             defaultIdentifiers.stream()
-                .map(identifier -> getValidation(ldproxyCfg, defaults, identifier)))
+                    .filter(
+                            identifier ->
+                                    path.isEmpty()
+                                            || Objects.equals(
+                                            normalize(path.get()),
+                                            defaultsRel.resolve(identifier.asPath()) + ".yml"))
+                    .sorted()
+                .map(identifier -> getValidation(ldproxyCfg, defaults, identifier, Type.Defaults)))
         .collect(Collectors.toList());
   }
 
@@ -329,7 +335,7 @@ public class EntitiesHandler {
             ? ldproxyCfg.getEntityDataStore().identifiers()
             : List.of();
     List<Identifier> defaultIdentifiers =
-        type == Type.Default || type == Type.All
+        type == Type.Defaults || type == Type.All
             ? ldproxyCfg.getEntityDataDefaultsStore().identifiers()
             : List.of();
 
@@ -340,7 +346,8 @@ public class EntitiesHandler {
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                normalize(path.get()), entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()),
+                                entitiesRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
                         getUpgrade(
@@ -356,12 +363,13 @@ public class EntitiesHandler {
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
-                                normalize(path.get()), defaultsRel.resolve(identifier.asPath()) + ".yml"))
+                                normalize(path.get()),
+                                defaultsRel.resolve(identifier.asPath()) + ".yml"))
                 .map(
                     identifier ->
                         getUpgrade(
                             ldproxyCfg,
-                            Type.Default,
+                            Type.Defaults,
                             defaults,
                             identifier,
                             ignoreRedundant,
@@ -372,14 +380,21 @@ public class EntitiesHandler {
         .collect(Collectors.toList());
   }
 
-  private static Validation getValidation(LdproxyCfg ldproxyCfg, Path root, Identifier identifier) {
+  private static Validation getValidation(
+      LdproxyCfg ldproxyCfg, Path root, Identifier identifier, Type type) {
     Path base = root.resolve(identifier.asPath());
     Path yml = base.getParent().resolve(base.getFileName().toString() + ".yml");
+    Path relYml = ldproxyCfg.getDataDirectory().relativize(yml);
 
-    Validation validation =
-        new Validation(Type.Entity, identifier, ldproxyCfg.getDataDirectory().relativize(yml));
+    Map<String, String> fileType = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
 
-    validation.validate(ldproxyCfg);
+    System.out.println("VALIDATE " + relYml + " - " + fileType);
+
+    Validation validation = new Validation(type, identifier, relYml);
+
+    if (fileType.containsKey("entityType")) {
+      validation.validate(ldproxyCfg, fileType);
+    }
 
     return validation;
   }
@@ -398,9 +413,9 @@ public class EntitiesHandler {
     try {
       return type == Type.Entity
           ? getEntityUpgrade(ldproxyCfg, yml, identifier, ignoreRedundant, force, debug)
-          : type == Type.Default
-              ? getDefaultUpgrade(ldproxyCfg, yml, identifier, force, debug)
-              : Optional.empty();
+          : /*type == Type.Default
+            ? getDefaultUpgrade(ldproxyCfg, yml, identifier, force, debug)
+            :*/ Optional.empty();
     } catch (Throwable e) {
       if (debug) {
         System.err.println("Could not read " + yml);
@@ -517,7 +532,7 @@ public class EntitiesHandler {
     if (force || !diff.isEmpty()) {
       return Optional.of(
           new Upgrade(
-              Type.Default,
+              Type.Defaults,
               ldproxyCfg.getDataDirectory().relativize(yml),
               original,
               upgraded,

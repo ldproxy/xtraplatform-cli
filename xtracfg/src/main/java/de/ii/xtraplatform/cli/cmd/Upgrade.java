@@ -30,7 +30,7 @@ public class Upgrade extends Store {
         case entities:
           return EntitiesHandler.preUpgrade(
               ldproxyCfg,
-              EntitiesHandler.Type.Entity,
+              EntitiesHandler.Type.All,
               path,
               ignoreRedundant,
               force,
@@ -53,7 +53,7 @@ public class Upgrade extends Store {
       case entities:
         return EntitiesHandler.upgrade(
             ldproxyCfg,
-            EntitiesHandler.Type.Entity,
+            EntitiesHandler.Type.All,
             path,
             backup,
             ignoreRedundant,

@@ -18,10 +18,10 @@ public class Check extends Store {
         return CfgHandler.check(ldproxyCfg, ignoreRedundant, verbose, debug);
       case defaults:
         return EntitiesHandler.check(
-            ldproxyCfg, EntitiesHandler.Type.Default, path, ignoreRedundant, verbose, debug);
+            ldproxyCfg, EntitiesHandler.Type.Defaults, path, ignoreRedundant, verbose, debug);
       case entities:
         return EntitiesHandler.check(
-            ldproxyCfg, EntitiesHandler.Type.Entity, path, ignoreRedundant, verbose, debug);
+            ldproxyCfg, EntitiesHandler.Type.All, path, ignoreRedundant, verbose, debug);
       case overrides:
         return Result.empty();
       case layout:

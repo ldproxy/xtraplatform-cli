@@ -3,14 +3,14 @@ package de.ii.xtraplatform.cli;
 import de.ii.ldproxy.cfg.DeprecatedKeyword;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.entities.app.MapSubtractor;
+import de.ii.xtraplatform.values.domain.Identifier;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import de.ii.xtraplatform.values.domain.Identifier;
 import shadow.com.networknt.schema.ValidationMessage;
 import shadow.com.networknt.schema.ValidatorTypeCode;
 
@@ -49,22 +49,44 @@ public class Validation extends Messages {
     return "is fine";
   }
 
-  public void validate(LdproxyCfg ldproxyCfg) {
-    try {
-      if (getType() == EntitiesHandler.Type.Entity) {
+  public void validate(LdproxyCfg ldproxyCfg, Map<String, String> fileType) {
+    if (!fileType.containsKey("entityType")) {
+      return;
+    }
+    String entityType = fileType.get("entityType");
 
-        for (ValidationMessage msg :
-            ldproxyCfg.validateEntity(
-                ldproxyCfg.getDataDirectory().resolve(getPath()),
-                getIdentifier().path().get(getIdentifier().path().size() - 1))) {
-          if (//msg.getMessage().contains("string found, boolean expected") ||
-              //msg.getMessage().contains("integer found, string expected") ||
-              msg.getMessage().contains(".tileProviderId: is deprecated")) {
-            // ignore
-            continue;
-          }
-          addMessage(msg);
+    try {
+      String fileContent = Files.readString(ldproxyCfg.getDataDirectory().resolve(getPath()));
+
+      if (getType() == EntitiesHandler.Type.Defaults && fileType.containsKey("entitySubType")) {
+        fileContent =
+            fileContent
+                + entityType.substring(0, entityType.length() - 1)
+                + "Type: "
+                + fileType.get("entitySubType").toUpperCase()
+                + "\n";
+
+        // TODO: if first line is ---, remove
+        // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
+        // TODO: if fileType contains discriminatorKey/discriminatorValue, make original content array entry and add the key/value pair to array
+      }
+
+      for (ValidationMessage msg : ldproxyCfg.validateEntity(fileContent, entityType)) {
+        if ( // msg.getMessage().contains("string found, boolean expected") ||
+        // msg.getMessage().contains("integer found, string expected") ||
+        msg.getMessage().contains(".tileProviderId: is deprecated")
+            || (getType() == EntitiesHandler.Type.Defaults
+                && (
+                /*msg.getMessage().contains("$.serviceType: is missing but it is required")
+                || msg.getMessage().contains("$.providerType: is missing but it is required")
+                ||*/ msg.getMessage()
+                        .contains("$.providerSubType: is missing but it is required")
+                    || msg.getMessage()
+                        .contains("$.featureProviderType: is missing but it is required")))) {
+          // ignore
+          continue;
         }
+        addMessage(msg);
       }
     } catch (IOException e) {
       setError(e.getMessage());
