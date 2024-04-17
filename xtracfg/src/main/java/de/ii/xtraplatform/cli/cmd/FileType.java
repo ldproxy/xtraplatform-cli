@@ -152,8 +152,7 @@ public class FileType extends Common<LdproxyCfg> {
             "entities/" + entityType,
             "entityType",
             entityType,
-            entityType,
-            "entitySubType"));
+            "entitySubType", entitySubType));
   }
 
   private Result found(

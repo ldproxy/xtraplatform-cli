@@ -303,13 +303,13 @@ public class EntitiesHandler {
                 .sorted()
                 .map(identifier -> getValidation(ldproxyCfg, entities, identifier, Type.Entity)),
             defaultIdentifiers.stream()
-                    .filter(
-                            identifier ->
-                                    path.isEmpty()
-                                            || Objects.equals(
-                                            normalize(path.get()),
-                                            defaultsRel.resolve(identifier.asPath()) + ".yml"))
-                    .sorted()
+                .filter(
+                    identifier ->
+                        path.isEmpty()
+                            || Objects.equals(
+                                normalize(path.get()),
+                                defaultsRel.resolve(identifier.asPath()) + ".yml"))
+                .sorted()
                 .map(identifier -> getValidation(ldproxyCfg, defaults, identifier, Type.Defaults)))
         .collect(Collectors.toList());
   }
@@ -335,9 +335,7 @@ public class EntitiesHandler {
             ? ldproxyCfg.getEntityDataStore().identifiers()
             : List.of();
     List<Identifier> defaultIdentifiers =
-        type == Type.Defaults || type == Type.All
-            ? ldproxyCfg.getEntityDataDefaultsStore().identifiers()
-            : List.of();
+        type == Type.Defaults || type == Type.All ? ldproxyCfg.getDefaultIdentifiers() : List.of();
 
     // TODO: optionally compare ordering of elements
     return Stream.concat(
@@ -413,9 +411,9 @@ public class EntitiesHandler {
     try {
       return type == Type.Entity
           ? getEntityUpgrade(ldproxyCfg, yml, identifier, ignoreRedundant, force, debug)
-          : /*type == Type.Default
-            ? getDefaultUpgrade(ldproxyCfg, yml, identifier, force, debug)
-            :*/ Optional.empty();
+          : type == Type.Defaults
+              ? getDefaultUpgrade(ldproxyCfg, yml, identifier, force, debug)
+              : Optional.empty();
     } catch (Throwable e) {
       if (debug) {
         System.err.println("Could not read " + yml);
@@ -520,9 +518,21 @@ public class EntitiesHandler {
   private static Optional<Upgrade> getDefaultUpgrade(
       LdproxyCfg ldproxyCfg, Path yml, Identifier identifier, boolean force, boolean debug)
       throws IOException {
-    LinkedHashMap<String, Object> original =
-        ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
-    Map<String, Object> upgraded = ldproxyCfg.getEntityDataDefaultsStore().get(identifier);
+    Path relYml = ldproxyCfg.getDataDirectory().relativize(yml);
+    Map<String, String> fileType = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
+
+    if (!fileType.containsKey("entityType") || !fileType.containsKey("entitySubType")) {
+      return Optional.empty();
+    }
+
+    Identifier storeIdentifier =
+        Identifier.from("defaults", fileType.get("entityType"), fileType.get("entitySubType"));
+
+    Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
+    Map<String, Object> upgraded = ldproxyCfg.getEntityDataDefaultsStore().get(storeIdentifier);
+
+    // TODO: if fileType contains discriminatorKey/discriminatorValue, add the key/value pair to original, nest original content in arraylist
+    // TODO: if fileType contains subproperty, nest original in another map with subProperty as key
 
     Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
     if (debug) {
@@ -530,14 +540,7 @@ public class EntitiesHandler {
     }
 
     if (force || !diff.isEmpty()) {
-      return Optional.of(
-          new Upgrade(
-              Type.Defaults,
-              ldproxyCfg.getDataDirectory().relativize(yml),
-              original,
-              upgraded,
-              null,
-              Map.of()));
+      return Optional.of(new Upgrade(Type.Defaults, relYml, original, upgraded, null, Map.of()));
     }
 
     return Optional.empty();
