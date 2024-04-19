@@ -4,10 +4,12 @@ import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.cli.cmd.FileType;
 import de.ii.xtraplatform.entities.app.MapAligner;
 import de.ii.xtraplatform.entities.domain.EntityData;
+import de.ii.xtraplatform.entities.domain.EntityDataBuilder;
 import de.ii.xtraplatform.entities.domain.EntityDataDefaultsStore;
 import de.ii.xtraplatform.entities.domain.EntityDataStore;
 import de.ii.xtraplatform.entities.domain.EntityMigration;
 import de.ii.xtraplatform.values.domain.Identifier;
+import de.ii.xtraplatform.values.domain.ValueEncoding;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,6 +34,7 @@ public class EntitiesHandler {
   public enum Type {
     Entity,
     Defaults,
+    Overrides,
     All
   }
 
@@ -60,11 +63,10 @@ public class EntitiesHandler {
       validations.put(validation.getPath(), validation);
 
       if (validation.getError().isPresent() || validation.hasErrors()) {
+        ldproxyCfg.ignoreEventsFor(EntityDataDefaultsStore.EVENT_TYPE, validation.getIdentifier());
+        ldproxyCfg.ignoreEventsFor(EntityDataStore.EVENT_TYPE_ENTITIES, validation.getIdentifier());
         ldproxyCfg.ignoreEventsFor(
-            validation.getType() == Type.Defaults
-                ? EntityDataDefaultsStore.EVENT_TYPE
-                : EntityDataStore.EVENT_TYPE_ENTITIES,
-            validation.getIdentifier());
+            EntityDataStore.EVENT_TYPE_OVERRIDES, validation.getIdentifier());
       }
     }
 
@@ -123,11 +125,10 @@ public class EntitiesHandler {
       if (validation.getError().isPresent() || validation.hasErrors()) {
         validation.logErrors(result, verbose);
 
+        ldproxyCfg.ignoreEventsFor(EntityDataDefaultsStore.EVENT_TYPE, validation.getIdentifier());
+        ldproxyCfg.ignoreEventsFor(EntityDataStore.EVENT_TYPE_ENTITIES, validation.getIdentifier());
         ldproxyCfg.ignoreEventsFor(
-            validation.getType() == Type.Defaults
-                ? EntityDataDefaultsStore.EVENT_TYPE
-                : EntityDataStore.EVENT_TYPE_ENTITIES,
-            validation.getIdentifier());
+            EntityDataStore.EVENT_TYPE_OVERRIDES, validation.getIdentifier());
       }
     }
 
@@ -192,10 +193,11 @@ public class EntitiesHandler {
       for (Validation validation : getValidations(ldproxyCfg, type, path)) {
         if (validation.getError().isPresent() || validation.hasErrors()) {
           ldproxyCfg.ignoreEventsFor(
-              validation.getType() == Type.Defaults
-                  ? EntityDataDefaultsStore.EVENT_TYPE
-                  : EntityDataStore.EVENT_TYPE_ENTITIES,
-              validation.getIdentifier());
+              EntityDataDefaultsStore.EVENT_TYPE, validation.getIdentifier());
+          ldproxyCfg.ignoreEventsFor(
+              EntityDataStore.EVENT_TYPE_ENTITIES, validation.getIdentifier());
+          ldproxyCfg.ignoreEventsFor(
+              EntityDataStore.EVENT_TYPE_OVERRIDES, validation.getIdentifier());
         }
       }
 
@@ -324,33 +326,53 @@ public class EntitiesHandler {
       LdproxyCfg ldproxyCfg, Type type, Optional<String> path) {
     Path entities = ldproxyCfg.getEntitiesPath();
     Path defaults = ldproxyCfg.getEntitiesPath().getParent().resolve("defaults");
+    Path overrides = ldproxyCfg.getEntitiesPath().getParent().resolve("overrides");
     Path entitiesRel = ldproxyCfg.getDataDirectory().relativize(entities);
     Path defaultsRel = ldproxyCfg.getDataDirectory().relativize(defaults);
+    Path overridesRel = ldproxyCfg.getDataDirectory().relativize(overrides);
 
     List<Identifier> entityIdentifiers =
         type == Type.Entity || type == Type.All ? ldproxyCfg.getEntityIdentifiers() : List.of();
     List<Identifier> defaultIdentifiers =
         type == Type.Defaults || type == Type.All ? ldproxyCfg.getDefaultIdentifiers() : List.of();
+    List<Identifier> overrideIdentifiers =
+        type == Type.Overrides || type == Type.All
+            ? ldproxyCfg.getOverrideIdentifiers()
+            : List.of();
 
     return Stream.concat(
-            entityIdentifiers.stream()
+            Stream.concat(
+                entityIdentifiers.stream()
+                    .filter(
+                        identifier ->
+                            path.isEmpty()
+                                || Objects.equals(
+                                    normalize(path.get()),
+                                    entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                    .sorted()
+                    .map(
+                        identifier -> getValidation(ldproxyCfg, entities, identifier, Type.Entity)),
+                defaultIdentifiers.stream()
+                    .filter(
+                        identifier ->
+                            path.isEmpty()
+                                || Objects.equals(
+                                    normalize(path.get()),
+                                    defaultsRel.resolve(identifier.asPath()) + ".yml"))
+                    .sorted()
+                    .map(
+                        identifier ->
+                            getValidation(ldproxyCfg, defaults, identifier, Type.Defaults))),
+            overrideIdentifiers.stream()
                 .filter(
                     identifier ->
                         path.isEmpty()
                             || Objects.equals(
                                 normalize(path.get()),
-                                entitiesRel.resolve(identifier.asPath()) + ".yml"))
+                                overridesRel.resolve(identifier.asPath()) + ".yml"))
                 .sorted()
-                .map(identifier -> getValidation(ldproxyCfg, entities, identifier, Type.Entity)),
-            defaultIdentifiers.stream()
-                .filter(
-                    identifier ->
-                        path.isEmpty()
-                            || Objects.equals(
-                                normalize(path.get()),
-                                defaultsRel.resolve(identifier.asPath()) + ".yml"))
-                .sorted()
-                .map(identifier -> getValidation(ldproxyCfg, defaults, identifier, Type.Defaults)))
+                .map(
+                    identifier -> getValidation(ldproxyCfg, overrides, identifier, Type.Overrides)))
         .collect(Collectors.toList());
   }
 
@@ -367,8 +389,10 @@ public class EntitiesHandler {
       boolean debug) {
     Path entities = ldproxyCfg.getEntitiesPath();
     Path defaults = ldproxyCfg.getEntitiesPath().getParent().resolve("defaults");
+    Path overrides = ldproxyCfg.getEntitiesPath().getParent().resolve("overrides");
     Path entitiesRel = ldproxyCfg.getDataDirectory().relativize(entities);
     Path defaultsRel = ldproxyCfg.getDataDirectory().relativize(defaults);
+    Path overridesRel = ldproxyCfg.getDataDirectory().relativize(overrides);
 
     List<Identifier> entityIdentifiers =
         type == Type.Entity || type == Type.All
@@ -376,46 +400,70 @@ public class EntitiesHandler {
             : List.of();
     List<Identifier> defaultIdentifiers =
         type == Type.Defaults || type == Type.All ? ldproxyCfg.getDefaultIdentifiers() : List.of();
+    List<Identifier> overrideIdentifiers =
+        type == Type.Overrides || type == Type.All
+            ? ldproxyCfg.getOverrideIdentifiers()
+            : List.of();
 
     // TODO: optionally compare ordering of elements
     return Stream.concat(
-            entityIdentifiers.stream()
-                .filter(
-                    identifier ->
-                        path.isEmpty()
-                            || Objects.equals(
-                                normalize(path.get()),
-                                entitiesRel.resolve(identifier.asPath()) + ".yml"))
-                .map(
-                    identifier ->
-                        getUpgrade(
-                            ldproxyCfg,
-                            Type.Entity,
-                            entities,
-                            identifier,
-                            ignoreRedundant,
-                            force,
-                            debug)),
-            defaultIdentifiers.stream()
-                .filter(
-                    identifier ->
-                        path.isEmpty()
-                            || Objects.equals(
-                                normalize(path.get()),
-                                defaultsRel.resolve(identifier.asPath()) + ".yml"))
-                .map(
-                    identifier ->
-                        getUpgrade(
-                            ldproxyCfg,
-                            Type.Defaults,
-                            defaults,
-                            identifier,
-                            ignoreRedundant,
-                            force,
-                            debug)))
+            Stream.concat(
+                getUpgrades(
+                    ldproxyCfg,
+                    Type.Entity,
+                    path,
+                    ignoreRedundant,
+                    force,
+                    debug,
+                    entityIdentifiers,
+                    entities,
+                    entitiesRel),
+                getUpgrades(
+                    ldproxyCfg,
+                    Type.Defaults,
+                    path,
+                    ignoreRedundant,
+                    force,
+                    debug,
+                    defaultIdentifiers,
+                    defaults,
+                    defaultsRel)),
+            getUpgrades(
+                ldproxyCfg,
+                Type.Overrides,
+                path,
+                ignoreRedundant,
+                force,
+                debug,
+                overrideIdentifiers,
+                overrides,
+                overridesRel))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
+  }
+
+  private static Stream<Optional<Upgrade>> getUpgrades(
+      LdproxyCfg ldproxyCfg,
+      Type type,
+      Optional<String> path,
+      boolean ignoreRedundant,
+      boolean force,
+      boolean debug,
+      List<Identifier> identifiers,
+      Path overridesPath,
+      Path overridesPathRel) {
+    return identifiers.stream()
+        .filter(
+            identifier ->
+                path.isEmpty()
+                    || Objects.equals(
+                        normalize(path.get()),
+                        overridesPathRel.resolve(identifier.asPath()) + ".yml"))
+        .map(
+            identifier ->
+                getUpgrade(
+                    ldproxyCfg, type, overridesPath, identifier, ignoreRedundant, force, debug));
   }
 
   private static Validation getValidation(
@@ -453,7 +501,9 @@ public class EntitiesHandler {
           ? getEntityUpgrade(ldproxyCfg, yml, identifier, ignoreRedundant, force, debug)
           : type == Type.Defaults
               ? getDefaultUpgrade(ldproxyCfg, yml, identifier, force, debug)
-              : Optional.empty();
+              : type == Type.Overrides
+                  ? getOverrideUpgrade(ldproxyCfg, yml, identifier, ignoreRedundant, force, debug)
+                  : Optional.empty();
     } catch (Throwable e) {
       if (debug) {
         System.err.println("Could not read " + yml);
@@ -569,7 +619,14 @@ public class EntitiesHandler {
         Identifier.from("defaults", fileType.get("entityType"), fileType.get("entitySubType"));
 
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
-    Map<String, Object> upgraded = ldproxyCfg.getEntityDataDefaultsStore().get(storeIdentifier);
+    Map<String, Object> upgraded =
+        getUpgradedDefaultsOrOverrides(
+            ldproxyCfg,
+            yml,
+            storeIdentifier,
+            fileType.get("entityType"),
+            fileType.get("entitySubType"),
+            original);
 
     // TODO: if fileType contains discriminatorKey/discriminatorValue(buildingBlock/Common), add the key/value pair(buildingBlock/Common) to original(Inhalt von Common), (nest original content in arraylist)
     // TODO: if fileType contains subproperty(metadata), (nest original in another map with subProperty as key)
@@ -637,5 +694,86 @@ public class EntitiesHandler {
     }
 
     return Optional.empty();
+  }
+
+  private static Optional<Upgrade> getOverrideUpgrade(
+      LdproxyCfg ldproxyCfg,
+      Path yml,
+      Identifier identifier,
+      boolean ignoreRedundant,
+      boolean force,
+      boolean debug)
+      throws IOException {
+    Path relYml = ldproxyCfg.getDataDirectory().relativize(yml);
+    Map<String, String> fileType = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
+
+    if (!fileType.containsKey("entityType") || !fileType.containsKey("entitySubType")) {
+      return Optional.empty();
+    }
+
+    Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
+    Map<String, Object> upgraded =
+        getUpgradedDefaultsOrOverrides(
+            ldproxyCfg,
+            yml,
+            identifier,
+            fileType.get("entityType"),
+            fileType.get("entitySubType"),
+            original);
+
+    Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
+    if (debug) {
+      System.out.println("DIFF " + diff);
+    }
+
+    if (force || !diff.isEmpty()) {
+      return Optional.of(new Upgrade(Type.Defaults, relYml, original, upgraded, null, Map.of()));
+    }
+
+    return Optional.empty();
+  }
+
+  private static Map<String, Object> getUpgradedDefaultsOrOverrides(
+      LdproxyCfg ldproxyCfg,
+      Path yml,
+      Identifier identifier,
+      String entityType,
+      String entitySubType,
+      Map<String, Object> original)
+      throws IOException {
+    EntityDataBuilder<? extends EntityData> builder =
+        ldproxyCfg
+            .getEntityFactories()
+            .get(entityType, entitySubType)
+            .emptyDataBuilder()
+            .fillRequiredFieldsWithPlaceholders();
+    ldproxyCfg
+        .getEntityDataStore()
+        .getValueEncoding()
+        .getMapper(ValueEncoding.FORMAT.YML)
+        .readerForUpdating(builder)
+        .readValue(yml.toFile());
+
+    Map<String, Object> upgraded =
+        ldproxyCfg.getEntityDataDefaultsStore().asMap(identifier, builder.build());
+    Map<String, Object> cleanUpgraded = new LinkedHashMap<>();
+
+    for (Map.Entry<String, Object> entry : upgraded.entrySet()) {
+      if (!Objects.equals(entry.getValue(), "__DEFAULT__")
+          && !List.of("lastModified", "createdAt", "entityStorageVersion")
+              .contains(entry.getKey())) {
+        if (entry.getKey().equals("label") && !original.containsKey("label")) {
+          continue;
+        }
+        if (entry.getKey().equals("enabled")
+            && !(original.containsKey("enabled") || original.containsKey("shouldStart"))) {
+          continue;
+        }
+
+        cleanUpgraded.put(entry.getKey(), entry.getValue());
+      }
+    }
+
+    return cleanUpgraded;
   }
 }

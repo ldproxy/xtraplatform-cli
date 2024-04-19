@@ -7,9 +7,7 @@ public abstract class Store extends Common<Context> {
 
   public enum Subcommand {
     cfg,
-    defaults,
     entities,
-    overrides,
     layout
   }
 
@@ -34,11 +32,6 @@ public abstract class Store extends Common<Context> {
   }
 
   public final boolean shouldRun(Subcommand subcommand) {
-    // TODO: not implemented yet
-    if (subcommand == Subcommand.defaults || subcommand == Subcommand.overrides) {
-      return this.subcommand.isPresent() && this.subcommand.get() == subcommand;
-    }
-
     return this.subcommand.isEmpty() || this.subcommand.get() == subcommand;
   }
 }

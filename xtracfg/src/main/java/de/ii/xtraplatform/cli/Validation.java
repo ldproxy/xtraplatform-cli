@@ -99,7 +99,18 @@ public class Validation extends Messages {
 
         // TODO: if first line is ---, remove
         // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
-        // TODO: if fileType contains discriminatorKey/discriminatorValue, make original content array entry and add the key/value pair to array
+        // TODO: if fileType contains discriminatorKey/discriminatorValue, make original content
+        // array entry and add the key/value pair to array
+      }
+
+      if (getType() == EntitiesHandler.Type.Overrides && fileType.containsKey("entitySubType")) {
+        fileContent =
+            fileContent
+                + "\n"
+                + entityType.substring(0, entityType.length() - 1)
+                + "Type: "
+                + fileType.get("entitySubType").toUpperCase()
+                + "\n";
       }
 
       for (ValidationMessage msg : ldproxyCfg.validateEntity(fileContent, entityType)) {
@@ -153,6 +164,12 @@ public class Validation extends Messages {
           && !coveredPaths.contains(pathSingles)
           && !upgradedPaths.contains(path)
           && !upgradedPaths.contains(pathSingles)) {
+
+        if (coveredPaths.stream()
+            .anyMatch(cp -> path.startsWith(cp + ".") || pathSingles.startsWith(cp + "."))) {
+          continue;
+        }
+
         addMessage(redundant(path));
       }
     }

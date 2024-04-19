@@ -3,6 +3,8 @@ package de.ii.xtraplatform.cli.cmd;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.cli.Result;
 import de.ii.xtraplatform.entities.domain.EntityFactory;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import shadow.com.google.common.io.Files;
@@ -65,6 +67,35 @@ public class FileType extends Common<LdproxyCfg> {
     if (path.getNameCount() >= 3
         && CONTENT_TYPES.contains(type)
         && ENTITY_TYPES.contains(path.getFileName().toString())) {
+
+      if (Objects.equals(type, "overrides")) {
+        String entityType = path.getFileName().toString();
+        Path entityPath =
+            ldproxyCfg.getDataDirectory().resolve(fullPathString.replace("overrides", "entities"));
+
+        if (entityPath.toFile().exists()) {
+          try {
+            Optional<String> subTypeLine =
+                Files.readLines(entityPath.toFile(), StandardCharsets.UTF_8).stream()
+                    .filter(
+                        line ->
+                            line.startsWith(
+                                entityType.substring(0, entityType.length() - 1) + "Type:"))
+                    .findFirst();
+
+            if (subTypeLine.isPresent()) {
+              String subType = subTypeLine.get().substring(subTypeLine.get().indexOf(':') + 1).trim();
+
+              return found(entityType, subType);
+            }
+          } catch (IOException e) {
+            // ignore
+          }
+        }
+
+        return Result.empty();
+      }
+
       return found(path.getFileName().toString());
     }
 
@@ -152,7 +183,8 @@ public class FileType extends Common<LdproxyCfg> {
             "entities/" + entityType,
             "entityType",
             entityType,
-            "entitySubType", entitySubType));
+            "entitySubType",
+            entitySubType));
   }
 
   private Result found(

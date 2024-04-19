@@ -25,19 +25,9 @@ public class Upgrade extends Store {
       switch (cmd) {
         case cfg:
           return CfgHandler.preUpgrade(ldproxyCfg, ignoreRedundant, force, verbose, debug);
-        case defaults:
-          return Result.empty();
         case entities:
           return EntitiesHandler.preUpgrade(
-              ldproxyCfg,
-              EntitiesHandler.Type.All,
-              path,
-              ignoreRedundant,
-              force,
-              verbose,
-              debug);
-        case overrides:
-          return Result.empty();
+              ldproxyCfg, EntitiesHandler.Type.All, path, ignoreRedundant, force, verbose, debug);
         case layout:
           return LayoutHandler.preUpgrade(layout, verbose);
         default:
@@ -48,8 +38,6 @@ public class Upgrade extends Store {
     switch (cmd) {
       case cfg:
         return CfgHandler.upgrade(ldproxyCfg, backup, ignoreRedundant, force, verbose, debug);
-      case defaults:
-        return Result.empty();
       case entities:
         return EntitiesHandler.upgrade(
             ldproxyCfg,
@@ -60,8 +48,6 @@ public class Upgrade extends Store {
             force,
             verbose,
             debug);
-      case overrides:
-        return Result.empty();
       case layout:
         return LayoutHandler.upgrade(layout, verbose);
       default:
