@@ -204,6 +204,7 @@ public class EntitiesHandler {
       ldproxyCfg.initStore();
     }
 
+
     for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
       Path upgradePath = ldproxyCfg.getDataDirectory().resolve(upgrade.getPath());
 
@@ -265,11 +266,8 @@ public class EntitiesHandler {
             // writeValue writeString und dann Files.write oder sowas. Davor Kommentare auslesen wo
             // man original hat
 
-            String filePath =
-                "/Users/pascal/Documents/GitHub/xtraserver-webapi-configs/projects/aaa-suite/conf/entities/instances/providers/alkis-vereinf.yml";
-            Path testPath = Path.of(filePath);
 
-            try (Stream<String> lines = Files.lines(testPath)) {
+            try (Stream<String> lines = Files.lines(upgradePath)) {
               int[] lineNumber = {0}; // array is used to allow modification in lambda expression
               lines.forEach(
                   line -> {
@@ -304,7 +302,7 @@ public class EntitiesHandler {
                 });
 
             // 5. Write the list of lines back to the file
-            Files.write(upgradePath, upgradedLines);
+         Files.write(upgradePath, upgradedLines);
           } catch (IOException e) {
             error = true;
             result.error(String.format("Could not upgrade %s: %s", upgradePath, e.getMessage()));
