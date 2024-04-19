@@ -59,12 +59,7 @@ public class Validation extends Messages {
       String fileContent = Files.readString(ldproxyCfg.getDataDirectory().resolve(getPath()));
 
       if (getType() == EntitiesHandler.Type.Defaults && fileType.containsKey("entitySubType")) {
-        fileContent =
-            fileContent
-                + entityType.substring(0, entityType.length() - 1)
-                + "Type: "
-                + fileType.get("entitySubType").toUpperCase()
-                + "\n";
+
 
         System.out.println("fileContent: " + fileContent);
 
@@ -74,21 +69,29 @@ public class Validation extends Messages {
           fileContent = fileContent.substring(4);
         }
 
+        // TODO: if fileType contains discriminatorKey/discriminatorValue, make file content array entry and add the key/value pair to array
+        if (fileType.containsKey("discriminatorKey") && fileType.containsKey("discriminatorValue")) {
+          String discriminatorKey = fileType.get("discriminatorKey");
+          String discriminatorValue = fileType.get("discriminatorValue");
+         fileContent = "- " + discriminatorKey + ": " + discriminatorValue + "\n  " + fileContent.replace("\n", "\n  ");
+
+        }
+
         // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
-        if (fileType.containsKey("subproperty")) {
-          String subProperty = fileType.get("subproperty");
+        if (fileType.containsKey("subProperty")) {
+          String subProperty = fileType.get("subProperty");
           fileContent = Arrays.stream(fileContent.split("\n"))
                   .map(line -> "  " + line)
                   .collect(Collectors.joining("\n"));
           fileContent = subProperty + ":\n" + fileContent;
         }
 
-        // TODO: if fileType contains discriminatorKey/discriminatorValue, make file content array entry and add the key/value pair to array
-        if (fileType.containsKey("discriminatorKey") && fileType.containsKey("discriminatorValue")) {
-          String discriminatorKey = fileType.get("discriminatorKey");
-          String discriminatorValue = fileType.get("discriminatorValue");
-          fileContent = "- " + discriminatorKey + ": " + discriminatorValue + "\n  " + fileContent.replace("\n", "\n  ");
-        }
+        fileContent =
+                fileContent
+                        + "\n"
+                        + entityType.substring(0, entityType.length() - 1)
+                        + "Type: "
+                        + fileType.get("entitySubType").toUpperCase();
 
 
         System.out.println("newfileContent: " + fileContent);

@@ -24,6 +24,8 @@ import shadow.com.fasterxml.jackson.annotation.JsonInclude;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.collect.ImmutableList;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EntitiesHandler {
 
@@ -248,18 +250,55 @@ public class EntitiesHandler {
           }
         }
 
+
         if (!error) {
           try {
             Map<String, Object> upgraded = upgrade.getUpgrade().get();
+            Map<Integer, String> comments = new HashMap<>();
+
             if (upgraded.containsKey("lastModified")) {
               upgraded.put("lastModified", Instant.now().toEpochMilli());
             }
 
-            ldproxyCfg
-                .getObjectMapper()
-                .copy()
-                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
-                .writeValue(upgradePath.toFile(), upgraded);
+
+            // TODO: Kommentare beibehalten, hierunter wird upgrade in datei geschrieben. statt writeValue writeString und dann Files.write oder sowas. Davor Kommentare auslesen wo man original hat
+
+            String filePath = "/Users/pascal/Documents/GitHub/xtraserver-webapi-configs/projects/aaa-suite/conf/entities/instances/providers/alkis-vereinf.yml";
+            Path testPath = Path.of(filePath);
+
+            try (Stream<String> lines = Files.lines(testPath)) {
+              int[] lineNumber = {0}; // array is used to allow modification in lambda expression
+              lines.forEach(line -> {
+                if (line.trim().startsWith("#")) {
+                  comments.put(lineNumber[0], line);
+                }
+                lineNumber[0]++;
+              });
+            }
+
+            System.out.println("comments: " + comments);
+
+// 2. Convert the updated object to a string
+            String upgradedStr = ldproxyCfg
+                    .getObjectMapper()
+                    .copy()
+                    .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
+                    .writeValueAsString(upgraded);
+
+// 3. Split the converted string into a list of lines
+            List<String> upgradedLines = new ArrayList<>(Arrays.asList(upgradedStr.split("\n")));
+
+// 4. Insert the stored comments at the appropriate places into the list of lines
+            comments.forEach((lineNum, comment) -> {
+              if (lineNum < upgradedLines.size()) {
+                upgradedLines.add(lineNum, comment);
+              } else {
+                upgradedLines.add(comment);
+              }
+            });
+
+// 5. Write the list of lines back to the file
+            Files.write(upgradePath, upgradedLines);
           } catch (IOException e) {
             error = true;
             result.error(String.format("Could not upgrade %s: %s", upgradePath, e.getMessage()));
@@ -546,7 +585,7 @@ public class EntitiesHandler {
     if (upgraded instanceof Map) {
       Map<String, Object> outerMap = (Map<String, Object>) upgraded;
       for (Map.Entry<String, Object> entry : outerMap.entrySet()) {
-        if (subProperty != null && entry.getKey().equals(subProperty) && entry.getValue() instanceof Map) {
+          if (discriminatorKey == null && discriminatorValue == null && subProperty != null && entry.getKey().equals(subProperty) && entry.getValue() instanceof Map) {
           subPropertyMap = (Map<String, Object>) entry.getValue();
         }else if (entry.getValue() instanceof Map) {
           Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
