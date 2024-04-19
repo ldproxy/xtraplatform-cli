@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 import shadow.com.fasterxml.jackson.annotation.JsonInclude;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.collect.ImmutableList;
+import java.util.HashMap;
 
 public class EntitiesHandler {
 
@@ -531,16 +532,69 @@ public class EntitiesHandler {
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded = ldproxyCfg.getEntityDataDefaultsStore().get(storeIdentifier);
 
-    // TODO: if fileType contains discriminatorKey/discriminatorValue, add the key/value pair to original, nest original content in arraylist
-    // TODO: if fileType contains subproperty, nest original in another map with subProperty as key
+    // TODO: if fileType contains discriminatorKey/discriminatorValue(buildingBlock/Common), add the key/value pair(buildingBlock/Common) to original(Inhalt von Common), (nest original content in arraylist)
+    // TODO: if fileType contains subproperty(metadata), (nest original in another map with subProperty as key)
+    // Instead of text in brackets, you have to get the respective map out of upgraded for the comparison below
 
-    Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
+    String discriminatorKey = fileType.get("discriminatorKey");
+    String discriminatorValue = fileType.get("discriminatorValue");
+    String subProperty = fileType.get("subProperty");
+
+    Map<String, Object> matchingMap = new HashMap<>();
+    Map<String, Object> subPropertyMap = new HashMap<>();
+
+    if (upgraded instanceof Map) {
+      Map<String, Object> outerMap = (Map<String, Object>) upgraded;
+      for (Map.Entry<String, Object> entry : outerMap.entrySet()) {
+        if (subProperty != null && entry.getKey().equals(subProperty) && entry.getValue() instanceof Map) {
+          subPropertyMap = (Map<String, Object>) entry.getValue();
+        }else if (entry.getValue() instanceof Map) {
+          Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
+          Object value = innerMap.get(discriminatorKey);
+          if (value != null && value.equals(discriminatorValue)) {
+            matchingMap.putAll(innerMap);
+            break;
+          }
+        } else if (entry.getValue() instanceof List) {
+          List<Object> innerList = (List<Object>) entry.getValue();
+          for (Object item : innerList) {
+            if (item instanceof Map) {
+              Map<String, Object> innerMap = (Map<String, Object>) item;
+              Object value = innerMap.get(discriminatorKey);
+              if (value != null && value.equals(discriminatorValue)) {
+                matchingMap.putAll(innerMap);
+                break;
+              }
+            }
+          }
+        }
+      }
+    } else {
+      System.out.println("upgraded ist keine Map");
+    }
+
+    if (discriminatorKey != null && discriminatorValue != null) {
+      original.put(discriminatorKey, discriminatorValue);
+    }
+    System.out.println("subPropertyMap: " + subPropertyMap);
+    System.out.println("matchingMap: " + matchingMap);
+    System.out.println("original: " + original);
+
+
+    Map<String, String> diff;
+    if (subPropertyMap != null && !subPropertyMap.isEmpty()) {
+      diff = MapDiffer.diff(original, subPropertyMap, true);
+    } else {
+      diff = MapDiffer.diff(original, matchingMap, true);
+    }
+
     if (debug) {
       System.out.println("DIFF " + diff);
     }
 
     if (force || !diff.isEmpty()) {
-      return Optional.of(new Upgrade(Type.Defaults, relYml, original, upgraded, null, Map.of()));
+      Map<String, Object> mapToUse = (subPropertyMap != null && !subPropertyMap.isEmpty()) ? subPropertyMap : matchingMap;
+      return Optional.of(new Upgrade(Type.Defaults, relYml, original, mapToUse, null, Map.of()));
     }
 
     return Optional.empty();

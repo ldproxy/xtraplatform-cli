@@ -66,6 +66,34 @@ public class Validation extends Messages {
                 + fileType.get("entitySubType").toUpperCase()
                 + "\n";
 
+        System.out.println("fileContent: " + fileContent);
+
+
+        // TODO: if first line is ---, remove
+        if (fileContent.startsWith("---\n")) {
+          fileContent = fileContent.substring(4);
+        }
+
+        // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
+        if (fileType.containsKey("subproperty")) {
+          String subProperty = fileType.get("subproperty");
+          fileContent = Arrays.stream(fileContent.split("\n"))
+                  .map(line -> "  " + line)
+                  .collect(Collectors.joining("\n"));
+          fileContent = subProperty + ":\n" + fileContent;
+        }
+
+        // TODO: if fileType contains discriminatorKey/discriminatorValue, make file content array entry and add the key/value pair to array
+        if (fileType.containsKey("discriminatorKey") && fileType.containsKey("discriminatorValue")) {
+          String discriminatorKey = fileType.get("discriminatorKey");
+          String discriminatorValue = fileType.get("discriminatorValue");
+          fileContent = "- " + discriminatorKey + ": " + discriminatorValue + "\n  " + fileContent.replace("\n", "\n  ");
+        }
+
+
+        System.out.println("newfileContent: " + fileContent);
+
+
         // TODO: if first line is ---, remove
         // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
         // TODO: if fileType contains discriminatorKey/discriminatorValue, make original content array entry and add the key/value pair to array
