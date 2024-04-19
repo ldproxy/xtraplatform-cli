@@ -90,13 +90,10 @@ public class Validation extends Messages {
 
       System.out.println("fileContent: " + fileContent);
 
-      // TODO: if first line is ---, remove
       if (fileContent.startsWith("---\n")) {
         fileContent = fileContent.substring(4);
       }
 
-      // TODO: if fileType contains discriminatorKey/discriminatorValue, make file content array
-      // entry and add the key/value pair to array
       if (fileType.containsKey("discriminatorKey") && fileType.containsKey("discriminatorValue")) {
         String discriminatorKey = fileType.get("discriminatorKey");
         String discriminatorValue = fileType.get("discriminatorValue");
@@ -109,7 +106,6 @@ public class Validation extends Messages {
                 + fileContent.replace("\n", "\n  ");
       }
 
-      // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
       if (fileType.containsKey("subProperty")) {
         String subProperty = fileType.get("subProperty");
         fileContent =
@@ -127,11 +123,6 @@ public class Validation extends Messages {
               + fileType.get("entitySubType").toUpperCase();
 
       System.out.println("newfileContent: " + fileContent);
-
-      // TODO: if first line is ---, remove
-      // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
-      // TODO: if fileType contains discriminatorKey/discriminatorValue, make original content
-      // array entry and add the key/value pair to array
     }
 
     if (type == EntitiesHandler.Type.Overrides && fileType.containsKey("entitySubType")) {

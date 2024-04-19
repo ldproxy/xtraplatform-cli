@@ -262,10 +262,6 @@ public class EntitiesHandler {
               upgraded.put("lastModified", Instant.now().toEpochMilli());
             }
 
-            // TODO: Kommentare beibehalten, hierunter wird upgrade in datei geschrieben. statt
-            // writeValue writeString und dann Files.write oder sowas. Davor Kommentare auslesen wo
-            // man original hat
-
 
             try (Stream<String> lines = Files.lines(upgradePath)) {
               int[] lineNumber = {0}; // array is used to allow modification in lambda expression
@@ -624,14 +620,6 @@ public class EntitiesHandler {
     Map<String, Object> upgraded =
         getUpgradedDefaultsOrOverrides(
             ldproxyCfg, yml, storeIdentifier, Type.Defaults, fileType, original);
-
-    // TODO: if fileType contains discriminatorKey/discriminatorValue(buildingBlock/Common), add the
-    // key/value pair(buildingBlock/Common) to original(Inhalt von Common), (nest original content
-    // in arraylist)
-    // TODO: if fileType contains subproperty(metadata), (nest original in another map with
-    // subProperty as key)
-    // Instead of text in brackets, you have to get the respective map out of upgraded for the
-    // comparison below
 
     String discriminatorKey = fileType.get("discriminatorKey");
     String discriminatorValue = fileType.get("discriminatorValue");
