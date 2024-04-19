@@ -15,6 +15,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +28,6 @@ import java.util.stream.Stream;
 import shadow.com.fasterxml.jackson.annotation.JsonInclude;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.google.common.collect.ImmutableList;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class EntitiesHandler {
 
@@ -252,7 +252,6 @@ public class EntitiesHandler {
           }
         }
 
-
         if (!error) {
           try {
             Map<String, Object> upgraded = upgrade.getUpgrade().get();
@@ -262,44 +261,49 @@ public class EntitiesHandler {
               upgraded.put("lastModified", Instant.now().toEpochMilli());
             }
 
+            // TODO: Kommentare beibehalten, hierunter wird upgrade in datei geschrieben. statt
+            // writeValue writeString und dann Files.write oder sowas. Davor Kommentare auslesen wo
+            // man original hat
 
-            // TODO: Kommentare beibehalten, hierunter wird upgrade in datei geschrieben. statt writeValue writeString und dann Files.write oder sowas. Davor Kommentare auslesen wo man original hat
-
-            String filePath = "/Users/pascal/Documents/GitHub/xtraserver-webapi-configs/projects/aaa-suite/conf/entities/instances/providers/alkis-vereinf.yml";
+            String filePath =
+                "/Users/pascal/Documents/GitHub/xtraserver-webapi-configs/projects/aaa-suite/conf/entities/instances/providers/alkis-vereinf.yml";
             Path testPath = Path.of(filePath);
 
             try (Stream<String> lines = Files.lines(testPath)) {
               int[] lineNumber = {0}; // array is used to allow modification in lambda expression
-              lines.forEach(line -> {
-                if (line.trim().startsWith("#")) {
-                  comments.put(lineNumber[0], line);
-                }
-                lineNumber[0]++;
-              });
+              lines.forEach(
+                  line -> {
+                    if (line.trim().startsWith("#")) {
+                      comments.put(lineNumber[0], line);
+                    }
+                    lineNumber[0]++;
+                  });
             }
 
             System.out.println("comments: " + comments);
 
-// 2. Convert the updated object to a string
-            String upgradedStr = ldproxyCfg
+            // 2. Convert the updated object to a string
+            String upgradedStr =
+                ldproxyCfg
                     .getObjectMapper()
                     .copy()
                     .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
                     .writeValueAsString(upgraded);
 
-// 3. Split the converted string into a list of lines
+            // 3. Split the converted string into a list of lines
             List<String> upgradedLines = new ArrayList<>(Arrays.asList(upgradedStr.split("\n")));
 
-// 4. Insert the stored comments at the appropriate places into the list of lines
-            comments.forEach((lineNum, comment) -> {
-              if (lineNum < upgradedLines.size()) {
-                upgradedLines.add(lineNum, comment);
-              } else {
-                upgradedLines.add(comment);
-              }
-            });
+            // 4. Insert the stored comments at the appropriate places into the list of lines
+            comments.forEach(
+                (lineNum, comment) -> {
+                  if (lineNum < upgradedLines.size()) {
+                    upgradedLines.add(lineNum, comment);
+                  } else {
+                    upgradedLines.add(comment);
+                  }
+                });
 
-// 5. Write the list of lines back to the file
+            // 5. Write the list of lines back to the file
             Files.write(upgradePath, upgradedLines);
           } catch (IOException e) {
             error = true;
@@ -621,16 +625,15 @@ public class EntitiesHandler {
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded =
         getUpgradedDefaultsOrOverrides(
-            ldproxyCfg,
-            yml,
-            storeIdentifier,
-            fileType.get("entityType"),
-            fileType.get("entitySubType"),
-            original);
+            ldproxyCfg, yml, storeIdentifier, Type.Defaults, fileType, original);
 
-    // TODO: if fileType contains discriminatorKey/discriminatorValue(buildingBlock/Common), add the key/value pair(buildingBlock/Common) to original(Inhalt von Common), (nest original content in arraylist)
-    // TODO: if fileType contains subproperty(metadata), (nest original in another map with subProperty as key)
-    // Instead of text in brackets, you have to get the respective map out of upgraded for the comparison below
+    // TODO: if fileType contains discriminatorKey/discriminatorValue(buildingBlock/Common), add the
+    // key/value pair(buildingBlock/Common) to original(Inhalt von Common), (nest original content
+    // in arraylist)
+    // TODO: if fileType contains subproperty(metadata), (nest original in another map with
+    // subProperty as key)
+    // Instead of text in brackets, you have to get the respective map out of upgraded for the
+    // comparison below
 
     String discriminatorKey = fileType.get("discriminatorKey");
     String discriminatorValue = fileType.get("discriminatorValue");
@@ -642,9 +645,13 @@ public class EntitiesHandler {
     if (upgraded instanceof Map) {
       Map<String, Object> outerMap = (Map<String, Object>) upgraded;
       for (Map.Entry<String, Object> entry : outerMap.entrySet()) {
-          if (discriminatorKey == null && discriminatorValue == null && subProperty != null && entry.getKey().equals(subProperty) && entry.getValue() instanceof Map) {
+        if (discriminatorKey == null
+            && discriminatorValue == null
+            && subProperty != null
+            && entry.getKey().equals(subProperty)
+            && entry.getValue() instanceof Map) {
           subPropertyMap = (Map<String, Object>) entry.getValue();
-        }else if (entry.getValue() instanceof Map) {
+        } else if (entry.getValue() instanceof Map) {
           Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
           Object value = innerMap.get(discriminatorKey);
           if (value != null && value.equals(discriminatorValue)) {
@@ -676,21 +683,20 @@ public class EntitiesHandler {
     System.out.println("matchingMap: " + matchingMap);
     System.out.println("original: " + original);
 
+    Map<String, Object> finalUpgraded =
+        Objects.isNull(subProperty)
+            ? upgraded
+            : !subPropertyMap.isEmpty() ? subPropertyMap : matchingMap;
 
-    Map<String, String> diff;
-    if (subPropertyMap != null && !subPropertyMap.isEmpty()) {
-      diff = MapDiffer.diff(original, subPropertyMap, true);
-    } else {
-      diff = MapDiffer.diff(original, matchingMap, true);
-    }
+    Map<String, String> diff = MapDiffer.diff(original, finalUpgraded, true);
 
     if (debug) {
       System.out.println("DIFF " + diff);
     }
 
     if (force || !diff.isEmpty()) {
-      Map<String, Object> mapToUse = (subPropertyMap != null && !subPropertyMap.isEmpty()) ? subPropertyMap : matchingMap;
-      return Optional.of(new Upgrade(Type.Defaults, relYml, original, mapToUse, null, Map.of()));
+      return Optional.of(
+          new Upgrade(Type.Defaults, relYml, original, finalUpgraded, null, Map.of()));
     }
 
     return Optional.empty();
@@ -714,12 +720,7 @@ public class EntitiesHandler {
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded =
         getUpgradedDefaultsOrOverrides(
-            ldproxyCfg,
-            yml,
-            identifier,
-            fileType.get("entityType"),
-            fileType.get("entitySubType"),
-            original);
+            ldproxyCfg, yml, identifier, Type.Overrides, fileType, original);
 
     Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
     if (debug) {
@@ -737,14 +738,15 @@ public class EntitiesHandler {
       LdproxyCfg ldproxyCfg,
       Path yml,
       Identifier identifier,
-      String entityType,
-      String entitySubType,
+      Type type,
+      Map<String, String> fileType,
       Map<String, Object> original)
       throws IOException {
+    String fileContent = Validation.loadFileContent(yml, type, fileType);
     EntityDataBuilder<? extends EntityData> builder =
         ldproxyCfg
             .getEntityFactories()
-            .get(entityType, entitySubType)
+            .get(fileType.get("entityType"), fileType.get("entitySubType"))
             .emptyDataBuilder()
             .fillRequiredFieldsWithPlaceholders();
     ldproxyCfg
@@ -752,7 +754,7 @@ public class EntitiesHandler {
         .getValueEncoding()
         .getMapper(ValueEncoding.FORMAT.YML)
         .readerForUpdating(builder)
-        .readValue(yml.toFile());
+        .readValue(fileContent);
 
     Map<String, Object> upgraded =
         ldproxyCfg.getEntityDataDefaultsStore().asMap(identifier, builder.build());

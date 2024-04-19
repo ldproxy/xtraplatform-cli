@@ -53,67 +53,13 @@ public class Validation extends Messages {
     if (!fileType.containsKey("entityType")) {
       return;
     }
-    String entityType = fileType.get("entityType");
 
     try {
-      String fileContent = Files.readString(ldproxyCfg.getDataDirectory().resolve(getPath()));
+      String fileContent =
+          loadFileContent(ldproxyCfg.getDataDirectory().resolve(getPath()), getType(), fileType);
 
-      if (getType() == EntitiesHandler.Type.Defaults && fileType.containsKey("entitySubType")) {
-
-
-        System.out.println("fileContent: " + fileContent);
-
-
-        // TODO: if first line is ---, remove
-        if (fileContent.startsWith("---\n")) {
-          fileContent = fileContent.substring(4);
-        }
-
-        // TODO: if fileType contains discriminatorKey/discriminatorValue, make file content array entry and add the key/value pair to array
-        if (fileType.containsKey("discriminatorKey") && fileType.containsKey("discriminatorValue")) {
-          String discriminatorKey = fileType.get("discriminatorKey");
-          String discriminatorValue = fileType.get("discriminatorValue");
-         fileContent = "- " + discriminatorKey + ": " + discriminatorValue + "\n  " + fileContent.replace("\n", "\n  ");
-
-        }
-
-        // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
-        if (fileType.containsKey("subProperty")) {
-          String subProperty = fileType.get("subProperty");
-          fileContent = Arrays.stream(fileContent.split("\n"))
-                  .map(line -> "  " + line)
-                  .collect(Collectors.joining("\n"));
-          fileContent = subProperty + ":\n" + fileContent;
-        }
-
-        fileContent =
-                fileContent
-                        + "\n"
-                        + entityType.substring(0, entityType.length() - 1)
-                        + "Type: "
-                        + fileType.get("entitySubType").toUpperCase();
-
-
-        System.out.println("newfileContent: " + fileContent);
-
-
-        // TODO: if first line is ---, remove
-        // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
-        // TODO: if fileType contains discriminatorKey/discriminatorValue, make original content
-        // array entry and add the key/value pair to array
-      }
-
-      if (getType() == EntitiesHandler.Type.Overrides && fileType.containsKey("entitySubType")) {
-        fileContent =
-            fileContent
-                + "\n"
-                + entityType.substring(0, entityType.length() - 1)
-                + "Type: "
-                + fileType.get("entitySubType").toUpperCase()
-                + "\n";
-      }
-
-      for (ValidationMessage msg : ldproxyCfg.validateEntity(fileContent, entityType)) {
+      for (ValidationMessage msg :
+          ldproxyCfg.validateEntity(fileContent, fileType.get("entityType"))) {
         if ( // msg.getMessage().contains("string found, boolean expected") ||
         // msg.getMessage().contains("integer found, string expected") ||
         msg.getMessage().contains(".tileProviderId: is deprecated")
@@ -133,6 +79,71 @@ public class Validation extends Messages {
     } catch (IOException e) {
       setError(e.getMessage());
     }
+  }
+
+  static String loadFileContent(Path path, EntitiesHandler.Type type, Map<String, String> fileType)
+      throws IOException {
+    String fileContent = Files.readString(path);
+    String entityType = fileType.get("entityType");
+
+    if (type == EntitiesHandler.Type.Defaults && fileType.containsKey("entitySubType")) {
+
+      System.out.println("fileContent: " + fileContent);
+
+      // TODO: if first line is ---, remove
+      if (fileContent.startsWith("---\n")) {
+        fileContent = fileContent.substring(4);
+      }
+
+      // TODO: if fileType contains discriminatorKey/discriminatorValue, make file content array
+      // entry and add the key/value pair to array
+      if (fileType.containsKey("discriminatorKey") && fileType.containsKey("discriminatorValue")) {
+        String discriminatorKey = fileType.get("discriminatorKey");
+        String discriminatorValue = fileType.get("discriminatorValue");
+        fileContent =
+            "- "
+                + discriminatorKey
+                + ": "
+                + discriminatorValue
+                + "\n  "
+                + fileContent.replace("\n", "\n  ");
+      }
+
+      // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
+      if (fileType.containsKey("subProperty")) {
+        String subProperty = fileType.get("subProperty");
+        fileContent =
+            Arrays.stream(fileContent.split("\n"))
+                .map(line -> "  " + line)
+                .collect(Collectors.joining("\n"));
+        fileContent = subProperty + ":\n" + fileContent;
+      }
+
+      fileContent =
+          fileContent
+              + "\n"
+              + entityType.substring(0, entityType.length() - 1)
+              + "Type: "
+              + fileType.get("entitySubType").toUpperCase();
+
+      System.out.println("newfileContent: " + fileContent);
+
+      // TODO: if first line is ---, remove
+      // TODO: if fileType contains subproperty, indent all lines and prepend subProperty as key
+      // TODO: if fileType contains discriminatorKey/discriminatorValue, make original content
+      // array entry and add the key/value pair to array
+    }
+
+    if (type == EntitiesHandler.Type.Overrides && fileType.containsKey("entitySubType")) {
+      fileContent =
+          fileContent
+              + "\n"
+              + entityType.substring(0, entityType.length() - 1)
+              + "Type: "
+              + fileType.get("entitySubType").toUpperCase()
+              + "\n";
+    }
+    return fileContent;
   }
 
   public void validateRedundant(Map<String, Object> original, Map<String, Object> upgraded) {
