@@ -26,11 +26,15 @@ public class CommandHandler {
 
   private final ObjectMapper jsonMapper;
   private Context context;
+  private boolean noCommandsYet;
+  private boolean explicitConnect;
 
   public CommandHandler() {
     Jackson jackson = new JacksonProvider(JacksonSubTypes::ids, false);
     this.jsonMapper =
         (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
+    this.noCommandsYet = true;
+    this.explicitConnect = false;
   }
 
   public String handleCommand(String command) {
@@ -54,13 +58,18 @@ public class CommandHandler {
     try {
       Call call = Call.parse(jsonMapper.readValue(command, AS_MAP));
 
+      if (noCommandsYet) {
+        this.noCommandsYet = false;
+        this.explicitConnect = call.command == Call.Command.connect;
+      }
+
       Result result = handle(call, autoConnect, tracker2);
 
       return jsonMapper.writeValueAsString(result.asMap());
     } catch (JsonProcessingException e) {
       return String.format("{\"error\": \"Invalid call: %s\"}", e.getMessage());
     } finally{
-      if (autoConnect) {
+      if (autoConnect && !explicitConnect) {
         this.context = null;
       }
     }
