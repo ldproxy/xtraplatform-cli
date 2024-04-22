@@ -152,8 +152,10 @@ public class EntitiesHandler {
 
     ldproxyCfg.initStore();
 
+    List<Upgrade> upgrades = getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug);
+
     int i = 0;
-    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
+    for (Upgrade upgrade : upgrades) {
       if (upgrade.getError().isPresent()) {
         result.error(
             String.format("Could not read %s: %s", upgrade.getPath(), upgrade.getError().get()));
@@ -169,7 +171,7 @@ public class EntitiesHandler {
     }
 
     int j = 0;
-    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
+    for (Upgrade upgrade : upgrades) {
       if (upgrade.getUpgrade().isPresent()) {
         for (Map.Entry<Path, EntityData> entry : upgrade.getAdditionalEntities().entrySet()) {
           Path pathAdd = ldproxyCfg.getDataDirectory().relativize(entry.getKey());
@@ -222,8 +224,9 @@ public class EntitiesHandler {
       ldproxyCfg.initStore();
     }
 
+    List<Upgrade> upgrades = getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug);
 
-    for (Upgrade upgrade : getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug)) {
+    for (Upgrade upgrade : upgrades) {
       Path upgradePath = ldproxyCfg.getDataDirectory().resolve(upgrade.getPath());
 
       if (upgrade.getUpgrade().isPresent()) {
@@ -280,22 +283,19 @@ public class EntitiesHandler {
               upgraded.put("lastModified", Instant.now().toEpochMilli());
             }
 
-
             try (Stream<String> lines = Files.lines(upgradePath)) {
               int[] lineNumber = {0}; // array is used to allow modification in lambda expression
               lines.forEach(
-                      line -> {
-                        int commentIndex = line.indexOf("#");
-                        if (commentIndex != -1) {
-                          String comment = line.substring(commentIndex);
-                          boolean isStandalone = commentIndex == 0;
-                          comments.put(lineNumber[0], new CommentInfo(comment, isStandalone));
-                        }
-                        lineNumber[0]++;
-                      });
+                  line -> {
+                    int commentIndex = line.indexOf("#");
+                    if (commentIndex != -1) {
+                      String comment = line.substring(commentIndex);
+                      boolean isStandalone = commentIndex == 0;
+                      comments.put(lineNumber[0], new CommentInfo(comment, isStandalone));
+                    }
+                    lineNumber[0]++;
+                  });
             }
-
-            System.out.println("comments: " + comments);
 
             // 2. Convert the updated object to a string
             String upgradedStr =
@@ -310,23 +310,23 @@ public class EntitiesHandler {
 
             // 4. Insert the stored comments at the appropriate places into the list of lines
             comments.forEach(
-                    (lineNum, commentInfo) -> {
-                      if (lineNum < upgradedLines.size()) {
-                        String line = upgradedLines.get(lineNum);
-                        if (commentInfo.isStandalone()) {
-                          // If the comment is standalone, add it in a new line
-                          upgradedLines.add(lineNum, commentInfo.getComment());
-                        } else {
-                          // If the comment is not standalone, add it at the end of the line
-                          upgradedLines.set(lineNum, line + " " + commentInfo.getComment());
-                        }
-                      } else {
-                        upgradedLines.add(commentInfo.getComment());
-                      }
-                    });
+                (lineNum, commentInfo) -> {
+                  if (lineNum < upgradedLines.size()) {
+                    String line = upgradedLines.get(lineNum);
+                    if (commentInfo.isStandalone()) {
+                      // If the comment is standalone, add it in a new line
+                      upgradedLines.add(lineNum, commentInfo.getComment());
+                    } else {
+                      // If the comment is not standalone, add it at the end of the line
+                      upgradedLines.set(lineNum, line + " " + commentInfo.getComment());
+                    }
+                  } else {
+                    upgradedLines.add(commentInfo.getComment());
+                  }
+                });
 
             // 5. Write the list of lines back to the file
-         Files.write(upgradePath, upgradedLines);
+            Files.write(upgradePath, upgradedLines);
           } catch (IOException e) {
             error = true;
             result.error(String.format("Could not upgrade %s: %s", upgradePath, e.getMessage()));
@@ -477,19 +477,18 @@ public class EntitiesHandler {
       boolean force,
       boolean debug,
       List<Identifier> identifiers,
-      Path overridesPath,
-      Path overridesPathRel) {
+      Path parentPath,
+      Path parentPathRel) {
     return identifiers.stream()
         .filter(
             identifier ->
                 path.isEmpty()
                     || Objects.equals(
-                        normalize(path.get()),
-                        overridesPathRel.resolve(identifier.asPath()) + ".yml"))
+                        normalize(path.get()), parentPathRel.resolve(identifier.asPath()) + ".yml"))
         .map(
             identifier ->
                 getUpgrade(
-                    ldproxyCfg, type, overridesPath, identifier, ignoreRedundant, force, debug));
+                    ldproxyCfg, type, parentPath, identifier, ignoreRedundant, force, debug));
   }
 
   private static Validation getValidation(
@@ -654,46 +653,38 @@ public class EntitiesHandler {
     Map<String, Object> matchingMap = new HashMap<>();
     Map<String, Object> subPropertyMap = new HashMap<>();
 
-    if (upgraded instanceof Map) {
-      Map<String, Object> outerMap = (Map<String, Object>) upgraded;
-      for (Map.Entry<String, Object> entry : outerMap.entrySet()) {
-        if (discriminatorKey == null
-            && discriminatorValue == null
-            && subProperty != null
-            && entry.getKey().equals(subProperty)
-            && entry.getValue() instanceof Map) {
-          subPropertyMap = (Map<String, Object>) entry.getValue();
-        } else if (entry.getValue() instanceof Map) {
-          Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
-          Object value = innerMap.get(discriminatorKey);
-          if (value != null && value.equals(discriminatorValue)) {
-            matchingMap.putAll(innerMap);
-            break;
-          }
-        } else if (entry.getValue() instanceof List) {
-          List<Object> innerList = (List<Object>) entry.getValue();
-          for (Object item : innerList) {
-            if (item instanceof Map) {
-              Map<String, Object> innerMap = (Map<String, Object>) item;
-              Object value = innerMap.get(discriminatorKey);
-              if (value != null && value.equals(discriminatorValue)) {
-                matchingMap.putAll(innerMap);
-                break;
-              }
+    for (Map.Entry<String, Object> entry : upgraded.entrySet()) {
+      if (discriminatorKey == null
+          && discriminatorValue == null
+          && subProperty != null
+          && entry.getKey().equals(subProperty)
+          && entry.getValue() instanceof Map) {
+        subPropertyMap = (Map<String, Object>) entry.getValue();
+      } else if (entry.getValue() instanceof Map) {
+        Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
+        Object value = innerMap.get(discriminatorKey);
+        if (value != null && value.equals(discriminatorValue)) {
+          matchingMap.putAll(innerMap);
+          break;
+        }
+      } else if (entry.getValue() instanceof List) {
+        List<Object> innerList = (List<Object>) entry.getValue();
+        for (Object item : innerList) {
+          if (item instanceof Map) {
+            Map<String, Object> innerMap = (Map<String, Object>) item;
+            Object value = innerMap.get(discriminatorKey);
+            if (value != null && value.equals(discriminatorValue)) {
+              matchingMap.putAll(innerMap);
+              break;
             }
           }
         }
       }
-    } else {
-      System.out.println("upgraded ist keine Map");
     }
 
     if (discriminatorKey != null && discriminatorValue != null) {
       original.put(discriminatorKey, discriminatorValue);
     }
-    System.out.println("subPropertyMap: " + subPropertyMap);
-    System.out.println("matchingMap: " + matchingMap);
-    System.out.println("original: " + original);
 
     Map<String, Object> finalUpgraded =
         Objects.isNull(subProperty)
