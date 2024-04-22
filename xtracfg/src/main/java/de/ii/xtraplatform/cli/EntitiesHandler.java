@@ -43,21 +43,15 @@ public class EntitiesHandler {
   private static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
       new TypeReference<LinkedHashMap<String, Object>>() {};
 
-  public static class CommentInfo {
-    private final String comment;
-    private final boolean isStandalone;
+  private static class CommentInfo {
+    final String comment;
+    final int lineNumber;
+    final boolean isStandalone;
 
-    public CommentInfo(String comment, boolean isStandalone) {
+    public CommentInfo(String comment, int lineNumber, boolean isStandalone) {
       this.comment = comment;
+      this.lineNumber = lineNumber;
       this.isStandalone = isStandalone;
-    }
-
-    public String getComment() {
-      return comment;
-    }
-
-    public boolean isStandalone() {
-      return isStandalone;
     }
   }
 
@@ -277,7 +271,7 @@ public class EntitiesHandler {
         if (!error) {
           try {
             Map<String, Object> upgraded = upgrade.getUpgrade().get();
-            Map<Integer, CommentInfo> comments = new HashMap<>();
+            List<CommentInfo> comments = new ArrayList<>();
 
             if (upgraded.containsKey("lastModified")) {
               upgraded.put("lastModified", Instant.now().toEpochMilli());
@@ -289,9 +283,9 @@ public class EntitiesHandler {
                   line -> {
                     int commentIndex = line.indexOf("#");
                     if (commentIndex != -1) {
-                      String comment = line.substring(commentIndex);
-                      boolean isStandalone = commentIndex == 0;
-                      comments.put(lineNumber[0], new CommentInfo(comment, isStandalone));
+                      boolean isStandalone = line.trim().indexOf("#") == 0;
+                      String comment = isStandalone ? line : line.substring(commentIndex);
+                      comments.add(new CommentInfo(comment, lineNumber[0], isStandalone));
                     }
                     lineNumber[0]++;
                   });
@@ -310,18 +304,19 @@ public class EntitiesHandler {
 
             // 4. Insert the stored comments at the appropriate places into the list of lines
             comments.forEach(
-                (lineNum, commentInfo) -> {
-                  if (lineNum < upgradedLines.size()) {
-                    String line = upgradedLines.get(lineNum);
-                    if (commentInfo.isStandalone()) {
+                (commentInfo) -> {
+                  if (commentInfo.lineNumber < upgradedLines.size()) {
+                    if (commentInfo.isStandalone) {
                       // If the comment is standalone, add it in a new line
-                      upgradedLines.add(lineNum, commentInfo.getComment());
+                      upgradedLines.add(commentInfo.lineNumber, commentInfo.comment);
                     } else {
                       // If the comment is not standalone, add it at the end of the line
-                      upgradedLines.set(lineNum, line + " " + commentInfo.getComment());
+                      upgradedLines.set(
+                          commentInfo.lineNumber,
+                          upgradedLines.get(commentInfo.lineNumber) + " " + commentInfo.comment);
                     }
                   } else {
-                    upgradedLines.add(commentInfo.getComment());
+                    upgradedLines.add(commentInfo.comment);
                   }
                 });
 
