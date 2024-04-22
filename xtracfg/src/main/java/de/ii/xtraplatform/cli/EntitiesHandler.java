@@ -43,6 +43,24 @@ public class EntitiesHandler {
   private static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
       new TypeReference<LinkedHashMap<String, Object>>() {};
 
+  public static class CommentInfo {
+    private final String comment;
+    private final boolean isStandalone;
+
+    public CommentInfo(String comment, boolean isStandalone) {
+      this.comment = comment;
+      this.isStandalone = isStandalone;
+    }
+
+    public String getComment() {
+      return comment;
+    }
+
+    public boolean isStandalone() {
+      return isStandalone;
+    }
+  }
+
   public static Result check(
       LdproxyCfg ldproxyCfg,
       Type type,
@@ -256,7 +274,7 @@ public class EntitiesHandler {
         if (!error) {
           try {
             Map<String, Object> upgraded = upgrade.getUpgrade().get();
-            Map<Integer, String> comments = new HashMap<>();
+            Map<Integer, CommentInfo> comments = new HashMap<>();
 
             if (upgraded.containsKey("lastModified")) {
               upgraded.put("lastModified", Instant.now().toEpochMilli());
@@ -266,12 +284,15 @@ public class EntitiesHandler {
             try (Stream<String> lines = Files.lines(upgradePath)) {
               int[] lineNumber = {0}; // array is used to allow modification in lambda expression
               lines.forEach(
-                  line -> {
-                    if (line.trim().startsWith("#")) {
-                      comments.put(lineNumber[0], line);
-                    }
-                    lineNumber[0]++;
-                  });
+                      line -> {
+                        int commentIndex = line.indexOf("#");
+                        if (commentIndex != -1) {
+                          String comment = line.substring(commentIndex);
+                          boolean isStandalone = commentIndex == 0;
+                          comments.put(lineNumber[0], new CommentInfo(comment, isStandalone));
+                        }
+                        lineNumber[0]++;
+                      });
             }
 
             System.out.println("comments: " + comments);
@@ -289,13 +310,20 @@ public class EntitiesHandler {
 
             // 4. Insert the stored comments at the appropriate places into the list of lines
             comments.forEach(
-                (lineNum, comment) -> {
-                  if (lineNum < upgradedLines.size()) {
-                    upgradedLines.add(lineNum, comment);
-                  } else {
-                    upgradedLines.add(comment);
-                  }
-                });
+                    (lineNum, commentInfo) -> {
+                      if (lineNum < upgradedLines.size()) {
+                        String line = upgradedLines.get(lineNum);
+                        if (commentInfo.isStandalone()) {
+                          // If the comment is standalone, add it in a new line
+                          upgradedLines.add(lineNum, commentInfo.getComment());
+                        } else {
+                          // If the comment is not standalone, add it at the end of the line
+                          upgradedLines.set(lineNum, line + " " + commentInfo.getComment());
+                        }
+                      } else {
+                        upgradedLines.add(commentInfo.getComment());
+                      }
+                    });
 
             // 5. Write the list of lines back to the file
          Files.write(upgradePath, upgradedLines);
