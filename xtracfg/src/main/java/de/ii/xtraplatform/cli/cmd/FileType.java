@@ -51,18 +51,6 @@ public class FileType extends Common<LdproxyCfg> {
 
     String type = path.getName(1).toString();
 
-    System.out.println(
-        "FILE_TYPE "
-            + fullPath
-            + " - "
-            + path
-            + " - "
-            + fileName
-            + " - "
-            + fileExtension
-            + " - "
-            + type);
-
     // TODO: multi-file overrides
     if (path.getNameCount() >= 3
         && CONTENT_TYPES.contains(type)
@@ -159,7 +147,6 @@ public class FileType extends Common<LdproxyCfg> {
   }
 
   private Result found(String entityType) {
-    System.out.println("FOUND entities/" + entityType + " - " + fullPathString);
     return Result.ok(
         "found",
         Map.of(

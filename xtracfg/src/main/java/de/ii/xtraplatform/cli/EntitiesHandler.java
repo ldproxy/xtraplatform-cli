@@ -472,8 +472,6 @@ public class EntitiesHandler {
 
     Map<String, String> fileType = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
 
-    System.out.println("VALIDATE " + relYml + " - " + fileType);
-
     Validation validation = new Validation(type, identifier, relYml);
 
     if (fileType.containsKey("entityType")) {
