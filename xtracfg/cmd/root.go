@@ -11,7 +11,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "2.0.0"
+var gitTag string
+var gitSha string
+var gitBranch = "unknown"
+
+func version() string {
+	if len(gitTag) > 0 {
+		return gitTag
+	} else if len(gitSha) > 0 {
+		return gitBranch + "-" + gitSha
+	}
+
+	return "DEV"
+}
 
 var name string = filepath.Base(os.Args[0])
 var storeSrc client.Store
@@ -19,7 +31,7 @@ var storeSrc client.Store
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:     name,
-	Version: version,
+	Version: version(),
 	Long:    name + ` provides tools to manage configurations for xtraplatform applications like ldproxy and XtraServer Web API.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
