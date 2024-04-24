@@ -70,7 +70,7 @@ func init() {
 
 	upgradeCmd := store.UpgradeCmd(storeSrc, name, verbose, debug)
 
-	listenCmd := store.ListenCmd(storeSrc, name, verbose, debug)
+	listenCmd := store.ListenCmd(storeSrc, name, version(), verbose, debug)
 
 	RootCmd.AddCommand(infoCmd)
 	RootCmd.AddCommand(checkCmd)

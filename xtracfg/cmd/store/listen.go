@@ -8,7 +8,7 @@ import (
 )
 
 // InfoCmd represents the check command
-func ListenCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra.Command {
+func ListenCmd(store client.Store, name string, version string, verbose *bool, debug *bool) *cobra.Command {
 	listen := &cobra.Command{
 		Use:    "listen [port]",
 		Short:  "Listen for command on websocket",
@@ -19,7 +19,7 @@ func ListenCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 			if len(args) > 0 {
 				port = ":" + args[0]
 			}
-			fmt.Println("WEBSOCKET", port)
+			fmt.Printf("%s (%s) listening on port %s\n", name, version, port)
 			client.OpenWebsocket(store, port)
 		},
 	}
