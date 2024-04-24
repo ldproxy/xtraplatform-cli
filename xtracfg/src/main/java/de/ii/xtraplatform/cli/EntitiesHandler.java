@@ -2,6 +2,7 @@ package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.cli.cmd.FileType;
+import de.ii.xtraplatform.cli.cmd.FileType.FileInfo;
 import de.ii.xtraplatform.entities.app.MapAligner;
 import de.ii.xtraplatform.entities.domain.EntityData;
 import de.ii.xtraplatform.entities.domain.EntityDataBuilder;
@@ -17,7 +18,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -492,12 +492,12 @@ public class EntitiesHandler {
     Path yml = base.getParent().resolve(base.getFileName().toString() + ".yml");
     Path relYml = ldproxyCfg.getDataDirectory().relativize(yml);
 
-    Map<String, String> fileType = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
+    FileInfo fileInfo = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
 
-    Validation validation = new Validation(type, identifier, relYml);
+    Validation validation = new Validation(type, identifier, relYml, fileInfo);
 
-    if (fileType.containsKey("entityType")) {
-      validation.validate(ldproxyCfg, fileType);
+    if (fileInfo.isValid()) {
+      validation.validate(ldproxyCfg, fileInfo);
     }
 
     return validation;
@@ -627,38 +627,34 @@ public class EntitiesHandler {
       LdproxyCfg ldproxyCfg, Path yml, Identifier identifier, boolean force, boolean debug)
       throws IOException {
     Path relYml = ldproxyCfg.getDataDirectory().relativize(yml);
-    Map<String, String> fileType = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
+    FileInfo fileInfo = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
 
-    if (!fileType.containsKey("entityType") || !fileType.containsKey("entitySubType")) {
+    if (!fileInfo.isValid() || fileInfo.entitySubType.isEmpty()) {
       return Optional.empty();
     }
 
     Identifier storeIdentifier =
-        Identifier.from("defaults", fileType.get("entityType"), fileType.get("entitySubType"));
+        Identifier.from("defaults", fileInfo.entityType, fileInfo.entitySubType.get());
 
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded =
         getUpgradedDefaultsOrOverrides(
-            ldproxyCfg, yml, storeIdentifier, Type.Defaults, fileType, original);
+            ldproxyCfg, yml, storeIdentifier, Type.Defaults, fileInfo, original);
 
-    String discriminatorKey = fileType.get("discriminatorKey");
-    String discriminatorValue = fileType.get("discriminatorValue");
-    String subProperty = fileType.get("subProperty");
-
-    Map<String, Object> matchingMap = new HashMap<>();
-    Map<String, Object> subPropertyMap = new HashMap<>();
+    Map<String, Object> matchingMap = new LinkedHashMap<>();
+    Map<String, Object> subPropertyMap = new LinkedHashMap<>();
 
     for (Map.Entry<String, Object> entry : upgraded.entrySet()) {
-      if (discriminatorKey == null
-          && discriminatorValue == null
-          && subProperty != null
-          && entry.getKey().equals(subProperty)
+      if (fileInfo.discriminatorKey.isEmpty()
+          && fileInfo.discriminatorValue.isEmpty()
+          && fileInfo.subProperty.isPresent()
+          && entry.getKey().equals(fileInfo.subProperty.get())
           && entry.getValue() instanceof Map) {
         subPropertyMap = (Map<String, Object>) entry.getValue();
       } else if (entry.getValue() instanceof Map) {
         Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
-        Object value = innerMap.get(discriminatorKey);
-        if (value != null && value.equals(discriminatorValue)) {
+        Object value = innerMap.get(fileInfo.discriminatorKey.get());
+        if (value != null && value.equals(fileInfo.discriminatorValue.get())) {
           matchingMap.putAll(innerMap);
           break;
         }
@@ -667,8 +663,8 @@ public class EntitiesHandler {
         for (Object item : innerList) {
           if (item instanceof Map) {
             Map<String, Object> innerMap = (Map<String, Object>) item;
-            Object value = innerMap.get(discriminatorKey);
-            if (value != null && value.equals(discriminatorValue)) {
+            Object value = innerMap.get(fileInfo.discriminatorKey.get());
+            if (value != null && value.equals(fileInfo.discriminatorValue.get())) {
               matchingMap.putAll(innerMap);
               break;
             }
@@ -677,12 +673,12 @@ public class EntitiesHandler {
       }
     }
 
-    if (discriminatorKey != null && discriminatorValue != null) {
-      original.put(discriminatorKey, discriminatorValue);
+    if (fileInfo.discriminatorKey.isPresent() && fileInfo.discriminatorValue.isPresent()) {
+      original.put(fileInfo.discriminatorKey.get(), fileInfo.discriminatorValue.get());
     }
 
     Map<String, Object> finalUpgraded =
-        Objects.isNull(subProperty)
+        fileInfo.subProperty.isEmpty()
             ? upgraded
             : !subPropertyMap.isEmpty() ? subPropertyMap : matchingMap;
 
@@ -709,16 +705,16 @@ public class EntitiesHandler {
       boolean debug)
       throws IOException {
     Path relYml = ldproxyCfg.getDataDirectory().relativize(yml);
-    Map<String, String> fileType = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
+    FileInfo fileInfo = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
 
-    if (!fileType.containsKey("entityType") || !fileType.containsKey("entitySubType")) {
+    if (!fileInfo.isValid() || fileInfo.entitySubType.isEmpty()) {
       return Optional.empty();
     }
 
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded =
         getUpgradedDefaultsOrOverrides(
-            ldproxyCfg, yml, identifier, Type.Overrides, fileType, original);
+            ldproxyCfg, yml, identifier, Type.Overrides, fileInfo, original);
 
     Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
     if (debug) {
@@ -737,14 +733,14 @@ public class EntitiesHandler {
       Path yml,
       Identifier identifier,
       Type type,
-      Map<String, String> fileType,
+      FileInfo fileInfo,
       Map<String, Object> original)
       throws IOException {
-    String fileContent = Validation.loadFileContent(yml, type, fileType);
+    String fileContent = Validation.loadFileContent(yml, type, fileInfo);
     EntityDataBuilder<? extends EntityData> builder =
         ldproxyCfg
             .getEntityFactories()
-            .get(fileType.get("entityType"), fileType.get("entitySubType"))
+            .get(fileInfo.entityType, fileInfo.entitySubType)
             .emptyDataBuilder()
             .fillRequiredFieldsWithPlaceholders();
     ldproxyCfg

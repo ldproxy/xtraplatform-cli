@@ -2,6 +2,7 @@ package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.DeprecatedKeyword;
 import de.ii.ldproxy.cfg.LdproxyCfg;
+import de.ii.xtraplatform.cli.cmd.FileType.FileInfo;
 import de.ii.xtraplatform.entities.app.MapSubtractor;
 import de.ii.xtraplatform.values.domain.Identifier;
 import java.io.IOException;
@@ -16,12 +17,22 @@ import shadow.com.networknt.schema.ValidatorTypeCode;
 
 public class Validation extends Messages {
 
-  public Validation(EntitiesHandler.Type type, Identifier identifier, Path path) {
+  private final FileInfo fileInfo;
+
+  public Validation(
+      EntitiesHandler.Type type, Identifier identifier, Path path, FileInfo fileInfo) {
     super(type, identifier, path);
+    this.fileInfo = fileInfo;
   }
 
-  public Validation(EntitiesHandler.Type type, Identifier identifier, Path path, String error) {
+  public Validation(
+      EntitiesHandler.Type type,
+      Identifier identifier,
+      Path path,
+      FileInfo fileInfo,
+      String error) {
     super(type, identifier, path, error);
+    this.fileInfo = fileInfo;
   }
 
   @Override
@@ -49,17 +60,16 @@ public class Validation extends Messages {
     return "is fine";
   }
 
-  public void validate(LdproxyCfg ldproxyCfg, Map<String, String> fileType) {
-    if (!fileType.containsKey("entityType")) {
+  public void validate(LdproxyCfg ldproxyCfg, FileInfo fileInfo) {
+    if (!fileInfo.isValid()) {
       return;
     }
 
     try {
       String fileContent =
-          loadFileContent(ldproxyCfg.getDataDirectory().resolve(getPath()), getType(), fileType);
+          loadFileContent(ldproxyCfg.getDataDirectory().resolve(getPath()), getType(), fileInfo);
 
-      for (ValidationMessage msg :
-          ldproxyCfg.validateEntity(fileContent, fileType.get("entityType"))) {
+      for (ValidationMessage msg : ldproxyCfg.validateEntity(fileContent, fileInfo.entityType)) {
         if ( // msg.getMessage().contains("string found, boolean expected") ||
         // msg.getMessage().contains("integer found, string expected") ||
         msg.getMessage().contains(".tileProviderId: is deprecated")
@@ -74,6 +84,18 @@ public class Validation extends Messages {
           // ignore
           continue;
         }
+
+        if (fileInfo.subProperty.isPresent()) {
+          String newMessage =
+              msg.getMessage().startsWith("$." + fileInfo.subProperty.get() + ".")
+                  ? msg.getMessage().replace(fileInfo.subProperty.get() + ".", "")
+                  : msg.getMessage().startsWith("$." + fileInfo.subProperty.get() + "[")
+                      ? msg.getMessage().replaceFirst(fileInfo.subProperty.get() + "\\[[0-9]+\\]\\.", "")
+                      : msg.getMessage();
+
+          msg = copyWith(msg, newMessage);
+        }
+
         addMessage(msg);
       }
     } catch (IOException e) {
@@ -81,22 +103,31 @@ public class Validation extends Messages {
     }
   }
 
-  static String loadFileContent(Path path, EntitiesHandler.Type type, Map<String, String> fileType)
+  private static ValidationMessage copyWith(ValidationMessage msg, String newMessage) {
+    return new ValidationMessage.Builder()
+        .type(msg.getType())
+        .code(msg.getCode())
+        .path(msg.getPath())
+        .format(new MessageFormat(""))
+        .customMessage(newMessage)
+        .schemaPath(msg.getSchemaPath())
+        .build();
+  }
+
+  static String loadFileContent(Path path, EntitiesHandler.Type type, FileInfo fileInfo)
       throws IOException {
     String fileContent = Files.readString(path);
-    String entityType = fileType.get("entityType");
+    String entityType = fileInfo.entityType;
 
-    if (type == EntitiesHandler.Type.Defaults && fileType.containsKey("entitySubType")) {
-
-      System.out.println("fileContent: " + fileContent);
+    if (type == EntitiesHandler.Type.Defaults && fileInfo.entitySubType.isPresent()) {
 
       if (fileContent.startsWith("---\n")) {
         fileContent = fileContent.substring(4);
       }
 
-      if (fileType.containsKey("discriminatorKey") && fileType.containsKey("discriminatorValue")) {
-        String discriminatorKey = fileType.get("discriminatorKey");
-        String discriminatorValue = fileType.get("discriminatorValue");
+      if (fileInfo.discriminatorKey.isPresent() && fileInfo.discriminatorValue.isPresent()) {
+        String discriminatorKey = fileInfo.discriminatorKey.get();
+        String discriminatorValue = fileInfo.discriminatorValue.get();
         fileContent =
             "- "
                 + discriminatorKey
@@ -106,8 +137,8 @@ public class Validation extends Messages {
                 + fileContent.replace("\n", "\n  ");
       }
 
-      if (fileType.containsKey("subProperty")) {
-        String subProperty = fileType.get("subProperty");
+      if (fileInfo.subProperty.isPresent()) {
+        String subProperty = fileInfo.subProperty.get();
         fileContent =
             Arrays.stream(fileContent.split("\n"))
                 .map(line -> "  " + line)
@@ -120,18 +151,16 @@ public class Validation extends Messages {
               + "\n"
               + entityType.substring(0, entityType.length() - 1)
               + "Type: "
-              + fileType.get("entitySubType").toUpperCase();
-
-      System.out.println("newfileContent: " + fileContent);
+              + fileInfo.entitySubType.get().toUpperCase();
     }
 
-    if (type == EntitiesHandler.Type.Overrides && fileType.containsKey("entitySubType")) {
+    if (type == EntitiesHandler.Type.Overrides && fileInfo.entitySubType.isPresent()) {
       fileContent =
           fileContent
               + "\n"
               + entityType.substring(0, entityType.length() - 1)
               + "Type: "
-              + fileType.get("entitySubType").toUpperCase()
+              + fileInfo.entitySubType.get().toUpperCase()
               + "\n";
     }
     return fileContent;

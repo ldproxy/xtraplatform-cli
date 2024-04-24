@@ -15,6 +15,31 @@ public class FileType extends Common<LdproxyCfg> {
       List.of("defaults", "entities", "instances", "overrides");
   private static final List<String> ENTITY_TYPES = List.of("providers", "services");
 
+  public static final class FileInfo {
+    public final String entityType;
+    public final Optional<String> entitySubType;
+    public final Optional<String> subProperty;
+    public final Optional<String> discriminatorKey;
+    public final Optional<String> discriminatorValue;
+
+    public FileInfo(
+        String entityType,
+        String entitySubType,
+        String subProperty,
+        String discriminatorKey,
+        String discriminatorValue) {
+      this.entityType = entityType;
+      this.entitySubType = Optional.ofNullable(entitySubType);
+      this.subProperty = Optional.ofNullable(subProperty);
+      this.discriminatorKey = Optional.ofNullable(discriminatorKey);
+      this.discriminatorValue = Optional.ofNullable(discriminatorValue);
+    }
+
+    public boolean isValid() {
+      return entityType != null;
+    }
+  }
+
   public final String fullPathString;
   public final Path fullPath;
 
@@ -34,9 +59,17 @@ public class FileType extends Common<LdproxyCfg> {
     this.fileExtension = Files.getFileExtension(file);
   }
 
-  public Map<String, String> get(LdproxyCfg ldproxyCfg) {
+  public FileInfo get(LdproxyCfg ldproxyCfg) {
     Result result = run(ldproxyCfg);
-    return (Map<String, String>) result.asMap().getOrDefault("details", Map.of());
+    Map<String, String> details =
+        (Map<String, String>) result.asMap().getOrDefault("details", Map.of());
+
+    return new FileInfo(
+        details.getOrDefault("entityType", null),
+        details.getOrDefault("entitySubType", null),
+        details.getOrDefault("subProperty", null),
+        details.getOrDefault("discriminatorKey", null),
+        details.getOrDefault("discriminatorValue", null));
   }
 
   @Override
@@ -72,7 +105,8 @@ public class FileType extends Common<LdproxyCfg> {
                     .findFirst();
 
             if (subTypeLine.isPresent()) {
-              String subType = subTypeLine.get().substring(subTypeLine.get().indexOf(':') + 1).trim();
+              String subType =
+                  subTypeLine.get().substring(subTypeLine.get().indexOf(':') + 1).trim();
 
               return found(entityType, subType);
             }
@@ -159,8 +193,6 @@ public class FileType extends Common<LdproxyCfg> {
   }
 
   private Result found(String entityType, String entitySubType) {
-    System.out.println(
-        "FOUND entities/" + entityType + " - " + entitySubType + " - " + fullPathString);
     return Result.ok(
         "found",
         Map.of(
@@ -180,20 +212,6 @@ public class FileType extends Common<LdproxyCfg> {
       String subProperty,
       String discriminatorKey,
       String discriminatorValue) {
-    System.out.println(
-        "FOUND entities/"
-            + entityType
-            + " - "
-            + entitySubType
-            + " - "
-            + fullPathString
-            + " - "
-            + subProperty
-            + " - "
-            + discriminatorKey
-            + " - "
-            + discriminatorValue);
-
     if (Objects.nonNull(discriminatorKey) && Objects.nonNull(discriminatorValue)) {
       return Result.ok(
           "found",
