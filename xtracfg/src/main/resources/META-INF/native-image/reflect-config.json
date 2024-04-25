@@ -430,6 +430,7 @@
     {"name":"queryables","parameterTypes":["java.util.Optional"] },
     {"name":"showsFeatureSelfLink","parameterTypes":["java.lang.Boolean"] },
     {"name":"transformations","parameterTypes":["java.util.Map"] },
+    {"name":"embeddedFeatureLinkRels","parameterTypes":["java.util.Set"] },
     {"name":"validateCoordinatesInQueries","parameterTypes":["java.lang.Boolean"] }
   ]
 },
