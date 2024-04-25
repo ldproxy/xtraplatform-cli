@@ -1,7 +1,7 @@
 when:
   event: push
 
-pipeline:
+steps:
   bin:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:
@@ -27,7 +27,7 @@ pipeline:
   #      - gh release upload ${CI_COMMIT_SHA:0:8} xtractl_${CI_COMMIT_SHA:0:8}_linux_arm64.tar.gz
   #    secrets: [github_token]
 
-  docker:
+  docker-main:
     image: woodpeckerci/plugin-docker-buildx
     # TODO: see https://codeberg.org/woodpecker-plugins/docker-buildx/issues/50
     volumes:
@@ -51,3 +51,32 @@ pipeline:
             from_secret: ghcr_username
           password:
             from_secret: ghcr_password
+    when:
+      - branch: main
+
+  docker-branch:
+    image: woodpeckerci/plugin-docker-buildx
+    # TODO: see https://codeberg.org/woodpecker-plugins/docker-buildx/issues/50
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    settings:
+      registry: ghcr.io
+      repo: ghcr.io/ldproxy/xtractl
+      tags:
+        - ${CI_COMMIT_BRANCH}
+        - ${CI_COMMIT_BRANCH}-${CI_COMMIT_SHA:0:8}
+      force_tag: true
+      pull_image: true
+      dockerfile: xtractl/Dockerfile
+      context: xtractl/dist
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      logins:
+        - registry: ghcr.io
+          username:
+            from_secret: ghcr_username
+          password:
+            from_secret: ghcr_password
+    when:
+      - branch: maintenance-*

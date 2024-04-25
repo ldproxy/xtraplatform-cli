@@ -1,5 +1,5 @@
 when:
-  event: [push,tag]
+  event: [push, tag]
 
 matrix:
   include:
@@ -10,10 +10,10 @@ matrix:
 #      # override default /cache/gradle which does not exist on local
 #      setup: export GRADLE_USER_HOME=$${CI_WORKSPACE}/.gradle
 
-platform: ${platform}
+labels:
+  platform: ${platform}
 
-pipeline:
-
+steps:
   lib:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:
@@ -39,7 +39,7 @@ pipeline:
       path_style: true
       endpoint: https://s3.ldproxy.net
       bucket: woodpecker
-      target: /xtracfg/${platform}
+      target: /xtracfg/${CI_COMMIT_BRANCH}/${platform}
       source: xtracfg/build/native/nativeCompile/xtracfg
       strip_prefix: xtracfg/build/native/nativeCompile
       access_key: qluSRa6nIanEr6KY9wzf

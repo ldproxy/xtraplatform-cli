@@ -1,7 +1,7 @@
 when:
   event: tag
 
-pipeline:
+steps:
   bin:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:

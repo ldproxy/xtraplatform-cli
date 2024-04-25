@@ -4,8 +4,7 @@ depends_on:
 when:
   event: tag
 
-pipeline:
-
+steps:
   load:
     #image: woodpeckerci/plugin-s3
     image: docker.ci.interactive-instruments.de/cicd/drone-s3
@@ -16,7 +15,7 @@ pipeline:
       endpoint: https://s3.ldproxy.net
       bucket: woodpecker
       target: /xtracfg
-      strip_prefix: xtracfg/
+      strip_prefix: xtracfg/${CI_COMMIT_BRANCH}/
       access_key: qluSRa6nIanEr6KY9wzf
       secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
 
