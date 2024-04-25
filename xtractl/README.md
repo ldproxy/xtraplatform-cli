@@ -33,3 +33,6 @@ All commands and subcommands have a `--help` flag, for example:
 - `docker run -it --rm ghcr.io/ldproxy/xtractl --help`
 - `docker run -it --rm ghcr.io/ldproxy/xtractl entity --help`
 - `docker run -it --rm ghcr.io/ldproxy/xtractl entity ls --help`
+
+> [!TIP]
+> If `ldproxy` is running on localhost and you are running `xtractl` with docker, you have to add the flag `-h host.docker.internal`.

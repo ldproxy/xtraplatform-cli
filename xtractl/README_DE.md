@@ -33,3 +33,6 @@ Alle Commands und Subcommands haben ein Hilfe-Flag, z.B.:
 - `docker run -it --rm ghcr.io/ldproxy/xtractl --help`
 - `docker run -it --rm ghcr.io/ldproxy/xtractl entity --help`
 - `docker run -it --rm ghcr.io/ldproxy/xtractl entity ls --help`
+
+> [!TIP]
+> Wenn `ldproxy` auf localhost läuft und `xtractl` mit Docker ausgeführt wird, muss das Flag `-h host.docker.internal` gesetzt werden.
