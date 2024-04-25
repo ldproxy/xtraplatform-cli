@@ -123,7 +123,8 @@ public class FileType extends Common<LdproxyCfg> {
 
     if (Objects.equals(type, "defaults")) {
       if (ENTITY_TYPES.contains(fileName)) {
-        return found(fileName);
+        String subType = "services".equals(fileName) ? "OGC_API" : "FEATURE";
+        return found(fileName, subType);
       } else if (ENTITY_TYPES.stream().anyMatch(et -> fileName.startsWith(et + "."))) {
         return found(
             fileName.substring(0, fileName.indexOf('.')),

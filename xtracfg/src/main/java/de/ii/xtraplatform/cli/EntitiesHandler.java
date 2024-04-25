@@ -641,48 +641,33 @@ public class EntitiesHandler {
         getUpgradedDefaultsOrOverrides(
             ldproxyCfg, yml, storeIdentifier, Type.Defaults, fileInfo, original);
 
-    Map<String, Object> matchingMap = new LinkedHashMap<>();
-    Map<String, Object> subPropertyMap = new LinkedHashMap<>();
-
-    for (Map.Entry<String, Object> entry : upgraded.entrySet()) {
-      if (fileInfo.discriminatorKey.isEmpty()
-          && fileInfo.discriminatorValue.isEmpty()
-          && fileInfo.subProperty.isPresent()
-          && entry.getKey().equals(fileInfo.subProperty.get())
-          && entry.getValue() instanceof Map) {
-        subPropertyMap = (Map<String, Object>) entry.getValue();
-      } else if (entry.getValue() instanceof Map) {
-        Map<String, Object> innerMap = (Map<String, Object>) entry.getValue();
-        Object value = innerMap.get(fileInfo.discriminatorKey.get());
-        if (value != null && value.equals(fileInfo.discriminatorValue.get())) {
-          matchingMap.putAll(innerMap);
-          break;
+    if (fileInfo.subProperty.isPresent()) {
+      try {
+        if (fileInfo.discriminatorKey.isPresent() && fileInfo.discriminatorValue.isPresent()) {
+          List<Map<String, Object>> sub =
+              (List<Map<String, Object>>) upgraded.get(fileInfo.subProperty.get());
+          upgraded =
+              sub.stream()
+                  .filter(
+                      m ->
+                          Objects.equals(
+                              m.get(fileInfo.discriminatorKey.get()),
+                              fileInfo.discriminatorValue.get()))
+                  .findFirst()
+                  .orElse(new LinkedHashMap<>(original));
+          upgraded.remove(fileInfo.discriminatorKey.get());
+        } else {
+          upgraded = (Map<String, Object>) upgraded.get(fileInfo.subProperty.get());
         }
-      } else if (entry.getValue() instanceof List) {
-        List<Object> innerList = (List<Object>) entry.getValue();
-        for (Object item : innerList) {
-          if (item instanceof Map) {
-            Map<String, Object> innerMap = (Map<String, Object>) item;
-            Object value = innerMap.get(fileInfo.discriminatorKey.get());
-            if (value != null && value.equals(fileInfo.discriminatorValue.get())) {
-              matchingMap.putAll(innerMap);
-              break;
-            }
-          }
+      } catch (Throwable e) {
+        if (debug) {
+          System.out.println("Error reading '" + relYml + "': " + e.getMessage());
         }
+        upgraded = new LinkedHashMap<>(original);
       }
     }
 
-    if (fileInfo.discriminatorKey.isPresent() && fileInfo.discriminatorValue.isPresent()) {
-      original.put(fileInfo.discriminatorKey.get(), fileInfo.discriminatorValue.get());
-    }
-
-    Map<String, Object> finalUpgraded =
-        fileInfo.subProperty.isEmpty()
-            ? upgraded
-            : !subPropertyMap.isEmpty() ? subPropertyMap : matchingMap;
-
-    Map<String, String> diff = MapDiffer.diff(original, finalUpgraded, true);
+    Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
 
     if (debug) {
       System.out.println("DIFF " + diff);
@@ -690,7 +675,7 @@ public class EntitiesHandler {
 
     if (force || !diff.isEmpty()) {
       return Optional.of(
-          new Upgrade(Type.Defaults, relYml, original, finalUpgraded, null, Map.of()));
+          new Upgrade(Type.Defaults, relYml, original, upgraded, null, Map.of()));
     }
 
     return Optional.empty();

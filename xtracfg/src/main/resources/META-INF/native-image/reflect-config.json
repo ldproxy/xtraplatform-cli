@@ -1296,6 +1296,7 @@
     {"name":"getEnabled","parameterTypes":[] },
     {"name":"getGoogleSiteVerification","parameterTypes":[] },
     {"name":"getIncludeLinkHeader","parameterTypes":[] },
+    {"name":"getIncludeSpecificationInformation","parameterTypes":[] },
     {"name":"getUseLangParameter","parameterTypes":[] }
   ]
 },
@@ -1312,6 +1313,7 @@
     {"name":"enabled","parameterTypes":["java.lang.Boolean"] },
     {"name":"googleSiteVerification","parameterTypes":["java.lang.String"] },
     {"name":"includeLinkHeader","parameterTypes":["java.lang.Boolean"] },
+    {"name":"includeSpecificationInformation","parameterTypes":["java.lang.Boolean"] },
     {"name":"useLangParameter","parameterTypes":["java.lang.Boolean"] }
   ]
 },
