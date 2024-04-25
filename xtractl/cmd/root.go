@@ -8,7 +8,6 @@ import (
 	"github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd/entity"
 	"github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd/log"
 	"github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd/tiles"
-	"github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd/value"
 
 	//	"github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"
@@ -71,11 +70,10 @@ func init() {
 	api = *client.New(host, port, &password, debug)
 
 	entityCmd := entity.Cmd(api, name, debug)
-	valueCmd := value.Cmd(api, name, debug)
 	logCmd := log.Cmd(api, name, debug)
 	tilesCmd := tiles.Cmd(api, name, debug)
 
-	RootCmd.AddCommand(entityCmd, valueCmd, logCmd, tilesCmd)
+	RootCmd.AddCommand(entityCmd, logCmd, tilesCmd)
 
 	for _, c := range entityCmd.Commands() {
 		if !c.IsAvailableCommand() || c.IsAdditionalHelpTopicCommand() {
