@@ -15,7 +15,7 @@ steps:
       endpoint: https://s3.ldproxy.net
       bucket: woodpecker
       target: /xtracfg/${CI_COMMIT_BRANCH}
-      strip_prefix: xtracfg/${CI_COMMIT_BRANCH}/
+      strip_prefix: xtracfg/
       access_key:
         from_secret: s3_access
       secret_key:
