@@ -2,8 +2,11 @@
 
 `xtracfg` is a CLI tool that allows you to check your configurations for deprecated options and errors and can also automatically upgrade your configurations to the recent version.
 
-> [!IMPORTANT]
-> The functionality is not complete yet, currently you cannot check and upgrade defaults and overrides. That will be provided in the next release.
+> [!NOTE]
+> The major version of `xtracfg` should match the major version of the `ldproxy` version that you are using the configurations with. 
+> So if you are for example using `ldproxy` version `3.6.4`, you should use the most recent `xtracfg` version `3.x`. 
+> Configurations that are upgraded with the most recent `xtracfg` version `3.x` will work with the most recent `ldproxy` version `3.x` and also with `ldproxy` version `4.x`.
+> When you switch to `ldproxy` version `4.x`, you should also switch to the most recent `xtracfg` version `4.x`.
 
 ## Installation
 

@@ -2,6 +2,10 @@
 
 `xtractl` ist ein CLI-Tool mit dem man Teile der laufenden Applikation kontrollieren kann, die ansonsten einen Neustart benötigen würden.
 
+> [!NOTE]
+> Die Hauptversion von `xtractl` sollte der Hauptversion der verwendeten `ldproxy`-Version entsprechen.
+> Wenn Sie zum Beispiel die `ldproxy`-Version `3.6.4` verwenden, sollten Sie die neueste `xtractl`-Version `3.x` verwenden.
+
 ## Installation
 
 #### Binary
@@ -20,9 +24,9 @@ Alle Commands und Subcommands haben ein Hilfe-Flag, z.B.:
 
 #### Binary
 
-- `xtractl --help` 
-- `xtractl entity --help` 
-- `xtractl entity ls --help` 
+- `xtractl --help`
+- `xtractl entity --help`
+- `xtractl entity ls --help`
 
 #### Docker
 
