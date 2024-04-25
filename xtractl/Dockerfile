@@ -1,4 +1,4 @@
-FROM ghcr.io/ldproxy/ni-base:11
+FROM cgr.dev/chainguard/glibc-dynamic:latest
 ARG TARGETOS
 ARG TARGETARCH
 COPY ./$TARGETOS-$TARGETARCH/xtractl /xtractl

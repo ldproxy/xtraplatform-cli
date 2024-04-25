@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd/store"
@@ -25,7 +24,7 @@ func version() string {
 	return "DEV"
 }
 
-var name string = filepath.Base(os.Args[0])
+var name string = "xtracfg"
 var storeSrc client.Store
 
 // RootCmd represents the base command when called without any subcommands

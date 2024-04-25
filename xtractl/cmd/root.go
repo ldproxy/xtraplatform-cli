@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/interactive-instruments/xtraplatform-cli/xtractl/client"
 	"github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd/entity"
@@ -15,15 +14,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "2.0.0"
+var gitTag string
+var gitSha string
+var gitBranch = "unknown"
 
-var name string = filepath.Base(os.Args[0])
+func version() string {
+	if len(gitTag) > 0 {
+		return gitTag
+	} else if len(gitSha) > 0 {
+		return gitBranch + "-" + gitSha
+	}
+
+	return "DEV"
+}
+
+var name string = "xtractl"
 var api client.Client
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:     name,
-	Version: version,
+	Version: version(),
 	Long: name + ` controls xtraplatform applications like ldproxy and XtraServer Web API.
 
 It provides control over certain parts of the running application 

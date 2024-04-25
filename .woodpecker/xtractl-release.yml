@@ -1,14 +1,13 @@
 when:
   event: tag
 
-
 pipeline:
   bin:
     image: ghcr.io/ldproxy/golang-jdk:1.2
     commands:
       - cd xtractl
-      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/linux-amd64/xtractl
-      - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/linux-arm64/xtractl
+      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
+      - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o dist/linux-arm64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
 
   upx:
     image: docker.ci.interactive-instruments.de/cicd/upx
@@ -23,7 +22,7 @@ pipeline:
       - chmod +x xtractl/dist/linux-arm64/xtractl
       - tar -czvf xtractl_${CI_COMMIT_TAG}_linux_amd64.tar.gz -C xtractl/dist/linux-amd64 xtractl
       - tar -czvf xtractl_${CI_COMMIT_TAG}_linux_arm64.tar.gz -C xtractl/dist/linux-arm64 xtractl
-      - gh release create ${CI_COMMIT_TAG} --title ${CI_COMMIT_TAG} --draft 
+      - gh release create ${CI_COMMIT_TAG} --title ${CI_COMMIT_TAG} --draft
       - gh release upload ${CI_COMMIT_TAG} xtractl_${CI_COMMIT_TAG}_linux_amd64.tar.gz
       - gh release upload ${CI_COMMIT_TAG} xtractl_${CI_COMMIT_TAG}_linux_arm64.tar.gz
     secrets: [github_token]
