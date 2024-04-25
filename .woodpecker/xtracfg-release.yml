@@ -16,8 +16,10 @@ steps:
       bucket: woodpecker
       target: /xtracfg
       strip_prefix: xtracfg/${CI_COMMIT_BRANCH}/
-      access_key: qluSRa6nIanEr6KY9wzf
-      secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
+      access_key:
+        from_secret: s3_access
+      secret_key:
+        from_secret: s3_secret
 
   github:
     image: meltwaterfoundation/github-cli:2.29.0

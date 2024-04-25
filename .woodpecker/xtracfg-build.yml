@@ -42,5 +42,7 @@ steps:
       target: /xtracfg/${CI_COMMIT_BRANCH}/${platform}
       source: xtracfg/build/native/nativeCompile/xtracfg
       strip_prefix: xtracfg/build/native/nativeCompile
-      access_key: qluSRa6nIanEr6KY9wzf
-      secret_key: OmlgXE781FszEKLycVACn7mGe6yWYER29iNWxe2l
+      access_key:
+        from_secret: s3_access
+      secret_key:
+        from_secret: s3_secret
