@@ -79,7 +79,7 @@ steps:
       force_tag: true
       pull_image: true
       dockerfile: xtracfg/Dockerfile
-      context: xtracfg/dist
+      context: xtracfg
       platforms:
         - linux/amd64
         - linux/arm64
