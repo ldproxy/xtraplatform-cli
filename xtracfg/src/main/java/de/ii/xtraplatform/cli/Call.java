@@ -17,7 +17,9 @@ public class Call {
     auto,
     schemas,
     file_type,
-    unknown
+    unknown,
+    malGucken,
+    autoValue
   }
 
   final Command command;

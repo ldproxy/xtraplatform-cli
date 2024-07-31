@@ -248,7 +248,7 @@ public class AutoHandler {
 
     builder
         .connectionInfoBuilder()
-        .dialect(ConnectionInfoSql.Dialect.PGIS)
+        .dialect(ConnectionInfoSql.Dialect.PGIS.toString())
         .host(Optional.ofNullable(parameters.get("host")))
         .database(parameters.get("database"))
         .user(Optional.ofNullable(parameters.get("user")))
@@ -266,7 +266,7 @@ public class AutoHandler {
 
     builder
         .connectionInfoBuilder()
-        .dialect(ConnectionInfoSql.Dialect.GPKG)
+        .dialect(ConnectionInfoSql.Dialect.GPKG.toString())
         .database(parameters.get("database"))
         .poolBuilder();
 
