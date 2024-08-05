@@ -3,11 +3,13 @@ package de.ii.xtraplatform.cli.cmd;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.cli.AutoValueHandler;
 import de.ii.xtraplatform.cli.Result;
+import de.ii.xtraplatform.values.domain.StoredValue;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class AutoValue extends Common<LdproxyCfg> {
+public class AutoValue extends Common<LdproxyCfg>{
 
     enum Subcommand {
         analyze,
@@ -25,7 +27,7 @@ public class AutoValue extends Common<LdproxyCfg> {
         this.subcommand = requiredSubcommand(subcommand, Subcommand::valueOf);
         this.parameters =
                 stringMap(
-                        parameters, "apiId");
+                        parameters, "apiId", "name");
         this.tracker = tracker;
     }
 

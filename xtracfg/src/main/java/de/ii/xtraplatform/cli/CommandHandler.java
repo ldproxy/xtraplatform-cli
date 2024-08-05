@@ -104,8 +104,6 @@ public class CommandHandler {
         return result;
       case info:
         return new Info(call.parameters).run(context.layout);
-      case malGucken:
-          return new Info(call.parameters).run(context.layout);
       case check:
         return new Check(call.subcommand, call.parameters).run(context);
       case pre_upgrade:

@@ -95,11 +95,19 @@ func (store Store) Handle(parameters map[string]interface{}, command string, sub
 		return nil, fmt.Errorf("Error: %s", *response.Error)
 	}
 
+
 	if response.Results == nil {
 		return []Result{}, nil
 	}
 
-	return *response.Results, nil
+
+	for i := range *response.Results {
+        (*response.Results)[i].Details = response.Details
+    }
+
+	fmt.Printf("Response1: %+v\n", *response.Results)
+
+    return *response.Results, nil
 }
 
 func (store Store) request(parameters map[string]interface{}, command string, subcommands ...string) (response *Response, err error) {
@@ -109,7 +117,9 @@ func (store Store) request(parameters map[string]interface{}, command string, su
 		parameters["subcommand"] = subcommands[0]
 	}
 
+
 	request, err := json.Marshal(parameters)
+
 
 	if err != nil {
 		return nil, fmt.Errorf("Error: Failed to marshal the request body. %s", err)
