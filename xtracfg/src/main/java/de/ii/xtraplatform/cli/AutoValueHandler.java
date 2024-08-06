@@ -1,20 +1,18 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
-import de.ii.xtraplatform.values.domain.AutoValue;
-import de.ii.xtraplatform.values.domain.AutoValueFactory;
-import de.ii.xtraplatform.values.domain.StoredValue;
-import de.ii.xtraplatform.values.domain.ValueFactory;
+import de.ii.xtraplatform.values.domain.*;
+import shadow.com.fasterxml.jackson.databind.ObjectMapper;
+import shadow.com.fasterxml.jackson.core.type.TypeReference;
+
 import java.nio.file.Path;
 
 import java.util.*;
 import java.util.function.Consumer;
 
+
+
 public class AutoValueHandler {
-
-    private static Map<String, String> collectionColors;
-
-
     private static AutoValueFactory getValueFactories(
             LdproxyCfg ldproxyCfg, String valueType) {
         ValueFactory factory = ldproxyCfg.getValueFactories().get(valueType);
@@ -43,13 +41,9 @@ public class AutoValueHandler {
 
 
             Map<String, String> collectionColors = (Map<String, String>) valueFactory.analyze(apiId);
-
-
-            // If the analyze method returns a non-empty map, add it to the result
+            System.out.println("colle1" + collectionColors);
 
             if (!collectionColors.isEmpty()) {
-             //   String collectionColorsString = collectionColors.toString();
-             //   result.success(collectionColorsString);
                 result.success("All good");
                 result.details("Collection Colors", collectionColors);
             } else {
@@ -69,7 +63,10 @@ public class AutoValueHandler {
 
     public static Result generate(
             Map<String, String> parameters, LdproxyCfg ldproxyCfg,
-            Consumer<Result> tracker) {
+            Consumer<Result> tracker, ObjectMapper jsonMapper) {
+        AutoValueFactory valueFactory =
+                getValueFactories(
+                        ldproxyCfg, "maplibre-styles");
         ldproxyCfg.initStore();
 
         Result result = new Result();
@@ -78,36 +75,15 @@ public class AutoValueHandler {
             String apiId = parameters.get("apiId");
             String name = parameters.get("name");
             String collectionColorsString = parameters.get("collectionColors");
-            System.out.println("colle" + collectionColorsString);
 
-            AutoValueFactory valueFactory =
-                    getValueFactories(
-                            ldproxyCfg, "maplibre-styles");
+            Map<String, String> collectionColorMap = jsonMapper.readValue(collectionColorsString, new TypeReference<Map<String, String>>(){});
+            System.out.println("myMap" + collectionColorMap);
 
+            AutoValue stylesheet = valueFactory.generate(apiId, collectionColorMap);
 
-            // Convert the collectionColorsString back to a Map
-            if (collectionColorsString != null) {
-                Map<String, String> collectionColors = new HashMap<>();
-            String[] entries = collectionColorsString.substring(1, collectionColorsString.length() - 1).split(", ");
-            for (String entry : entries) {
-                String[] keyValue = entry.split("=");
-                if (keyValue.length == 2) {
-                    collectionColors.put(keyValue[0], keyValue[1]);
-                } else {
-                    System.out.println("Invalid entry: " + entry);
-                }
-            }
-            System.out.println("collogne" + collectionColors);
-                if (collectionColorsString != null) {
-                    System.out.println("collectionColorsString is null");
-                }
-                }
+            ldproxyCfg.writeValue((StoredValue)stylesheet,name,apiId);
+            System.out.println("Stylesheet" + stylesheet);
 
-
-
-
-                    AutoValue stylesheet = valueFactory.generate(apiId, collectionColors);
-            ldproxyCfg.writeValue((StoredValue)stylesheet, name,apiId);
             Path path = ldproxyCfg.getEntitiesPath();
             Path parentPath = path.getParent();
             Path newPath = parentPath.resolve("values");

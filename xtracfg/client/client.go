@@ -105,8 +105,6 @@ func (store Store) Handle(parameters map[string]interface{}, command string, sub
         (*response.Results)[i].Details = response.Details
     }
 
-	fmt.Printf("Response1: %+v\n", *response.Results)
-
     return *response.Results, nil
 }
 

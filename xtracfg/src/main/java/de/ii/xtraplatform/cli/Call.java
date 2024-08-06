@@ -18,7 +18,6 @@ public class Call {
     schemas,
     file_type,
     unknown,
-    malGucken,
     autoValue
   }
 

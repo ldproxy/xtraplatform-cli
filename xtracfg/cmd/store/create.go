@@ -1,6 +1,7 @@
 package store
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -69,12 +70,10 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 				fmt.Fprintln(os.Stderr, "Analyze failed:", err)
 				os.Exit(1)
 			} else {
-				fmt.Printf("Message1: %+v\n", resultAnalyze)
 
 				if len(resultAnalyze) > 0 {
 					firstResult := resultAnalyze[0]
 					detailsMap := firstResult.Details
-					fmt.Printf("Message2: %+v\n", detailsMap)
 
 					if len(detailsMap) == 0 {
 						fmt.Fprintln(os.Stderr, "Details map is empty")
@@ -86,35 +85,20 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 						fmt.Fprintln(os.Stderr, "Collection Colors key not found in Details map")
 						os.Exit(1)
 					}
-					fmt.Printf("Before: %+v\n", collectionColorsInterface)
 					collectionColorsMap, ok := collectionColorsInterface.(map[string]interface{})
 					if !ok {
 						fmt.Fprintln(os.Stderr, "Collection Colors is not of type map[string]interface{}")
 						os.Exit(1)
 					}
 
-					var collectionColorsStr string
-					for key, value := range collectionColorsMap {
-						strValue, ok := value.(string)
-						if !ok {
-							fmt.Fprintf(os.Stderr, "Value for key %s is not of type string\n", key)
-							os.Exit(1)
-						}
-						collectionColorsStr += fmt.Sprintf("%s: %s\n", key, strValue)
-					}
+					collectionColorsJSON, _ := json.Marshal(collectionColorsMap)
+					collectionColorsStr := string(collectionColorsJSON)
 
-					fmt.Printf("Message4: %s\n", collectionColorsStr)
-
-					// Zuweisung der Adresse des Strings an collectionColors
-					collectionColors = &collectionColorsStr
-					fmt.Printf("MessageFinal: %s\n", *collectionColors)
-					
-
+					collectionColors = &collectionColorsStr					
 				} else {
 					fmt.Fprintln(os.Stderr, "resultAnalyze is empty")
 				}
 
-				// Wenn analyze erfolgreich war, rufe generate auf
 				results, err := store.Handle(map[string]interface{}{
 					"type":            *valueType,
 					"apiId":           *api,

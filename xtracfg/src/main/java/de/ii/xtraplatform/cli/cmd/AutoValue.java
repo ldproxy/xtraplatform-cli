@@ -3,7 +3,7 @@ package de.ii.xtraplatform.cli.cmd;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.cli.AutoValueHandler;
 import de.ii.xtraplatform.cli.Result;
-import de.ii.xtraplatform.values.domain.StoredValue;
+import shadow.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 import java.util.Optional;
@@ -19,16 +19,18 @@ public class AutoValue extends Common<LdproxyCfg>{
     public final Subcommand subcommand;
     public final Map<String, String> parameters;
     public final Consumer<Result> tracker;
+    public final ObjectMapper jsonMapper;
 
     public AutoValue(
-            Optional<String> subcommand, Map<String, Object> parameters, Consumer<Result> tracker) {
+            Optional<String> subcommand, Map<String, Object> parameters, Consumer<Result> tracker, ObjectMapper jsonMapper) {
         super(parameters);
 
         this.subcommand = requiredSubcommand(subcommand, Subcommand::valueOf);
         this.parameters =
                 stringMap(
-                        parameters, "apiId", "name");
+                        parameters, "apiId", "name", "collectionColors");
         this.tracker = tracker;
+        this.jsonMapper = jsonMapper;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class AutoValue extends Common<LdproxyCfg>{
                 case analyze:
                     return AutoValueHandler.analyze(parameters, ldproxyCfg);
                 case generate:
-                    return AutoValueHandler.generate(parameters, ldproxyCfg, tracker);
+                    return AutoValueHandler.generate(parameters, ldproxyCfg, tracker, jsonMapper);
                 default:
                     throw new IllegalStateException("Unexpected subcommand: " + subcommand);
             }
