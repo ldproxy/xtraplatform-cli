@@ -1,6 +1,6 @@
 ## build go library
 
-docker run -it --rm -v /Users/az/development/xtraplatform-cli/xtracfg:/src --platform=linux/arm64 ghcr.io/ldproxy/golang-jdk:1.2 /bin/bash
+docker run -it --rm -v /Users/az/development/xtraplatform-cli/xtracfg:/src -w /src --platform=linux/arm64 ghcr.io/ldproxy/golang-jdk:1.2 /bin/bash
 
 CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" GOOS=linux GOARCH=arm64 go build -ldflags="-s -w '-extldflags=-z noexecstack'" -buildmode c-archive -o dist/libxtracfg.a
 

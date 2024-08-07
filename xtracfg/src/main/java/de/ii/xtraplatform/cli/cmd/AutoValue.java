@@ -1,6 +1,7 @@
 package de.ii.xtraplatform.cli.cmd;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
+import de.ii.xtraplatform.cli.AutoHandler;
 import de.ii.xtraplatform.cli.AutoValueHandler;
 import de.ii.xtraplatform.cli.Result;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,15 +36,11 @@ public class AutoValue extends Common<LdproxyCfg>{
 
     @Override
     public Result run(LdproxyCfg ldproxyCfg) {
-        /*
-        // Call the preCheck method
-        Result preCheckResult = AutoValueHandler.preCheck(parameters);
+        Result result = AutoValueHandler.preCheck(parameters, ldproxyCfg);
 
-        // If the preCheck failed, return the result immediately
-        if (preCheckResult.isFailure()) {
-            return preCheckResult;
+        if (result.isFailure()) {
+            return result;
         }
-*/
 
         try {
             switch (subcommand) {
