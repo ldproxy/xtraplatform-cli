@@ -3,6 +3,8 @@ package de.ii.xtraplatform.cli;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.values.domain.*;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
+import shadow.com.fasterxml.jackson.core.type.TypeReference;
+
 import java.nio.file.Paths;
 import java.nio.file.Path;
 
@@ -74,10 +76,10 @@ public class AutoValueHandler {
             String name = parameters.get("name");
             String type = parameters.get("type");
 
-            //cle String collectionColorsString = parameters.get("collectionColors");
+            // String collectionColorsString = parameters.get("collectionColors");
 
-          // Map<String, String> collectionColorMap = jsonMapper.readValue(collectionColorsString, new TypeReference<Map<String, String>>(){});
-          // System.out.println("myMap" + collectionColorMap);
+            //Map<String, String> collectionColorMap = jsonMapper.readValue(collectionColorsString, new TypeReference<Map<String, String>>(){});
+            //System.out.println("myMap" + collectionColorMap);
             Map<String, String> collectionColors = (Map<String, String>) valueFactory.analyze(apiId);
 
             AutoValue stylesheet = valueFactory.generate(apiId, collectionColors);
