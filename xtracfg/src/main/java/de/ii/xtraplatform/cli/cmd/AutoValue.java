@@ -28,7 +28,7 @@ public class AutoValue extends Common<LdproxyCfg>{
         this.subcommand = requiredSubcommand(subcommand, Subcommand::valueOf);
         this.parameters =
                 stringMap(
-                        parameters, "apiId", "name", "collectionColors");
+                        parameters, "apiId", "name", "collectionColors", "type");
         this.tracker = tracker;
         this.jsonMapper = jsonMapper;
     }

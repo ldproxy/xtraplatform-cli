@@ -3,8 +3,7 @@ package de.ii.xtraplatform.cli;
 import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.xtraplatform.values.domain.*;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
-import shadow.com.fasterxml.jackson.core.type.TypeReference;
-
+import java.nio.file.Paths;
 import java.nio.file.Path;
 
 import java.util.*;
@@ -41,7 +40,6 @@ public class AutoValueHandler {
 
 
             Map<String, String> collectionColors = (Map<String, String>) valueFactory.analyze(apiId);
-            System.out.println("colle1" + collectionColors);
 
             if (!collectionColors.isEmpty()) {
                 result.success("All good");
@@ -74,19 +72,22 @@ public class AutoValueHandler {
         try {
             String apiId = parameters.get("apiId");
             String name = parameters.get("name");
-            String collectionColorsString = parameters.get("collectionColors");
+            String type = parameters.get("type");
 
-            Map<String, String> collectionColorMap = jsonMapper.readValue(collectionColorsString, new TypeReference<Map<String, String>>(){});
-            System.out.println("myMap" + collectionColorMap);
+            //cle String collectionColorsString = parameters.get("collectionColors");
 
-            AutoValue stylesheet = valueFactory.generate(apiId, collectionColorMap);
+          // Map<String, String> collectionColorMap = jsonMapper.readValue(collectionColorsString, new TypeReference<Map<String, String>>(){});
+          // System.out.println("myMap" + collectionColorMap);
+            Map<String, String> collectionColors = (Map<String, String>) valueFactory.analyze(apiId);
+
+            AutoValue stylesheet = valueFactory.generate(apiId, collectionColors);
 
             ldproxyCfg.writeValue((StoredValue)stylesheet,name,apiId);
             System.out.println("Stylesheet" + stylesheet);
 
             Path path = ldproxyCfg.getEntitiesPath();
-            Path parentPath = path.getParent();
-            Path newPath = parentPath.resolve("values");
+            Path parentPath = path.getParent().getParent();
+            Path newPath = parentPath.resolve(Paths.get("values", type, apiId, name));
 
             result.success("Value was created successfully: " + newPath.toString());
         } catch (Throwable e) {

@@ -29,7 +29,7 @@ func isValidValueType(value string) bool {
 func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra.Command {
 	create := &cobra.Command{
 		Use:   "create",
-		Short: "Create Styles for the api",
+		Short: "Create values for the api",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			results, err := store.Handle(map[string]interface{}{}, "create")
@@ -38,7 +38,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 	}
 
 	valueType = create.PersistentFlags().StringP("valueType", "t", "maplibre-style", "type of the value to create")
-	api = create.PersistentFlags().StringP("api", "a", "xtra", "name of the entity")
+	api = create.PersistentFlags().StringP("api", "a", "", "name of the entity")
 	fileName = create.PersistentFlags().StringP("name", "n", "", "name of the value file to create")
 
 	create.PersistentFlags().SortFlags = false
@@ -47,7 +47,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 	createValue := &cobra.Command{
 		Use:   "value [path]",
 		Short: "Create value for the api",
-		Example: name + " create value -v -r \n" + name + " create value -v -r --valueType maplibre-styles --api strassen --name strassenStyles default",
+		Example: name + " create value -v -r \n" + name + " create value -v -r --valueType maplibre-styles --api strassen --name strassenStyles --src /cfg default",
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) > 1 {
 				return errors.New("only one argument expected")
@@ -56,7 +56,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if *debug {
-				fmt.Fprint(os.Stdout, "Creating Value for the api: ", store.Label(), "\n")
+				fmt.Fprint(os.Stdout, "Creating value for the api: ", store.Label(), "\n")
 			}
 
 			if !isValidValueType(*valueType) {
@@ -110,7 +110,6 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 					os.Exit(1)
 				}
 
-				// Ergebnisse von generate ausgeben
 				client.PrintResults(results, err)
 			}
 		},
