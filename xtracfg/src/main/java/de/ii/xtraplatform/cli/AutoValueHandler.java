@@ -1,6 +1,7 @@
 package de.ii.xtraplatform.cli;
 
 import de.ii.ldproxy.cfg.LdproxyCfg;
+import de.ii.ogcapi.foundation.domain.OgcApiDataV2;
 import de.ii.ogcapi.styles.domain.MbStyleStylesheet;
 import de.ii.xtraplatform.values.domain.*;
 import java.nio.file.Path;
@@ -39,6 +40,10 @@ public class AutoValueHandler {
 
     if (Strings.isNullOrEmpty(apiId)) {
       return Result.failure("No API id given");
+    }
+
+    if (!ldproxyCfg.getEntityDataStore().forType(OgcApiDataV2.class).hasAny(apiId)) {
+      return Result.failure(String.format("API with id '%s' not found", apiId));
     }
 
     if (ldproxyCfg.hasValue(type, name, apiId)) {

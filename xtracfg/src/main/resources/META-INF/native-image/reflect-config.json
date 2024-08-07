@@ -2310,6 +2310,55 @@
   ]
 },
 {
+  "name":"de.ii.ogcapi.styles.domain.MbStyleStylesheet",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.styles.domain.ImmutableMbStyleStylesheet",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getVersion","parameterTypes":[] },
+    {"name":"getBearing","parameterTypes":[] },
+    {"name":"getPitch","parameterTypes":[] },
+    {"name":"getSources","parameterTypes":[] },
+    {"name":"getLayers","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.styles.domain.MbStyleVectorSource",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.styles.domain.ImmutableMbStyleVectorSource",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getType","parameterTypes":[] },
+    {"name":"getScheme","parameterTypes":[] },
+    {"name":"getTiles","parameterTypes":[] }
+  ]
+},
+{
+  "name":"de.ii.ogcapi.styles.domain.MbStyleLayer",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"de.ii.ogcapi.styles.domain.ImmutableMbStyleLayer",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[
+    {"name":"getId","parameterTypes":[] },
+    {"name":"getType","parameterTypes":[] },
+    {"name":"getSource","parameterTypes":[] },
+    {"name":"getSourceLayer","parameterTypes":[] },
+    {"name":"getPaint","parameterTypes":[] }
+  ]
+},
+{
   "name":"de.ii.xtraplatform.crs.domain.BoundingBox",
   "queryAllDeclaredMethods":true
 },
