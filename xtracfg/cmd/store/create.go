@@ -13,9 +13,9 @@ import (
 var valueType *string
 var api *string
 var fileName *string
-var collectionColors *string 
+var collectionColors *string
 
-var validValueTypes = []string{"maplibre-style"}
+var validValueTypes = []string{"maplibre-styles"}
 
 func isValidValueType(value string) bool {
 	for _, v := range validValueTypes {
@@ -29,7 +29,7 @@ func isValidValueType(value string) bool {
 func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra.Command {
 	create := &cobra.Command{
 		Use:   "create",
-		Short: "Create values for the api",
+		Short: "Create values for an API",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			results, err := store.Handle(map[string]interface{}{}, "create")
@@ -37,16 +37,12 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 		},
 	}
 
-	valueType = create.PersistentFlags().StringP("valueType", "t", "maplibre-style", "type of the value to create")
-	api = create.PersistentFlags().StringP("api", "a", "", "name of the entity")
-	fileName = create.PersistentFlags().StringP("name", "n", "", "name of the value file to create")
-
 	create.PersistentFlags().SortFlags = false
 	create.Flags().SortFlags = false
 
 	createValue := &cobra.Command{
-		Use:   "value [path]",
-		Short: "Create value for the api",
+		Use:     "value [path]",
+		Short:   "Create value for an API",
 		Example: name + " create value -v -r \n" + name + " create value -v -r --valueType maplibre-styles --api strassen --name strassenStyles --src /cfg default",
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) > 1 {
@@ -65,7 +61,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 			}
 
 			// Call analyze
-			resultAnalyze, err := store.Handle(map[string]interface{}{"type": *valueType, "apiId": *api}, "autoValue", "analyze")
+			resultAnalyze, err := store.Handle(map[string]interface{}{"type": *valueType, "apiId": *api, "name": *fileName}, "autoValue", "analyze")
 			if err != nil {
 				fmt.Fprintln(os.Stderr, "Analyze failed:", err)
 				os.Exit(1)
@@ -94,16 +90,16 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 					collectionColorsJSON, _ := json.Marshal(collectionColorsMap)
 					collectionColorsStr := string(collectionColorsJSON)
 
-					collectionColors = &collectionColorsStr					
+					collectionColors = &collectionColorsStr
 				} else {
 					fmt.Fprintln(os.Stderr, "resultAnalyze is empty")
 				}
 
 				results, err := store.Handle(map[string]interface{}{
-					"type":            *valueType,
-					"apiId":           *api,
-					"name":            *fileName,
-					"collectionColors": *collectionColors, 
+					"type":             *valueType,
+					"apiId":            *api,
+					"name":             *fileName,
+					"collectionColors": *collectionColors,
 				}, "autoValue", "generate")
 				if err != nil {
 					fmt.Fprintln(os.Stderr, "Generate failed:", err)
@@ -114,6 +110,13 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 			}
 		},
 	}
+
+	valueType = createValue.PersistentFlags().StringP("valueType", "t", "maplibre-styles", "type of the value to create")
+	api = createValue.PersistentFlags().StringP("api", "a", "", "id of the api to create the value for")
+	fileName = createValue.PersistentFlags().StringP("name", "n", "", "name of the value file to create")
+
+	createValue.PersistentFlags().SortFlags = false
+	createValue.Flags().SortFlags = false
 
 	create.AddCommand(createValue)
 
