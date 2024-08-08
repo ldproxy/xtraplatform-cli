@@ -63,7 +63,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 			// Call analyze
 			resultAnalyze, err := store.Handle(map[string]interface{}{"type": *valueType, "apiId": *api, "name": *fileName}, "autoValue", "analyze")
 			if err != nil {
-				fmt.Fprintln(os.Stderr, "Analyze failed:", err)
+				client.PrintResults(resultAnalyze, err)
 				os.Exit(1)
 			} else {
 
@@ -93,6 +93,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 					collectionColors = &collectionColorsStr
 				} else {
 					fmt.Fprintln(os.Stderr, "resultAnalyze is empty")
+					os.Exit(1)
 				}
 
 				results, err := store.Handle(map[string]interface{}{
@@ -101,6 +102,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 					"name":             *fileName,
 					"collectionColors": *collectionColors,
 				}, "autoValue", "generate")
+
 				if err != nil {
 					fmt.Fprintln(os.Stderr, "Generate failed:", err)
 					os.Exit(1)

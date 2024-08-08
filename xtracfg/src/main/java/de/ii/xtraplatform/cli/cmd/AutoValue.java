@@ -35,13 +35,13 @@ public class AutoValue extends Common<LdproxyCfg> {
 
   @Override
   public Result run(LdproxyCfg ldproxyCfg) {
-    Result result = AutoValueHandler.preCheck(parameters, ldproxyCfg);
-
-    if (result.isFailure()) {
-      return result;
-    }
-
     try {
+      Result result = AutoValueHandler.preCheck(parameters, ldproxyCfg);
+
+      if (result.isFailure()) {
+        return result;
+      }
+
       switch (subcommand) {
         case analyze:
           return AutoValueHandler.analyze(parameters, ldproxyCfg);
