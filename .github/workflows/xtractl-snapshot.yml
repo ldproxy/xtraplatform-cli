@@ -51,8 +51,7 @@ jobs:
           name: dist
       - name: log1
         run: |
-          ls -l
-          ls -lR dist
+          ls -lR
       - uses: bhowell2/github-substring-action@1.0.2
         id: short-sha
         with:
@@ -67,7 +66,7 @@ jobs:
         if: ${{ github.ref_name == 'main' }}
         uses: docker/build-push-action@v6
         with:
-          context: ./dist
+          context: .
           push: true
           pull: true
           tags: |
