@@ -1,0 +1,59 @@
+name: xtracfg
+
+on: [push]
+
+jobs:
+  info:
+    strategy:
+      matrix:
+        os:
+          - runner: ubuntu-latest
+            type: linux
+          #- runner: buildjet-2vcpu-ubuntu-2204-arm
+          #  type: linux
+          - runner: macos-latest
+            type: macos
+    runs-on: ${{ matrix.os.runner }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - if: ${{ matrix.os.type == 'linux' }}
+        name: withargs-linux
+        uses: docker://alpine:3.8
+        env:
+          FOO: BAR
+        with:
+          entrypoint: /bin/ash
+          args: -c "echo foo is ${FOO} and repo is ${{ github.repository }} && uname -a"
+      - if: ${{ matrix.os.type == 'macos' }}
+        name: withargs-macos
+        env:
+          FOO: BAR
+        run: echo foo is ${FOO} and repo is ${{ github.repository }} && uname -a
+
+  golib:
+    strategy:
+      matrix:
+        os:
+          - runner: ubuntu-latest
+            type: linux
+          #- runner: buildjet-2vcpu-ubuntu-2204-arm
+          #  type: linux
+          - runner: macos-latest
+            type: macos
+    runs-on: ${{ matrix.os.runner }}
+    steps:
+      - name: clone
+        uses: actions/checkout@v4
+      - name: build
+        working-directory: ./xtracfg
+        env:
+          CI_COMMIT_BRANCH: ${{ github.ref_name }}
+          CI_COMMIT_SHA: ${{ github.sha }}
+          CI_COMMIT_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+        run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+          CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/linux" go build -buildmode c-archive -o dist/libxtracfg.a -ldflags="-s -w '-extldflags=-z noexecstack' -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
+      - name: log1
+        run: |
+          ls -lR ./xtracfg/dist
