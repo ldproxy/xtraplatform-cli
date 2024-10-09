@@ -78,3 +78,16 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
+      - name: push-branch
+        if: ${{ github.ref_name != 'main' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          pull: true
+          tags: |
+            ghcr.io/ldproxy/xtractl:${{ github.ref_name }}
+            ghcr.io/ldproxy/xtractl:${{ github.ref_name }}-${{steps.short-sha.outputs.substring}}
+          platforms: |
+            linux/amd64
+            linux/arm64
