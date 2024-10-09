@@ -30,7 +30,7 @@ jobs:
       - name: upx
         uses: mmatheson/ghaction-upx@v1.0.2
         with:
-          version: 4.2.4
+          version: v4.2.4
           files: |
             ./xtractl/dist/linux-amd64/xtractl
             ./xtractl/dist/linux-arm64/xtractl
