@@ -10,7 +10,6 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.ghcr_ro_token }}
-      options: --user root
     steps:
       - name: clone
         uses: actions/checkout@v4
@@ -22,7 +21,7 @@ jobs:
           CI_COMMIT_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
         run: |
           whoami
-          #git config --global --add safe.directory $GITHUB_WORKSPACE
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitBranch=${CI_COMMIT_BRANCH}"
           CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o dist/linux-arm64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitBranch=${CI_COMMIT_BRANCH}"
       - name: log1
