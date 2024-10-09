@@ -30,7 +30,7 @@ jobs:
       - name: upx
         uses: docker://backplane/upx:latest
         with:
-          args: /bin/upx --best xtractl/dist/linux-amd64/xtractl && /bin/upx --best xtractl/dist/linux-arm64/xtractl
+          args: upx --best xtractl/dist/linux-amd64/xtractl xtractl/dist/linux-arm64/xtractl
       - name: log2
         run: |
           ls -lR ./xtractl/dist
