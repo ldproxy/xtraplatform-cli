@@ -45,6 +45,9 @@ jobs:
     steps:
       - name: clone
         uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21.13"
       - name: build
         working-directory: ./xtracfg
         env:

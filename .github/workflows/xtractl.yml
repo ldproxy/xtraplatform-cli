@@ -1,4 +1,4 @@
-name: xtractl-snapshot
+name: xtractl
 
 on: [push]
 
