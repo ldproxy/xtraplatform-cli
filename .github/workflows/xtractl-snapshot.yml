@@ -8,7 +8,7 @@ jobs:
       image: docker://ghcr.io/ldproxy/golang-jdk:1.2
       credentials:
         username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+        password: ${{ secrets.ghcr_ro_token }}
     steps:
       - name: clone
         uses: actions/checkout@v4
