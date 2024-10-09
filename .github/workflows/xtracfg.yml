@@ -40,7 +40,7 @@ jobs:
           JAVA_INCLUDE: ${{ matrix.os.type == 'macos' && 'darwin' || 'linux' }}
         run: |
           git config --global --add safe.directory $GITHUB_WORKSPACE
-          CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/${JAVA_INCLUDE}" go build -buildmode c-archive -o dist/libxtracfg.a -ldflags="-s -w '-extldflags=-z noexecstack' -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
+          CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/${JAVA_INCLUDE}" go build -x -buildmode c-archive -o dist/libxtracfg.a -ldflags="-s -w '-extldflags=-z noexecstack' -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
       - name: log1
         run: |
           ls -lR ./dist
