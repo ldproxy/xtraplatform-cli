@@ -3,7 +3,7 @@ name: xtracfg
 on: [push]
 
 jobs:
-  info:
+  build:
     strategy:
       matrix:
         os:
@@ -14,51 +14,25 @@ jobs:
           - runner: macos-latest
             type: macos
     runs-on: ${{ matrix.os.runner }}
+    defaults:
+      run:
+        working-directory: ./xtracfg
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - if: ${{ matrix.os.type == 'linux' }}
-        name: withargs-linux
-        uses: docker://alpine:3.8
-        env:
-          FOO: BAR
-        with:
-          entrypoint: /bin/ash
-          args: -c "echo foo is ${FOO} and repo is ${{ github.repository }} && uname -a"
-      - if: ${{ matrix.os.type == 'macos' }}
-        name: withargs-macos
-        env:
-          FOO: BAR
-        run: echo foo is ${FOO} and repo is ${{ github.repository }} && uname -a
-
-  golib:
-    strategy:
-      matrix:
-        os:
-          - runner: ubuntu-latest
-            type: linux
-          #- runner: buildjet-2vcpu-ubuntu-2204-arm
-          #  type: linux
-          - runner: macos-latest
-            type: macos
-    runs-on: ${{ matrix.os.runner }}
-    steps:
-      - name: clone
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
           go-version: "1.21.13"
           cache-dependency-path: xtracfg/go.sum
-      - uses: actions/setup-java@v4
+      - uses: graalvm/setup-graalvm@v1
         with:
-          distribution: "temurin"
           java-version: "17"
-          cache: "gradle"
+          distribution: "liberica"
+          native-image-job-reports: true
+          cache: gradle
           cache-dependency-path: |
             xtracfg/*.gradle*
             xtracfg/**/gradle-wrapper.properties
-      - name: build
-        working-directory: ./xtracfg
+      - name: build go
         env:
           CI_COMMIT_BRANCH: ${{ github.ref_name }}
           CI_COMMIT_SHA: ${{ github.sha }}
@@ -69,5 +43,10 @@ jobs:
           CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/${JAVA_INCLUDE}" go build -buildmode c-archive -o dist/libxtracfg.a -ldflags="-s -w '-extldflags=-z noexecstack' -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
       - name: log1
         run: |
-          ls -lR ./xtracfg/dist
-          export
+          ls -lR ./dist
+      - name: build java
+        run: |
+          ./gradlew nativeCompile
+      - name: log2
+        run: |
+          ls -lR ./build/native/nativeCompile
