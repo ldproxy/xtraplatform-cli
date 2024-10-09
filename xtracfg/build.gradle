@@ -63,6 +63,8 @@ graalvmNative {
         if (project.hasProperty('STATIC')) {
             // makes sense???
             buildArgs('-H:+StaticExecutableWithDynamicLibC')
+        } else {
+            buildArgs('--native-compiler-option', '-framework,Security')
         }
 
         // for jackson???
