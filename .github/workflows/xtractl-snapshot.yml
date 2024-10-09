@@ -20,7 +20,7 @@ jobs:
           CI_COMMIT_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
         run: |
           pwd
-          ls -la ../../
+          ls -la ../../../
           ls -la
           export
           echo "CI_COMMIT_BRANCH: ${CI_COMMIT_BRANCH}"
