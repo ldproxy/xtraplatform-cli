@@ -60,8 +60,10 @@ graalvmNative {
         //buildArgs('-H:-UseServiceLoaderFeature')
         //resources.autodetect()
 
-        // makes sense???
-        buildArgs('-H:+StaticExecutableWithDynamicLibC')
+        if (project.hasProperty('STATIC')) {
+            // makes sense???
+            buildArgs('-H:+StaticExecutableWithDynamicLibC')
+        }
 
         // for jackson???
         //buildArgs('-H:+PrintClassInitialization')

@@ -46,7 +46,7 @@ jobs:
           ls -lR ./dist
       - name: build java
         run: |
-          ./gradlew nativeCompile
+          ./gradlew nativeCompile ${{ matrix.os.type == 'linux' && '-PSTATIC=true' || '' }}
       - name: log2
         run: |
           ls -lR ./build/native/nativeCompile
