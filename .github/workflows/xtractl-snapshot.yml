@@ -28,13 +28,9 @@ jobs:
         run: |
           ls -lR ./xtractl/dist
       - name: upx
-        uses: mmatheson/ghaction-upx@v1.0.2
+        uses: docker://backplane/upx:latest
         with:
-          version: v4.2.4
-          files: |
-            ./xtractl/dist/linux-amd64/xtractl
-            ./xtractl/dist/linux-arm64/xtractl
-          args: --best
+          args: /bin/upx --best xtractl/dist/linux-amd64/xtractl && /bin/upx --best xtractl/dist/linux-arm64/xtractl
       - name: log2
         run: |
           ls -lR ./xtractl/dist
