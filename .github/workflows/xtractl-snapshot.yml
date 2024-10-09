@@ -3,7 +3,7 @@ name: xtractl-snapshot
 on: [push]
 
 jobs:
-  bin:
+  build:
     runs-on: ubuntu-latest
     container:
       image: docker://ghcr.io/ldproxy/golang-jdk:1.2
@@ -20,8 +20,8 @@ jobs:
           CI_COMMIT_SHA: ${{ github.sha }}
           CI_COMMIT_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
         run: |
-          whoami
           git config --global --add safe.directory $GITHUB_WORKSPACE
+          cp Dockerfile dist/
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitBranch=${CI_COMMIT_BRANCH}"
           CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o dist/linux-arm64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitBranch=${CI_COMMIT_BRANCH}"
       - name: log1
@@ -34,3 +34,45 @@ jobs:
       - name: log2
         run: |
           ls -lR ./xtractl/dist
+      - name: save
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: load
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - name: log1
+        run: |
+          ls -l
+          ls -lR dist
+      - uses: bhowell2/github-substring-action@1.0.2
+        id: short-sha
+        with:
+          value: ${{ github.sha }}
+          length_from_start: 7
+      - name: login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.ghcr_rw_token }}
+      - name: push
+        if: ${{ github.ref_name == 'main' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./dist
+          push: true
+          pull: true
+          tags: |
+            ghcr.io/ldproxy/xtractl:next
+            ghcr.io/ldproxy/xtractl:next-${{steps.short-sha.outputs.substring}}
+          platforms: |
+            linux/amd64
+            linux/arm64
