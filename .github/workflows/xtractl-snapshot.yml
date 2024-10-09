@@ -1,4 +1,5 @@
 name: xtractl-snapshot
+
 on: [push]
 
 jobs:
