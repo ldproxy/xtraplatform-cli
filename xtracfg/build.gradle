@@ -64,7 +64,7 @@ graalvmNative {
             // makes sense???
             buildArgs('-H:+StaticExecutableWithDynamicLibC')
         } else {
-            buildArgs('--native-compiler-option', '-framework,Security')
+            buildArgs('--native-compiler-options=-framework,Security')
         }
 
         // for jackson???
