@@ -56,7 +56,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os.platform }}
-          path: ./build/native/nativeCompile
+          path: ./xtracfg/build/native/nativeCompile
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        if: ${{ matrix.os.platform == 'linux-amd64' }}
+        with:
+          name: common
+          path: ./xtracfg/Dockerfile
           retention-days: 1
 
   docker:
@@ -86,6 +92,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./common/Dockerfile
           push: true
           pull: true
           tags: |
@@ -93,7 +100,7 @@ jobs:
             ghcr.io/ldproxy/xtracfg:next-${{steps.short-sha.outputs.substring}}
           platforms: |
             linux/amd64
-            linux/arm64
+      #      linux/arm64
       - name: push-branch
         if: ${{ github.ref_name != 'main' }}
         uses: docker/build-push-action@v6
@@ -106,4 +113,4 @@ jobs:
             ghcr.io/ldproxy/xtracfg:${{ github.ref_name }}-${{steps.short-sha.outputs.substring}}
           platforms: |
             linux/amd64
-            linux/arm64
+      #      linux/arm64
