@@ -4,6 +4,8 @@ OUT_DIR=build
 PLATFORM=$(uname -s |  tr '[:upper:]' '[:lower:]' )
 EXT=$([ "$PLATFORM" = "darwin" ] && echo "dylib" || echo "so")
 
+echo "platform: ${PLATFORM}"
+
 mkdir -p ${OUT_DIR}
 
 cd ${OUT_DIR}
