@@ -1,7 +1,11 @@
 [
 {
   "name":"de.ii.xtraplatform.cli.CommandHandler",
-  "methods":[{"name":"handleCommand","parameterTypes":["java.lang.String", "de.ii.xtraplatform.cli.Progress"] }]
+  "methods":[
+    { "name" : "<init>", "parameterTypes" : [] },
+    {"name":"handleCommand","parameterTypes":["java.lang.String"] },
+    {"name":"handleCommand","parameterTypes":["java.lang.String", "de.ii.xtraplatform.cli.Progress"] }
+  ]
 },
 {
   "name":"java.lang.Boolean",

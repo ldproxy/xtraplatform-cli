@@ -1,0 +1,51 @@
+name: xtracfg
+
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - runner: ubuntu-latest
+            type: linux
+            platform: linux-amd64
+          #- runner: buildjet-2vcpu-ubuntu-2204-arm
+          #  type: linux
+          #  platform: linux-arm64
+          - runner: macos-latest
+            type: macos
+            platform: darwin-arm64
+    runs-on: ${{ matrix.os.runner }}
+    defaults:
+      run:
+        working-directory: ./libxtracfg/c
+    steps:
+      - uses: actions/checkout@v4
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: "17"
+          distribution: "liberica"
+          native-image-job-reports: true
+          cache: gradle
+          cache-dependency-path: |
+            xtracfg/*.gradle*
+            xtracfg/**/gradle-wrapper.properties
+      - name: native-image
+        working-directory: ./xtracfg
+        run: |
+          ./gradlew nativeCompile -PLIB=true
+      - name: log
+        run: |
+          ls -l ./build
+      - name: wrapper
+        run: |
+          ./build.sh
+      - name: log2
+        run: |
+          ls -l ./build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libxtracfg-${{ matrix.os.platform }}
+          path: ./libxtracfg/c/build/libxtracfg.a
+          retention-days: 1

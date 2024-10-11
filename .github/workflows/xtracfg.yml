@@ -53,6 +53,12 @@ jobs:
       - name: log2
         run: |
           ls -lR ./build/native/nativeCompile
+      - uses: docker://backplane/upx:latest
+        with:
+          args: upx --best xtracfg/build/native/nativeCompile/xtracfg
+      - name: log3
+        run: |
+          ls -lR ./build/native/nativeCompile
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os.platform }}

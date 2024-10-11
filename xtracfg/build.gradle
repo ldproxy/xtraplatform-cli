@@ -1,7 +1,13 @@
 plugins {
     id 'application'
     id 'org.graalvm.buildtools.native' version '0.9.22'
+    id "com.google.osdetector" version "1.7.3"
     id "org.gretty" version "3.0.5" apply false
+}
+
+ext {
+    targetos = osdetector.os.replace('osx', 'darwin')
+    targetarch = osdetector.arch.replace('x86_64', 'amd64').replace('aarch_64', 'arm64')
 }
 
 group = 'de.interactive_instruments'
@@ -41,13 +47,24 @@ graalvmNative {
         enableExperimentalPredefinedClasses = true
     }*/
     binaries.all {
-        imageName = "xtracfg"
         verbose = true
         fallback = false
         quickBuild = false
         richOutput = true
-        //sharedLibrary = true
         requiredVersion = '22.3'
+
+        if (project.hasProperty('LIB')) {
+            imageName = "libxtracfgjni"
+            sharedLibrary = true
+            buildArgs("--native-compiler-path=${project.projectDir}/../libxtracfg/c/native-image/static-compiler-${targetos}.sh")
+            buildArgs('-O3')
+            //TODO JDK 23 test  buildArgs("-Os")
+        } else {
+            imageName = "xtracfg"
+            // for statically linking xtracfg
+            buildArgs('--features=de.ii.xtraplatform.cli.NativeFeature')
+            buildArgs("-H:CLibraryPath=${project.projectDir}/dist")
+        }
 
         //buildArgs("--module-path", "${buildDir}/install/ldproxy/lib")
         //buildArgs("--module", application.mainModule.get())
@@ -62,10 +79,10 @@ graalvmNative {
         //buildArgs('-H:-UseServiceLoaderFeature')
         //resources.autodetect()
 
-        if (project.hasProperty('STATIC')) {
-            // makes sense???
+        if (!project.hasProperty('LIB') && targetos == 'linux') {
             buildArgs('-H:+StaticExecutableWithDynamicLibC')
-        } else {
+        }
+        if (targetos == 'darwin') {
             buildArgs('--native-compiler-options=-Wl,-framework,Security')
         }
 
@@ -73,13 +90,27 @@ graalvmNative {
         //buildArgs('-H:+PrintClassInitialization')
         //buildArgs("--allow-incomplete-classpath")
 
-        // for statically linking xtracfg
-        buildArgs("-H:CLibraryPath=${project.projectDir}/dist")
+
         buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.core.jdk=ALL-UNNAMED")
         buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted=ALL-UNNAMED")
         buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted.c=ALL-UNNAMED")
     }
     toolchainDetection = false
+}
+
+tasks.register('nativeSync', Sync) {
+    from "${project.buildDir}/native/nativeCompile"
+    into '../libxtracfg/c/build'
+}
+
+tasks.register('os') {
+    doLast {
+        println targetos + "-" + targetarch
+    }
+}
+
+if (project.hasProperty('LIB')) {
+    tasks.nativeCompile.finalizedBy tasks.nativeSync
 }
 
 if (!project.hasProperty('CI')) {
