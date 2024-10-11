@@ -24,5 +24,8 @@ echo "test"
 #clang -I./ -L./ -lxtracfgjni -lxtracfg -o test ../test/main.c
 
 # static
+if [ "$PLATFORM" = "darwin" ]; then
 clang -I./ -L./ -Wl,-framework,CoreServices -ldl -lpthread -Wl,-framework,Foundation -o test ../test/main.c ./libxtracfg.a
-
+else
+clang -I./ -L./ -ldl -lpthread -o test ../test/main.c ./libxtracfg.a
+fi
