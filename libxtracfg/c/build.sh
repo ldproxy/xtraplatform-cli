@@ -5,6 +5,8 @@ PLATFORM=$(uname -s |  tr '[:upper:]' '[:lower:]' )
 EXT=$([ "$PLATFORM" = "darwin" ] && echo "dylib" || echo "so")
 
 echo "platform: ${PLATFORM}"
+echo $(whereis ar)
+echo $(clang --version)
 
 mkdir -p ${OUT_DIR}
 
