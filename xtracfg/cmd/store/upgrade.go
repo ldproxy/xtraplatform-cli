@@ -6,7 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
+	"github.com/interactive-instruments/xtraplatform-cli/libxtracfg/go/xtracfg"
+	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/util"
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +17,7 @@ var noConfirm *bool
 var keepRedundant *bool
 
 // Cmd represents the entity command
-func UpgradeCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra.Command {
+func UpgradeCmd(store xtracfg.Store, name string, verbose *bool, debug *bool) *cobra.Command {
 	upgrade := &cobra.Command{
 		Use:   "upgrade",
 		Short: "Upgrade the store source",
@@ -36,13 +37,13 @@ No changes are made without confirmation (unless --yes is set).`,
 			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "cfg")
 
 			if !*noConfirm {
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
-			if client.HasStatus(results, client.Confirmation) {
+			if xtracfg.HasStatus(results, xtracfg.Confirmation) {
 				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "cfg")
 
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n", "Upgrading entities", "\n")
@@ -50,13 +51,13 @@ No changes are made without confirmation (unless --yes is set).`,
 			results, err = store.Handle(map[string]interface{}{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "entities")
 
 			if !*noConfirm {
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
-			if client.HasStatus(results, client.Confirmation) {
+			if xtracfg.HasStatus(results, xtracfg.Confirmation) {
 				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "entities")
 
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n", "Upgrading layout", "\n")
@@ -64,13 +65,13 @@ No changes are made without confirmation (unless --yes is set).`,
 			results, err = store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "layout")
 
 			if !*noConfirm {
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
-			if client.HasStatus(results, client.Confirmation) {
+			if xtracfg.HasStatus(results, xtracfg.Confirmation) {
 				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "layout")
 
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n")
@@ -99,13 +100,13 @@ No changes are made without confirmation (unless --yes is set).`,
 			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "cfg")
 
 			if !*noConfirm {
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
-			if client.HasStatus(results, client.Confirmation) {
+			if xtracfg.HasStatus(results, xtracfg.Confirmation) {
 				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "cfg")
 
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n")
@@ -142,13 +143,13 @@ No changes are made without confirmation (unless --yes is set).`,
 			results, err := store.Handle(map[string]interface{}{"force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "path": path}, "pre_upgrade", "entities")
 
 			if !*noConfirm {
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
-			if client.HasStatus(results, client.Confirmation) {
+			if xtracfg.HasStatus(results, xtracfg.Confirmation) {
 				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "force": strconv.FormatBool(*force), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm), "path": path}, "upgrade", "entities")
 
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n")
@@ -169,13 +170,13 @@ No changes are made without confirmation (unless --yes is set).`,
 			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*keepRedundant)}, "pre_upgrade", "layout")
 
 			if !*noConfirm {
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
-			if client.HasStatus(results, client.Confirmation) {
+			if xtracfg.HasStatus(results, xtracfg.Confirmation) {
 				results, err = store.Handle(map[string]interface{}{"backup": strconv.FormatBool(*backup), "ignoreRedundant": strconv.FormatBool(*keepRedundant), "noConfirm": strconv.FormatBool(*noConfirm)}, "upgrade", "layout")
 
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 
 			fmt.Fprint(os.Stdout, "\n")

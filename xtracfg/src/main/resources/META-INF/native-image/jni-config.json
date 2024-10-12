@@ -1,14 +1,6 @@
 [
 {
-  "name":"de.ii.xtraplatform.cli.CommandHandler",
-  "methods":[
-    { "name" : "<init>", "parameterTypes" : [] },
-    {"name":"handleCommand","parameterTypes":["java.lang.String"] },
-    {"name":"handleCommand","parameterTypes":["java.lang.String", "de.ii.xtraplatform.cli.Progress"] }
-  ]
-},
-{
-  "name":"java.lang.Boolean",
-  "methods":[{"name":"getBoolean","parameterTypes":["java.lang.String"] }]
+  "name":"de.ii.xtraplatform.cli.XtraCfg",
+  "methods":[{"name":"execute","parameterTypes":["java.lang.String"]}]
 }
 ]

@@ -7,14 +7,15 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
+	"github.com/interactive-instruments/xtraplatform-cli/libxtracfg/go/xtracfg"
+	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/util"
 	"github.com/spf13/cobra"
 )
 
 var ignoreRedundant *bool
 
 // CheckCmd represents the check command
-func CheckCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra.Command {
+func CheckCmd(store xtracfg.Store, name string, verbose *bool, debug *bool) *cobra.Command {
 	check := &cobra.Command{
 		Use:   "check",
 		Short: "Check the store source",
@@ -27,7 +28,7 @@ Executes all subcommands in order, see the subcommand help for details.`,
 			}
 			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check")
 
-			client.PrintResults(results, err)
+			util.PrintResults(results, err)
 
 			printFix(results, err, name)
 		},
@@ -50,7 +51,7 @@ Executes all subcommands in order, see the subcommand help for details.`,
 
 			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check", "cfg")
 
-			client.PrintResults(results, err)
+			util.PrintResults(results, err)
 
 			printFix(results, err, name)
 		},
@@ -84,7 +85,7 @@ To check only a single entity, pass the path to the file relative to the source 
 
 			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant), "path": path}, "check", "entities")
 
-			client.PrintResults(results, err)
+			util.PrintResults(results, err)
 
 			printFix(results, err, name)
 		},
@@ -102,7 +103,7 @@ To check only a single entity, pass the path to the file relative to the source 
 
 			results, err := store.Handle(map[string]interface{}{"ignoreRedundant": strconv.FormatBool(*ignoreRedundant)}, "check", "layout")
 
-			client.PrintResults(results, err)
+			util.PrintResults(results, err)
 
 			printFix(results, err, name)
 		},
@@ -115,8 +116,8 @@ To check only a single entity, pass the path to the file relative to the source 
 	return check
 }
 
-func printFix(results []client.Result, err error, name string) {
-	if err == nil && client.HasStatus(results, client.Warning) {
+func printFix(results []xtracfg.Result, err error, name string) {
+	if err == nil && xtracfg.HasStatus(results, xtracfg.Warning) {
 		fmt.Fprint(os.Stdout, "\n", "Run '", name, " ", strings.Replace(strings.Join(os.Args[1:], " "), "check", "upgrade", 1), "' to fix all detected issues.", "\n")
 	} else {
 		fmt.Fprint(os.Stdout, "\n")

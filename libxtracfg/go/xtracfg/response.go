@@ -1,4 +1,4 @@
-package client
+package xtracfg
 
 import (
 	"encoding/json"

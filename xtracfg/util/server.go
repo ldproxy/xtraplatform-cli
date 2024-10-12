@@ -1,15 +1,16 @@
-package client
+package util
 
 import (
 	"log"
 	"net/http"
 
 	"github.com/gorilla/websocket"
+	"github.com/interactive-instruments/xtraplatform-cli/libxtracfg/go/xtracfg"
 )
 
-var store Store
+var store xtracfg.Store
 
-func OpenWebsocket(store2 Store, port string) {
+func OpenWebsocket(store2 xtracfg.Store, port string) {
 	store = store2
 
 	handler := newLimitHandler(1, http.HandlerFunc(wsEndpoint))
@@ -46,7 +47,7 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	// listen indefinitely for new messages coming through on our WebSocket connection
 	reader(ws)
 
-	*store.progress <- WS_CLOSED
+	*store.Progress <- WS_CLOSED
 
 	log.Println("done reading")
 }
@@ -74,7 +75,7 @@ func reader(conn *websocket.Conn) {
 func progress_writer(conn *websocket.Conn) {
 	go func() {
 		for {
-			msg, more := <-*store.progress
+			msg, more := <-*store.Progress
 			if !more || msg == WS_CLOSED {
 				log.Println("ERR5", more, msg)
 				return

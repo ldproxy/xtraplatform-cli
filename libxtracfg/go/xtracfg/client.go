@@ -1,4 +1,15 @@
-package client
+package xtracfg
+
+/*
+#cgo CFLAGS: -I ../../c/include
+#cgo LDFLAGS: -L../../c/build -lxtracfg -framework CoreServices -framework Foundation
+
+#include <stdlib.h>
+#include "libxtracfg.h"
+
+void progress(char *msg);
+*/
+import "C"
 
 import (
 	"encoding/json"
@@ -6,9 +17,8 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"unsafe"
 )
-
-type CommandHandler func(command string) string
 
 // Store is
 type Store struct {
@@ -16,20 +26,38 @@ type Store struct {
 	driver   *string
 	verbose  *bool
 	debug    *bool
-	progress *chan string
+	Progress *chan string
 }
 
-var handle CommandHandler
-var progress chan string
+var progress_chan chan string
+
+//export progress
+func progress(msg *C.char) {
+	progress_chan <- C.GoString(msg)
+}
+
+func xtracfg_init() {
+	progress_chan = make(chan string, 16)
+	/*go func() {
+		for {
+			msg, more := <-progress_chan
+			if !more {
+				return
+			}
+
+			log.Println("PROGRESS", msg)
+		}
+	}()*/
+
+	C.xtracfg_init()
+	C.xtracfg_progress_subscribe((C.progress_callback)(unsafe.Pointer(C.progress)))
+}
 
 // New is
 func New(source *string, driver *string, verbose *bool, debug *bool) *Store {
-	return &Store{source: source, driver: driver, debug: debug, verbose: verbose, progress: &progress}
-}
+	xtracfg_init()
 
-func Init(handle_command CommandHandler, progress_chan chan string) {
-	handle = handle_command
-	progress = progress_chan
+	return &Store{source: source, driver: driver, debug: debug, verbose: verbose, Progress: &progress_chan}
 }
 
 // Label is
@@ -69,7 +97,7 @@ func (store Store) Connect() error {
 
 	if err == nil {
 		if *store.verbose {
-			PrintResults(*response.Results, err)
+			//PrintResults(*response.Results, err)
 			// fmt.Printf("Connected to store source %s\n\n", store.Label())
 		}
 		return nil
@@ -142,21 +170,14 @@ func (store Store) Request(request []byte) (response []byte) {
 		fmt.Println("->", request2)
 	}
 
-	response = requestC(request2)
+	var err C.int
+	r := C.xtracfg_execute(C.CString(request2), &err)
+	response = []byte(C.GoString(r))
+	C.free(unsafe.Pointer(r))
 
 	if *store.debug {
 		fmt.Println("<-", string(response))
 	}
-
-	return response
-}
-
-func requestC(command string) (response []byte) {
-	if handle == nil {
-		handle = mockHandler
-	}
-
-	response = []byte(handle(command))
 
 	return response
 }

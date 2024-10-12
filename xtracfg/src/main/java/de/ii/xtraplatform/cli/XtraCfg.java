@@ -13,4 +13,17 @@ public class XtraCfg {
       e.printStackTrace();
     }
   }
+
+  public static String execute(String command) {
+    try {
+      CommandHandler commandHandler = new CommandHandler();
+      Cli.NativeProgress progress = new Cli.NativeProgress();
+
+      return commandHandler.handleCommand(command, progress);
+    } catch (Throwable e) {
+      System.out.println("ERROR " + e.getMessage());
+      e.printStackTrace();
+      return "";
+    }
+  }
 }
