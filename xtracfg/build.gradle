@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.graalvm.buildtools.native' version '0.9.22'
+    id 'org.graalvm.buildtools.native' version '0.10.3'
     id "com.google.osdetector" version "1.7.3"
     id "org.gretty" version "3.0.5" apply false
 }
@@ -31,7 +31,7 @@ dependencies {
     // use this instead for debugging purposes
     //implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
 
-    compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '22.3.2'
+    compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '22.3.5'
 }
 
 application {
