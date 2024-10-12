@@ -57,7 +57,7 @@ graalvmNative {
         if (project.hasProperty('LIB')) {
             imageName = "libxtracfgjni"
             sharedLibrary = true
-            buildArgs("--native-compiler-path=${project.projectDir}/../libxtracfg/c/native-image/static-compiler-${targetos}.sh")
+            buildArgs("--native-compiler-path=${project.projectDir}/../c/native-image/static-compiler-${targetos}.sh")
             buildArgs('-march=native')
             buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
             //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
@@ -103,7 +103,7 @@ graalvmNative {
 
 tasks.register('nativeSync', Sync) {
     from "${project.buildDir}/native/nativeCompile"
-    into '../libxtracfg/c/build'
+    into '../c/build'
 }
 
 tasks.register('os') {
