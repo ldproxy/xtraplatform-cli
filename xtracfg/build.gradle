@@ -31,7 +31,8 @@ dependencies {
     // use this instead for debugging purposes
     //implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
 
-    compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '22.3.5'
+    // 24.x is for JDK 21
+    compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '24.1.0'
 }
 
 application {
@@ -51,14 +52,16 @@ graalvmNative {
         fallback = false
         quickBuild = false
         richOutput = true
-        requiredVersion = '22.3'
+        //requiredVersion = '22.3'
 
         if (project.hasProperty('LIB')) {
             imageName = "libxtracfgjni"
             sharedLibrary = true
             buildArgs("--native-compiler-path=${project.projectDir}/../libxtracfg/c/native-image/static-compiler-${targetos}.sh")
-            buildArgs('-O3')
-            //TODO JDK 23 test  buildArgs("-Os")
+            buildArgs('-march=native')
+            buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
+            //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
+
         } else {
             imageName = "xtracfg"
             // for statically linking xtracfg
