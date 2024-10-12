@@ -4,10 +4,6 @@ OUT_DIR=build
 PLATFORM=$(uname -s |  tr '[:upper:]' '[:lower:]' )
 EXT=$([ "$PLATFORM" = "darwin" ] && echo "dylib" || echo "so")
 
-echo "platform: ${PLATFORM}"
-echo $(whereis ar)
-echo $(clang --version)
-
 mkdir -p ${OUT_DIR}
 
 cd ${OUT_DIR}
@@ -29,7 +25,7 @@ echo "test"
 
 # static
 if [ "$PLATFORM" = "darwin" ]; then
-clang -I./ -L./ -Wl,-framework,CoreServices -ldl -lpthread -Wl,-framework,Foundation -o test ../test/main.c ./libxtracfg.a
+#clang -I./ -L./ -Wl,-framework,CoreServices -ldl -lpthread -Wl,-framework,Foundation -o test ../test/main.c ./libxtracfg.a
 else
 clang -I./ -L./ -ldl -lpthread -o test ../test/main.c ./libxtracfg.a
 fi
