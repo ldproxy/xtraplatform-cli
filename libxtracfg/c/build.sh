@@ -35,8 +35,8 @@ echo "test"
 
 # static
 if [ "$PLATFORM" = "darwin" ]; then
-#clang -I./ -L./ -Wl,-framework,CoreServices -ldl -lpthread -Wl,-framework,Foundation -o test ../test/main.c ./libxtracfg.a
-echo "test temporarily disabled on macOS"
+clang -I./ -L./ -Wl,-framework,CoreServices -ldl -lpthread -Wl,-framework,Foundation -o test ../test/main.c ./libxtracfg.a
+#echo "test temporarily disabled on macOS"
 else
 clang -I./ -L./ -ldl -lpthread -o test ../test/main.c ./libxtracfg.a
 fi
