@@ -2,7 +2,7 @@ package xtracfg
 
 /*
 #cgo CFLAGS: -I ../../c/include
-#cgo LDFLAGS: -L../../c/build -lxtracfg -framework CoreServices -framework Foundation
+#cgo LDFLAGS: -L../../c/build -lxtracfg
 
 #include <stdlib.h>
 #include "libxtracfg.h"
@@ -12,6 +12,7 @@ void progress(char *msg);
 import "C"
 
 import (
+	_ "embed"
 	"encoding/json"
 	"fmt"
 	"path/filepath"
@@ -19,6 +20,11 @@ import (
 	"strings"
 	"unsafe"
 )
+
+// needed to trigger a rebuild when libxtracfg.a changes
+//
+//go:embed libxtracfg.sha1sum
+var res string
 
 // Store is
 type Store struct {

@@ -1,6 +1,6 @@
 name: xtractl
 
-on: [push]
+on: []
 
 jobs:
   build:

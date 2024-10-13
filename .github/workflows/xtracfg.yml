@@ -1,6 +1,6 @@
 name: xtracfg
 
-on: [push]
+on: []
 
 jobs:
   build:

@@ -17,6 +17,12 @@ echo "lib"
 clang -c -Wall -I./ -I$JAVA_HOME/include -I$JAVA_HOME/include/${PLATFORM} -o libxtracfg.o ../wrapper/libxtracfg.c
 cp libxtracfgjni.a libxtracfg.a
 ar -rv libxtracfg.a libxtracfg.o
+if [ "$PLATFORM" = "darwin" ]; then
+shasum libxtracfg.a > libxtracfg.sha1sum
+else
+sha1sum libxtracfg.a > libxtracfg.sha1sum
+fi
+cp libxtracfg.sha1sum ../../go/xtracfg/
 
 echo "test"
 

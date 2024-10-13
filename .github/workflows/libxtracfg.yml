@@ -17,11 +17,12 @@ jobs:
             type: macos
             platform: darwin-arm64
     runs-on: ${{ matrix.os.runner }}
-    defaults:
-      run:
-        working-directory: ./libxtracfg/c
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.2"
+          cache-dependency-path: xtracfg/go.sum
       - uses: graalvm/setup-graalvm@v1
         with:
           java-version: "21"
@@ -31,21 +32,36 @@ jobs:
           cache-dependency-path: |
             xtracfg/*.gradle*
             xtracfg/**/gradle-wrapper.properties
-      - name: native-image
-        working-directory: ./xtracfg
+      - name: java
+        working-directory: ./libxtracfg/java
         run: |
           ./gradlew nativeCompile -PLIB=true
       - name: log
         run: |
-          ls -l ./build
-      - name: wrapper
+          ls -l ./libxtracfg/c/build
+      - name: c
+        working-directory: ./libxtracfg/c
         run: |
           ./build.sh
       - name: log2
         run: |
-          ls -l ./build
+          ls -l ./libxtracfg/c/build
+      - name: go
+        working-directory: ./xtracfg
+        env:
+          CGO_FLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '' }}
+        run: |
+          go build -o build/xtracfg -v
+      - name: log3
+        run: |
+          ls -l ./xtracfg/build
       - uses: actions/upload-artifact@v4
         with:
           name: libxtracfg-${{ matrix.os.platform }}
           path: ./libxtracfg/c/build/libxtracfg.a
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xtracfg-${{ matrix.os.platform }}
+          path: ./xtracfg/build/xtracfg
           retention-days: 1

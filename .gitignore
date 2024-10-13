@@ -9,3 +9,4 @@ build
 .idea
 .DS_Store
 bin
+libxtracfg/go/xtracfg/libxtracfg.sha1sum
