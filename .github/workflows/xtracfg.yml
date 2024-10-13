@@ -96,6 +96,11 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: libxtracfg-c-hash-${{ matrix.os.platform }}
+      - name: log2
+        run: |
+          ls -l ../
+          ls -l ./
+          ls -l ./build
       - name: build go
         env:
           CI_COMMIT_BRANCH: ${{ github.ref_name }}
