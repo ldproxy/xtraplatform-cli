@@ -1,5 +1,9 @@
 #!/bin/sh
 
+#TODO: use gradle?
+#https://docs.gradle.org/current/userguide/building_cpp_projects.html#sec:cpp_supported_tool_chain
+#https://github.com/gradle/native-samples/blob/master/c/application/build.gradle
+
 OUT_DIR=build
 PLATFORM=$(uname -s |  tr '[:upper:]' '[:lower:]' )
 EXT=$([ "$PLATFORM" = "darwin" ] && echo "dylib" || echo "so")
