@@ -51,7 +51,7 @@ jobs:
         env:
           CGO_FLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '' }}
         run: |
-          go build -o build/xtracfg -v
+          go build -o build/xtracfg -v -x
       - name: log3
         run: |
           ls -l ./xtracfg/build
