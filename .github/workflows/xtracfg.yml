@@ -51,6 +51,11 @@ jobs:
           name: libxtracfg-c-${{ matrix.os.platform }}
           path: ./libxtracfg/c/build/libxtracfg.a
           retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libxtracfg-c-hash-${{ matrix.os.platform }}
+          path: ./libxtracfg/go/xtracfg/libxtracfg.sha1sum
+          retention-days: 1
 
   binary:
     runs-on: ${{ matrix.os.runner }}
@@ -88,6 +93,9 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: libxtracfg-c-${{ matrix.os.platform }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: libxtracfg-c-hash-${{ matrix.os.platform }}
       - name: build go
         env:
           CI_COMMIT_BRANCH: ${{ github.ref_name }}
