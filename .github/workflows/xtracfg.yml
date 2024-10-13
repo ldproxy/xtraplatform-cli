@@ -121,7 +121,7 @@ jobs:
           retention-days: 1
 
   docker:
-    if: ${{ matrix.os.platform == 'linux-amd64' }}
+    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     needs: binary
     steps:
