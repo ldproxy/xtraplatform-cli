@@ -49,9 +49,9 @@ jobs:
       - name: go
         working-directory: ./xtracfg
         env:
-          LDFLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '' }}
+          CGO_LDFLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '' }}
         run: |
-          go build -o build/xtracfg -v -x
+          go build -o build/xtracfg -v
       - name: log3
         run: |
           ls -l ./xtracfg/build
