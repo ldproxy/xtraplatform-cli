@@ -17,7 +17,9 @@ done
 
 # Do a simple forward for any calls that are used to compile individual C files
 if [[ -z $LIB_NAME ]]; then
-    cc $*
+    CC_ARGS=$*
+    echo "CC $CC_ARGS"
+    cc $CC_ARGS
     exit 0
 fi
 
@@ -65,7 +67,9 @@ do
         AR_ARGS+=" ${ARCHIVE_DIR}/*.o"
     fi
     if [[ $arg =~ .*\.(o)$ ]]; then
-        cp $arg ${OBJECTS}
+        #cp $arg ${OBJECTS}
+        #echo "VTOOOL $arg -> ${OBJECTS}/$(basename "${arg}")"
+        vtool -set-build-version macos 14.0 15.0 -replace -output ${OBJECTS}/$(basename "${arg}") $arg
     fi
 done
 
@@ -75,3 +79,5 @@ find ${OBJECTS} -name "*.o" >> ${LOG_FILE}
 echo "======= Archive command"  >> ${LOG_FILE}
 echo "ar $AR_ARGS" >> ${LOG_FILE}
 ar $AR_ARGS
+
+
