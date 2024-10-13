@@ -7,15 +7,15 @@ jobs:
     strategy:
       matrix:
         os:
-          - runner: ubuntu-latest
-            type: linux
-            platform: linux-amd64
+          #- runner: ubuntu-latest
+          #  type: linux
+          #  platform: linux-amd64
           #- runner: buildjet-2vcpu-ubuntu-2204-arm
           #  type: linux
           #  platform: linux-arm64
-          #- runner: macos-latest
-          #  type: macos
-          #  platform: darwin-arm64
+          - runner: macos-15
+            type: macos
+            platform: darwin-arm64
     runs-on: ${{ matrix.os.runner }}
     steps:
       - uses: actions/checkout@v4
