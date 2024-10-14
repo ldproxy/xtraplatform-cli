@@ -136,7 +136,7 @@ jobs:
           ls -lR
       - uses: docker://backplane/upx:latest
         with:
-          args: upx --best ./xtracfg-*/xtracfg
+          args: upx --best ${GITHUB_WORKSPACE}/xtracfg-*/xtracfg
       - name: log2
         run: |
           ls -lR
