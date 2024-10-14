@@ -130,7 +130,7 @@ jobs:
       - name: load
         uses: actions/download-artifact@v4
         with:
-          pattern: "{xtracfg-*, common}"
+          pattern: "{common,xtracfg-}*"
       - name: log1
         run: |
           ls -lR
