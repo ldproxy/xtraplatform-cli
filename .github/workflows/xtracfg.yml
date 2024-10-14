@@ -129,12 +129,14 @@ jobs:
     steps:
       - name: load
         uses: actions/download-artifact@v4
+        with:
+          name: {xtracfg, common}*
       - name: log1
         run: |
           ls -lR
       - uses: docker://backplane/upx:latest
         with:
-          args: upx --best **/xtracfg
+          args: upx --best ./xtracfg-*/xtracfg
       - name: log2
         run: |
           ls -lR
