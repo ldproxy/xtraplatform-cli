@@ -43,9 +43,11 @@ jobs:
         working-directory: ./libxtracfg/c
         run: |
           ./build.sh
+          ./test.sh
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
+      # TODO: run tests for java, c, go
       - uses: actions/upload-artifact@v4
         with:
           name: libxtracfg-c-${{ matrix.os.platform }}
@@ -81,15 +83,6 @@ jobs:
         with:
           go-version: "1.23.2"
           cache-dependency-path: xtracfg/go.sum
-      - uses: graalvm/setup-graalvm@v1
-        with:
-          java-version: "21"
-          distribution: "graalvm"
-          native-image-job-reports: true
-          cache: gradle
-          cache-dependency-path: |
-            xtracfg/*.gradle*
-            xtracfg/**/gradle-wrapper.properties
       - uses: actions/download-artifact@v4
         with:
           name: libxtracfg-c-${{ matrix.os.platform }}
@@ -98,13 +91,7 @@ jobs:
         with:
           name: libxtracfg-c-hash-${{ matrix.os.platform }}
           path: ./libxtracfg/go/xtracfg/
-      - name: log2
-        run: |
-          ls -l ../
-          ls -l ./
-          ls -l ../libxtracfg/c/build/
-          ls -l ../libxtracfg/go/xtracfg/
-      - name: build go
+      - name: build
         env:
           CMD_GIT_BRANCH: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${{ github.ref_name }}
           CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${{ github.sha }}
@@ -115,12 +102,10 @@ jobs:
       - name: log1
         run: |
           ls -lR ./build
-      - uses: docker://backplane/upx:latest
-        with:
-          args: upx --best xtracfg/build/xtracfg
-      - name: log2
+      - name: test
         run: |
-          ls -lR ./build
+          ./build/xtracfg --version
+          ./build/xtracfg info
       - uses: actions/upload-artifact@v4
         with:
           name: xtracfg-${{ matrix.os.platform }}
@@ -141,6 +126,12 @@ jobs:
       - name: load
         uses: actions/download-artifact@v4
       - name: log1
+        run: |
+          ls -lR
+      - uses: docker://backplane/upx:latest
+        with:
+          args: upx --best **/xtracfg
+      - name: log2
         run: |
           ls -lR
       - uses: bhowell2/github-substring-action@1.0.2
@@ -183,3 +174,5 @@ jobs:
           platforms: |
             linux/amd64
       #      linux/arm64
+
+# TODO: validate binaries and docker images
