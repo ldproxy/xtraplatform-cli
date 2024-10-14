@@ -47,10 +47,16 @@ void xtracfg_progress_subscribe(progress_callback callback) {
 }
 
 char* xtracfg_execute(const char* command, int* err) {
-  if (jvm == NULL || env == NULL) {
-    printf("ERR\n");
+  if (jvm == NULL) {
     *err = 1;
     return "Not intialized";
+  }
+
+  jint res = (*jvm)->AttachCurrentThread(jvm, (void**)&env, NULL);
+
+  if (JNI_OK != res) {
+    *err = 1;
+    return "Could not attach thread";
   }
 
   jclass cls = (*env)->FindClass(env, "de/ii/xtraplatform/cli/XtraCfg");
@@ -68,6 +74,8 @@ char* xtracfg_execute(const char* command, int* err) {
   char *result3 = malloc(strlen(result) + 1);
   strcpy(result3,result);
   //printf("%s", result3);D");
+
+  (*jvm)->DetachCurrentThread(jvm);
 
   *err = 0;
   return result3;

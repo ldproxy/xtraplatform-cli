@@ -106,15 +106,12 @@ jobs:
           ls -l ../libxtracfg/go/xtracfg/libxtracfg.sha1sum
       - name: build go
         env:
-          CI_COMMIT_BRANCH: ${{ github.ref_name }}
-          CI_COMMIT_SHA: ${{ github.sha }}
-          CI_COMMIT_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
-          # JAVA_INCLUDE: ${{ matrix.os.type == 'macos' && 'darwin' || 'linux' }}
-          # -s -w '-extldflags=-z noexecstack'
-          CGO_LDFLAGS: "${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '' }} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
+          CMD_GIT_BRANCH: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${{ github.ref_name }}
+          CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${{ github.sha }}
+          CMD_GIT_TAG: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${{ github.ref_type == 'tag' && github.ref_name || '' }}
+          CGO_LDFLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '' }}
         run: |
-          #git config --global --add safe.directory $GITHUB_WORKSPACE
-          go build -o build/xtracfg
+          go build -o build/xtracfg -ldflags="-s -w '-extldflags=-z noexecstack' -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH}"
       - name: log1
         run: |
           ls -lR ./build
