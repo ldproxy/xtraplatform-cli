@@ -10,3 +10,4 @@ build
 .DS_Store
 bin
 libxtracfg/go/xtracfg/libxtracfg.sha1sum
+node_modules
