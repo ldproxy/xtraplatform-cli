@@ -134,7 +134,7 @@ jobs:
       - name: log1
         run: |
           ls -lR
-      - uses: mmatheson/ghaction-upx@v1
+      - uses: mmatheson/ghaction-upx@v1.0.2
         with:
           version: v4.2.4
           files: |
