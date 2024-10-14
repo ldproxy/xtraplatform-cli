@@ -101,9 +101,9 @@ jobs:
           CMD_GIT_BRANCH: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${{ github.ref_name }}
           CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${{ steps.short-sha.outputs.substring }}
           CMD_GIT_TAG: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${{ github.ref_type == 'tag' && github.ref_name || '' }}
-          CGO_LDFLAGS: "${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '''-extldflags=-z noexecstack''' }}"
+          MORE_LDFLAGS: "${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '''-extldflags=-z noexecstack''' }}"
         run: |
-          go build -o build/xtracfg -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH}"
+          go build -o build/xtracfg -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH} ${MORE_LDFLAGS}"
       - name: log1
         run: |
           ls -lR ./build
