@@ -139,7 +139,7 @@ jobs:
           version: v4.2.4
           files: |
             ./xtracfg-*/xtracfg
-          args: --best
+          args: --best --force-macos
       - name: log2
         run: |
           ls -lR
