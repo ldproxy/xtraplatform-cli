@@ -134,9 +134,12 @@ jobs:
       - name: log1
         run: |
           ls -lR
-      - uses: docker://backplane/upx:latest
+      - uses: mmatheson/ghaction-upx@v1
         with:
-          args: upx --best ${GITHUB_WORKSPACE}/xtracfg-*/xtracfg
+          version: v4.2.4
+          files: |
+            ./xtracfg-*/xtracfg
+          args: --best
       - name: log2
         run: |
           ls -lR
