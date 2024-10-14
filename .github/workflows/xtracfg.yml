@@ -8,9 +8,9 @@ jobs:
     strategy:
       matrix:
         os:
-          #- runner: ubuntu-latest
-          #  type: linux
-          #  platform: linux-amd64
+          - runner: ubuntu-latest
+            type: linux
+            platform: linux-amd64
           #- runner: buildjet-2vcpu-ubuntu-2204-arm
           #  type: linux
           #  platform: linux-arm64
@@ -65,9 +65,9 @@ jobs:
     strategy:
       matrix:
         os:
-          #- runner: ubuntu-latest
-          #  type: linux
-          #  platform: linux-amd64
+          - runner: ubuntu-latest
+            type: linux
+            platform: linux-amd64
           #- runner: buildjet-2vcpu-ubuntu-2204-arm
           #  type: linux
           #  platform: linux-arm64
@@ -91,10 +91,15 @@ jobs:
         with:
           name: libxtracfg-c-hash-${{ matrix.os.platform }}
           path: ./libxtracfg/go/xtracfg/
+      - uses: bhowell2/github-substring-action@1.0.2
+        id: short-sha
+        with:
+          value: ${{ github.sha }}
+          length_from_start: 7
       - name: build
         env:
           CMD_GIT_BRANCH: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${{ github.ref_name }}
-          CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${{ github.sha }}
+          CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${{ steps.short-sha.outputs.substring }}
           CMD_GIT_TAG: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${{ github.ref_type == 'tag' && github.ref_name || '' }}
           CGO_LDFLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '''-extldflags=-z noexecstack''' }}
         run: |
