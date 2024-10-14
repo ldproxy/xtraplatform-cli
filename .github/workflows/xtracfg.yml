@@ -131,6 +131,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: "{common,xtracfg-}*"
+      - name: chmod
+        run: |
+          chmod +x ./xtracfg-*/xtracfg
       - name: log1
         run: |
           ls -lR
