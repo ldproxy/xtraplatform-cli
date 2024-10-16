@@ -18,7 +18,7 @@
     "xtracfg": "^1.0.0"
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.10",
+    "@types/ws": "^8.5.12",
     "esbuild": "0.24.0",
     "esbuild-plugin-clean": "^1.0.1",
     "tsx": "^4.7.2",

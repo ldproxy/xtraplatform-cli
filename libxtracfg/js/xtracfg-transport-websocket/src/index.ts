@@ -14,6 +14,9 @@ export const transport: TransportCreator = ({ debug }: TransportOptions) => {
       listen: (handler) =>
         socket.then((s) => {
           s?.addEventListener("message", (event) => {
+            if (typeof event.data !== "string") {
+              return;
+            }
             const response = JSON.parse(event.data);
 
             handler(response);
