@@ -9,7 +9,7 @@
       'cflags': ['-fPIC'],
       'cflags!': [ '-fno-exceptions'],
       'cflags_cc': ['-fPIC'],
-      'cflags_cc!': [ '-fno-exceptions', '-fPIC' ],
+      'cflags_cc!': [ '-fno-exceptions' ],
       'xcode_settings': {
         'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
         'CLANG_CXX_LIBRARY': 'libc++',
