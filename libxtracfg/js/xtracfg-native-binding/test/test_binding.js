@@ -1,8 +1,8 @@
-const xtracfgLib = require("../src/index.js");
+const xtracfgLib = require("../index.js");
 
 function testBasic() {
   const command =
-    '{"command": "info", "source": "/Users/pascal/Documents/GitHub/demo"}';
+    '{"command": "info", "source": "/Users/az/development/configs-ldproxy/demogh", "verbose": "true", "debug": "true"}';
 
   const result = xtracfgLib.execute(command);
 

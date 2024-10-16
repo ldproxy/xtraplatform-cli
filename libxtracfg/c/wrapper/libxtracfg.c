@@ -73,7 +73,7 @@ char* xtracfg_execute(const char* command, int* err) {
 
   char *result3 = malloc(strlen(result) + 1);
   strcpy(result3,result);
-  //printf("%s", result3);D");
+  //printf("%s", result3);
 
   (*jvm)->DetachCurrentThread(jvm);
 

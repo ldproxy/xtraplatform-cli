@@ -11,3 +11,4 @@ build
 bin
 libxtracfg/go/xtracfg/libxtracfg.sha1sum
 node_modules
+prebuilds

@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
+    "pkg": "npm run pkg --workspaces",
     "test": "npm run test --workspaces"
   }
 }

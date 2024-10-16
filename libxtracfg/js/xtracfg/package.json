@@ -10,6 +10,7 @@
   "scripts": {
     "build": "node .esbuild.js && tsc --declaration --emitDeclarationOnly",
     "dev": "tsx ./src/index.ts",
+    "pkg": "npm pack --pack-destination build",
     "proto": "pbjs -t static-module -w es6 -o protobuf.js ../../protobuf/xtracfg.proto && pbts -o protobuf.d.ts protobuf.js",
     "test": "tsx ./test/test.ts"
   },

@@ -20,6 +20,10 @@ public abstract class Common<T> {
   protected Common(Map<String, Object> parameters) {
     this.verbose = flag(parameters, "verbose");
     this.debug = flag(parameters, "debug");
+
+    if (verbose) {
+      System.out.println("Running " + this.getClass().getSimpleName() + " with parameters: " + parameters);
+    }
   }
 
   protected final boolean flag(Map<String, Object> parameters, String name) {

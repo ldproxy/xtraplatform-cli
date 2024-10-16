@@ -5,14 +5,23 @@
   "author": "",
   "license": "MIT",
   "type": "commonjs",
-  "main": "src/index.js",
+  "main": "index.js",
+  "files": [
+    "prebuilds"
+  ],
   "dependencies": {
-    "bindings": "~1.5.0",
-    "node-addon-api": "^8.2.1"
+    "node-addon-api": "^8.2.1",
+    "node-gyp-build": "^4.8.2"
   },
   "scripts": {
     "build": "node-gyp rebuild",
-    "test": "node --napi-modules ./test/test_binding.js"
+    "install": "node-gyp-build",
+    "pkg": "npm pack --pack-destination build",
+    "prebuild": "prebuildify --napi --strip",
+    "test": "node ./test/test_binding.js"
   },
-  "gypfile": true
+  "gypfile": true,
+  "devDependencies": {
+    "prebuildify": "^6.0.1"
+  }
 }

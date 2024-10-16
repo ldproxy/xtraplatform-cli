@@ -26,7 +26,9 @@ public class Connect extends Common<Context.Builder> {
         return Result.ok(String.format("Store source: %s", context.layout.info().label()));
       }
     } catch (Throwable e) {
-      // e.printStackTrace();
+      if (debug && verbose) {
+        e.printStackTrace();
+      }
       return Result.failure(e.getMessage());
     }
     return Result.empty();

@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '4.1.0-auto-styles-SNAPSHOT'
+    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '4.2.0-SNAPSHOT'
     implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.35'
     // use this instead for debugging purposes
     //implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.35'
