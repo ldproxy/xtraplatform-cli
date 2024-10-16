@@ -9,9 +9,9 @@ await build({
   format: "esm",
   minify: true,
   //logLevel: "debug",
-  /*loader: {
-    ".node": "copy",
-  },*/
+  loader: {
+    ".node": "empty",
+  },
   outdir: "build",
   outbase: "node_modules",
   entryNames: "[name]",
