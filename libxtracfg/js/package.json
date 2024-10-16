@@ -1,9 +1,14 @@
 {
   "name": "libxtracfg-js",
+  "private": true,
   "workspaces": [
     "xtracfg",
     "xtracfg-native-binding",
     "xtracfg-transport-native",
     "xtracfg-transport-websocket"
-  ]
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces"
+  }
 }

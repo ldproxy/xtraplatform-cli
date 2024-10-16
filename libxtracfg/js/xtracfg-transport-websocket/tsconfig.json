@@ -1,9 +1,16 @@
 {
-  "extends": "@tsconfig/node20/tsconfig.json",
+  "include": ["src/**/*.ts", "src/**/*.js"],
   "compilerOptions": {
-    "rootDir": "./src" /* Specify the root folder within your source files. */,
-    "outDir": "./build" /* Specify an output folder for all emitted files. */,
-    "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */
+    "rootDir": "./src",
+    "outDir": "./build",
+    "forceConsistentCasingInFileNames": true,
+    "target": "esnext",
+    "lib": ["dom", "esnext"],
+    "allowJs": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node"
   }
 }

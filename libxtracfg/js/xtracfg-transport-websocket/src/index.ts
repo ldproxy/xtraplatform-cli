@@ -1,5 +1,5 @@
 import { Mutex } from "async-mutex";
-import { Transport, TransportCreator, TransportOptions } from ".";
+import { Transport, TransportCreator, TransportOptions } from "xtracfg";
 
 export const transport: TransportCreator = ({ debug }: TransportOptions) => {
   return async (): Promise<Transport> => {

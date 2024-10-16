@@ -6,8 +6,9 @@
   "license": "MIT",
   "type": "module",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
-    "build": "node .esbuild.js",
+    "build": "node .esbuild.js && tsc --declaration --emitDeclarationOnly",
     "dev": "tsx ./src/index.ts",
     "proto": "pbjs -t static-module -w es6 -o protobuf.js ../../protobuf/xtracfg.proto && pbts -o protobuf.d.ts protobuf.js",
     "test": "tsx ./test/test.ts"

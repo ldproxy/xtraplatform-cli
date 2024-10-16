@@ -6,8 +6,9 @@
   "license": "MIT",
   "type": "module",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
-    "build": "node .esbuild.js",
+    "build": "node .esbuild.js && tsc --declaration --emitDeclarationOnly",
     "test": "tsx ./test/test.ts"
   },
   "dependencies": {

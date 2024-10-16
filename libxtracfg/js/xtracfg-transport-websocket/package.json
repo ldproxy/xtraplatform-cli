@@ -6,8 +6,9 @@
   "license": "MIT",
   "type": "module",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
-    "build": "node .esbuild.js",
+    "build": "node .esbuild.js && tsc --declaration --emitDeclarationOnly",
     "test": "tsx ./test/test.ts"
   },
   "dependencies": {
@@ -15,8 +16,6 @@
     "xtracfg": "^1.0.0"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.12.7",
     "esbuild": "0.24.0",
     "esbuild-plugin-clean": "^1.0.1",
     "tsx": "^4.7.2",

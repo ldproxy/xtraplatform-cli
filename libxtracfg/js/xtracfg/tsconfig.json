@@ -1,5 +1,6 @@
 {
   "extends": "@tsconfig/node20/tsconfig.json",
+  "include": ["src/**/*.ts", "src/**/*.js"],
   "compilerOptions": {
     "rootDir": "./src" /* Specify the root folder within your source files. */,
     "outDir": "./build" /* Specify an output folder for all emitted files. */,
