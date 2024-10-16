@@ -15,6 +15,7 @@ const transport: TransportCreator = () => {
       },
       listen: async (handler) => {
         listener = handler;
+        addon.subscribe(handler);
       },
     };
   };
