@@ -18,7 +18,7 @@ echo "lib"
 #clang -shared -fpic -Wall -I./ -L./ -I$JAVA_HOME/include -I$JAVA_HOME/include/${PLATFORM} -lxtracfgjni -o libxtracfg.${EXT} ../wrapper/libxtracfg.c 
 
 # static
-clang -c -Wall -I./ -I$JAVA_HOME/include -I$JAVA_HOME/include/${PLATFORM} -o libxtracfg.o ../wrapper/libxtracfg.c
+clang -c -Wall -fPIC -I./ -I$JAVA_HOME/include -I$JAVA_HOME/include/${PLATFORM} -o libxtracfg.o ../wrapper/libxtracfg.c
 cp libxtracfgjni.a libxtracfg.a
 ar -rv libxtracfg.a libxtracfg.o
 if [ "$PLATFORM" = "darwin" ]; then
