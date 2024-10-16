@@ -1,10 +1,10 @@
 {
   'targets': [
     {
-      'target_name': 'xtracfg-lib-native',
+      'target_name': 'xtracfg-native',
       'sources': [ 'src/xtracfg_lib.cc' ],
-       'libraries': [ '/Users/pascal/Documents/GitHub/xtraplatform-cli/libxtracfg/c/build/libxtracfg.a' ],
-      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "/Users/pascal/Documents/GitHub/xtraplatform-cli/libxtracfg/c/include"],
+       'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ],
+      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "<(local_prefix)/../c/include"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags!': [ '-fno-exceptions' ],
       'cflags_cc!': [ '-fno-exceptions' ],

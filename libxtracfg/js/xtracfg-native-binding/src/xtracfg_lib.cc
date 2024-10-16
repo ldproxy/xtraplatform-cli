@@ -73,7 +73,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
 
   napi_add_env_cleanup_hook(env, Cleanup, nullptr);
 
-  exports.Set(Napi::String::New(env, "xtracfgLib"),
+  exports.Set(Napi::String::New(env, "execute"),
               Napi::Function::New(env, ExecuteCommand));
   exports.Set(Napi::String::New(env, "subscribe"),
               Napi::Function::New(env, Subscribe));

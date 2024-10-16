@@ -1,10 +1,10 @@
-const xtracfgLib = require("../lib/binding.js");
+const xtracfgLib = require("../src/index.js");
 
 function testBasic() {
   const command =
     '{"command": "info", "source": "/Users/pascal/Documents/GitHub/demo"}';
 
-  const result = xtracfgLib.xtracfgLib(command);
+  const result = xtracfgLib.execute(command);
 
   console.log("Result:", result);
 }

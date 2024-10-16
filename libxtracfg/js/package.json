@@ -1,15 +1,9 @@
 {
-  "main": "lib/binding.js",
-  "dependencies": {
-    "node-addon-api": "^1.1.0"
-  },
-  "scripts": {
-    "test": "node --napi-modules ./test/test_binding.js"
-  },
-  "gypfile": true,
-  "name": "xtracfg-lib",
-  "description": "",
-  "version": "1.0.0",
-  "author": "",
-  "license": "ISC"
+  "name": "libxtracfg-js",
+  "workspaces": [
+    "xtracfg",
+    "xtracfg-native-binding",
+    "xtracfg-transport-native",
+    "xtracfg-transport-websocket"
+  ]
 }
