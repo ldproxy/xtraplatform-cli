@@ -156,6 +156,7 @@ jobs:
           ls -lR .//xtracfg-native-binding/prebuilds
       - name: js
         run: |
+          npm run bump -- prerelease --build-metadata ${{ github.run_number }}
           npm ci
           npm run build
           npm run pkg
