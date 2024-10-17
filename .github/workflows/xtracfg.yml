@@ -155,13 +155,15 @@ jobs:
         run: |
           ls -lR ./xtracfg-native-binding/prebuilds
       - name: js
+        env:
+          NPM_TOKEN: ${{ secrets.npm_rw_token }}
         run: |
           set -x
           #npm run bump -- prerelease --build-metadata ${{ github.run_number }} --preid ${{ github.ref_name }}
           npm ci --ignore-scripts
           npm run build
           #npm run pkg
-          npm run publish -- --canary preminor --preid ${{ github.ref_name }} --dist-tag ${{ github.ref_name }} --registry '${{ vars.npm_registry }}' --legacy-auth '${{ secrets.npm_rw_token }}' --loglevel silly
+          npm run publish -- --canary preminor --preid ${{ github.ref_name }} --dist-tag ${{ github.ref_name }} --registry '${{ vars.npm_registry }}' --legacy-auth "$NPM_TOKEN" --loglevel silly
       - name: log2
         run: |
           ls -lR ./**/build
