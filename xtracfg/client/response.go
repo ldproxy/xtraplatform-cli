@@ -20,11 +20,13 @@ const (
 type Result struct {
 	Status  Status
 	Message *string
+	Details map[string]interface{}
 }
 
 type Response struct {
 	Results *[]Result
 	Error   *string
+	Details map[string]interface{}
 }
 
 var (

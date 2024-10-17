@@ -67,12 +67,15 @@ func init() {
 
 	checkCmd := store.CheckCmd(storeSrc, name, verbose, debug)
 
+	createCmd := store.CreateCmd(storeSrc, name, verbose, debug)
+
 	upgradeCmd := store.UpgradeCmd(storeSrc, name, verbose, debug)
 
 	listenCmd := store.ListenCmd(storeSrc, name, version(), verbose, debug)
 
 	RootCmd.AddCommand(infoCmd)
 	RootCmd.AddCommand(checkCmd)
+	RootCmd.AddCommand(createCmd)
 	RootCmd.AddCommand(upgradeCmd)
 	RootCmd.AddCommand(listenCmd)
 

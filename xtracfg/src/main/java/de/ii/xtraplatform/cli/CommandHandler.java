@@ -112,6 +112,8 @@ public class CommandHandler {
         return new Upgrade(call.subcommand, call.parameters, false).run(context);
       case auto:
         return new Auto(call.subcommand, call.parameters, tracker).run(context.ldproxyCfg);
+      case autoValue:
+         return new AutoValue(call.subcommand, call.parameters, tracker, jsonMapper).run(context.ldproxyCfg);
       case schemas:
         return new Schemas(call.parameters).run(context.ldproxyCfg);
       case file_type:
