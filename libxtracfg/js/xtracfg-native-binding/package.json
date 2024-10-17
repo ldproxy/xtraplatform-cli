@@ -1,7 +1,7 @@
 {
   "name": "@xtracfg/native",
   "description": "",
-  "version": "4.2.0",
+  "version": "4.2.0-lib.0",
   "author": "",
   "license": "MIT",
   "type": "commonjs",
@@ -14,6 +14,7 @@
     "node-gyp-build": "^4.8.2"
   },
   "scripts": {
+    "build": "mkdir build",
     "devbuild": "node-gyp rebuild",
     "install": "node-gyp-build",
     "pkg": "npm pack --pack-destination build",

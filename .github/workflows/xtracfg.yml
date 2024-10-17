@@ -160,8 +160,8 @@ jobs:
           npm run bump -- prerelease --build-metadata ${{ github.run_number }} --preid ${{ github.ref_name }}
           npm ci --ignore-scripts
           npm run build
-          npm run pkg
-      #          npm run publish -- --dist-tag ${{ github.ref_name }} --registry <url> --legacy-auth ${{ secrets.npm_rw_token }}
+          #npm run pkg
+          npm run publish -- --dist-tag ${{ github.ref_name }} --registry '${{ vars.npm_registry }}' --legacy-auth '${{ secrets.npm_rw_token }}'
       - name: log2
         run: |
           ls -lR ./**/build
