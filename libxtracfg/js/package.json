@@ -11,7 +11,8 @@
     "build": "npm run build --workspaces",
     "pkg": "npm run pkg --workspaces",
     "test": "npm run test --workspaces",
-    "bump": "lerna version --exact --no-git-tag-version --ignore-scripts --no-private --yes"
+    "bump": "lerna version --exact --no-git-tag-version --ignore-scripts --no-private --yes",
+    "publish": "lerna publish from-package --no-git-tag-version --no-git-reset --ignore-scripts --no-push --yes"
   },
   "dependencies": {},
   "devDependencies": {

@@ -1,7 +1,7 @@
 {
   "name": "@xtracfg/transport-native",
   "description": "",
-  "version": "4.2.0-beta.0",
+  "version": "4.2.0",
   "author": "",
   "license": "MIT",
   "type": "module",
@@ -13,8 +13,8 @@
     "test": "tsx ./test/test.ts"
   },
   "dependencies": {
-    "@xtracfg/core": "4.2.0-beta.0",
-    "@xtracfg/native": "4.2.0-beta.0"
+    "@xtracfg/core": "4.2.0",
+    "@xtracfg/native": "4.2.0"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
