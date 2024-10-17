@@ -14,7 +14,7 @@
     "node-gyp-build": "^4.8.2"
   },
   "scripts": {
-    "build": "node-gyp rebuild",
+    "devbuild": "node-gyp rebuild",
     "install": "node-gyp-build",
     "pkg": "npm pack --pack-destination build",
     "prebuild": "prebuildify --napi --strip",

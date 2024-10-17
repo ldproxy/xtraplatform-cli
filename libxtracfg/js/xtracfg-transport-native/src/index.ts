@@ -1,5 +1,5 @@
-import { Transport, TransportCreator, Response } from "xtracfg";
-import addon from "xtracfg-native-binding";
+import { Transport, TransportCreator, Response } from "@xtracfg/core";
+import addon from "@xtracfg/native";
 
 let listener: (response: Response) => void;
 

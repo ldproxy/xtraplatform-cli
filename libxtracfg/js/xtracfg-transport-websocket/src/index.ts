@@ -1,5 +1,5 @@
 import { Mutex } from "async-mutex";
-import { Transport, TransportCreator, TransportOptions } from "xtracfg";
+import { Transport, TransportCreator, TransportOptions } from "@xtracfg/core";
 import WebSocket from "isomorphic-ws";
 
 export const transport: TransportCreator = ({ debug }: TransportOptions) => {

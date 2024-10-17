@@ -1,4 +1,4 @@
-import { connect } from "xtracfg";
+import { connect } from "@xtracfg/core";
 import transport from "../src";
 
 const xtracfg = connect(transport, { debug: true });
