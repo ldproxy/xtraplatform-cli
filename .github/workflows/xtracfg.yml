@@ -51,7 +51,7 @@ jobs:
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
           npm ci
-          npm run prebuild
+          npm run prebuildify
           npm run test
       - name: log3
         run: |

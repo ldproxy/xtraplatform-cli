@@ -18,7 +18,7 @@
     "devbuild": "node-gyp rebuild",
     "install": "node-gyp-build",
     "pkg": "npm pack --pack-destination build",
-    "prebuild": "prebuildify --napi --strip",
+    "prebuildify": "prebuildify --napi --strip",
     "test": "node ./test/test_binding.js"
   },
   "gypfile": true,
