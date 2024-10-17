@@ -76,7 +76,7 @@ jobs:
   build_binaries:
     if: ${{ github.ref_name == 'main' }}
     runs-on: ${{ matrix.os.runner }}
-    needs: libraries
+    needs: build_libraries
     strategy:
       matrix:
         os:
@@ -140,7 +140,7 @@ jobs:
 
   publish_npm:
     runs-on: ubuntu-latest
-    needs: libraries
+    needs: build_libraries
     defaults:
       run:
         working-directory: ./libxtracfg/js
@@ -169,7 +169,7 @@ jobs:
   publish_docker:
     if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
-    needs: binary
+    needs: build_binaries
     steps:
       - name: load
         uses: actions/download-artifact@v4
