@@ -47,6 +47,11 @@ jobs:
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        working-directory: ./libxtracfg/js/xtracfg-native-binding
+        with:
+          limit-access-to-actor: true
       - name: js
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
