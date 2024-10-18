@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - runner: ubuntu-latest
+          - runner: ubuntu-22.04
             type: linux
             platform: linux-amd64
           #- runner: buildjet-2vcpu-ubuntu-2204-arm
