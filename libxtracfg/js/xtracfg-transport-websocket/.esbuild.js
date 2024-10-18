@@ -1,26 +1,33 @@
 import { build } from "esbuild";
 import { clean } from "esbuild-plugin-clean";
 
-await build({
+const common = {
   entryPoints: ["src/index.ts"],
   bundle: true,
-  platform: "node",
-  target: "node20",
   format: "esm",
   minify: true,
-  //logLevel: "debug",
-  /*loader: {
-    ".node": "copy",
-  },*/
   outdir: "build",
   outbase: "node_modules",
-  entryNames: "[name]",
   define: {
     "process.env.NODE_ENV": '"production"',
   },
+};
+
+await build({
+  ...common,
+  platform: "node",
+  target: "node20",
+  entryNames: "[name]",
   plugins: [
     clean({
       patterns: ["./build/*"],
     }),
   ],
+});
+
+await build({
+  ...common,
+  platform: "browser",
+  target: "esnext",
+  entryNames: "[name].browser",
 });
