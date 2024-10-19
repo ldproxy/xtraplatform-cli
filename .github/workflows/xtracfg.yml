@@ -39,6 +39,8 @@ jobs:
       - name: log
         run: |
           ls -l ./libxtracfg/c/build
+          cat ./libxtracfg/java/build/native/nativeCompile/logs/compiler_commands.txt
+          cat /tmp/logs/compiler_commands.txt
       - name: c
         working-directory: ./libxtracfg/c
         run: |

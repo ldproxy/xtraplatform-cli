@@ -6,6 +6,10 @@
 #
 # Use with --native-compiler-path=${pathToThisScript}.sh
 
+LOG_PATH="/tmp/logs"
+LOG_FILE="${LOG_PATH}/compiler_commands.txt"
+mkdir -p $LOG_PATH
+
 # Determine the project name and output path based on the output .so argument
 for arg in "$@"; do
   if [[ "$arg" == *.so ]]; then
@@ -17,7 +21,10 @@ done
 
 # Do a simple forward for any calls that are used to compile individual C files
 if [[ -z $LIB_NAME ]]; then
-    gcc $*
+    #gcc $*
+    GCC_ARGS=$*
+    echo "GCCCCCCC $GCC_ARGS" >> ${LOG_FILE}
+    clang $GCC_ARGS
     exit 0
 fi
 
@@ -55,8 +62,8 @@ do
     fi
 done
 
-echo "gcc $GCC_ARGS" >> ${LOG_FILE}
-gcc $GCC_ARGS
+echo "clang $GCC_ARGS" >> ${LOG_FILE}
+clang $GCC_ARGS
 
 echo "=====================================================" >> ${LOG_FILE}
 echo "                   STATIC LIBRARY                    " >> ${LOG_FILE}
