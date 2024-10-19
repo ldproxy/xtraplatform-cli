@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - runner: ubuntu-22.04
+          - runner: ubuntu-latest
             type: linux
             platform: linux-amd64
           #- runner: buildjet-2vcpu-ubuntu-2204-arm
@@ -49,10 +49,10 @@ jobs:
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
+      #  with:
+      #    limit-access-to-actor: true
       - name: js
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
