@@ -23,7 +23,7 @@ done
 if [[ -z $LIB_NAME ]]; then
     #gcc $*
     GCC_ARGS=$*
-    echo "GCCCCCCC $GCC_ARGS" >> ${LOG_FILE}
+    echo "CC $GCC_ARGS" >> ${LOG_FILE}
     clang $GCC_ARGS
     exit 0
 fi
@@ -48,7 +48,7 @@ echo "           SHARED LIBRARY WITH STATIC LIBS           " >> ${LOG_FILE}
 echo "=====================================================" >> ${LOG_FILE}
 # Path to the system library files
 ARCH=$(uname -m)
-STATIC_LIBS_PATH="/usr/lib/${ARCH}-linux-gnu"
+STATIC_LIBS_PATH="/tmp/zlib" #"/usr/lib/${ARCH}-linux-gnu"
 
 # Do the original call, but replace dynamic libs with static versions
 GCC_ARGS=""

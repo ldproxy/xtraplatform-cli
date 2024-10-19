@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
       - uses: actions/setup-go@v5
         with:
           go-version: "1.23.2"
@@ -35,6 +35,18 @@ jobs:
           cache-dependency-path: |
             xtracfg/*.gradle*
             xtracfg/**/gradle-wrapper.properties
+      - name: zlib
+        if: ${{ matrix.os.platform == 'linux-amd64' }}
+        working-directory: /tmp
+        env:
+          ZLIB_VERSION: 1.2.11
+        run: |
+          wget https://zlib.net/fossils/zlib-${ZLIB_VERSION}.tar.gz
+          tar xzvf zlib-${ZLIB_VERSION}.tar.gz
+          mv zlib-${ZLIB_VERSION} zlib
+          cd zlib
+          CFLAGS="-fPIC" ./configure --static
+          make
       - name: java
         working-directory: ./libxtracfg/java
         run: |
@@ -61,6 +73,7 @@ jobs:
       - name: js
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
+          #npm install -g node-gyp
           npm ci
           npm run prebuildify
           npm run test

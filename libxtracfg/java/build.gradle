@@ -59,8 +59,6 @@ graalvmNative {
             sharedLibrary = true
             buildArgs("--native-compiler-path=${project.projectDir}/../c/native-image/static-compiler-${targetos}.sh")
             buildArgs('--native-compiler-options=-fPIC')
-            //buildArgs("-H:CCompilerPath=${project.projectDir}/../c/native-image/static-compiler-${targetos}.sh")
-            //buildArgs('-H:CCompilerOption=-fPIC')
             //buildArgs('-march=native')
             buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
             //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
