@@ -14,9 +14,9 @@ jobs:
           #- runner: buildjet-2vcpu-ubuntu-2204-arm
           #  type: linux
           #  platform: linux-arm64
-          #- runner: macos-latest
-          #  type: macos
-          #  platform: darwin-arm64
+          - runner: macos-latest
+            type: macos
+            platform: darwin-arm64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,9 +32,9 @@ jobs:
           distribution: "graalvm"
           native-image-job-reports: true
           cache: gradle
-          cache-dependency-path: |
-            xtracfg/*.gradle*
-            xtracfg/**/gradle-wrapper.properties
+          #cache-dependency-path: |
+          #  xtracfg/*.gradle*
+          #  xtracfg/**/gradle-wrapper.properties
       - name: zlib
         if: ${{ matrix.os.platform == 'linux-amd64' }}
         working-directory: /tmp
@@ -51,13 +51,9 @@ jobs:
         working-directory: ./libxtracfg/java
         run: |
           ./gradlew nativeCompile -PLIB=true
-      - name: log
+      - name: log1
         run: |
           ls -l ./libxtracfg/c/build
-          cat ./libxtracfg/java/build/native/nativeCompile/logs/compiler_commands.txt
-          cat /tmp/logs/compiler_commands.txt
-          ls -l /usr/lib/x86_64-linux-gnu/libz.a
-          dpkg -l zlib*
       - name: c
         working-directory: ./libxtracfg/c
         run: |
@@ -66,14 +62,9 @@ jobs:
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
-      #  with:
-      #    limit-access-to-actor: true
       - name: js
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
-          #npm install -g node-gyp
           npm ci
           npm run prebuildify
           npm run test
@@ -163,7 +154,6 @@ jobs:
           retention-days: 1
 
   publish_npm:
-    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     needs: build_libraries
     defaults:
@@ -181,14 +171,14 @@ jobs:
           ls -lR ./xtracfg-native-binding/prebuilds
       - name: publish
         env:
+          DIST_TAG: ${{ github.ref_name == 'main' && 'next' || github.ref_name }}
           NPM_TOKEN: ${{ secrets.npm_rw_token }}
         run: |
           set -x
-          #npm run bump -- prerelease --build-metadata ${{ github.run_number }} --preid ${{ github.ref_name }}
+          #npm run bump -- prerelease --build-metadata ${DIST_TAG} --preid ${DIST_TAG}
           npm ci --ignore-scripts
           npm run build
-          #npm run pkg
-          npm run publish -- --canary preminor --preid ${{ github.ref_name }} --dist-tag ${{ github.ref_name }}
+          npm run publish -- --canary preminor --preid ${DIST_TAG} --dist-tag ${DIST_TAG}
       - name: log2
         run: |
           ls -lR ./**/build
