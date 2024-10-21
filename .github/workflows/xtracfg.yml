@@ -161,6 +161,8 @@ jobs:
         working-directory: ./libxtracfg/js
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need full history for for snapshot version
       - uses: actions/download-artifact@v4
         with:
           pattern: "libxtracfg-js-*"
