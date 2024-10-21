@@ -23,6 +23,8 @@ export type Error = {
   };
 };
 
+export type Listener = (response: Response) => void;
+
 export type Xtracfg = {
   send: (request: Request) => Promise<void>;
   listen: (
@@ -43,7 +45,7 @@ export type TransportOptions = {
 
 export type Transport = {
   send: (request: Request) => Promise<void>;
-  listen: (handler: (response: Response) => void) => Promise<void>;
+  listen: (listener: Listener) => Promise<void>;
 };
 
 export const connect = (

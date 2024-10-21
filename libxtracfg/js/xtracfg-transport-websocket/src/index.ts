@@ -1,27 +1,42 @@
 import { Mutex } from "async-mutex";
-import { Transport, TransportCreator, TransportOptions } from "@xtracfg/core";
+import {
+  Transport,
+  TransportCreator,
+  TransportOptions,
+  Response,
+  Listener,
+} from "@xtracfg/core";
 import WebSocket from "isomorphic-ws";
+
+const listeners: Listener[] = [];
+
+const broadcast = (response: Response) => {
+  listeners.forEach((listener) => listener(response));
+};
 
 export const transport: TransportCreator = ({ debug }: TransportOptions) => {
   return async (): Promise<Transport> => {
     const socket = getSocket(debug);
 
+    socket.then((s) => {
+      s?.addEventListener("message", (event) => {
+        if (typeof event.data !== "string") {
+          return;
+        }
+        const response = JSON.parse(event.data);
+
+        broadcast(response);
+      });
+    });
+
     return {
-      send: (request) =>
+      send: async (request) =>
         socket.then((s) => {
           s?.send(JSON.stringify(request));
         }),
-      listen: (handler) =>
-        socket.then((s) => {
-          s?.addEventListener("message", (event) => {
-            if (typeof event.data !== "string") {
-              return;
-            }
-            const response = JSON.parse(event.data);
-
-            handler(response);
-          });
-        }),
+      listen: async (listener) => {
+        listeners.push(listener);
+      },
     };
   };
 };
