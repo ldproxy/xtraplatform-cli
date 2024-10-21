@@ -3,7 +3,7 @@ import { clean } from "esbuild-plugin-clean";
 
 await build({
   entryPoints: ["src/index.ts"],
-  bundle: true,
+  bundle: false,
   platform: "node",
   target: "node20",
   format: "esm",

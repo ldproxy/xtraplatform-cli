@@ -3,7 +3,7 @@ import { clean } from "esbuild-plugin-clean";
 
 const common = {
   entryPoints: ["src/index.ts"],
-  bundle: true,
+  bundle: false,
   format: "esm",
   minify: true,
   outdir: "build",
