@@ -1,9 +1,11 @@
 [
   {
-    "name": "[Lde.ii.xtraplatform.features.sql.domain.ImmutableFeatureProviderSqlData.getEnabled;"
+    "name": "de.ii.xtraplatform.features.sql.domain.ImmutableFeatureProviderSqlData",
+    "methods": [{ "name": "getEnabled", "parameterTypes": [] }]
   },
   {
-    "name": "[Lde.ii.xtraplatform.features.domain.ImmutableFeatureSchema.getEmbeddedRole;"
+    "name": "de.ii.xtraplatform.features.domain.ImmutableFeatureSchema",
+    "methods": [{ "name": "getEmbeddedRole", "parameterTypes": [] }]
   },
   {
     "name": "[Lde.ii.ogcapi.foundation.domain.ExtensionConfiguration;"
