@@ -89,7 +89,6 @@ jobs:
           retention-days: 1
 
   build_binaries:
-    if: ${{ github.ref_name == 'main' }}
     runs-on: ${{ matrix.os.runner }}
     needs: build_libraries
     strategy:
@@ -186,7 +185,6 @@ jobs:
           ls -lR ./**/build
 
   publish_docker:
-    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     needs: build_binaries
     steps:
