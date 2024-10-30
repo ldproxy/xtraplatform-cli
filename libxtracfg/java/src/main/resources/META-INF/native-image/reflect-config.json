@@ -1,19 +1,5 @@
 [
   {
-    "name": "de.ii.xtraplatform.features.sql.domain.ImmutableFeatureProviderSqlData",
-    "allDeclaredFields": true,
-    "queryAllDeclaredMethods": true,
-    "queryAllDeclaredConstructors": true,
-    "methods": [{ "name": "getEnabled", "parameterTypes": [] }]
-  },
-  {
-    "name": "de.ii.xtraplatform.features.domain.ImmutableFeatureSchema",
-    "allDeclaredFields": true,
-    "queryAllDeclaredMethods": true,
-    "queryAllDeclaredConstructors": true,
-    "methods": [{ "name": "getEmbeddedRole", "parameterTypes": [] }]
-  },
-  {
     "name": "[Lde.ii.ogcapi.foundation.domain.ExtensionConfiguration;"
   },
   {
@@ -2934,6 +2920,8 @@
     "queryAllDeclaredMethods": true,
     "queryAllDeclaredConstructors": true,
     "methods": [
+      { "name": "getEmbeddedRole", "parameterTypes": [] },
+      { "name": "getEmbed", "parameterTypes": [] },
       { "name": "getAdditionalInfo", "parameterTypes": [] },
       { "name": "getCoalesce", "parameterTypes": [] },
       { "name": "getConcat", "parameterTypes": [] },
