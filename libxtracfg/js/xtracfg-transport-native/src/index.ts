@@ -9,7 +9,7 @@ const broadcast = (response: Response) => {
 
 const transport: TransportCreator = () => {
   return async (): Promise<Transport> => {
-    addon.subscribe(broadcast);
+    addon.subscribe((response: string) => broadcast(JSON.parse(response)));
 
     return {
       send: async (request) => {
