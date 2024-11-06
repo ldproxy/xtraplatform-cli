@@ -45,9 +45,23 @@ public class AutoHandler {
 
     if (parameters.containsKey("featureProviderType")
         && parameters.get("featureProviderType").equals("PGIS")
-        && parameters.containsKey("host")
-        && parameters.get("host").isBlank()) {
+        && (!parameters.containsKey("host") || parameters.get("host").isBlank())) {
       return Result.failure("Host is required for PGIS connection");
+    }
+
+    if (parameters.containsKey("featureProviderType")
+        && parameters.get("featureProviderType").equals("WFS")) {
+      if (!parameters.containsKey("url") || parameters.get("url").isBlank()) {
+        return Result.failure("URL is required for WFS connection");
+      }
+      try {
+        URI uri = URI.create(parameters.get("url"));
+        if (!Objects.equals(uri.getScheme(), "http") && !Objects.equals(uri.getScheme(), "https")) {
+          return Result.failure("Invalid URL scheme for WFS connection");
+        }
+      } catch (IllegalArgumentException e) {
+        return Result.failure("Invalid URL for WFS connection");
+      }
     }
 
     return Result.empty();

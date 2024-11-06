@@ -146,11 +146,15 @@ const parseError = (response: Response): Error | undefined => {
     return { fields: { id: error } };
   } else if (message.includes("url")) {
     return { fields: { url: message } };
+  } else if (message.includes("URL")) {
+    return { fields: { url: message } };
   }
 
   if (
     (!message.includes("host") &&
+      !message.includes("Host") &&
       !message.includes("url") &&
+      !message.includes("URL") &&
       !message.includes("database") &&
       !message.includes("user") &&
       !message.includes("password")) ||
