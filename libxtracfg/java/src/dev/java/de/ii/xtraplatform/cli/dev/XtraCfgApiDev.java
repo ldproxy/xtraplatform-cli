@@ -3,12 +3,12 @@ package de.ii.xtraplatform.cli.dev;
 import de.ii.xtraplatform.cli.CommandHandler;
 import de.ii.xtraplatform.cli.EntitiesHandler;
 import de.ii.xtraplatform.cli.Progress;
+import jakarta.websocket.OnMessage;
+import jakarta.websocket.OnOpen;
+import jakarta.websocket.RemoteEndpoint;
+import jakarta.websocket.Session;
+import jakarta.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.RemoteEndpoint;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/sock")
 public class XtraCfgApiDev {
