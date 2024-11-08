@@ -86,6 +86,7 @@ public class FileType extends Common<LdproxyCfg> {
 
     // TODO: multi-file overrides
     if (path.getNameCount() >= 3
+        && Objects.equals(path.getName(1).toString(), "overrides")
         && CONTENT_TYPES.contains(type)
         && ENTITY_TYPES.contains(path.getFileName().toString())) {
 
@@ -129,6 +130,10 @@ public class FileType extends Common<LdproxyCfg> {
         return found(
             fileName.substring(0, fileName.indexOf('.')),
             fileName.substring(fileName.indexOf('.') + 1));
+      } else if (ENTITY_TYPES.contains(path.getFileName().toString())) {
+        return found(
+                path.getFileName().toString(),
+                fileName);
       }
 
       if (path.getNameCount() >= 4 && ENTITY_TYPES.contains(path.getName(2).toString())) {

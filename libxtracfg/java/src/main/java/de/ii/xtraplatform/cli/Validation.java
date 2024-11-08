@@ -121,8 +121,8 @@ public class Validation extends Messages {
 
     if (type == EntitiesHandler.Type.Defaults && fileInfo.entitySubType.isPresent()) {
 
-      if (fileContent.startsWith("---\n")) {
-        fileContent = fileContent.substring(4);
+      if (fileContent.startsWith("---")) {
+        fileContent = fileContent.substring(fileContent.indexOf("\n") + 1);
       }
 
       if (fileInfo.discriminatorKey.isPresent() && fileInfo.discriminatorValue.isPresent()) {
