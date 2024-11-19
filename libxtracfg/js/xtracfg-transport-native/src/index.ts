@@ -22,6 +22,9 @@ const transport: TransportCreator = () => {
       listen: async (listener) => {
         listeners.push(listener);
       },
+      stop: async () => {
+        listeners.length = 0;
+      },
     };
   };
 };

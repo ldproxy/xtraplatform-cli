@@ -1,13 +1,13 @@
-import { connect, Transport, TransportCreator } from "../src";
+import { connect, Transport, TransportCreator, Listener } from "../src";
 
-let listener: (response: Response) => void;
+let listener: undefined | Listener;
 
 const transport: TransportCreator = () => {
   return async (): Promise<Transport> => {
     return {
-      send: (request) => {
-        console.log("sending", request);
+      send: async (request) => {
         if (listener) {
+          console.log("sending", request);
           const response =
             request.command === "hello"
               ? { results: [{ status: "SUCCESS", message: "world" }] }
@@ -16,9 +16,12 @@ const transport: TransportCreator = () => {
           listener.call(null, response);
         }
       },
-      listen: (handler) => {
+      listen: async (handler) => {
         console.log("listening", handler);
         listener = handler;
+      },
+      stop: async () => {
+        listener = undefined;
       },
     };
   };
@@ -38,3 +41,7 @@ xtracfg.listen(
 xtracfg.send({ command: "hello" });
 
 xtracfg.send({ command: "foo" });
+
+xtracfg.disconnect();
+
+xtracfg.send({ command: "ERROR: SHOULD NOT BE SENT" });

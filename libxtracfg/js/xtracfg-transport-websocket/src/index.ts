@@ -37,6 +37,10 @@ export const transport: TransportCreator = ({ debug }: TransportOptions) => {
       listen: async (listener) => {
         listeners.push(listener);
       },
+      stop: async () => {
+        listeners.length = 0;
+        socket.then((s) => s?.close());
+      },
     };
   };
 };

@@ -31,6 +31,7 @@ export type Xtracfg = {
     successHandler: (response: Response) => void,
     errorHandler: (error: Error) => void
   ) => Promise<void>;
+  disconnect: () => Promise<void>;
 };
 
 export type TransportCreator = (
@@ -46,6 +47,7 @@ export type TransportOptions = {
 export type Transport = {
   send: (request: Request) => Promise<void>;
   listen: (listener: Listener) => Promise<void>;
+  stop: () => Promise<void>;
 };
 
 export const connect = (
@@ -57,6 +59,7 @@ export const connect = (
   return {
     send: send(options, ensureOpen),
     listen: listen(options, ensureOpen),
+    disconnect: disconnect(options, ensureOpen),
   };
 };
 
@@ -106,6 +109,23 @@ const listen = (
       })
       .catch((error: Error) => {
         console.error("Could not listen to xtracfg", error.message || error);
+      });
+};
+
+const disconnect = (
+  { debug }: TransportOptions,
+  ensureOpen: TransportConnector
+) => {
+  return () =>
+    ensureOpen()
+      .then((transport) => {
+        transport.stop();
+      })
+      .catch((error: Error) => {
+        console.error(
+          "Could not disconnect from xtracfg",
+          error.message || error
+        );
       });
 };
 
