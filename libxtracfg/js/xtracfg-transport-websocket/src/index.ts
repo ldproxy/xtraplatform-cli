@@ -8,14 +8,17 @@ import {
 } from "@xtracfg/core";
 import WebSocket from "isomorphic-ws";
 
-const listeners: Listener[] = [];
+const allListeners: Listener[][] = [];
 
 const broadcast = (response: Response) => {
-  listeners.forEach((listener) => listener(response));
+  allListeners.flat().forEach((listener) => listener(response));
 };
 
 export const transport: TransportCreator = ({ debug }: TransportOptions) => {
   return async (): Promise<Transport> => {
+    const listeners: Listener[] = [];
+    allListeners.push(listeners);
+
     const socket = getSocket(debug);
 
     socket.then((s) => {

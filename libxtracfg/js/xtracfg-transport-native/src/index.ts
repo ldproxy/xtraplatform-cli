@@ -1,14 +1,17 @@
 import { Transport, TransportCreator, Response, Listener } from "@xtracfg/core";
 import addon from "@xtracfg/native";
 
-const listeners: Listener[] = [];
+const allListeners: Listener[][] = [];
 
 const broadcast = (response: Response) => {
-  listeners.forEach((listener) => listener(response));
+  allListeners.flat().forEach((listener) => listener(response));
 };
 
 const transport: TransportCreator = () => {
   return async (): Promise<Transport> => {
+    const listeners: Listener[] = [];
+    allListeners.push(listeners);
+
     addon.subscribe((response: string) => broadcast(JSON.parse(response)));
 
     return {
