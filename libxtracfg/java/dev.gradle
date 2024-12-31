@@ -13,6 +13,9 @@ sourceSets {
         java {
             srcDirs 'src/dev/java'
         }
+        resources {
+            srcDirs 'src/dev/resources'
+        }
     }
 }
 

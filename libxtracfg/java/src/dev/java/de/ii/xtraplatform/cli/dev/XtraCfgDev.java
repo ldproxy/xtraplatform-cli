@@ -7,6 +7,12 @@ public class XtraCfgDev {
 
   public static void main(String[] args) {
     if (args.length == 0) {
+      System.out.println(
+          "Example: ./gradlew run --rerun --args='{\"command\":\"check\",\"subcommand\":\"entities\",\"ignoreRedundant\":true,\"verbose\":true,\"debug\":true,\"source\":\"/path/to/store\"}'");
+      System.out.println(
+          "Or:      ./gradlew run --rerun --args=\"{command:check,subcommand:entities,ignoreRedundant:true,verbose:true,debug:true,source:/path/to/store}\"");
+      System.out.println();
+
       throw new IllegalArgumentException("No command given");
     }
 

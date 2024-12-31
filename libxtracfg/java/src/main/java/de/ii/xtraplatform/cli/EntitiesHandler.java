@@ -40,6 +40,9 @@ public class EntitiesHandler {
 
   public static boolean DEV = false;
 
+  private static final org.slf4j.Logger LOGGER =
+      org.slf4j.LoggerFactory.getLogger(EntitiesHandler.class);
+
   private static final TypeReference<LinkedHashMap<String, Object>> AS_MAP =
       new TypeReference<LinkedHashMap<String, Object>>() {};
 
@@ -426,6 +429,10 @@ public class EntitiesHandler {
             ? ldproxyCfg.getOverrideIdentifiers()
             : List.of();
 
+    if (debug && LOGGER.isDebugEnabled()) {
+      LOGGER.debug("defaultIdentifiers: {}", defaultIdentifiers);
+    }
+
     // TODO: optionally compare ordering of elements
     return Stream.concat(
             Stream.concat(
@@ -629,6 +636,10 @@ public class EntitiesHandler {
     Path relYml = ldproxyCfg.getDataDirectory().relativize(yml);
     FileInfo fileInfo = new FileType(Map.of("path", relYml.toString())).get(ldproxyCfg);
 
+    if (debug && LOGGER.isDebugEnabled()) {
+      LOGGER.debug("fileInfo: {} {}", fileInfo.isValid(), fileInfo.entitySubType);
+    }
+
     if (!fileInfo.isValid() || fileInfo.entitySubType.isEmpty()) {
       return Optional.empty();
     }
@@ -639,7 +650,12 @@ public class EntitiesHandler {
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded =
         getUpgradedDefaultsOrOverrides(
-            ldproxyCfg, yml, storeIdentifier, Type.Defaults, fileInfo, original);
+            ldproxyCfg, yml, storeIdentifier, Type.Defaults, fileInfo, original, debug);
+
+    if (debug && LOGGER.isDebugEnabled()) {
+      LOGGER.debug("original1: {}", original);
+      LOGGER.debug("upgraded1: {}", upgraded);
+    }
 
     if (fileInfo.subProperty.isPresent()) {
       try {
@@ -674,8 +690,7 @@ public class EntitiesHandler {
     }
 
     if (force || !diff.isEmpty()) {
-      return Optional.of(
-          new Upgrade(Type.Defaults, relYml, original, upgraded, null, Map.of()));
+      return Optional.of(new Upgrade(Type.Defaults, relYml, original, upgraded, null, Map.of()));
     }
 
     return Optional.empty();
@@ -699,7 +714,7 @@ public class EntitiesHandler {
     Map<String, Object> original = ldproxyCfg.getObjectMapper().readValue(yml.toFile(), AS_MAP);
     Map<String, Object> upgraded =
         getUpgradedDefaultsOrOverrides(
-            ldproxyCfg, yml, identifier, Type.Overrides, fileInfo, original);
+            ldproxyCfg, yml, identifier, Type.Overrides, fileInfo, original, debug);
 
     Map<String, String> diff = MapDiffer.diff(original, upgraded, true);
     if (debug) {
@@ -719,9 +734,16 @@ public class EntitiesHandler {
       Identifier identifier,
       Type type,
       FileInfo fileInfo,
-      Map<String, Object> original)
+      Map<String, Object> original,
+      boolean debug)
       throws IOException {
     String fileContent = Validation.loadFileContent(yml, type, fileInfo);
+
+    if (debug && LOGGER.isDebugEnabled()) {
+      LOGGER.debug("fileInfo: {} {}", fileInfo.entityType, fileInfo.entitySubType);
+      LOGGER.debug("fileContent: {}", fileContent);
+    }
+
     EntityDataBuilder<? extends EntityData> builder =
         ldproxyCfg
             .getEntityFactories()
@@ -735,6 +757,10 @@ public class EntitiesHandler {
         .readerForUpdating(builder)
         .readValue(fileContent);
 
+    if (debug && LOGGER.isDebugEnabled()) {
+      LOGGER.debug("builder: {}", builder.build());
+    }
+
     Map<String, Object> upgraded =
         ldproxyCfg.getEntityDataDefaultsStore().asMap(identifier, builder.build());
     Map<String, Object> cleanUpgraded = new LinkedHashMap<>();
@@ -744,6 +770,15 @@ public class EntitiesHandler {
           && !List.of("lastModified", "createdAt", "entityStorageVersion")
               .contains(entry.getKey())) {
         if (entry.getKey().equals("label") && !original.containsKey("label")) {
+          continue;
+        }
+        if (entry.getKey().equals("providerType") && !original.containsKey("providerType")) {
+          continue;
+        }
+        if (entry.getKey().equals("providerSubType") && !original.containsKey("providerSubType")) {
+          continue;
+        }
+        if (entry.getKey().equals("serviceType") && !original.containsKey("serviceType")) {
           continue;
         }
         if (entry.getKey().equals("enabled")
