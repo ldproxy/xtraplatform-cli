@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "include": ["**/*.ts"],
+  "compilerOptions": {
+    "rootDir": "./" /* Specify the root folder within your source files. */,
+    "outDir": "./build" /* Specify an output folder for all emitted files. */,
+    "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "experimentalDecorators": true,
+    "allowImportingTsExtensions": true /* Allow importing of .ts files even when they cannot be resolved. */,
+    "noEmit": true,
+    "resolveJsonModule": true
+  }
+}
