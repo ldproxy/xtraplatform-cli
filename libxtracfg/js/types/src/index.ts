@@ -29,8 +29,17 @@ export namespace Options {
    * @interface true
    */
   export interface Options {
+    /**
+     * @default ./
+     */
     readonly source?: string;
+    /**
+     * @default false
+     */
     readonly verbose?: boolean;
+    /**
+     * @default false
+     */
     readonly debug?: boolean;
   }
 
@@ -41,7 +50,13 @@ export namespace Options {
      * @optional true
      */
     readonly subcommand?: Enums.StoreSubs;
+    /**
+     * @default false
+     */
     readonly ignoreRedundant?: boolean;
+    /**
+     * @optional true
+     */
     readonly path?: string;
   }
 }

@@ -200,6 +200,16 @@ const getValue = (
   return "";
 };
 
+const getDefault = (schema: DefinitionOrBoolean): string => {
+  if (typeof schema === "object" && Object.hasOwn(schema, "default")) {
+    if (schema.type === "string") {
+      return `"${schema.default}"`;
+    }
+    return `${schema.default}`;
+  }
+  return "";
+};
+
 const isConst = (schema: DefinitionOrBoolean) => {
   return (
     typeof schema === "object" &&
@@ -263,8 +273,13 @@ public class ${name}${intface ? ` implements ${intface}` : ""} {
     this.${key} = ${getValue(entry)};`;
         continue;
       }
-      code += `
+      if (Object.hasOwn(entry, "default")) {
+        code += `
+    this.${key} = Object.requireNonNullElse(${key},${getDefault(entry)});`;
+      } else {
+        code += `
     this.${key} = ${key};`;
+      }
     }
 
     code += `
