@@ -1,10 +1,10 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { dirname } from "path";
 
-import { generateJsonSchema } from "./generate-json-schema.ts";
-import { generateJsValidators } from "./generate-js-validators.ts";
+import { generateJsonSchema } from "./json-schema/index.ts";
+import { generateJsValidators } from "./js/index.ts";
 import { generateJavaClasses } from "./generate-java-classes.ts";
-import { generateGoStructs } from "./generate-go-structs.ts";
+import { generateGoStructs } from "./go/index.ts";
 
 const basePath = "./src/gen";
 const javaBasePath = "../../java/src/main/java";

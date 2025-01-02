@@ -2,8 +2,9 @@ import { Definition } from "typescript-json-schema";
 import {
   validationKeywordsBoolean,
   validationKeywordsString,
-} from "./generate-json-schema.ts";
+} from "../json-schema/index.ts";
 
+//TODO: configurable settings
 export const generateJsValidators = (schema: Definition) => {
   const code = generateValidators(schema);
 

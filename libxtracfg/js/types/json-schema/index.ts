@@ -1,6 +1,7 @@
 import { resolve } from "path";
 import * as TJS from "typescript-json-schema";
 
+//TODO: configurable settings
 export const generateJsonSchema = () => {
   const schema = generate();
   console.log(schema.string);
