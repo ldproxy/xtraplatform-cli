@@ -129,7 +129,7 @@ public abstract class Handler<T extends Handler.Context, U extends Handler.Conte
         return notConnected();
       }
 
-      ${result} result = handle(new ${initCommand}(command.getOptions()), false, ignore -> {});
+      ${result} result = handle(new ${initCommand}(command.options()), false, ignore -> {});
 
       if (result instanceof ${failure}) {
         return result;
@@ -155,7 +155,7 @@ public abstract class Handler<T extends Handler.Context, U extends Handler.Conte
     }
 
     code += `
-    return new ${failure}("Unknown command: " + command.getCommand());
+    return new ${failure}("Unknown command: " + command.command());
   }
 }
     `;

@@ -25,9 +25,9 @@ public record ${name}(`;
     let i = 0;
     for (const [key, entry] of props) {
       i++;
-      /*if (isConst(entry)) {
+      if (isConst(entry)) {
         continue;
-      }*/
+      }
       const comma = i <= Object.keys(properties).length - 1 ? "," : "";
       code += `
     ${getType(entry, suffixNs)} ${key}${comma}`;
@@ -40,9 +40,9 @@ public ${name}(`;
     let j = 0;
     for (const [key, entry] of props) {
       j++;
-      /*if (isConst(entry)) {
+      if (isConst(entry)) {
         continue;
-      }*/
+      }
       const comma = j <= Object.keys(properties).length - 1 ? "," : "";
       code += `
   ${getType(entry, suffixNs)} ${key}${comma}`;
@@ -52,8 +52,8 @@ public ${name}(`;
 ) {`;
     for (const [key, entry] of props) {
       if (isConst(entry)) {
-        code += `
-  this.${key} = ${getValue(entry)};`;
+        /*code += `
+  this.${key} = ${getValue(entry)};`;*/
         continue;
       }
       if (Object.hasOwn(entry, "default")) {
@@ -69,8 +69,22 @@ public ${name}(`;
 
     code += `
 }
-}
   `;
+
+    for (const [key, entry] of props) {
+      if (isConst(entry)) {
+        code += `
+public ${getType(entry, suffixNs)} ${key}() {
+  return ${getValue(entry)};
+}
+`;
+      }
+    }
+
+    code += `
+}
+
+`;
 
     return code;
   };
