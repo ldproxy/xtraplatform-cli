@@ -82,9 +82,9 @@ export namespace Command {
    */
   export class Connect extends Base {
     declare readonly command: Enums.Main.Connect;
-    declare readonly options: Options.Base;
+    declare readonly options: Options.Options;
 
-    constructor(options: Options.Base = {}) {
+    constructor(options: Options.Options = {}) {
       super(Enums.Main.Connect, options);
     }
   }
