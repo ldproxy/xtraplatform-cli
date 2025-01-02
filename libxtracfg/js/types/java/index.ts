@@ -13,7 +13,7 @@ import {
 } from "../common/index.ts";
 import { Result } from "../generate.ts";
 import {
-  generateDataClass,
+  generateDataRecord,
   generateIdentifiersClass,
   generateInterface,
 } from "./data.ts";
@@ -78,7 +78,7 @@ export const generateJava = (
           generateClass(
             getName(key, ns, suffixNs),
             pkg,
-            generateDataClass(def, suffixNs, nsInterface)
+            generateDataRecord(def, suffixNs, nsInterface)
           )
         );
       }

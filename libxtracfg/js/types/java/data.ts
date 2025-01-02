@@ -12,7 +12,67 @@ import {
 } from "../common/index.ts";
 import { getType } from "./index.ts";
 
-//TODO: use records
+export const generateDataRecord =
+  (schema: Definition, suffixNs: string[] = [], intface?: string): Generator =>
+  (name: string, pkg: string): string => {
+    const properties = schema.properties || {};
+    const props = defs(properties);
+
+    let code = `
+package ${pkg};
+
+public record ${name}(`;
+    let i = 0;
+    for (const [key, entry] of props) {
+      i++;
+      /*if (isConst(entry)) {
+        continue;
+      }*/
+      const comma = i <= Object.keys(properties).length - 1 ? "," : "";
+      code += `
+    ${getType(entry, suffixNs)} ${key}${comma}`;
+    }
+
+    code += `
+  )${intface ? ` implements ${intface}` : ""} {
+
+public ${name}(`;
+    let j = 0;
+    for (const [key, entry] of props) {
+      j++;
+      /*if (isConst(entry)) {
+        continue;
+      }*/
+      const comma = j <= Object.keys(properties).length - 1 ? "," : "";
+      code += `
+  ${getType(entry, suffixNs)} ${key}${comma}`;
+    }
+
+    code += `
+) {`;
+    for (const [key, entry] of props) {
+      if (isConst(entry)) {
+        code += `
+  this.${key} = ${getValue(entry)};`;
+        continue;
+      }
+      if (Object.hasOwn(entry, "default")) {
+        code += `
+  this.${key} = Object.requireNonNullElse(${key},${getDefault(entry)});`;
+      } else {
+        code += `
+  this.${key} = ${key};`;
+      }
+    }
+
+    code += `
+}
+}
+  `;
+
+    return code;
+  };
+
 export const generateDataClass =
   (schema: Definition, suffixNs: string[] = [], intface?: string): Generator =>
   (name: string, pkg: string): string => {
@@ -23,15 +83,15 @@ export const generateDataClass =
 package ${pkg};
 
 public class ${name}${intface ? ` implements ${intface}` : ""} {
-    `;
+  `;
     for (const [key, entry] of props) {
       code += `
-  private final ${getType(entry, suffixNs)} ${key};`;
+private final ${getType(entry, suffixNs)} ${key};`;
     }
 
     code += `
 
-  public ${name}(`;
+public ${name}(`;
     let i = 0;
     for (const [key, entry] of props) {
       i++;
@@ -40,41 +100,41 @@ public class ${name}${intface ? ` implements ${intface}` : ""} {
       }
       const comma = i <= Object.keys(properties).length - 1 ? "," : "";
       code += `
-    ${getType(entry, suffixNs)} ${key}${comma}`;
+  ${getType(entry, suffixNs)} ${key}${comma}`;
     }
 
     code += `
-  ) {`;
+) {`;
     for (const [key, entry] of props) {
       if (isConst(entry)) {
         code += `
-    this.${key} = ${getValue(entry)};`;
+  this.${key} = ${getValue(entry)};`;
         continue;
       }
       if (Object.hasOwn(entry, "default")) {
         code += `
-    this.${key} = Object.requireNonNullElse(${key},${getDefault(entry)});`;
+  this.${key} = Object.requireNonNullElse(${key},${getDefault(entry)});`;
       } else {
         code += `
-    this.${key} = ${key};`;
+  this.${key} = ${key};`;
       }
     }
 
     code += `
-  }
-    `;
+}
+  `;
     for (const [key, entry] of props) {
       code += `
-  public ${getType(entry, suffixNs)} get${firstLetterUpperCase(key)}() {
-    return ${key};
-  }
-    `;
+public ${getType(entry, suffixNs)} get${firstLetterUpperCase(key)}() {
+  return ${key};
+}
+  `;
     }
 
     code += `
 }
 
-    `;
+  `;
 
     return code;
   };
