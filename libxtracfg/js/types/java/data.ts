@@ -58,7 +58,9 @@ public ${name}(`;
       }
       if (Object.hasOwn(entry, "default")) {
         code += `
-  this.${key} = Object.requireNonNullElse(${key},${getDefault(entry)});`;
+  this.${key} = java.util.Objects.requireNonNullElse(${key},${getDefault(
+          entry
+        )});`;
       } else {
         code += `
   this.${key} = ${key};`;
@@ -113,7 +115,9 @@ public ${name}(`;
       }
       if (Object.hasOwn(entry, "default")) {
         code += `
-  this.${key} = Object.requireNonNullElse(${key},${getDefault(entry)});`;
+  this.${key} = java.util.Objects.requireNonNullElse(${key},${getDefault(
+          entry
+        )});`;
       } else {
         code += `
   this.${key} = ${key};`;
@@ -125,7 +129,7 @@ public ${name}(`;
   `;
     for (const [key, entry] of props) {
       code += `
-public ${getType(entry, suffixNs)} get${firstLetterUpperCase(key)}() {
+public ${getType(entry, suffixNs)} ${key}() {
   return ${key};
 }
   `;
@@ -174,7 +178,7 @@ public interface ${name} {
   `;
     for (const [key, entry] of Object.entries(properties)) {
       code += `
-${getType(entry, suffixNs)} get${firstLetterUpperCase(key)}();
+${getType(entry, suffixNs)} ${key}();
   `;
     }
 
