@@ -69,9 +69,9 @@ export namespace Command {
   //TODO: should be abstract so that it cannot be instantiated, but that breaks the JSON schema generation
   export class Base {
     readonly command: Enums.Main;
-    readonly options: Options.Base;
+    readonly options: Options.Options;
 
-    constructor(command: Enums.Main, options: Options.Base) {
+    constructor(command: Enums.Main, options: Options.Options) {
       this.command = command;
       this.options = options;
     }

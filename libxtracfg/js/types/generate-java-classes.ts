@@ -6,6 +6,7 @@ import { generateClass, generateJava } from "./java/index.ts";
 const dataNs = ["Command", "Options", "Result"];
 const suffixNs = ["Command", "Options"];
 const commandNs = "Command";
+const baseOptions = "BaseOptions";
 const baseResult = "BaseResult";
 const failureResult = "FailureResult";
 
@@ -129,7 +130,7 @@ public abstract class Handler<T extends Handler.Context, U extends Handler.Conte
         return notConnected();
       }
 
-      ${result} result = handle(new ${initCommand}(command.options()), false, ignore -> {});
+      ${result} result = handle(new ${initCommand}((${baseOptions})command.options()), false, ignore -> {});
 
       if (result instanceof ${failure}) {
         return result;
