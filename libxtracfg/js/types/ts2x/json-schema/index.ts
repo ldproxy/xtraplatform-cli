@@ -1,19 +1,20 @@
 import * as TJS from "typescript-json-schema";
-import { resolve } from "path";
 
-import { constsNs, enumsNs } from "../common/index.ts";
+import { Result } from "../common/io.ts";
+
+export type SchemaResult = Result & { obj: any; namespaces: string[] };
 
 export const generateJsonSchema = (
   name: string,
   source: string,
-  dataNs: string[],
   fileName: string = "schema"
-) => {
-  const schema = generate(source, dataNs);
+): SchemaResult => {
+  const schema = generate(source);
 
   return {
     name,
     obj: schema.js,
+    namespaces: schema.namespaces,
     files: [{ path: `${fileName}.json`, content: schema.string }],
   };
 };
@@ -26,9 +27,7 @@ export const validationKeywordsBoolean = [
 ];
 export const validationKeywordsString = ["discriminator"];
 
-const generate = (source: string, dataNs: string[]) => {
-  const namespaces = [constsNs, enumsNs, ...dataNs];
-
+const generate = (source: string) => {
   // optionally pass argument to schema generator
   const settings: TJS.PartialArgs = {
     required: true,
@@ -49,11 +48,7 @@ const generate = (source: string, dataNs: string[]) => {
     strictNullChecks: true,
   };
 
-  const program = TJS.getProgramFromFiles(
-    [resolve(source)],
-    compilerOptions,
-    "./"
-  );
+  const program = TJS.getProgramFromFiles([source], compilerOptions, "./");
 
   const generator = TJS.buildGenerator(program, settings);
 
@@ -63,17 +58,24 @@ const generate = (source: string, dataNs: string[]) => {
 
   const symbols = generator
     .getUserSymbols()
-    .filter(
-      (s) => !s.endsWith("_1") && namespaces.some((ns) => s.startsWith(ns))
-    );
+    .filter((s) => !s.endsWith("_1") && s.startsWith("Ts2x."));
 
   const schema = generator.getSchemaForSymbols(symbols, true, true);
+
+  const namespaces = Array.from(
+    new Set(
+      symbols
+        .filter((s) => s.split(".").length >= 3)
+        .map((s) => s.split(".")[1])
+    )
+  );
 
   const fixedSchema = fix(schema, namespaces);
 
   return {
     js: fixedSchema,
     string: JSON.stringify(fixedSchema, null, 2),
+    namespaces,
   };
 };
 
@@ -85,13 +87,15 @@ const fix = (schema: TJS.Definition, namespaces: string[]) => {
   });
 
   for (const [key, value] of Object.entries(definitions)) {
-    handleKey(key, value, newDefinitions, namespaces);
+    const key2 = key.replace("Ts2x.", "");
+    handleKey(key2, value, newDefinitions, namespaces);
   }
 
   const newSchema = { ...schema, definitions: newDefinitions };
 
   return JSON.parse(
     JSON.stringify(newSchema)
+      .replaceAll("Ts2x.", "")
       .replaceAll(new RegExp(`(${namespaces.join("|")})\\.`, "g"), "$1/")
       .replaceAll("_1", "")
   );

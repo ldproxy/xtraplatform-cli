@@ -1,20 +1,6 @@
 import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { dirname } from "path";
-
-export { Definition, DefinitionOrBoolean };
 
 export type Defs = [string, Definition][];
-
-export type Generator = (name: string, pkg: string) => string;
-
-type Files = { path: string; content: string }[];
-
-export type Result = { name: string; files: Files };
-
-export const defs = (entry: DefinitionOrBoolean): Defs => {
-  return typeof entry !== "boolean" ? Object.entries(entry as Definition) : [];
-};
 
 export const constsNs = "Consts";
 export const enumsNs = "Enums";
@@ -31,36 +17,8 @@ export enum DataType {
   OPTIONAL = "optional",
 }
 
-export const write = (
-  result: Result,
-  basePath: string,
-  verbose?: boolean
-): boolean => {
-  let noChanges = true;
-  const messages = [];
-
-  for (const { path, content } of result.files) {
-    const fullPath = `${basePath}/${path}`;
-    const oldContent = existsSync(fullPath)
-      ? readFileSync(fullPath, "utf8")
-      : "";
-
-    if (oldContent === content) {
-      if (verbose) messages.push(`  - ${path}: NO CHANGES`);
-      continue;
-    }
-
-    mkdirSync(dirname(fullPath), { recursive: true });
-    writeFileSync(fullPath, content);
-    noChanges = false;
-
-    if (verbose) messages.push(`  - ${path}: UPDATED`);
-  }
-
-  console.log(`- ${result.name}: ${noChanges ? "NO CHANGES" : "UPDATED"}`);
-  messages.forEach((msg) => console.log(msg));
-
-  return noChanges;
+export const defs = (entry: DefinitionOrBoolean): Defs => {
+  return typeof entry !== "boolean" ? Object.entries(entry as Definition) : [];
 };
 
 export const getType = (
@@ -121,7 +79,7 @@ export const getType = (
 export const getValue = (
   schema: DefinitionOrBoolean,
   prefix: string = "",
-  stringNotEnum?: boolean
+  ignoreQualifier?: boolean
 ): string => {
   if (typeof schema === "boolean") {
     return schema ? "true" : "false";
@@ -137,7 +95,7 @@ export const getValue = (
     (schema.$ref.includes(constsPath) || schema.$ref.includes(enumsPath))
   ) {
     const name =
-      stringNotEnum && schema.$ref.includes(".")
+      ignoreQualifier && schema.$ref.includes(".")
         ? schema.$ref.substring(schema.$ref.lastIndexOf(".") + 1)
         : schema.$ref.substring(schema.$ref.lastIndexOf("/") + 1);
     return `${prefix}${name}`;

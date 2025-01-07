@@ -1,16 +1,20 @@
-import { Definition } from "../common/index.ts";
+import { Definition } from "typescript-json-schema";
+
 import {
   validationKeywordsBoolean,
   validationKeywordsString,
 } from "../json-schema/index.ts";
 
-//TODO: configurable settings
-export const generateJsValidators = (schema: Definition) => {
+export const generateJsValidators = (
+  schema: Definition,
+  name: string,
+  fileName: string = "validate"
+) => {
   const code = generateValidators(schema);
 
   return {
-    name: "JS Validators",
-    files: [{ path: "validate.ts", content: code }],
+    name,
+    files: [{ path: `${fileName}.ts`, content: code }],
   };
 };
 

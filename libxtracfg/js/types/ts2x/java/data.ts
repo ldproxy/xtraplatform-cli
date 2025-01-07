@@ -1,17 +1,15 @@
+import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
 import {
-  Definition,
-  DefinitionOrBoolean,
   DataType,
   Defs,
   defs,
-  firstLetterUpperCase,
-  Generator,
   getDefault,
   getType,
   getValue,
   isConst,
   isEnum,
-} from "../common/index.ts";
+} from "../common/schema.ts";
+import { Generator } from "../common/index.ts";
 
 const identifiersPrefix = "Identifiers.";
 
@@ -210,7 +208,7 @@ import shadow.com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({`;
       for (const [key, value] of Object.entries(discriminators)) {
         code += `
-          @JsonSubTypes.Type(value = ${key}.class, name = ${value}),`;
+          @JsonSubTypes.Type(value = ${key}.class, name = "${value}"),`;
       }
 
       code += `

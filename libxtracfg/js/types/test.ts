@@ -1,9 +1,9 @@
-import { Command } from "./src/index.ts";
+import { Ts2x } from "./src/index.ts";
 import { validateCommand } from "./src/gen/validate.ts";
 
 const options = { source: "libxtracfg", foo: "bar" };
 
-const info = new Command.Connect(options);
+const info = new Ts2x.Command.Connect(options);
 
 //info.command = "info";
 //info.options.source = "libxtracfg";

@@ -8,11 +8,11 @@
   "private": true,
   "scripts": {
     "test": "tsx ./test.ts",
-    "parse": "tsx ./generate.ts"
+    "parse": "tsx ./index.ts"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
-    "tsx": "^4.7.2"
+    "tsx": "4.19.2"
   },
   "dependencies": {
     "ajv": "^8.17.1",

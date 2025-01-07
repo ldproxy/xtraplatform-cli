@@ -1,28 +1,42 @@
-import {
-  Definition,
-  Generator,
-  Defs,
-  Result,
-  constsNs,
-  enumsNs,
-  defs,
-  getValue,
-} from "../common/index.ts";
+import { Definition } from "typescript-json-schema";
+import { Defs, constsNs, enumsNs, defs, getValue } from "../common/schema.ts";
+import { Result, File } from "../common/io.ts";
+import { Generator } from "../common/index.ts";
 import {
   generateDataRecord,
   generateIdentifiersClass,
   generateInterface,
 } from "./data.ts";
 
-//TODO: remove suffixNs
+export type OnNamespace = (
+  ns: string,
+  nsInterface?: string,
+  nsInterfaceDef?: Definition
+) => void;
+
+export type OnClass = (ns: string, name: string, def?: any) => void;
+
+export type ClassGenerator = {
+  name: string;
+  pkg: string;
+  codeOrGenerator: string | Generator;
+};
+
+export type ClassGenerators = (() => ClassGenerator[]) | ClassGenerator[];
+
+export type Hooks = {
+  onNamespace?: OnNamespace;
+  onClass?: OnClass;
+};
+
 export const generateJava = (
   name: string,
   schema: Definition,
   pkg: string,
   dataNs: string[],
   suffixNs: string[],
-  onNs: (ns: string, nsInterface?: string, nsInterfaceDef?: Definition) => void,
-  onClass: (ns: string, name: string, def?: any) => void
+  additionalClasses: ClassGenerators = [],
+  hooks?: Hooks
 ): Result => {
   const definitions = schema.definitions || {};
   let consts: Defs = [];
@@ -53,7 +67,9 @@ export const generateJava = (
       }
     }
 
-    onNs(ns, nsInterface, nsInterfaceDef);
+    if (hooks && hooks.onNamespace) {
+      hooks.onNamespace(ns, nsInterface, nsInterfaceDef);
+    }
 
     for (const [key, def] of Object.entries(entries)) {
       if (dataNs.includes(ns) && def && !def.interface) {
@@ -69,7 +85,9 @@ export const generateJava = (
           );
         }
 
-        onClass(ns, getName(key, ns, suffixNs), def);
+        if (hooks && hooks.onClass) {
+          hooks.onClass(ns, getName(key, ns, suffixNs), def);
+        }
 
         result.files.push(
           generateClass(
@@ -104,6 +122,19 @@ export const generateJava = (
     )
   );
 
+  const classes =
+    typeof additionalClasses === "function"
+      ? additionalClasses()
+      : additionalClasses;
+
+  classes.forEach((cls) => {
+    if (typeof cls.codeOrGenerator === "string") {
+      result.files.push(toFile(cls.name, cls.pkg, cls.codeOrGenerator));
+    } else {
+      result.files.push(generateClass(cls.name, cls.pkg, cls.codeOrGenerator));
+    }
+  });
+
   return result;
 };
 
@@ -111,13 +142,16 @@ const getName = (name: string, ns: string, suffixNs: string[]) => {
   return suffixNs.includes(ns) && name !== ns ? name + ns : name;
 };
 
-export const generateClass = (
+const generateClass = (
   name: string,
   pkg: string,
   generate: Generator
-) => {
+): File => {
+  return toFile(name, pkg, generate(name, pkg));
+};
+
+const toFile = (name: string, pkg: string, code: string): File => {
   const dir = pkg.replaceAll(".", "/");
-  const code = generate(name, pkg);
 
   return { path: `${dir}/${name}.java`, content: code };
 };

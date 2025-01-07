@@ -1,50 +1,36 @@
-import { Definition, Generator, Result } from "./common/index.ts";
-import { generateClass, generateJava } from "./java/index.ts";
+import { ClassGenerator, Definition, Generator } from "./ts2x/index.ts";
 
-const suffixNs = ["Command", "Options"];
+//TODO: generalize as java commandHandler option
+
 const commandNs = "Command";
-const baseResult = "BaseResult";
+const baseResult = "Result";
 const failureResult = "FailureResult";
 
-export const generateJavaClasses = (
-  schema: Definition,
-  pkg: string,
-  dataNs: string[]
-): Result => {
-  const commands: string[] = [];
-  let initCommand: string | undefined;
-  let baseCommand: string | undefined;
+const commands: string[] = [];
+let initCommand: string | undefined;
+let baseCommand: string | undefined;
 
-  const onNs = (
-    ns: string,
-    nsInterface?: string,
-    nsInterfaceDef?: Definition
-  ) => {
-    if (ns === commandNs) {
-      baseCommand = nsInterface;
+export const onNamespace = (
+  ns: string,
+  nsInterface?: string,
+  nsInterfaceDef?: Definition
+) => {
+  if (ns === commandNs) {
+    baseCommand = nsInterface;
+  }
+};
+
+export const onClass = (ns: string, name: string, def?: any) => {
+  if (ns === commandNs) {
+    if (def?.javaContextInit) {
+      initCommand = name;
+    } else {
+      commands.push(name);
     }
-  };
+  }
+};
 
-  const onClass = (ns: string, name: string, def?: any) => {
-    if (ns === commandNs) {
-      if (def?.javaContextInit) {
-        initCommand = name;
-      } else {
-        commands.push(name);
-      }
-    }
-  };
-
-  const result = generateJava(
-    "Java Backend",
-    schema,
-    pkg,
-    dataNs,
-    suffixNs,
-    onNs,
-    onClass
-  );
-
+export const getAdditional = (pkg: string) => (): ClassGenerator[] => {
   if (!initCommand) {
     throw new Error("No init command found");
   }
@@ -52,21 +38,19 @@ export const generateJavaClasses = (
     throw new Error("No base command found");
   }
 
-  result.files.push(
-    generateClass(
-      "Handler",
+  return [
+    {
+      name: "Handler",
       pkg,
-      generateHandler(
+      codeOrGenerator: generateHandler(
         commands,
         initCommand,
         baseCommand,
         baseResult,
         failureResult
-      )
-    )
-  );
-
-  return result;
+      ),
+    },
+  ];
 };
 
 const generateHandler =

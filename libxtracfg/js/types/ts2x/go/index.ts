@@ -1,29 +1,26 @@
+import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
 import {
   constsNs,
   DataType,
   defs,
-  Definition,
-  DefinitionOrBoolean,
   Defs,
   enumsNs,
   firstLetterUpperCase,
-  Generator,
-  Result,
   getDefault,
   getType,
   getValue,
   isConst,
   isEnum,
-} from "../common/index.ts";
-
-//TODO: move
-const prefixNs = { Command: "cmd-", Options: "opts-", Result: "res-" };
+} from "../common/schema.ts";
+import { Result } from "../common/io.ts";
+import { Generator } from "../common/index.ts";
 
 export const generateGo = (
   name: string,
   schema: Definition,
   pkg: string,
-  dataNs: string[]
+  dataNs: string[],
+  filePrefixes: Record<string, string> = {}
 ) => {
   const definitions = schema.definitions || {};
   let consts: Defs = [];
@@ -50,7 +47,7 @@ export const generateGo = (
         }
 
         result.files.push(
-          generateFile(intface, ns, pkg, generateInterface(def))
+          generateFile(intface, ns, pkg, filePrefixes, generateInterface(def))
         );
       }
     }
@@ -58,19 +55,35 @@ export const generateGo = (
     for (const [key, def] of Object.entries(entries)) {
       if (dataNs.includes(ns) && def && !def.interface) {
         result.files.push(
-          generateFile(key, ns, pkg, generateDataStruct(def, nsInterface))
+          generateFile(
+            key,
+            ns,
+            pkg,
+            filePrefixes,
+            generateDataStruct(def, nsInterface)
+          )
         );
       }
     }
   }
 
   result.files.push(
-    generateFile("consts", "", pkg + "/consts", generateConsts(consts))
+    generateFile(
+      "consts",
+      "",
+      pkg + "/consts",
+      filePrefixes,
+      generateConsts(consts)
+    )
   );
 
-  result.files.push(generateFile("enums", "", pkg, generateEnums(enums)));
+  result.files.push(
+    generateFile("enums", "", pkg, filePrefixes, generateEnums(enums))
+  );
 
-  result.files.push(generateFile("util", "", pkg, generateUtil()));
+  result.files.push(
+    generateFile("util", "", pkg, filePrefixes, generateUtil())
+  );
 
   return result;
 };
@@ -78,10 +91,10 @@ export const generateGo = (
 const getName = (
   name: string,
   ns?: string,
-  prefixNs?: Record<string, string>
+  filePrefixes?: Record<string, string>
 ) => {
-  return ns && prefixNs && prefixNs[ns]
-    ? `${prefixNs[ns]}${name.toLowerCase()}`
+  return ns && filePrefixes && filePrefixes[ns]
+    ? `${filePrefixes[ns]}${name.toLowerCase()}`
     : name.toLowerCase();
 };
 
@@ -89,10 +102,11 @@ const generateFile = (
   name: string,
   ns: string,
   pkg: string,
+  filePrefixes: Record<string, string>,
   generate: Generator
 ) => {
   const dir = pkg.replaceAll(".", "/");
-  const file = getName(name, ns, prefixNs);
+  const file = getName(name, ns, filePrefixes);
   const code = generate(getName(name), pkg);
 
   return { path: `${dir}/${file}.go`, content: code };
