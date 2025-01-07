@@ -1,22 +1,48 @@
-import { Definition } from "typescript-json-schema";
+import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
 
 import {
+  DataType,
   Defs,
   defs,
   firstLetterUpperCase,
   Generator,
   getDefault,
+  getType,
   getValue,
   isConst,
   isEnum,
 } from "../common/index.ts";
-import { getType } from "./index.ts";
+
+const identifiersPrefix = "Identifiers.";
+
+const getLanguageTypeJava = (type: DataType, innerType?: string): string => {
+  switch (type) {
+    case DataType.STRING:
+      return "String";
+    case DataType.NUMBER:
+      return "Double";
+    case DataType.INTEGER:
+      return "Integer";
+    case DataType.BOOLEAN:
+      return "Boolean";
+    case DataType.OBJECT:
+      return "java.util.Map<String, Object>";
+    case DataType.ARRAY:
+      return `java.util.List<${innerType || "Object"}>`;
+    case DataType.OPTIONAL:
+      return `java.util.Optional<${innerType || "Object"}>`;
+    default:
+      return "String";
+  }
+};
 
 export const generateDataRecord =
   (schema: Definition, suffixNs: string[] = [], intface?: string): Generator =>
   (name: string, pkg: string): string => {
     const properties = schema.properties || {};
     const props = defs(properties);
+    const toType = (entry: Definition) =>
+      getType(entry, getLanguageTypeJava, suffixNs, identifiersPrefix);
 
     let code = `
 package ${pkg};
@@ -30,7 +56,7 @@ public record ${name}(`;
       }
       const comma = i <= Object.keys(properties).length - 1 ? "," : "";
       code += `
-    ${getType(entry, suffixNs)} ${key}${comma}`;
+    ${toType(entry)} ${key}${comma}`;
     }
 
     code += `
@@ -45,7 +71,7 @@ public ${name}(`;
       }
       const comma = j <= Object.keys(properties).length - 1 ? "," : "";
       code += `
-  ${getType(entry, suffixNs)} ${key}${comma}`;
+  ${toType(entry)} ${key}${comma}`;
     }
 
     code += `
@@ -74,8 +100,8 @@ public ${name}(`;
     for (const [key, entry] of props) {
       if (isConst(entry)) {
         code += `
-public ${getType(entry, suffixNs)} ${key}() {
-  return ${getValue(entry)};
+public ${toType(entry)} ${key}() {
+  return ${getValue(entry, identifiersPrefix)};
 }
 `;
       }
@@ -94,6 +120,8 @@ export const generateDataClass =
   (name: string, pkg: string): string => {
     const properties = schema.properties || {};
     const props = defs(properties);
+    const toType = (entry: Definition) =>
+      getType(entry, getLanguageTypeJava, suffixNs, identifiersPrefix);
 
     let code = `
 package ${pkg};
@@ -102,7 +130,7 @@ public class ${name}${intface ? ` implements ${intface}` : ""} {
   `;
     for (const [key, entry] of props) {
       code += `
-private final ${getType(entry, suffixNs)} ${key};`;
+private final ${toType(entry)} ${key};`;
     }
 
     code += `
@@ -116,7 +144,7 @@ public ${name}(`;
       }
       const comma = i <= Object.keys(properties).length - 1 ? "," : "";
       code += `
-  ${getType(entry, suffixNs)} ${key}${comma}`;
+  ${toType(entry)} ${key}${comma}`;
     }
 
     code += `
@@ -124,7 +152,7 @@ public ${name}(`;
     for (const [key, entry] of props) {
       if (isConst(entry)) {
         code += `
-  this.${key} = ${getValue(entry)};`;
+  this.${key} = ${getValue(entry, identifiersPrefix)};`;
         continue;
       }
       if (Object.hasOwn(entry, "default")) {
@@ -143,7 +171,7 @@ public ${name}(`;
   `;
     for (const [key, entry] of props) {
       code += `
-public ${getType(entry, suffixNs)} ${key}() {
+public ${toType(entry)} ${key}() {
   return ${key};
 }
   `;
@@ -166,6 +194,8 @@ export const generateInterface =
   ): Generator =>
   (name: string, pkg: string): string => {
     const properties = schema.properties || {};
+    const toType = (entry: DefinitionOrBoolean) =>
+      getType(entry, getLanguageTypeJava, suffixNs, identifiersPrefix);
 
     let code = `
 package ${pkg};
@@ -192,7 +222,7 @@ public interface ${name} {
   `;
     for (const [key, entry] of Object.entries(properties)) {
       code += `
-${getType(entry, suffixNs)} ${key}();
+${toType(entry)} ${key}();
   `;
     }
 
@@ -207,6 +237,8 @@ export const generateIdentifiersClass =
   (consts: Defs, enums: Defs, suffixNs: string[]): Generator =>
   (name: string, pkg: string): string => {
     //const properties = schema.properties || {};
+    const toType = (entry: Definition) =>
+      getType(entry, getLanguageTypeJava, suffixNs, identifiersPrefix);
 
     let code = `
 package ${pkg};
@@ -218,7 +250,7 @@ public interface ${name} {
         continue;
       }
       code += `
-  ${getType(entry, suffixNs)} ${key} = ${getValue(entry)};`;
+  ${toType(entry)} ${key} = ${getValue(entry)};`;
     }
 
     code += `

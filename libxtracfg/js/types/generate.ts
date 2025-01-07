@@ -1,27 +1,28 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { dirname } from "path";
+import { mkdirSync } from "fs";
 
 import { generateJsonSchema } from "./json-schema/index.ts";
 import { generateJsValidators } from "./js/index.ts";
 import { generateJavaClasses } from "./generate-java-classes.ts";
-import { generateGoStructs } from "./go/index.ts";
+import { generateGo } from "./go/index.ts";
+import { Result, write } from "./common/index.ts";
 
 const basePath = "./src/gen";
 const javaBasePath = "../../java/src/main/java";
 const javaPkg = "de.ii.xtraplatform.cli.gen";
+const goBasePath = "../../go";
+const goPkg = "gen";
 
-type Files = { path: string; content: string }[];
-export type Result = { name: string; files: Files };
+const dataNs = ["Command", "Options", "Result", "Misc"];
+
 type SchemaResult = Result & { obj: any };
 
-//TODO: move writing here, compare with existing before writing
 //TODO: restructure -> xtracfg/bin, xtracfg/lib/*, gen in root?
 const generateAll = (verbose?: boolean) => {
   console.log("Generating code from TypeScript definitions");
 
   mkdirSync(basePath, { recursive: true });
 
-  const schema: SchemaResult = generateJsonSchema();
+  const schema: SchemaResult = generateJsonSchema("JSON Schema", dataNs);
 
   write(schema, basePath, verbose);
 
@@ -29,45 +30,13 @@ const generateAll = (verbose?: boolean) => {
 
   write(js, basePath, verbose);
 
-  const java: Result = generateJavaClasses(schema.obj, javaPkg);
+  const java: Result = generateJavaClasses(schema.obj, javaPkg, dataNs);
 
   write(java, javaBasePath, verbose);
 
-  const go: Result = generateGoStructs(schema.obj);
+  const go: Result = generateGo("Go Client", schema.obj, goPkg, dataNs);
 
-  write(go, basePath, verbose);
-};
-
-const write = (
-  result: Result,
-  basePath: string,
-  verbose?: boolean
-): boolean => {
-  let noChanges = true;
-  const messages = [];
-
-  for (const { path, content } of result.files) {
-    const fullPath = `${basePath}/${path}`;
-    const oldContent = existsSync(fullPath)
-      ? readFileSync(fullPath, "utf8")
-      : "";
-
-    if (oldContent === content) {
-      if (verbose) messages.push(`  - ${path}: NO CHANGES`);
-      continue;
-    }
-
-    mkdirSync(dirname(fullPath), { recursive: true });
-    writeFileSync(fullPath, content);
-    noChanges = false;
-
-    if (verbose) messages.push(`  - ${path}: UPDATED`);
-  }
-
-  console.log(`- ${result.name}: ${noChanges ? "NO CHANGES" : "UPDATED"}`);
-  messages.forEach((msg) => console.log(msg));
-
-  return noChanges;
+  write(go, goBasePath, verbose);
 };
 
 generateAll(false);

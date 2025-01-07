@@ -1,9 +1,7 @@
 import { Definition } from "typescript-json-schema";
-import { Result } from "./generate.ts";
-import { Generator } from "./common/index.ts";
+import { Generator, Result } from "./common/index.ts";
 import { generateClass, generateJava } from "./java/index.ts";
 
-const dataNs = ["Command", "Options", "Result"];
 const suffixNs = ["Command", "Options"];
 const commandNs = "Command";
 const baseResult = "BaseResult";
@@ -11,7 +9,8 @@ const failureResult = "FailureResult";
 
 export const generateJavaClasses = (
   schema: Definition,
-  pkg: string
+  pkg: string,
+  dataNs: string[]
 ): Result => {
   const commands: string[] = [];
   let initCommand: string | undefined;

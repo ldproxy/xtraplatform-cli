@@ -1,17 +1,14 @@
-import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
+import { Definition } from "typescript-json-schema";
 
 import {
-  firstLetterUpperCase,
-  constsPath,
-  enumsPath,
   Generator,
   Defs,
+  Result,
   constsNs,
   enumsNs,
   defs,
   getValue,
 } from "../common/index.ts";
-import { Result } from "../generate.ts";
 import {
   generateDataRecord,
   generateIdentifiersClass,
@@ -68,6 +65,7 @@ export const generateJava = (
         ) {
           nsDiscriminators[getName(key, ns, suffixNs)] = getValue(
             def.properties[nsDiscriminator],
+            "",
             true
           );
         }
@@ -114,8 +112,6 @@ const getName = (name: string, ns: string, suffixNs: string[]) => {
   return suffixNs.includes(ns) && name !== ns ? name + ns : name;
 };
 
-const identifiersPrefix = "Identifiers.";
-
 export const generateClass = (
   name: string,
   pkg: string,
@@ -125,57 +121,4 @@ export const generateClass = (
   const code = generate(name, pkg);
 
   return { path: `${dir}/${name}.java`, content: code };
-};
-
-export const getType = (
-  schema: DefinitionOrBoolean,
-  suffixNs: string[]
-): string => {
-  if (typeof schema === "boolean") {
-    return "boolean";
-  }
-  if (schema.type) {
-    if (schema.type === "object" && !schema.properties) {
-      return "java.util.Map<String, Object>";
-    }
-    if (schema.type === "array" && schema.items) {
-      return `java.util.List<${getType(
-        schema.items as DefinitionOrBoolean,
-        suffixNs
-      )}>`;
-    }
-    const type =
-      schema.type === "integer"
-        ? "int"
-        : schema.type === "number"
-        ? "double"
-        : schema.type === "boolean"
-        ? "boolean"
-        : "String";
-    if (Object.hasOwn(schema, "optional")) {
-      return `java.util.Optional<${firstLetterUpperCase(type)}>`;
-    }
-    return firstLetterUpperCase(schema.type as string);
-  }
-  if (schema.$ref) {
-    if (schema.$ref.includes(constsPath)) {
-      return "String";
-    }
-    let type = schema.$ref.substring(schema.$ref.lastIndexOf("/") + 1);
-    if (type.includes(".")) {
-      type = type.substring(0, type.lastIndexOf("."));
-    }
-    const prefix = schema.$ref.includes(enumsPath) ? identifiersPrefix : "";
-    const suffix =
-      suffixNs.find((ns) => type !== ns && schema.$ref?.includes(`/${ns}/`)) ||
-      "";
-    type = `${prefix}${type}${suffix}`;
-
-    if (Object.hasOwn(schema, "optional")) {
-      return `java.util.Optional<${type}>`;
-    }
-    return type;
-  }
-
-  return "";
 };

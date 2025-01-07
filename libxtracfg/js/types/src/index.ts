@@ -18,6 +18,7 @@ export namespace Enums {
   }
 }
 
+//TODO: java specialty?
 export namespace Consts {
   export type Connect = "Connect";
   export type Info = "Info";
@@ -28,7 +29,7 @@ export namespace Options {
   /**
    * @interface true
    */
-  export interface Options {
+  export class Options {
     /**
      * @default ./
      */
@@ -43,9 +44,9 @@ export namespace Options {
     readonly debug?: boolean;
   }
 
-  export interface Base extends Options {}
+  export class Base extends Options {}
 
-  export interface Store extends Options {
+  export class Store extends Options {
     /**
      * @optional true
      */
@@ -67,7 +68,7 @@ export namespace Command {
    * @discriminator command
    */
   //TODO: should be abstract so that it cannot be instantiated, but that breaks the JSON schema generation
-  export class Base {
+  export class Command {
     readonly command: Enums.Main;
     readonly options: Options.Options;
 
@@ -80,7 +81,7 @@ export namespace Command {
   /**
    * @javaContextInit true
    */
-  export class Connect extends Base {
+  export class Connect extends Command {
     declare readonly command: Enums.Main.Connect;
     declare readonly options: Options.Options;
 
@@ -89,7 +90,7 @@ export namespace Command {
     }
   }
 
-  export class Info extends Base {
+  export class Info extends Command {
     declare readonly command: Enums.Main.Info;
     declare readonly options: Options.Base;
 
@@ -98,7 +99,7 @@ export namespace Command {
     }
   }
 
-  export class Check extends Base {
+  export class Check extends Command {
     declare readonly command: Enums.Main.Check;
     declare readonly options: Options.Store;
 
@@ -109,25 +110,27 @@ export namespace Command {
 }
 
 export namespace Result {
-  export interface Message {
-    readonly type: Enums.MessageType;
-    readonly text: string;
-  }
-
-  export interface RegularResult {
+  export interface Regular {
     /**
      * @minItems 1
      */
-    readonly messages: Message[];
+    readonly messages: Misc.Message[];
     readonly details?: { [key: string]: any };
   }
 
-  export interface FailureResult {
+  export interface Failure {
     readonly error: string;
   }
 
   /**
    * @interface true
    */
-  export type BaseResult = RegularResult | FailureResult;
+  export type Result = Regular | Failure;
+}
+
+export namespace Misc {
+  export interface Message {
+    readonly status: Enums.MessageType;
+    readonly text: string;
+  }
 }

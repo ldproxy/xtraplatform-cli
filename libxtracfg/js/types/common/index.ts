@@ -1,7 +1,14 @@
 import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { dirname } from "path";
 
 export type Defs = [string, Definition][];
+
 export type Generator = (name: string, pkg: string) => string;
+
+type Files = { path: string; content: string }[];
+
+export type Result = { name: string; files: Files };
 
 export const defs = (entry: DefinitionOrBoolean): Defs => {
   return typeof entry !== "boolean" ? Object.entries(entry as Definition) : [];
@@ -12,8 +19,106 @@ export const enumsNs = "Enums";
 export const constsPath = "/Consts/";
 export const enumsPath = "/Enums/";
 
+export enum DataType {
+  STRING = "string",
+  NUMBER = "number",
+  INTEGER = "integer",
+  BOOLEAN = "boolean",
+  OBJECT = "object",
+  ARRAY = "array",
+  OPTIONAL = "optional",
+}
+
+export const write = (
+  result: Result,
+  basePath: string,
+  verbose?: boolean
+): boolean => {
+  let noChanges = true;
+  const messages = [];
+
+  for (const { path, content } of result.files) {
+    const fullPath = `${basePath}/${path}`;
+    const oldContent = existsSync(fullPath)
+      ? readFileSync(fullPath, "utf8")
+      : "";
+
+    if (oldContent === content) {
+      if (verbose) messages.push(`  - ${path}: NO CHANGES`);
+      continue;
+    }
+
+    mkdirSync(dirname(fullPath), { recursive: true });
+    writeFileSync(fullPath, content);
+    noChanges = false;
+
+    if (verbose) messages.push(`  - ${path}: UPDATED`);
+  }
+
+  console.log(`- ${result.name}: ${noChanges ? "NO CHANGES" : "UPDATED"}`);
+  messages.forEach((msg) => console.log(msg));
+
+  return noChanges;
+};
+
+export const getType = (
+  schema: DefinitionOrBoolean,
+  getLanguageType: (type: DataType, innerType?: string) => string,
+  suffixNs: string[] = [],
+  identifiersPrefix: string = ""
+): string => {
+  if (typeof schema === "boolean") {
+    return getLanguageType(DataType.BOOLEAN);
+  }
+  if (schema.type) {
+    if (schema.type === "object" && !schema.properties) {
+      return getLanguageType(DataType.OBJECT);
+    }
+    if (schema.type === "array" && schema.items) {
+      return getLanguageType(
+        DataType.ARRAY,
+        getType(schema.items as DefinitionOrBoolean, getLanguageType, suffixNs)
+      );
+    }
+    const type =
+      schema.type === "integer"
+        ? DataType.INTEGER
+        : schema.type === "number"
+        ? DataType.NUMBER
+        : schema.type === "boolean"
+        ? DataType.BOOLEAN
+        : DataType.STRING;
+    if (Object.hasOwn(schema, "optional")) {
+      return getLanguageType(DataType.OPTIONAL, getLanguageType(type));
+    }
+    return getLanguageType(type);
+  }
+  if (schema.$ref) {
+    if (schema.$ref.includes(constsPath)) {
+      return getLanguageType(DataType.STRING);
+    }
+    let type = schema.$ref.substring(schema.$ref.lastIndexOf("/") + 1);
+    if (type.includes(".")) {
+      type = type.substring(0, type.lastIndexOf("."));
+    }
+    const prefix = schema.$ref.includes(enumsPath) ? identifiersPrefix : "";
+    const suffix =
+      suffixNs.find((ns) => type !== ns && schema.$ref?.includes(`/${ns}/`)) ||
+      "";
+    type = `${prefix}${type}${suffix}`;
+
+    if (Object.hasOwn(schema, "optional")) {
+      return getLanguageType(DataType.OPTIONAL, type);
+    }
+    return type;
+  }
+
+  return "";
+};
+
 export const getValue = (
   schema: DefinitionOrBoolean,
+  prefix: string = "",
   stringNotEnum?: boolean
 ): string => {
   if (typeof schema === "boolean") {
@@ -33,7 +138,7 @@ export const getValue = (
       stringNotEnum && schema.$ref.includes(".")
         ? schema.$ref.substring(schema.$ref.lastIndexOf(".") + 1)
         : schema.$ref.substring(schema.$ref.lastIndexOf("/") + 1);
-    return `Identifiers.${name}`;
+    return `${prefix}${name}`;
   }
   return "";
 };

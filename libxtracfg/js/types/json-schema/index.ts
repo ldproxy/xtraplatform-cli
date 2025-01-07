@@ -2,12 +2,12 @@ import { resolve } from "path";
 import * as TJS from "typescript-json-schema";
 
 //TODO: configurable settings
-export const generateJsonSchema = () => {
-  const schema = generate();
+export const generateJsonSchema = (name: string, dataNs: string[]) => {
+  const schema = generate(dataNs);
   console.log(schema.string);
 
   return {
-    name: "JSON Schema",
+    name,
     obj: schema.js,
     files: [{ path: "api-schema.json", content: schema.string }],
   };
@@ -21,9 +21,11 @@ export const validationKeywordsBoolean = [
 ];
 export const validationKeywordsString = ["discriminator"];
 
-const namespaces = ["Enums", "Consts", "Options", "Command", "Result"];
+const constNs = ["Enums", "Consts"];
 
-const generate = () => {
+const generate = (dataNs: string[]) => {
+  const namespaces = [...constNs, ...dataNs];
+
   // optionally pass argument to schema generator
   const settings: TJS.PartialArgs = {
     required: true,
@@ -64,7 +66,7 @@ const generate = () => {
 
   const schema = generator.getSchemaForSymbols(symbols, true, true);
 
-  const fixedSchema = fix(schema);
+  const fixedSchema = fix(schema, namespaces);
 
   return {
     js: fixedSchema,
@@ -72,7 +74,7 @@ const generate = () => {
   };
 };
 
-const fix = (schema: TJS.Definition) => {
+const fix = (schema: TJS.Definition, namespaces: string[]) => {
   const definitions = schema.definitions || {};
   const newDefinitions: { [key: string]: any } = {};
   namespaces.forEach((ns) => {
@@ -80,7 +82,7 @@ const fix = (schema: TJS.Definition) => {
   });
 
   for (const [key, value] of Object.entries(definitions)) {
-    handleKey(key, value, newDefinitions);
+    handleKey(key, value, newDefinitions, namespaces);
   }
 
   const newSchema = { ...schema, definitions: newDefinitions };
@@ -92,7 +94,12 @@ const fix = (schema: TJS.Definition) => {
   );
 };
 
-function handleKey(key: string, value: any, newDefinitions: any) {
+function handleKey(
+  key: string,
+  value: any,
+  newDefinitions: any,
+  namespaces: string[]
+) {
   let handled = false;
 
   for (const namespace of namespaces) {
