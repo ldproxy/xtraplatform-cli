@@ -1,5 +1,4 @@
-import { Definition } from "typescript-json-schema";
-import { Generator, Result } from "./common/index.ts";
+import { Definition, Generator, Result } from "./common/index.ts";
 import { generateClass, generateJava } from "./java/index.ts";
 
 const suffixNs = ["Command", "Options"];

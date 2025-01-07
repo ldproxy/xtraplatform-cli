@@ -1,6 +1,6 @@
-import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
-
 import {
+  Definition,
+  DefinitionOrBoolean,
   DataType,
   Defs,
   defs,

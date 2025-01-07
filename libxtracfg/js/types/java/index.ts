@@ -1,6 +1,5 @@
-import { Definition } from "typescript-json-schema";
-
 import {
+  Definition,
   Generator,
   Defs,
   Result,

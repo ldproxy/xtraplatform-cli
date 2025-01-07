@@ -16,13 +16,33 @@ const dataNs = ["Command", "Options", "Result", "Misc"];
 
 type SchemaResult = Result & { obj: any };
 
+type GenCfg = {
+  basePath: string;
+};
+
+type GenLangCfg = GenCfg & {
+  pkg: string;
+};
+
+type Cfg = {
+  java?: GenLangCfg;
+  go?: GenLangCfg;
+  verbose?: boolean;
+};
+
 //TODO: restructure -> xtracfg/bin, xtracfg/lib/*, gen in root?
-const generateAll = (verbose?: boolean) => {
+const generateAll = (cfg: Cfg) => {
   console.log("Generating code from TypeScript definitions");
+
+  const { verbose, java: javaCfg, go: goCfg } = cfg;
 
   mkdirSync(basePath, { recursive: true });
 
-  const schema: SchemaResult = generateJsonSchema("JSON Schema", dataNs);
+  const schema: SchemaResult = generateJsonSchema(
+    "JSON Schema",
+    "./src/index.ts",
+    dataNs
+  );
 
   write(schema, basePath, verbose);
 
@@ -39,4 +59,14 @@ const generateAll = (verbose?: boolean) => {
   write(go, goBasePath, verbose);
 };
 
-generateAll(false);
+generateAll({
+  verbose: true,
+  java: {
+    basePath: "../../java/src/main/java",
+    pkg: "de.ii.xtraplatform.cli.gen",
+  },
+  go: {
+    basePath: "../../go",
+    pkg: "gen",
+  },
+});

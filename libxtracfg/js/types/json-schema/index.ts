@@ -1,15 +1,20 @@
-import { resolve } from "path";
 import * as TJS from "typescript-json-schema";
+import { resolve } from "path";
 
-//TODO: configurable settings
-export const generateJsonSchema = (name: string, dataNs: string[]) => {
-  const schema = generate(dataNs);
-  console.log(schema.string);
+import { constsNs, enumsNs } from "../common/index.ts";
+
+export const generateJsonSchema = (
+  name: string,
+  source: string,
+  dataNs: string[],
+  fileName: string = "schema"
+) => {
+  const schema = generate(source, dataNs);
 
   return {
     name,
     obj: schema.js,
-    files: [{ path: "api-schema.json", content: schema.string }],
+    files: [{ path: `${fileName}.json`, content: schema.string }],
   };
 };
 
@@ -21,10 +26,8 @@ export const validationKeywordsBoolean = [
 ];
 export const validationKeywordsString = ["discriminator"];
 
-const constNs = ["Enums", "Consts"];
-
-const generate = (dataNs: string[]) => {
-  const namespaces = [...constNs, ...dataNs];
+const generate = (source: string, dataNs: string[]) => {
+  const namespaces = [constsNs, enumsNs, ...dataNs];
 
   // optionally pass argument to schema generator
   const settings: TJS.PartialArgs = {
@@ -47,7 +50,7 @@ const generate = (dataNs: string[]) => {
   };
 
   const program = TJS.getProgramFromFiles(
-    [resolve("./src/index.ts")],
+    [resolve(source)],
     compilerOptions,
     "./"
   );

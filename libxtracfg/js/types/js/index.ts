@@ -1,4 +1,4 @@
-import { Definition } from "typescript-json-schema";
+import { Definition } from "../common/index.ts";
 import {
   validationKeywordsBoolean,
   validationKeywordsString,
@@ -19,7 +19,7 @@ const generateValidators = (schema: Definition) => {
 
   let code = `
 import { Ajv, ValidateFunction } from "ajv";
-import schema from "./schema.json";
+import schema from "./schema.json" assert { type: "json" };
 import { ${Object.keys(definitions).join(", ")} } from "../index.ts";
 
 const ajv = new Ajv();

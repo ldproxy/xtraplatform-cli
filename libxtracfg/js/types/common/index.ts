@@ -2,6 +2,8 @@ import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { dirname } from "path";
 
+export { Definition, DefinitionOrBoolean };
+
 export type Defs = [string, Definition][];
 
 export type Generator = (name: string, pkg: string) => string;

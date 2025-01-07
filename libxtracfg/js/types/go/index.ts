@@ -1,9 +1,9 @@
-import { Definition, DefinitionOrBoolean } from "typescript-json-schema";
-
 import {
   constsNs,
   DataType,
   defs,
+  Definition,
+  DefinitionOrBoolean,
   Defs,
   enumsNs,
   firstLetterUpperCase,
