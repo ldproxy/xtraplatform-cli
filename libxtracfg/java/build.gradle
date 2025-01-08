@@ -8,6 +8,7 @@ plugins {
 ext {
     targetos = osdetector.os.replace('osx', 'darwin')
     targetarch = osdetector.arch.replace('x86_64', 'amd64').replace('aarch_64', 'arm64')
+    isCi = project.hasProperty('CI') || System.getenv('CI') != null
 }
 
 group = 'de.interactive_instruments'
@@ -27,7 +28,7 @@ repositories {
 
 dependencies {
     implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '4.3.0-SNAPSHOT'
-    implementation group: 'org.slf4j', name: project.hasProperty('CI') ? 'slf4j-nop' : 'slf4j-simple', version: '2.0.16'
+    implementation group: 'org.slf4j', name: isCi ? 'slf4j-nop' : 'slf4j-simple', version: '2.0.16'
 
     // 24.x is for JDK 21
     compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '24.1.0'

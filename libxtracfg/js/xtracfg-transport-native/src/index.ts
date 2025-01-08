@@ -1,4 +1,10 @@
-import { Transport, TransportCreator, Response, Listener } from "@xtracfg/core";
+import {
+  Transport,
+  TransportCreator,
+  TransportOptions,
+  Response,
+  Listener,
+} from "@xtracfg/core";
 import addon from "@xtracfg/native";
 
 const allListeners: Listener[][] = [];
@@ -7,29 +13,41 @@ const broadcast = (response: Response) => {
   allListeners.flat().forEach((listener) => listener(response));
 };
 
-const transport: TransportCreator = () => {
-  return async (): Promise<Transport> => {
-    const listeners: Listener[] = [];
-    allListeners.push(listeners);
+const transport: TransportCreator = ({ debug }: TransportOptions) => {
+  const listeners: Listener[] = [];
+  allListeners.push(listeners);
 
-    addon.subscribe((response: string) => broadcast(JSON.parse(response)));
+  if (debug) {
+    console.log("native transport created");
+  }
 
-    return {
-      send: async (request) => {
-        if (listeners.length > 0) {
-          const response = addon.execute(JSON.stringify(request));
+  addon.subscribe((response: string) => broadcast(JSON.parse(response)));
 
-          broadcast(JSON.parse(response));
+  const transport: Transport = {
+    send: async (request) => {
+      if (debug) {
+        console.log("sending to native xtracfg", request, listeners.length);
+      }
+
+      if (listeners.length > 0) {
+        const response = addon.execute(JSON.stringify(request));
+
+        if (debug) {
+          console.log("received from native xtracfg", response);
         }
-      },
-      listen: async (listener) => {
-        listeners.push(listener);
-      },
-      stop: async () => {
-        listeners.length = 0;
-      },
-    };
+
+        broadcast(JSON.parse(response));
+      }
+    },
+    listen: async (listener) => {
+      listeners.push(listener);
+    },
+    stop: async () => {
+      listeners.length = 0;
+    },
   };
+
+  return async (): Promise<Transport> => transport;
 };
 
 export default transport;
