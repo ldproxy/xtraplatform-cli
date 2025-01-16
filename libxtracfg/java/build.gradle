@@ -119,4 +119,3 @@ if (project.hasProperty('LIB')) {
 if (!project.hasProperty('CI')) {
     apply from: 'dev.gradle'
 }
-
