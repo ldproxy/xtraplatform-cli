@@ -56,7 +56,7 @@ graalvmNative {
         if (project.hasProperty('LIB')) {
             imageName = "libxtracfgjni"
             sharedLibrary = true
-            buildArgs("--native-compiler-path=${project.projectDir}/../c/native-image/static-compiler-${targetos}.sh")
+            buildArgs("--native-compiler-path=${project.projectDir}/../c/native-image/static-compiler-${targetos}.${targetos == 'windows' ? 'bat' : 'sh'}")
             buildArgs('--native-compiler-options=-fPIC')
             //buildArgs('-march=native')
             buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
