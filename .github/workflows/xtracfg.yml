@@ -8,15 +8,18 @@ jobs:
     strategy:
       matrix:
         os:
-          - runner: ubuntu-latest
+          - runner: ubuntu-24.04
             type: linux
             platform: linux-amd64
-          #- runner: buildjet-2vcpu-ubuntu-2204-arm
-          #  type: linux
-          #  platform: linux-arm64
-          - runner: macos-latest
+          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
+            type: linux
+            platform: linux-arm64
+          - runner: macos-14
             type: macos
             platform: darwin-arm64
+          - runner: windows-2022
+            type: windows
+            platform: windows-amd64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -94,15 +97,18 @@ jobs:
     strategy:
       matrix:
         os:
-          - runner: ubuntu-latest
+          - runner: ubuntu-24.04
             type: linux
             platform: linux-amd64
-          #- runner: buildjet-2vcpu-ubuntu-2204-arm
-          #  type: linux
-          #  platform: linux-arm64
-          - runner: macos-latest
+          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
+            type: linux
+            platform: linux-arm64
+          - runner: macos-14
             type: macos
             platform: darwin-arm64
+          - runner: windows-2022
+            type: windows
+            platform: windows-amd64
     defaults:
       run:
         working-directory: ./xtracfg
@@ -233,7 +239,7 @@ jobs:
             ghcr.io/ldproxy/xtracfg:next-${{steps.short-sha.outputs.substring}}
           platforms: |
             linux/amd64
-      #      linux/arm64
+            linux/arm64
       - name: push-branch
         if: ${{ github.ref_name != 'main' }}
         uses: docker/build-push-action@v6
@@ -247,6 +253,6 @@ jobs:
             ghcr.io/ldproxy/xtracfg:${{ github.ref_name }}-${{steps.short-sha.outputs.substring}}
           platforms: |
             linux/amd64
-      #      linux/arm64
+            linux/arm64
 
 # TODO: validate binaries and docker images
