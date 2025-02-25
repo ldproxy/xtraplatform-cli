@@ -4,6 +4,8 @@ import de.ii.xtraplatform.values.domain.Identifier;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;
+import shadow.com.networknt.schema.JsonNodePath;
+import shadow.com.networknt.schema.PathType;
 import shadow.com.networknt.schema.ValidationMessage;
 
 public class Migration extends Messages {
@@ -43,7 +45,7 @@ public class Migration extends Messages {
   static ValidationMessage migration(String path, String message) {
     return new ValidationMessage.Builder()
         .code(MIGRATION)
-        .path(path)
+        .instanceLocation(new JsonNodePath(PathType.JSON_PATH).append(path))
         .arguments(message)
         .format(new MessageFormat("{0}: {1}"))
         .build();

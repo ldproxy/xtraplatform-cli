@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.*;
+import shadow.com.networknt.schema.JsonNodePath;
+import shadow.com.networknt.schema.PathType;
 import shadow.com.networknt.schema.ValidationMessage;
 import shadow.com.networknt.schema.ValidatorTypeCode;
 
@@ -64,8 +66,8 @@ public class CfgValidation extends Messages {
         Map<String, Object> proj = (Map<String, Object>) original.get("proj");
 
         if (proj.containsKey("location")
-                && proj.get("location") instanceof String
-                && !((String) proj.get("location")).isBlank()) {
+            && proj.get("location") instanceof String
+            && !((String) proj.get("location")).isBlank()) {
           addMessage(deprecated("proj.location"));
         }
       }
@@ -85,7 +87,10 @@ public class CfgValidation extends Messages {
       return String.format(
           "%s is unknown for type %s",
           vm.getMessage().substring(0, vm.getMessage().indexOf(":") + 1),
-          vm.getSchemaPath().replace("#/$defs/", "").replace("/additionalProperties", ""));
+          vm.getSchemaLocation()
+              .toString()
+              .replace("#/$defs/", "")
+              .replace("/additionalProperties", ""));
     }
 
     return vm.getMessage();
@@ -104,7 +109,7 @@ public class CfgValidation extends Messages {
   static ValidationMessage redundant(String path) {
     return new ValidationMessage.Builder()
         .code(REDUNDANT)
-        .path(path)
+        .instanceLocation(new JsonNodePath(PathType.JSON_PATH).append(path))
         .format(new MessageFormat("$.{0}: is redundant and can be removed"))
         .build();
   }
@@ -112,7 +117,7 @@ public class CfgValidation extends Messages {
   static ValidationMessage deprecated(String path) {
     return new ValidationMessage.Builder()
         .code(DeprecatedKeyword.KEYWORD)
-        .path(path)
+        .instanceLocation(new JsonNodePath(PathType.JSON_PATH).append(path))
         .format(new MessageFormat("$.{0}: is deprecated and should be upgraded"))
         .build();
   }
