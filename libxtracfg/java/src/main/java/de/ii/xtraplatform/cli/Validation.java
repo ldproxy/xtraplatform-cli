@@ -12,6 +12,8 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import shadow.com.networknt.schema.JsonNodePath;
+import shadow.com.networknt.schema.PathType;
 import shadow.com.networknt.schema.ValidationMessage;
 import shadow.com.networknt.schema.ValidatorTypeCode;
 
@@ -90,7 +92,8 @@ public class Validation extends Messages {
               msg.getMessage().startsWith("$." + fileInfo.subProperty.get() + ".")
                   ? msg.getMessage().replace(fileInfo.subProperty.get() + ".", "")
                   : msg.getMessage().startsWith("$." + fileInfo.subProperty.get() + "[")
-                      ? msg.getMessage().replaceFirst(fileInfo.subProperty.get() + "\\[[0-9]+\\]\\.", "")
+                      ? msg.getMessage()
+                          .replaceFirst(fileInfo.subProperty.get() + "\\[[0-9]+\\]\\.", "")
                       : msg.getMessage();
 
           msg = copyWith(msg, newMessage);
@@ -107,10 +110,10 @@ public class Validation extends Messages {
     return new ValidationMessage.Builder()
         .type(msg.getType())
         .code(msg.getCode())
-        .path(msg.getPath())
+        .instanceLocation(msg.getInstanceLocation())
         .format(new MessageFormat(""))
-        .customMessage(newMessage)
-        .schemaPath(msg.getSchemaPath())
+        .message(newMessage)
+        .schemaLocation(msg.getSchemaLocation())
         .build();
   }
 
@@ -241,7 +244,10 @@ public class Validation extends Messages {
       return String.format(
           "%s is unknown for type %s",
           vm.getMessage().substring(0, vm.getMessage().indexOf(":") + 1),
-          vm.getSchemaPath().replace("#/$defs/", "").replace("/additionalProperties", ""));
+          vm.getSchemaLocation()
+              .toString()
+              .replace("#/$defs/", "")
+              .replace("/additionalProperties", ""));
     }
 
     return vm.getMessage();
@@ -260,7 +266,7 @@ public class Validation extends Messages {
   static ValidationMessage redundant(String path) {
     return new ValidationMessage.Builder()
         .code(REDUNDANT)
-        .path(path)
+        .instanceLocation(new JsonNodePath(PathType.JSON_PATH).append(path))
         .format(new MessageFormat("$.{0}: is redundant and can be removed"))
         .build();
   }
