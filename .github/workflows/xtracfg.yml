@@ -39,7 +39,7 @@ jobs:
           #  xtracfg/*.gradle*
           #  xtracfg/**/gradle-wrapper.properties
       - name: zlib
-        if: ${{ matrix.os.platform == 'linux-amd64' }}
+        if: ${{ matrix.os.type == 'linux' }}
         working-directory: /tmp
         env:
           ZLIB_VERSION: 1.2.11
