@@ -17,9 +17,9 @@ jobs:
           - runner: macos-14
             type: macos
             platform: darwin-arm64
-          - runner: windows-2022
-            type: windows
-            platform: windows-amd64
+          #- runner: windows-2022
+          #  type: windows
+          #  platform: windows-amd64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -57,6 +57,7 @@ jobs:
       - name: log1
         run: |
           ls -l ./libxtracfg/c/build
+      # TODO: windows
       - name: c
         working-directory: ./libxtracfg/c
         run: |
@@ -106,9 +107,9 @@ jobs:
           - runner: macos-14
             type: macos
             platform: darwin-arm64
-          - runner: windows-2022
-            type: windows
-            platform: windows-amd64
+          #- runner: windows-2022
+          #  type: windows
+          #  platform: windows-amd64
     defaults:
       run:
         working-directory: ./xtracfg
