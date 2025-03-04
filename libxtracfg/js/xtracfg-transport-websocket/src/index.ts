@@ -22,7 +22,7 @@ export const transport: TransportCreator = ({
     const listeners: Listener[] = [];
     allListeners.push(listeners);
 
-    const socket = getSocket(specific.location || self.location, debug);
+    const socket = getSocket(specific?.location || self.location, debug);
 
     socket.then((s) => {
       s?.addEventListener("message", (event) => {
