@@ -41,6 +41,7 @@ export type TransportCreator = (
 export type TransportConnector = () => Promise<Transport>;
 
 export type TransportOptions = {
+  specific?: any;
   debug?: boolean;
 };
 

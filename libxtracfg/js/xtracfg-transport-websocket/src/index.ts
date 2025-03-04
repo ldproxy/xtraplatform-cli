@@ -14,12 +14,15 @@ const broadcast = (response: Response) => {
   allListeners.flat().forEach((listener) => listener(response));
 };
 
-export const transport: TransportCreator = ({ debug }: TransportOptions) => {
+export const transport: TransportCreator = ({
+  specific,
+  debug,
+}: TransportOptions) => {
   return async (): Promise<Transport> => {
     const listeners: Listener[] = [];
     allListeners.push(listeners);
 
-    const socket = getSocket(debug);
+    const socket = getSocket(specific.location || self.location, debug);
 
     socket.then((s) => {
       s?.addEventListener("message", (event) => {
@@ -50,10 +53,15 @@ export const transport: TransportCreator = ({ debug }: TransportOptions) => {
 
 export default transport;
 
+type ProtocolHost = { protocol: string; host: string };
+
 const mutex = new Mutex();
 let _socket: WebSocket;
 
-const getSocket = async (dev?: boolean): Promise<WebSocket | null> => {
+const getSocket = async (
+  location: ProtocolHost,
+  dev?: boolean
+): Promise<WebSocket | null> => {
   const release = await mutex.acquire();
 
   if (_socket && _socket.readyState === _socket.OPEN) {
@@ -71,11 +79,8 @@ const getSocket = async (dev?: boolean): Promise<WebSocket | null> => {
       console.log("CONNECTING to websocket", "ws://localhost:8081/sock");
       _socket = new WebSocket("ws://localhost:8081/sock");
     } else {
-      //console.log("CONNECTING to websocket", `ws://${self.location.host}/proxy/8081/`);
-      const protocol = self.location.protocol === "https:" ? "wss" : "ws";
-      _socket = new WebSocket(
-        `${protocol}://${self.location.host}/proxy/8081/`
-      );
+      const protocol = location.protocol === "https:" ? "wss" : "ws";
+      _socket = new WebSocket(`${protocol}://${location.host}/proxy/8081/`);
     }
   }
 
