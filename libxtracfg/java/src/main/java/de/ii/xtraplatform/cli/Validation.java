@@ -185,7 +185,8 @@ public class Validation extends Messages {
         getMessages().stream()
             .flatMap(
                 vm -> {
-                  String path = vm.getMessage().substring(2, vm.getMessage().indexOf(":"));
+                  String prefix = vm.getInstanceLocation().toString() + ".";
+                  String path = prefix.substring(2) + vm.getProperty();
                   // allow single values instead of list like yaml parser
                   return Stream.of(path, path.replaceAll("\\[0\\]", ""));
                 })
@@ -242,8 +243,9 @@ public class Validation extends Messages {
   protected String getMessage(ValidationMessage vm) {
     if (isUnknown(vm)) {
       return String.format(
-          "%s is unknown for type %s",
-          vm.getMessage().substring(0, vm.getMessage().indexOf(":") + 1),
+          "%s.%s is unknown for type %s",
+          vm.getInstanceLocation(),
+          vm.getProperty(),
           vm.getSchemaLocation()
               .toString()
               .replace("#/$defs/", "")
@@ -264,10 +266,18 @@ public class Validation extends Messages {
   private static final String REDUNDANT = "redundant";
 
   static ValidationMessage redundant(String path) {
+    JsonNodePath nodePath = new JsonNodePath(PathType.LEGACY);
+    String[] parts = path.split("\\.");
+    for (int i = 0; i < parts.length - 1; i++) {
+      nodePath = nodePath.append(parts[i]);
+    }
+
     return new ValidationMessage.Builder()
         .code(REDUNDANT)
-        .instanceLocation(new JsonNodePath(PathType.JSON_PATH).append(path))
-        .format(new MessageFormat("$.{0}: is redundant and can be removed"))
+        .instanceLocation(nodePath)
+        .property(parts[parts.length - 1])
+        .arguments(parts[parts.length - 1])
+        .format(new MessageFormat("{0}.{1}: is redundant and can be removed"))
         .build();
   }
 }

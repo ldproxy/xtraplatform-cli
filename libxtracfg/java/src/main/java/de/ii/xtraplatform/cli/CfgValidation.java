@@ -85,8 +85,9 @@ public class CfgValidation extends Messages {
   protected String getMessage(ValidationMessage vm) {
     if (isUnknown(vm)) {
       return String.format(
-          "%s is unknown for type %s",
-          vm.getMessage().substring(0, vm.getMessage().indexOf(":") + 1),
+          "%s.%s is unknown for type %s",
+          vm.getInstanceLocation(),
+          vm.getProperty(),
           vm.getSchemaLocation()
               .toString()
               .replace("#/$defs/", "")
