@@ -27,6 +27,9 @@
     },
     {
       "pattern":"shadow/com/sun/xml/xsom/impl/parser/.*\\.properties$"
+    },
+    {
+      "pattern":"\\Qsimplelogger.properties\\E"
     }
   ]},
   "bundles":[{
