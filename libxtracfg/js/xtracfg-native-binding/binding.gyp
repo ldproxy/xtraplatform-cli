@@ -1,10 +1,14 @@
 {
+  'variables': {
+    'PLATFORM': "<!(uname -s |  tr '[:upper:]' '[:lower:]')",
+    'JAVA_HOME': "<!(echo $JAVA_HOME)"
+  },
   'targets': [
     {
       'target_name': 'xtracfg-native',
       'sources': [ 'src/xtracfg_lib.cc' ],
        'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ],
-      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "<(local_prefix)/../c/include"],
+      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "<(local_prefix)/../c/include", "<(JAVA_HOME)/include", "<(JAVA_HOME)/include/<(PLATFORM)"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags': ['-fPIC'],
       'cflags!': [ '-fno-exceptions'],
