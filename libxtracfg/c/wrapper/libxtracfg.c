@@ -17,6 +17,10 @@ JNIEXPORT void JNICALL Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_updat
     }
   }
 
+static JNINativeMethod methods[] = {
+  {"Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update", "(Ljava/lang/String;)V", (void*) &Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update },
+};
+
 int xtracfg_init() {
   JavaVMInitArgs vm_args;
   JavaVMOption options[0];
@@ -31,6 +35,9 @@ int xtracfg_init() {
     printf("ERR\n");
     return 1;
   }
+
+  jclass cls = (*env)->FindClass(env, "de/ii/xtraplatform/cli/Cli$NativeProgress");
+  (*env)->RegisterNatives(env, cls, methods, sizeof(methods)/sizeof(methods[0]));
 
   return 0;
 }
