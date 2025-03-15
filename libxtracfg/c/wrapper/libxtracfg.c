@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <jni.h>
 #include "../include/libxtracfg.h"
 
 JavaVM *jvm = NULL;
@@ -8,17 +9,17 @@ JNIEnv *env = NULL;
 progress_callback progress_cb = NULL;
 
 // called from java with progress, pass to callback
-JNIEXPORT void JNICALL Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update
-  (JNIEnv *env2, jobject obj, jstring update) {
-    if (progress_cb != NULL) {
-      const char* msg = (*env)->GetStringUTFChars(env, update, NULL);
+JNIEXPORT void JNICALL progress_update (JNIEnv *env2, jobject obj, jstring update) {
+  if (progress_cb != NULL) {
+    const char* msg = (*env)->GetStringUTFChars(env, update, NULL);
 
-      progress_cb(msg);
-    }
+    progress_cb(msg);
   }
+}
 
 static JNINativeMethod methods[] = {
-  {"Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update", "(Ljava/lang/String;)V", (void*) &Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update },
+  {"Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update", "(Ljava/lang/String;)V", (void*) &progress_update },
+  {"Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update__Ljava_lang_String_2", "(Ljava/lang/String;)V", (void*) &progress_update },
 };
 
 int xtracfg_init() {
