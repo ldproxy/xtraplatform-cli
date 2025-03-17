@@ -60,14 +60,8 @@ graalvmNative {
             buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
             //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
 
-            //buildArgs("--initialize-at-run-time=de.ii.xtraplatform.cli")
             // for statically linking xtracfg
             buildArgs('--features=de.ii.xtraplatform.cli.NativeFeature')
-        } else {
-            imageName = "xtracfg"
-            // for statically linking xtracfg
-            buildArgs('--features=de.ii.xtraplatform.cli.NativeFeature')
-            buildArgs("-H:CLibraryPath=${project.projectDir}/dist")
         }
 
         //buildArgs("--module-path", "${buildDir}/install/ldproxy/lib")
@@ -107,14 +101,12 @@ tasks.register('nativeSync', Sync) {
     into '../c/build'
 }
 
+tasks.nativeCompile.finalizedBy tasks.nativeSync
+
 tasks.register('os') {
     doLast {
         println targetos + "-" + targetarch
     }
-}
-
-if (project.hasProperty('LIB')) {
-    tasks.nativeCompile.finalizedBy tasks.nativeSync
 }
 
 if (!isCi) {
