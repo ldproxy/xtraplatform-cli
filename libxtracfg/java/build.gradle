@@ -49,20 +49,21 @@ graalvmNative {
         richOutput = true
         //requiredVersion = '22.3'
 
-        if (project.hasProperty('LIB')) {
-            imageName = "libxtracfgjni"
-            sharedLibrary = true
-            buildArgs("--native-compiler-path=${project.projectDir}/../c/native-image/static-compiler-${targetos}.${targetos == 'windows' ? 'bat' : 'sh'}")
-            if (targetos != 'windows') {
-                buildArgs('--native-compiler-options=-fPIC')
-            }
-            //buildArgs('-march=native')
-            buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
-            //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
-
-            // for statically linking xtracfg
-            buildArgs('--features=de.ii.xtraplatform.cli.NativeFeature')
+        imageName = "libxtracfgjni"
+        sharedLibrary = true
+        buildArgs("--native-compiler-path=${project.projectDir}/../c/native-image/static-compiler-${targetos}.${targetos == 'windows' ? 'bat' : 'sh'}")
+        if (targetos != 'windows') {
+            buildArgs('--native-compiler-options=-fPIC')
         }
+        if (targetos == 'darwin') {
+            buildArgs('--native-compiler-options=-Wl,-framework,Security')
+        }
+        //buildArgs('-march=native')
+        buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
+        //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
+
+        // for statically linking xtracfg
+        buildArgs('--features=de.ii.xtraplatform.cli.NativeFeature')
 
         //buildArgs("--module-path", "${buildDir}/install/ldproxy/lib")
         //buildArgs("--module", application.mainModule.get())
@@ -77,17 +78,9 @@ graalvmNative {
         //buildArgs('-H:-UseServiceLoaderFeature')
         //resources.autodetect()
 
-        if (!project.hasProperty('LIB') && targetos == 'linux') {
-            buildArgs('-H:+StaticExecutableWithDynamicLibC')
-        }
-        if (targetos == 'darwin') {
-            buildArgs('--native-compiler-options=-Wl,-framework,Security')
-        }
-
         // for jackson???
         //buildArgs('-H:+PrintClassInitialization')
         //buildArgs("--allow-incomplete-classpath")
-
 
         buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.core.jdk=ALL-UNNAMED")
         buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted=ALL-UNNAMED")
