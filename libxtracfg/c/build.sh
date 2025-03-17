@@ -37,5 +37,5 @@ echo "test"
 if [ "$PLATFORM" = "darwin" ]; then
 clang -I./ -L./ -Wl,-framework,CoreServices -ldl -lpthread -Wl,-framework,Foundation -o test ../test/main.c ./libxtracfg.a
 else
-clang -I./ -I$JAVA_HOME/include -I$JAVA_HOME/include/${PLATFORM} -L./ -ldl -lpthread -o test ../test/main.c ./libxtracfg.a
+clang -I./ -L./ -ldl -lpthread -o test ../test/main.c ./libxtracfg.a
 fi
