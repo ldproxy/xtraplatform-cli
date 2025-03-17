@@ -122,6 +122,6 @@ if (project.hasProperty('LIB')) {
     tasks.nativeCompile.finalizedBy tasks.nativeSync
 }
 
-if (!project.hasProperty('CI')) {
+if (!isCi) {
     apply from: 'dev.gradle'
 }

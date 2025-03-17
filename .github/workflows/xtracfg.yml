@@ -2,9 +2,6 @@ name: xtracfg
 
 on: [push]
 
-env:
-  CI: true
-
 jobs:
   build_libraries:
     runs-on: ${{ matrix.os.runner }}
