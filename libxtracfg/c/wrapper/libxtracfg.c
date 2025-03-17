@@ -9,18 +9,14 @@ JNIEnv *env = NULL;
 progress_callback progress_cb = NULL;
 
 // called from java with progress, pass to callback
-JNIEXPORT void JNICALL progress_update (JNIEnv *env2, jobject obj, jstring update) {
-  if (progress_cb != NULL) {
-    const char* msg = (*env)->GetStringUTFChars(env, update, NULL);
+JNIEXPORT void JNICALL Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update
+  (JNIEnv *env2, jobject obj, jstring update) {
+    if (progress_cb != NULL) {
+      const char* msg = (*env)->GetStringUTFChars(env, update, NULL);
 
-    progress_cb(msg);
+      progress_cb(msg);
+    }
   }
-}
-
-static JNINativeMethod methods[] = {
-  {"Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update", "(Ljava/lang/String;)V", (void*) &progress_update },
-  {"Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_update__Ljava_lang_String_2", "(Ljava/lang/String;)V", (void*) &progress_update },
-};
 
 int xtracfg_init() {
   JavaVMInitArgs vm_args;
@@ -36,9 +32,6 @@ int xtracfg_init() {
     printf("ERR\n");
     return 1;
   }
-
-  jclass cls = (*env)->FindClass(env, "de/ii/xtraplatform/cli/Cli$NativeProgress");
-  (*env)->RegisterNatives(env, cls, methods, sizeof(methods)/sizeof(methods[0]));
 
   return 0;
 }

@@ -64,7 +64,7 @@ graalvmNative {
             buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
             //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
 
-            buildArgs("--initialize-at-run-time=de.ii.xtraplatform.cli")
+            //buildArgs("--initialize-at-run-time=de.ii.xtraplatform.cli")
             // for statically linking xtracfg
             buildArgs('--features=de.ii.xtraplatform.cli.NativeFeature')
         } else {

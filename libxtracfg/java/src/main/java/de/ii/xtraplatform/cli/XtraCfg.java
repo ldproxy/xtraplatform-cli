@@ -2,7 +2,7 @@ package de.ii.xtraplatform.cli;
 
 public class XtraCfg {
 
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     try {
       CommandHandler commandHandler = new CommandHandler();
       Cli.NativeProgress progress = new Cli.NativeProgress();
@@ -12,7 +12,7 @@ public class XtraCfg {
       System.out.println("ERROR " + e.getMessage());
       e.printStackTrace();
     }
-  }
+  }*/
 
   public static String execute(String command) {
     try {
