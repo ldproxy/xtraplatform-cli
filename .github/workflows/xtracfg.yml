@@ -232,6 +232,7 @@ jobs:
           value: ${{ github.sha }}
           length_from_start: 7
       - uses: bhowell2/github-substring-action@1.0.2
+        if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
         id: short-tag
         with:
           value: ${{ github.ref_name }}
