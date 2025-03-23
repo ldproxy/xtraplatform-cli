@@ -73,7 +73,7 @@ jobs:
           ls -lR
       - name: chmod
         run: |
-          chmod +x ./dist/**/xtractl
+          chmod +x ./*/xtractl
       - name: log1
         run: |
           ls -lR
@@ -100,8 +100,6 @@ jobs:
         if: ${{ github.ref_type == 'branch' && github.ref_name == 'main' }}
         uses: docker/build-push-action@v6
         with:
-          context: ./dist
-          file: ./dist/Dockerfile
           push: true
           pull: true
           tags: |
@@ -114,8 +112,6 @@ jobs:
         if: ${{ github.ref_type == 'branch' && github.ref_name != 'main' }}
         uses: docker/build-push-action@v6
         with:
-          context: ./dist
-          file: ./dist/Dockerfile
           push: true
           pull: true
           tags: |
@@ -128,8 +124,6 @@ jobs:
         if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
         uses: docker/build-push-action@v6
         with:
-          context: ./dist
-          file: ./dist/Dockerfile
           push: true
           pull: true
           tags: |

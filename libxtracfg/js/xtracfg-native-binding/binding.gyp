@@ -3,8 +3,8 @@
     {
       'target_name': 'xtracfg-native',
       'sources': [ 'src/xtracfg_lib.cc' ],
-       'libraries': [ '<(local_prefix)/../../c/build/libxtracfg.a' ],
-      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "<(local_prefix)/../../c/include"],
+       'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ],
+      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "<(local_prefix)/../c/include"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags': ['-fPIC'],
       'cflags!': [ '-fno-exceptions'],
