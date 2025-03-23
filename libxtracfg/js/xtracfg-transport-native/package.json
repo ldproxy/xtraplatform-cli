@@ -13,8 +13,8 @@
     "test": "tsx ./test/test.ts"
   },
   "dependencies": {
-    "@xtracfg/core": "4.1.0",
-    "@xtracfg/native": "4.1.0"
+    "@xtracfg/core": "4.2.0",
+    "@xtracfg/native": "4.2.0"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",

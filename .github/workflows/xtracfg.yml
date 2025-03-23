@@ -69,7 +69,7 @@ jobs:
       - name: js
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
-          npm --loglevel verbose ci --workspace=xtracfg-native-binding
+          npm --loglevel verbose ci
           npm --loglevel verbose run prebuildify
           npm --loglevel verbose run test
       - name: log3
