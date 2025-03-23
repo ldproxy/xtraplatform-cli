@@ -27,6 +27,7 @@ jobs:
           #git config --global --add safe.directory $GITHUB_WORKSPACE
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xtractl -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH}"
           CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o dist/linux-arm64/xtractl -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH}"
+          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o dist/darwin-arm64/xtractl -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH}"
           cp Dockerfile dist/
       - name: log1
         run: |
@@ -46,19 +47,20 @@ jobs:
           name: dist
           path: ./xtractl/dist
           retention-days: 1
-      - name: release
+      - name: release-github
         #if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
         working-directory: ./xtractl/dist
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          chmod +x ./linux-amd64/xtractl
-          chmod +x ./linux-arm64/xtractl
+          chmod +x ./*/xtractl
           tar -czvf xtractl_${{ github.ref_name }}_linux_amd64.tar.gz -C ./linux-amd64 xtractl
           tar -czvf xtractl_${{ github.ref_name }}_linux_arm64.tar.gz -C ./linux-arm64 xtractl
+          tar -czvf xtractl_${{ github.ref_name }}_macos_arm64.tar.gz -C ./darwin-arm64 xtractl
           gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --draft
           gh release upload ${{ github.ref_name }} xtractl_${{ github.ref_name }}_linux_amd64.tar.gz
           gh release upload ${{ github.ref_name }} xtractl_${{ github.ref_name }}_linux_arm64.tar.gz
+          gh release upload ${{ github.ref_name }} xtractl_${{ github.ref_name }}_macos_arm64.tar.gz
 
   docker:
     runs-on: ubuntu-latest
@@ -100,6 +102,7 @@ jobs:
         if: ${{ github.ref_type == 'branch' && github.ref_name == 'main' }}
         uses: docker/build-push-action@v6
         with:
+          context: .
           push: true
           pull: true
           tags: |
@@ -112,6 +115,7 @@ jobs:
         if: ${{ github.ref_type == 'branch' && github.ref_name != 'main' }}
         uses: docker/build-push-action@v6
         with:
+          context: .
           push: true
           pull: true
           tags: |
@@ -124,6 +128,7 @@ jobs:
         if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
         uses: docker/build-push-action@v6
         with:
+          context: .
           push: true
           pull: true
           tags: |

@@ -224,6 +224,17 @@ jobs:
       - name: log2
         run: |
           ls -lR
+      - name: release-github
+        #if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tar -czvf xtracfg_${{ github.ref_name }}_linux_amd64.tar.gz -C ./xtracfg-linux-amd64 xtracfg
+          tar -czvf xtracfg_${{ github.ref_name }}_linux_arm64.tar.gz -C ./xtracfg-linux-arm64 xtracfg
+          tar -czvf xtracfg_${{ github.ref_name }}_macos_arm64.tar.gz -C ./xtracfg-darwin-arm64 xtracfg
+          gh release upload ${{ github.ref_name }} xtracfg_${{ github.ref_name }}_linux_amd64.tar.gz
+          gh release upload ${{ github.ref_name }} xtracfg_${{ github.ref_name }}_linux_arm64.tar.gz
+          gh release upload ${{ github.ref_name }} xtracfg_${{ github.ref_name }}_macos_arm64.tar.gz
       - uses: bhowell2/github-substring-action@1.0.2
         id: short-sha
         with:
