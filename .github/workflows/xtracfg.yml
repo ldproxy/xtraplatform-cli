@@ -225,7 +225,7 @@ jobs:
         run: |
           ls -lR
       - name: release-github
-        #if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
+        if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

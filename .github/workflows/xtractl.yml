@@ -48,7 +48,7 @@ jobs:
           path: ./xtractl/dist
           retention-days: 1
       - name: release-github
-        #if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
+        if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
         working-directory: ./xtractl/dist
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
