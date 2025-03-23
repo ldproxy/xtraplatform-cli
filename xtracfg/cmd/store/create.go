@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
+	"github.com/interactive-instruments/xtraplatform-cli/libxtracfg/go/xtracfg"
+	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/util"
 	"github.com/spf13/cobra"
 )
 
@@ -26,14 +27,14 @@ func isValidValueType(value string) bool {
 	return false
 }
 
-func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cobra.Command {
+func CreateCmd(store xtracfg.Store, name string, verbose *bool, debug *bool) *cobra.Command {
 	create := &cobra.Command{
 		Use:   "create",
 		Short: "Create values for an API",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			results, err := store.Handle(map[string]interface{}{}, "create")
-			client.PrintResults(results, err)
+			util.PrintResults(results, err)
 		},
 	}
 
@@ -63,7 +64,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 			// Call analyze
 			resultAnalyze, err := store.Handle(map[string]interface{}{"type": *valueType, "apiId": *api, "name": *fileName}, "autoValue", "analyze")
 			if err != nil {
-				client.PrintResults(resultAnalyze, err)
+				util.PrintResults(resultAnalyze, err)
 				os.Exit(1)
 			} else {
 
@@ -108,7 +109,7 @@ func CreateCmd(store client.Store, name string, verbose *bool, debug *bool) *cob
 					os.Exit(1)
 				}
 
-				client.PrintResults(results, err)
+				util.PrintResults(results, err)
 			}
 		},
 	}

@@ -3,20 +3,113 @@ name: xtracfg
 on: [push]
 
 jobs:
-  build:
+  build_libraries:
+    runs-on: ${{ matrix.os.runner }}
     strategy:
       matrix:
         os:
-          - runner: ubuntu-latest
+          - runner: ubuntu-24.04
             type: linux
             platform: linux-amd64
-          #- runner: buildjet-2vcpu-ubuntu-2204-arm
-          #  type: linux
-          #  platform: linux-arm64
-          - runner: macos-latest
+          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
+            type: linux
+            platform: linux-arm64
+          - runner: macos-14
             type: macos
             platform: darwin-arm64
+          #- runner: windows-2022
+          #  type: windows
+          #  platform: windows-amd64
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.2"
+          cache-dependency-path: xtracfg/go.sum
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: "21"
+          distribution: "graalvm"
+          native-image-job-reports: true
+          cache: gradle
+          #cache-dependency-path: |
+          #  xtracfg/*.gradle*
+          #  xtracfg/**/gradle-wrapper.properties
+      - name: zlib
+        if: ${{ matrix.os.type == 'linux' }}
+        working-directory: /tmp
+        env:
+          ZLIB_VERSION: 1.2.11
+        run: |
+          wget https://zlib.net/fossils/zlib-${ZLIB_VERSION}.tar.gz
+          tar xzvf zlib-${ZLIB_VERSION}.tar.gz
+          mv zlib-${ZLIB_VERSION} zlib
+          cd zlib
+          CFLAGS="-fPIC" ./configure --static
+          make
+      - name: java
+        working-directory: ./libxtracfg/java
+        run: |
+          ./gradlew nativeCompile -PLIB=true
+      - name: log1
+        run: |
+          ls -l ./libxtracfg/c/build
+      # TODO: windows
+      - name: c
+        working-directory: ./libxtracfg/c
+        run: |
+          ./build.sh
+          ./test.sh
+      - name: log2
+        run: |
+          ls -l ./libxtracfg/c/build
+      - name: js
+        working-directory: ./libxtracfg/js/xtracfg-native-binding
+        run: |
+          npm --loglevel verbose ci
+          npm --loglevel verbose run prebuildify
+          npm --loglevel verbose run test
+      - name: log3
+        run: |
+          ls -lR ./libxtracfg/js/xtracfg-native-binding/prebuilds
+      # TODO: run tests for java, c, go
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libxtracfg-c-${{ matrix.os.platform }}
+          path: ./libxtracfg/c/build/libxtracfg.a
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libxtracfg-c-hash-${{ matrix.os.platform }}
+          path: ./libxtracfg/go/xtracfg/libxtracfg.sha1sum
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: libxtracfg-js-${{ matrix.os.platform }}
+          path: ./libxtracfg/js/xtracfg-native-binding/prebuilds
+          retention-days: 1
+
+  build_binaries:
     runs-on: ${{ matrix.os.runner }}
+    needs: build_libraries
+    strategy:
+      matrix:
+        os:
+          - runner: ubuntu-24.04
+            type: linux
+            platform: linux-amd64
+          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
+            type: linux
+            platform: linux-arm64
+          - runner: macos-14
+            type: macos
+            platform: darwin-arm64
+          #- runner: windows-2022
+          #  type: windows
+          #  platform: windows-amd64
     defaults:
       run:
         working-directory: ./xtracfg
@@ -24,39 +117,40 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.21.13"
+          go-version: "1.23.2"
           cache-dependency-path: xtracfg/go.sum
-      - uses: graalvm/setup-graalvm@v1
+      - uses: actions/download-artifact@v4
         with:
-          java-version: "17"
-          distribution: "liberica"
-          native-image-job-reports: true
-          cache: gradle
-          cache-dependency-path: |
-            xtracfg/*.gradle*
-            xtracfg/**/gradle-wrapper.properties
-      - name: build go
+          name: libxtracfg-c-${{ matrix.os.platform }}
+          path: ./libxtracfg/c/build/
+      - uses: actions/download-artifact@v4
+        with:
+          name: libxtracfg-c-hash-${{ matrix.os.platform }}
+          path: ./libxtracfg/go/xtracfg/
+      - uses: bhowell2/github-substring-action@1.0.2
+        id: short-sha
+        with:
+          value: ${{ github.sha }}
+          length_from_start: 7
+      - name: build
         env:
-          CI_COMMIT_BRANCH: ${{ github.ref_name }}
-          CI_COMMIT_SHA: ${{ github.sha }}
-          CI_COMMIT_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
-          JAVA_INCLUDE: ${{ matrix.os.type == 'macos' && 'darwin' || 'linux' }}
+          CMD_GIT_BRANCH: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${{ github.ref_name }}
+          CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${{ steps.short-sha.outputs.substring }}
+          CMD_GIT_TAG: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${{ github.ref_type == 'tag' && github.ref_name || '' }}
+          EXT_LDFLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '-z noexecstack' }}
         run: |
-          git config --global --add safe.directory $GITHUB_WORKSPACE
-          CGO_CFLAGS="-I$JAVA_HOME/include -I$JAVA_HOME/include/${JAVA_INCLUDE}" go build -buildmode c-archive -o dist/libxtracfg.a -ldflags="-s -w '-extldflags=-z noexecstack' -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${CI_COMMIT_BRANCH}"
+          go build -o build/xtracfg -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH} '-extldflags=${EXT_LDFLAGS}'"
       - name: log1
         run: |
-          ls -lR ./dist
-      - name: build java
+          ls -lR ./build
+      - name: test
         run: |
-          ./gradlew nativeCompile ${{ matrix.os.type == 'linux' && '-PSTATIC=true' || '' }}
-      - name: log2
-        run: |
-          ls -lR ./build/native/nativeCompile
+          ./build/xtracfg --version
+          ./build/xtracfg info
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os.platform }}
-          path: ./xtracfg/build/native/nativeCompile
+          name: xtracfg-${{ matrix.os.platform }}
+          path: ./xtracfg/build/xtracfg
           retention-days: 1
       - uses: actions/upload-artifact@v4
         if: ${{ matrix.os.platform == 'linux-amd64' }}
@@ -65,20 +159,93 @@ jobs:
           path: ./xtracfg/Dockerfile
           retention-days: 1
 
-  docker:
+  publish_npm:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build_libraries
+    defaults:
+      run:
+        working-directory: ./libxtracfg/js
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need full history for snapshot version
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: "libxtracfg-js-*"
+          path: ./libxtracfg/js/xtracfg-native-binding/prebuilds
+          merge-multiple: true
+      - name: log1
+        run: |
+          ls -lR ./xtracfg-native-binding/prebuilds
+      - name: publish-branch
+        if: ${{ github.ref_type == 'branch' }}
+        env:
+          DIST_TAG: ${{ github.ref_name == 'main' && 'next' || github.ref_name }}
+          NPM_TOKEN: ${{ secrets.npm_rw_token }}
+        run: |
+          set -x
+          #npm run bump -- prerelease --build-metadata ${DIST_TAG} --preid ${DIST_TAG}
+          npm ci --ignore-scripts
+          npm run build
+          npm run publish -- --canary preminor --preid ${DIST_TAG} --dist-tag ${DIST_TAG}
+      - name: publish-tag
+        if: ${{ github.ref_type == 'tag' }}
+        env:
+          NPM_TOKEN: ${{ secrets.npm_rw_token }}
+        run: |
+          set -x
+          npm ci --ignore-scripts
+          npm run build
+          npm run publish -- from-package
+      - name: log2
+        run: |
+          ls -lR ./**/build
+
+  publish_docker:
+    runs-on: ubuntu-latest
+    needs: build_binaries
     steps:
       - name: load
         uses: actions/download-artifact@v4
+        with:
+          pattern: "{common,xtracfg-}*"
+      - name: chmod
+        run: |
+          chmod +x ./xtracfg-*/xtracfg
       - name: log1
         run: |
           ls -lR
+      - uses: mmatheson/ghaction-upx@v1.0.2
+        with:
+          version: v4.2.4
+          files: |
+            ./xtracfg-*/xtracfg
+          args: --best --force-macos
+      - name: log2
+        run: |
+          ls -lR
+      - name: release-github
+        if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tar -czvf xtracfg_${{ github.ref_name }}_linux_amd64.tar.gz -C ./xtracfg-linux-amd64 xtracfg
+          tar -czvf xtracfg_${{ github.ref_name }}_linux_arm64.tar.gz -C ./xtracfg-linux-arm64 xtracfg
+          tar -czvf xtracfg_${{ github.ref_name }}_macos_arm64.tar.gz -C ./xtracfg-darwin-arm64 xtracfg
+          gh release upload ${{ github.ref_name }} xtracfg_${{ github.ref_name }}_linux_amd64.tar.gz --repo ldproxy/xtraplatform-cli
+          gh release upload ${{ github.ref_name }} xtracfg_${{ github.ref_name }}_linux_arm64.tar.gz --repo ldproxy/xtraplatform-cli
+          gh release upload ${{ github.ref_name }} xtracfg_${{ github.ref_name }}_macos_arm64.tar.gz --repo ldproxy/xtraplatform-cli
       - uses: bhowell2/github-substring-action@1.0.2
         id: short-sha
         with:
           value: ${{ github.sha }}
           length_from_start: 7
+      - uses: bhowell2/github-substring-action@1.0.2
+        if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
+        id: short-tag
+        with:
+          value: ${{ github.ref_name }}
+          index_of_str: "v"
       - name: login
         uses: docker/login-action@v3
         with:
@@ -87,8 +254,8 @@ jobs:
           password: ${{ secrets.ghcr_rw_token }}
       - name: buildx
         uses: docker/setup-buildx-action@v3
-      - name: push
-        if: ${{ github.ref_name == 'main' }}
+      - name: publish-main
+        if: ${{ github.ref_type == 'branch' && github.ref_name == 'main' }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -100,12 +267,13 @@ jobs:
             ghcr.io/ldproxy/xtracfg:next-${{steps.short-sha.outputs.substring}}
           platforms: |
             linux/amd64
-      #      linux/arm64
-      - name: push-branch
-        if: ${{ github.ref_name != 'main' }}
+            linux/arm64
+      - name: publish-branch
+        if: ${{ github.ref_type == 'branch' && github.ref_name != 'main' }}
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./common/Dockerfile
           push: true
           pull: true
           tags: |
@@ -113,4 +281,20 @@ jobs:
             ghcr.io/ldproxy/xtracfg:${{ github.ref_name }}-${{steps.short-sha.outputs.substring}}
           platforms: |
             linux/amd64
-      #      linux/arm64
+            linux/arm64
+      - name: publish-tag
+        if: ${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'v') }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./common/Dockerfile
+          push: true
+          pull: true
+          tags: |
+            ghcr.io/ldproxy/xtracfg:${{ steps.short-tag.outputs.substring }}
+            ghcr.io/ldproxy/xtracfg:latest
+          platforms: |
+            linux/amd64
+            linux/arm64
+
+# TODO: validate binaries and docker images

@@ -1,0 +1,28 @@
+{
+  "name": "@xtracfg/native",
+  "description": "",
+  "version": "4.2.0",
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "index.js",
+  "files": [
+    "prebuilds"
+  ],
+  "dependencies": {
+    "node-addon-api": "^8.2.1",
+    "node-gyp-build": "^4.8.2"
+  },
+  "scripts": {
+    "build": "mkdir -p build",
+    "devbuild": "node-gyp rebuild",
+    "install": "node-gyp-build",
+    "pkg": "npm pack --pack-destination build",
+    "prebuildify": "prebuildify --napi --strip",
+    "test": "node ./test/test_binding.js"
+  },
+  "gypfile": true,
+  "devDependencies": {
+    "prebuildify": "^6.0.1"
+  }
+}

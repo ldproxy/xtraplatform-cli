@@ -1,0 +1,107 @@
+plugins {
+    id 'java-library'
+    id 'org.graalvm.buildtools.native' version '0.10.3'
+    id "com.google.osdetector" version "1.7.3"
+    id "org.gretty" version "4.1.5" apply false
+}
+
+ext {
+    targetos = osdetector.os.replace('osx', 'darwin')
+    targetarch = osdetector.arch.replace('x86_64', 'amd64').replace('aarch_64', 'arm64')
+    isCi = project.hasProperty('CI') || System.getenv('CI') != null
+}
+
+group = 'de.interactive_instruments'
+
+version = '1.0.0'
+
+repositories {
+    //mavenLocal()
+    maven {
+        url "https://dl.interactive-instruments.de/repository/maven-snapshots/"
+    }
+    maven {
+        url "https://dl.interactive-instruments.de/repository/maven-releases/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'de.interactive_instruments', name: 'ldproxy-cfg', version: '4.3.0'
+    implementation group: 'org.slf4j', name: isCi ? 'slf4j-nop' : 'slf4j-simple', version: '2.0.16'
+
+    // 24.x is for JDK 21
+    compileOnly group: 'org.graalvm.nativeimage', name: 'svm', version: '24.1.0'
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'minutes'
+}
+
+graalvmNative {
+    /*agent {
+        enableExperimentalPredefinedClasses = true
+    }*/
+    binaries.all {
+        verbose = true
+        fallback = false
+        quickBuild = false
+        richOutput = true
+        //requiredVersion = '22.3'
+
+        imageName = "libxtracfgjni"
+        sharedLibrary = true
+        buildArgs("--native-compiler-path=${project.projectDir}/../c/native-image/static-compiler-${targetos}.${targetos == 'windows' ? 'bat' : 'sh'}")
+        if (targetos != 'windows') {
+            buildArgs('--native-compiler-options=-fPIC')
+        }
+        if (targetos == 'darwin') {
+            buildArgs('--native-compiler-options=-Wl,-framework,Security')
+        }
+        //buildArgs('-march=native')
+        buildArgs('-O2') //TODO -O3 image is 50% larger than -O2, test -Os with JDK 23
+        //buildArgs('--pgo') see https://www.graalvm.org/latest/reference-manual/native-image/optimizations-and-performance/PGO/
+
+        // for statically linking xtracfg
+        buildArgs('--features=de.ii.xtraplatform.cli.NativeFeature')
+
+        //buildArgs("--module-path", "${buildDir}/install/ldproxy/lib")
+        //buildArgs("--module", application.mainModule.get())
+        //buildArgs("--enable-http")
+        //buildArgs("--install-exit-handlers")
+        //buildArgs("--initialize-at-run-time=org.kortforsyningen.proj")
+
+        //runtimeArgs('/src/cfgapp')
+
+        //jvmArgs.add('-Xmx16573624520')
+        //buildArgs('-H:Log=registerResource:3')
+        //buildArgs('-H:-UseServiceLoaderFeature')
+        //resources.autodetect()
+
+        // for jackson???
+        //buildArgs('-H:+PrintClassInitialization')
+        //buildArgs("--allow-incomplete-classpath")
+
+        buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.core.jdk=ALL-UNNAMED")
+        buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted=ALL-UNNAMED")
+        buildArgs("--add-exports=org.graalvm.nativeimage.builder/com.oracle.svm.hosted.c=ALL-UNNAMED")
+    }
+    toolchainDetection = false
+}
+
+tasks.register('nativeSync', Sync) {
+    from "${project.buildDir}/native/nativeCompile"
+    into '../c/build'
+}
+
+tasks.nativeCompile.finalizedBy tasks.nativeSync
+
+tasks.register('os') {
+    doLast {
+        println targetos + "-" + targetarch
+    }
+}
+
+if (!isCi) {
+    apply from: 'dev.gradle'
+}

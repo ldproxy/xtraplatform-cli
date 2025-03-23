@@ -1,0 +1,10 @@
+[
+  {
+    "name":"de.ii.xtraplatform.cli.XtraCfg",
+    "methods":[{"name":"execute","parameterTypes":["java.lang.String"]}]
+  },
+  {
+    "name":"de.ii.xtraplatform.cli.Cli$NativeProgress",
+    "methods":[{"name":"update","parameterTypes":["java.lang.String"]}]
+  }
+]

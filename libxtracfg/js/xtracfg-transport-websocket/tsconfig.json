@@ -1,0 +1,16 @@
+{
+  "include": ["src/**/*.ts", "src/**/*.js"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./build",
+    "forceConsistentCasingInFileNames": true,
+    "target": "esnext",
+    "lib": ["dom", "esnext"],
+    "allowJs": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node"
+  }
+}

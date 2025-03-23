@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service Xtracfg {
+  rpc Execute(Info) returns (Response);
+
+  rpc Subscribe(Empty) returns (stream Response);
+}
+
+message Info {
+  string source = 1;
+}
+
+message Response {
+  string msg = 1;
+}
+
+message Empty {
+}

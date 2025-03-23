@@ -1,0 +1,32 @@
+apply plugin: 'application'
+apply plugin: 'org.gretty'
+
+// start with ./gradlew appRun or ./gradlew appRunDebug
+
+gretty {
+    servletContainer = 'jetty11'
+    contextPath = '/'
+    httpPort = 8081
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/dev/java'
+        }
+        resources {
+            srcDirs 'src/dev/resources'
+        }
+    }
+}
+
+dependencies {
+    implementation 'jakarta.websocket:jakarta.websocket-api:2.2.0'
+    implementation 'jakarta.websocket:jakarta.websocket-client-api:2.2.0'
+}
+
+
+application {
+    mainClass = 'de.ii.xtraplatform.cli.dev.XtraCfgDev'
+}
+//tasks.run.mainClass = 'de.ii.xtraplatform.cli.dev.XtraCfgDev'

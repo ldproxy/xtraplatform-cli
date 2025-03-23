@@ -1,0 +1,29 @@
+{
+  "name": "@xtracfg/transport-websocket",
+  "description": "",
+  "version": "4.2.0",
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "main": "build/index.js",
+  "browser": "build/index.browser.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "node .esbuild.js && tsc --declaration --emitDeclarationOnly",
+    "pkg": "npm pack --pack-destination build",
+    "test": "tsx ./test/test.ts"
+  },
+  "dependencies": {
+    "@xtracfg/core": "4.2.0",
+    "async-mutex": "^0.5.0",
+    "isomorphic-ws": "^5.0.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.12",
+    "esbuild": "0.24.0",
+    "esbuild-plugin-clean": "^1.0.1",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  }
+}

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/client"
+	"github.com/interactive-instruments/xtraplatform-cli/libxtracfg/go/xtracfg"
 	"github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd/store"
 
 	"github.com/spf13/cobra"
@@ -25,7 +25,7 @@ func version() string {
 }
 
 var name string = "xtracfg"
-var storeSrc client.Store
+var storeSrc xtracfg.Store
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -61,7 +61,7 @@ func init() {
 	RootCmd.PersistentFlags().MarkHidden("debug")
 	RootCmd.PersistentFlags().Bool("help", false, "show help")
 
-	storeSrc = *client.New(src, typ, verbose, debug)
+	storeSrc = *xtracfg.New(src, typ, verbose, debug)
 
 	infoCmd := store.InfoCmd(storeSrc, name, verbose, debug)
 
