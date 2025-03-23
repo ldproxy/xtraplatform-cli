@@ -5,32 +5,38 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: docker://ghcr.io/ldproxy/golang-jdk:1.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.ghcr_ro_token }}
     steps:
       - name: clone
         uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.2"
+          cache-dependency-path: xtracfg/go.sum
+      - uses: bhowell2/github-substring-action@1.0.2
+        id: short-sha
+        with:
+          value: ${{ github.sha }}
+          length_from_start: 7
       - name: build
         working-directory: ./xtractl
         env:
-          CI_COMMIT_BRANCH: ${{ github.ref_name }}
-          CI_COMMIT_SHA: ${{ github.sha }}
-          CI_COMMIT_TAG: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+          CMD_GIT_BRANCH: github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitBranch=${{ github.ref_name }}
+          CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitSha=${{ steps.short-sha.outputs.substring }}
+          CMD_GIT_TAG: github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitTag=${{ github.ref_type == 'tag' && github.ref_name || '' }}
         run: |
-          git config --global --add safe.directory $GITHUB_WORKSPACE
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitBranch=${CI_COMMIT_BRANCH}"
-          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o dist/linux-arm64/xtractl -ldflags="-s -w -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitTag=${CI_COMMIT_TAG} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitSha=${CI_COMMIT_SHA} -X github.com/interactive-instruments/xtraplatform-cli/xtractl/cmd.gitBranch=${CI_COMMIT_BRANCH}"
+          #git config --global --add safe.directory $GITHUB_WORKSPACE
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dist/linux-amd64/xtractl -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH}"
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o dist/linux-arm64/xtractl -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH}"
           cp Dockerfile dist/
       - name: log1
         run: |
           ls -lR ./xtractl/dist
-      - name: upx
-        uses: docker://backplane/upx:latest
+      - uses: mmatheson/ghaction-upx@v1.0.2
         with:
-          args: upx --best xtractl/dist/linux-amd64/xtractl xtractl/dist/linux-arm64/xtractl
+          version: v4.2.4
+          files: |
+            ./xtractl/dist/*/xtractl
+          args: --best --force-macos
       - name: log2
         run: |
           ls -lR ./xtractl/dist
