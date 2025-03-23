@@ -69,9 +69,9 @@ jobs:
       - name: js
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
-          npm ci
-          npm run prebuildify
-          npm run test
+          npm --loglevel verbose ci --ignore-scripts
+          npm --loglevel verbose run prebuildify
+          npm --loglevel verbose run test
       - name: log3
         run: |
           ls -lR ./libxtracfg/js/xtracfg-native-binding/prebuilds
@@ -191,11 +191,9 @@ jobs:
       - name: publish-tag
         if: ${{ github.ref_type == 'tag' }}
         env:
-          DIST_TAG: ${{ github.ref_name == 'main' && 'next' || github.ref_name }}
           NPM_TOKEN: ${{ secrets.npm_rw_token }}
         run: |
           set -x
-          #npm run bump -- prerelease --build-metadata ${DIST_TAG} --preid ${DIST_TAG}
           npm ci --ignore-scripts
           npm run build
           npm run publish -- from-package
