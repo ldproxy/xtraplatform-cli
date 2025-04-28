@@ -115,9 +115,9 @@ func (client Client) EntitiesJson() ([]byte, error) {
 }
 
 // Reload is
-func (client Client) Reload(ids []string, types []string) error {
+func (client Client) Reload(ids []string, types []string, force bool) error {
 
-	query := fmt.Sprintf("?ids=%s&types=%s", strings.Join(ids, ","), strings.Join(types, ","))
+	query := fmt.Sprintf("?ids=%s&types=%s&force=%t", strings.Join(ids, ","), strings.Join(types, ","), force)
 
 	_, err := client.Request("/tasks/reload-entities"+query, "POST", true, nil, "")
 

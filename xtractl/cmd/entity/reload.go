@@ -9,6 +9,7 @@ import (
 )
 
 var ids []string
+var force *bool
 
 // Cmd represents the reload command
 func reloadCmd(api client.Client, name string, debug *bool) *cobra.Command {
@@ -38,13 +39,15 @@ func reloadCmd(api client.Client, name string, debug *bool) *cobra.Command {
 			return nil
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			err := api.Reload(ids, Types)
+			err := api.Reload(ids, Types, *force)
 
 			if err != nil {
 				fmt.Println(err)
 			}
 		},
 	}
+
+	force = cmd.PersistentFlags().BoolP("force", "f", false, "force reload even if no changes are detected")
 
 	return cmd
 }
