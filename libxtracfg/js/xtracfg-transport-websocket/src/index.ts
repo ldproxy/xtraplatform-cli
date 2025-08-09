@@ -80,7 +80,8 @@ const getSocket = async (
       _socket = new WebSocket("ws://localhost:8081/sock");
     } else {
       const protocol = location.protocol === "https:" ? "wss" : "ws";
-      _socket = new WebSocket(`${protocol}://${location.host}/proxy/8081/`);
+      const path = location.pathname.endsWith("/") ? location.pathname.substring(0, location.pathname.length - 1) : location.pathname
+      _socket = new WebSocket(`${protocol}://${location.host}${path}/proxy/8081/`);
     }
   }
 
