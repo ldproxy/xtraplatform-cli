@@ -53,7 +53,7 @@ export const transport: TransportCreator = ({
 
 export default transport;
 
-type ProtocolHost = { protocol: string; host: string };
+type ProtocolHost = { protocol: string; host: string, pathname: string };
 
 const mutex = new Mutex();
 let _socket: WebSocket;
