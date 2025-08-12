@@ -22,7 +22,7 @@ export const transport: TransportCreator = ({
     const listeners: Listener[] = [];
     allListeners.push(listeners);
 
-    const socket = getSocket(specific?.location || self.location, debug);
+    const socket = getSocket(specific?.url, debug);
 
     socket.then((s) => {
       s?.addEventListener("message", (event) => {
@@ -53,13 +53,11 @@ export const transport: TransportCreator = ({
 
 export default transport;
 
-type ProtocolHost = { protocol: string; host: string, pathname: string };
-
 const mutex = new Mutex();
 let _socket: WebSocket;
 
 const getSocket = async (
-  location: ProtocolHost,
+  url?: string,
   dev?: boolean
 ): Promise<WebSocket | null> => {
   const release = await mutex.acquire();
@@ -75,14 +73,14 @@ const getSocket = async (
     _socket.readyState === _socket.CLOSED ||
     _socket.readyState === _socket.CLOSING
   ) {
-    if (dev) {
-      console.log("CONNECTING to websocket", "ws://localhost:8081/sock");
-      _socket = new WebSocket("ws://localhost:8081/sock");
-    } else {
-      const protocol = location.protocol === "https:" ? "wss" : "ws";
-      const path = location.pathname.endsWith("/") ? location.pathname.substring(0, location.pathname.length - 1) : location.pathname
-      _socket = new WebSocket(`${protocol}://${location.host}${path}/proxy/8081/`);
+    if (!url) {
+      console.error("No websocket url given");
+      return Promise.reject("No websocket url given");
     }
+    if (dev) {
+      console.log("CONNECTING to websocket", url);
+    }
+    _socket = new WebSocket(url);
   }
 
   return new Promise((resolve, reject) => {
