@@ -14,6 +14,7 @@ import java.util.logging.LogManager;
 import shadow.com.fasterxml.jackson.core.JsonProcessingException;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
 import shadow.com.fasterxml.jackson.databind.ObjectMapper;
+import shadow.io.dropwizard.util.DataSize;
 
 public class CommandHandler {
 
@@ -32,7 +33,7 @@ public class CommandHandler {
   public CommandHandler() {
     Jackson jackson = new JacksonProvider(JacksonSubTypes::ids, false);
     this.jsonMapper =
-        (new ValueEncodingJackson(jackson, false)).getMapper(ValueEncoding.FORMAT.JSON);
+        (new ValueEncodingJackson(jackson, DataSize.megabytes(10), false)).getMapper(ValueEncoding.FORMAT.JSON);
     this.noCommandsYet = true;
     this.explicitConnect = false;
   }
