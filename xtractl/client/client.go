@@ -124,6 +124,26 @@ func (client Client) Reload(ids []string, types []string, force bool) error {
 	return err
 }
 
+// Start is
+func (client Client) Start(ids []string, types []string) error {
+
+	query := fmt.Sprintf("?ids=%s&types=%s&enabled=true", strings.Join(ids, ","), strings.Join(types, ","))
+
+	_, err := client.Request("/tasks/reload-entities"+query, "POST", true, nil, "")
+
+	return err
+}
+
+// Stop is
+func (client Client) Stop(ids []string, types []string) error {
+
+	query := fmt.Sprintf("?ids=%s&types=%s&enabled=false", strings.Join(ids, ","), strings.Join(types, ","))
+
+	_, err := client.Request("/tasks/reload-entities"+query, "POST", true, nil, "")
+
+	return err
+}
+
 // Values is
 func (client Client) Values() ([]Value, []string, error) {
 

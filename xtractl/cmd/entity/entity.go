@@ -35,7 +35,7 @@ func Cmd(api client.Client, name string, debug *bool) *cobra.Command {
 		},
 	}
 
-	subcmds := []*cobra.Command{lsCmd(api, name, debug), reloadCmd(api, name, debug)}
+	subcmds := []*cobra.Command{lsCmd(api, name, debug), reloadCmd(api, name, debug), startCmd(api, name, debug), stopCmd(api, name, debug)}
 
 	for _, subcmd := range subcmds {
 		addTypesFlag(subcmd)
