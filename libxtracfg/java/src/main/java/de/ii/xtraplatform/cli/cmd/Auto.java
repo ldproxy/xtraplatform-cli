@@ -30,7 +30,10 @@ public class Auto extends Common<LdproxyCfg> {
     this.path = optionalString(parameters, "path");
     this.parameters =
         stringMap(
-            parameters, "id", "featureProviderType", "host", "database", "user", "password", "url");
+            parameters, "id", "featureProviderType", "host", "database", "user", "password", "url", "selectedConfig");
+    if (parameters.containsKey("typeObject") && parameters.get("typeObject") instanceof Map) {
+      this.parameters.put("typeObject", parameters.get("typeObject").toString());
+    }
     this.types = parseTypes(parameters);
     this.tracker = tracker;
   }
