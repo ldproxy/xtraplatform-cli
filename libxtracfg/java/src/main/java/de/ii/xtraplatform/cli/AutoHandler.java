@@ -129,7 +129,6 @@ public class AutoHandler {
             Consumer<Result> tracker) {
         Result result = new Result();
 
-        System.out.println("myParameters: " + parameters);
         System.out.println("Initial types: " + types);
 
         if (types == null || types.isEmpty()) {
@@ -144,7 +143,7 @@ public class AutoHandler {
                         Map.class
                 );
 
-                Map<String, Object> featureProviderTypeAndTypes = determineFeatureProviderTypeAndTypes(parameters, cfgJava);
+                Map<String, Object> featureProviderTypeAndTypes = determineMissingParameters(parameters, cfgJava);
                 types = (Map<String, List<String>>) featureProviderTypeAndTypes.get("types");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -195,6 +194,7 @@ public class AutoHandler {
         Map<String, Boolean> typeObject = parseTypeObject(parameters.get("typeObject"));
 
         System.out.println("typeObject: " + typeObject);
+
 
         try {
             if (typeObject.getOrDefault("provider", true)) {
@@ -283,6 +283,7 @@ public class AutoHandler {
         }
 
         System.out.println("new featureProviderType: " + featureProviderType);
+        System.out.println("myParameters: " + parameters);
 
         FeatureProviderDataV2.Builder<?> builder =
                 AutoTypes.getBuilder(
@@ -369,7 +370,7 @@ public class AutoHandler {
         return builder.build();
     }
 
-    private static Map<String, Object> determineFeatureProviderTypeAndTypes(
+    private static Map<String, Object> determineMissingParameters(
             Map<String, String> parameters, Map<String, Object> yamlConfig) {
 
         Map<String, Object> result = new HashMap<>();
@@ -393,14 +394,27 @@ public class AutoHandler {
         }
         parameters.put("featureProviderType", featureProviderType);
 
-        result.put("featureProviderType", featureProviderType);
-
         // If featureProviderType is WFS, extract the URI and set it in parameters
         if ("WFS".equalsIgnoreCase(featureProviderType)) {
             Map<String, Object> connectionInfo = (Map<String, Object>) yamlConfig.get("connectionInfo");
             if (connectionInfo != null && connectionInfo.containsKey("uri")) {
                 String uri = (String) connectionInfo.get("uri");
                 parameters.put("url", uri);
+            }
+        }
+
+        // If featureProviderType is PGIS, set additional parameters
+        if ("PGIS".equalsIgnoreCase(featureProviderType)) {
+            Map<String, Object> connectionInfo = (Map<String, Object>) yamlConfig.get("connectionInfo");
+            if (connectionInfo != null) {
+                parameters.put("host", (String) connectionInfo.getOrDefault("host", ""));
+                parameters.put("database", (String) connectionInfo.getOrDefault("database", ""));
+                parameters.put("user", (String) connectionInfo.getOrDefault("user", ""));
+                String encodedPassword = (String) connectionInfo.getOrDefault("password", "");
+                if (!encodedPassword.isBlank()) {
+                    String decodedPassword = new String(Base64.getDecoder().decode(encodedPassword), StandardCharsets.UTF_8);
+                    parameters.put("password", decodedPassword);
+                }
             }
         }
 
