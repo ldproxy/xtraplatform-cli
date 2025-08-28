@@ -273,10 +273,6 @@ public class AutoHandler {
 
         String featureProviderTypeString = parameters.get("featureProviderType");
 
-        if (featureProviderTypeString == null || featureProviderTypeString.isBlank()) {
-            featureProviderTypeString = "UNKNOWN";
-        }
-
         FeatureProviderType featureProviderType;
         try {
             featureProviderType = FeatureProviderType.valueOf(featureProviderTypeString);
@@ -284,35 +280,6 @@ public class AutoHandler {
             throw new IllegalArgumentException(
                     "Invalid featureProviderType: " + featureProviderTypeString + ". Expected one of: "
                             + Arrays.toString(FeatureProviderType.values()), e);
-        }
-
-        if (featureProviderType == FeatureProviderType.UNKNOWN) {
-            try {
-                String selectedConfig = parameters.get("selectedConfig");
-                if (selectedConfig == null || selectedConfig.isBlank()) {
-                    throw new IllegalArgumentException("No selectedConfig provided in parameters");
-                }
-
-                Map<String, Object> cfgJava = ldproxyCfg.getObjectMapper().readValue(
-                        new File(selectedConfig),
-                        Map.class
-                );
-
-                Map<String, Object> featureProviderTypeAndTypes = determineFeatureProviderTypeAndTypes(parameters, cfgJava);
-                String featureProviderTypeString2 = (String) featureProviderTypeAndTypes.get("featureProviderType");
-                System.out.println("initial featureProviderTypeString: " + featureProviderTypeString2);
-                try {
-                    featureProviderType = FeatureProviderType.valueOf(featureProviderTypeString2);
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(
-                            "Invalid featureProviderType: " + featureProviderTypeString + ". Expected one of: "
-                                    + Arrays.toString(FeatureProviderType.values()), e);
-                }
-
-            } catch (IOException e) {
-                throw new IllegalArgumentException(
-                        "Unknown featureProviderType: " + parameters.get("featureProviderType"));
-            }
         }
 
         System.out.println("new featureProviderType: " + featureProviderType);
@@ -424,6 +391,8 @@ public class AutoHandler {
                 featureProviderType = "PGIS";
             }
         }
+        parameters.put("featureProviderType", featureProviderType);
+
         result.put("featureProviderType", featureProviderType);
 
         // If featureProviderType is WFS, extract the URI and set it in parameters
