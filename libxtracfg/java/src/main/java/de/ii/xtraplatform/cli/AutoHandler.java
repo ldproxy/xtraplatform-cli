@@ -129,6 +129,7 @@ public class AutoHandler {
             Consumer<Result> tracker) {
         Result result = new Result();
 
+        System.out.println("myParameters: " + parameters);
         System.out.println("Initial types: " + types);
 
         if (types == null || types.isEmpty()) {
@@ -193,6 +194,8 @@ public class AutoHandler {
 
         Map<String, Boolean> typeObject = parseTypeObject(parameters.get("typeObject"));
 
+        System.out.println("typeObject: " + typeObject);
+
         try {
             if (typeObject.getOrDefault("provider", true)) {
                 ldproxyCfg.writeEntity(entityData);
@@ -213,7 +216,7 @@ public class AutoHandler {
                 AutoEntityFactory autoFactory2 =
                         getAutoFactory(ldproxyCfg, EntityType.SERVICES.toString(), ogcApi.getEntitySubType());
 
-                // get from provider-configuration as well?
+                // get from provider-configuration as well? Seems to work just fine
                 Map<String, List<String>> types2 =
                         Map.of("", new ArrayList<>(entityData.getTypes().keySet()));
 
@@ -370,6 +373,8 @@ public class AutoHandler {
     private static FeatureProviderDataV2 parseFeatureProviderWfs(
             ImmutableFeatureProviderWfsData.Builder builder, Map<String, String> parameters) {
 
+        System.out.println("WFS parameters: " + parameters);
+
         builder
                 .connectionInfoBuilder()
                 .uri(URI.create(parameters.get("url")))
@@ -420,6 +425,15 @@ public class AutoHandler {
             }
         }
         result.put("featureProviderType", featureProviderType);
+
+        // If featureProviderType is WFS, extract the URI and set it in parameters
+        if ("WFS".equalsIgnoreCase(featureProviderType)) {
+            Map<String, Object> connectionInfo = (Map<String, Object>) yamlConfig.get("connectionInfo");
+            if (connectionInfo != null && connectionInfo.containsKey("uri")) {
+                String uri = (String) connectionInfo.get("uri");
+                parameters.put("url", uri);
+            }
+        }
 
         // Extract types
         Map<String, Object> yamlTypes = (Map<String, Object>) yamlConfig.get("types");
