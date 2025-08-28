@@ -136,6 +136,10 @@ public class AutoHandler {
             String selectedConfig = parameters.get("selectedConfig");
             String newId = parameters.get("id");
 
+            if ("fromScratch".equalsIgnoreCase(createOption)) {
+                return generateBasicEntity(parameters, ldproxyCfg);
+            }
+
             if ("copy".equalsIgnoreCase(createOption)) {
                 if (selectedConfig == null || selectedConfig.isBlank()) {
                     return Result.failure("No selectedConfig provided in parameters");
@@ -155,7 +159,7 @@ public class AutoHandler {
                     yamlContent.put("id", newId);
                 }
 
-                File targetFile = new File(new File(selectedConfig).getParent(), newId + ".yaml");
+                File targetFile = new File(new File(selectedConfig).getParent(), newId + ".yml");
                 ldproxyCfg.getObjectMapper().writeValue(targetFile, yamlContent);
 
                 result.success("Config copied successfully");
@@ -502,5 +506,32 @@ public class AutoHandler {
         }
         return typeObject;
     }
-}
 
+    private static Result generateBasicEntity(Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
+        Result result = new Result();
+
+        if (parameters.containsKey("id")) {
+            String newId = parameters.get("id");
+
+            if (newId == null || newId.isBlank()) {
+                return Result.failure("No id provided in parameters");
+            }
+
+            Map<String, Object> minimalConfig = new HashMap<>();
+            minimalConfig.put("id", newId);
+            minimalConfig.put("enabled", true);
+
+            try {
+                File targetFile = new File(ldproxyCfg.getDataDirectory().toFile(), "entities/instances/providers/" + newId + ".yml");
+                ldproxyCfg.getObjectMapper().writeValue(targetFile, minimalConfig);
+
+                result.success("Minimal config created successfully");
+                result.details("new_files", List.of(targetFile.getPath()));
+            } catch (IOException e) {
+                return Result.failure("Failed to write minimal config: " + e.getMessage());
+            }
+        }
+
+        return result;
+    }
+}
