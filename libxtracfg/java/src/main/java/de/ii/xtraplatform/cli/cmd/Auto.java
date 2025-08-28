@@ -30,7 +30,7 @@ public class Auto extends Common<LdproxyCfg> {
     this.path = optionalString(parameters, "path");
     this.parameters =
         stringMap(
-            parameters, "id", "featureProviderType", "host", "database", "user", "password", "url", "selectedConfig");
+            parameters, "id", "featureProviderType", "host", "database", "user", "password", "url", "selectedConfig", "createOption");
     if (parameters.containsKey("typeObject") && parameters.get("typeObject") instanceof Map) {
       this.parameters.put("typeObject", parameters.get("typeObject").toString());
     }

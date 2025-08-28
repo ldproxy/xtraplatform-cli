@@ -131,9 +131,39 @@ public class AutoHandler {
 
         System.out.println("Initial types: " + types);
 
-        if (types == null || types.isEmpty()) {
-            try {
-                String selectedConfig = parameters.get("selectedConfig");
+        try {
+            String createOption = parameters.get("createOption");
+            String selectedConfig = parameters.get("selectedConfig");
+            String newId = parameters.get("id");
+
+            if ("copy".equalsIgnoreCase(createOption)) {
+                if (selectedConfig == null || selectedConfig.isBlank()) {
+                    return Result.failure("No selectedConfig provided in parameters");
+                }
+                if (newId == null || newId.isBlank()) {
+                    return Result.failure("No id provided in parameters");
+                }
+
+                File sourceFile = new File(selectedConfig);
+                if (!sourceFile.exists()) {
+                    return Result.failure("Selected config file does not exist: " + selectedConfig);
+                }
+
+                Map<String, Object> yamlContent = ldproxyCfg.getObjectMapper().readValue(sourceFile, Map.class);
+
+                if (yamlContent.containsKey("id")) {
+                    yamlContent.put("id", newId);
+                }
+
+                File targetFile = new File(new File(selectedConfig).getParent(), newId + ".yaml");
+                ldproxyCfg.getObjectMapper().writeValue(targetFile, yamlContent);
+
+                result.success("Config copied successfully");
+                result.details("new_files", List.of(targetFile.getPath()));
+                return result;
+            }
+
+            if (types == null || types.isEmpty()) {
                 if (selectedConfig == null || selectedConfig.isBlank()) {
                     return Result.failure("No selectedConfig provided in parameters");
                 }
@@ -145,115 +175,115 @@ public class AutoHandler {
 
                 Map<String, Object> featureProviderTypeAndTypes = determineMissingParameters(parameters, cfgJava);
                 types = (Map<String, List<String>>) featureProviderTypeAndTypes.get("types");
-            } catch (IOException e) {
+            }
+
+            System.out.println("New types: " + types);
+
+            FeatureProviderDataV2 featureProvider = parseFeatureProvider(parameters, ldproxyCfg, types);
+            AutoEntityFactory autoFactory =
+                    getAutoFactory(
+                            ldproxyCfg, EntityType.PROVIDERS.toString(), featureProvider.getEntitySubType());
+
+            long count = types.values().stream().mapToLong(List::size).sum();
+
+            Consumer<Map<String, List<String>>> tracker2 =
+                    progress -> {
+                        long current = Math.max(0, progress.values().stream().mapToLong(List::size).sum() - 1);
+                        String currentTable =
+                                progress.entrySet().stream()
+                                        .skip(progress.size() - 1)
+                                        .map(
+                                                entry ->
+                                                        entry.getKey()
+                                                                + "."
+                                                                + entry.getValue().get(entry.getValue().size() - 1))
+                                        .findFirst()
+                                        .orElse("???");
+
+                        System.out.println("PROGRESS " + current + "/" + count + " " + currentTable);
+
+                        Map<String, Object> details =
+                                Map.of(
+                                        "currentCount",
+                                        current,
+                                        "targetCount",
+                                        count,
+                                        "currentTable",
+                                        currentTable,
+                                        "progress",
+                                        progress);
+
+                        System.out.println("details: " + details);
+                        tracker.accept(Result.ok("progress", details));
+                    };
+            FeatureProviderDataV2 entityData = autoFactory.generate(featureProvider, types, tracker2);
+
+            OgcApiDataV2 ogcApi = parseOgcApi(parameters, ldproxyCfg);
+
+            AutoEntityFactory autoFactory2 =
+                    getAutoFactory(ldproxyCfg, EntityType.SERVICES.toString(), ogcApi.getEntitySubType());
+
+            // get from provider-configuration as well? Seems to work just fine
+            Map<String, List<String>> types2 =
+                    Map.of("", new ArrayList<>(entityData.getTypes().keySet()));
+
+            System.out.println("types2" + types2); // {=[flurstueck]} instead of {ave=[Flurstueck]}
+
+            OgcApiDataV2 entityData2 = autoFactory2.generate(ogcApi, types2, ignore -> {
+            });
+
+            Map<String, Boolean> typeObject = parseTypeObject(parameters.get("typeObject"));
+
+            System.out.println("typeObject: " + typeObject);
+
+
+            try {
+                boolean providerWritten = false;
+                boolean serviceWritten = false;
+
+                if (typeObject.getOrDefault("provider", true)) {
+                    ldproxyCfg.writeEntity(entityData);
+                    providerWritten = true;
+                }
+
+                // generate service
+                if (typeObject.getOrDefault("service", true)) {
+                    ldproxyCfg.writeEntity(entityData2);
+                    serviceWritten = true;
+                }
+
+                List<String> newFiles = new ArrayList<>();
+                if (providerWritten) {
+                    newFiles.add(
+                            ldproxyCfg
+                                    .getDataDirectory()
+                                    .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
+                                    .toString());
+                }
+                if (serviceWritten) {
+                    newFiles.add(
+                            ldproxyCfg
+                                    .getDataDirectory()
+                                    .relativize(ldproxyCfg.getEntityPath(entityData2).normalize())
+                                    .toString());
+                }
+
+                result.success("All good");
+
+                if (!newFiles.isEmpty()) {
+                    result.details("new_files", newFiles);
+                }
+            } catch (Throwable e) {
                 e.printStackTrace();
-                return Result.failure("Failed to read YAML file: " + e.getMessage());
+                if (Objects.nonNull(e.getMessage())) {
+                    result.error(e.getMessage());
+                }
             }
-        }
-
-        System.out.println("New types: " + types);
-
-        FeatureProviderDataV2 featureProvider = parseFeatureProvider(parameters, ldproxyCfg, types);
-        AutoEntityFactory autoFactory =
-                getAutoFactory(
-                        ldproxyCfg, EntityType.PROVIDERS.toString(), featureProvider.getEntitySubType());
-
-        long count = types.values().stream().mapToLong(List::size).sum();
-
-        Consumer<Map<String, List<String>>> tracker2 =
-                progress -> {
-                    long current = Math.max(0, progress.values().stream().mapToLong(List::size).sum() - 1);
-                    String currentTable =
-                            progress.entrySet().stream()
-                                    .skip(progress.size() - 1)
-                                    .map(
-                                            entry ->
-                                                    entry.getKey()
-                                                            + "."
-                                                            + entry.getValue().get(entry.getValue().size() - 1))
-                                    .findFirst()
-                                    .orElse("???");
-
-                    System.out.println("PROGRESS " + current + "/" + count + " " + currentTable);
-
-                    Map<String, Object> details =
-                            Map.of(
-                                    "currentCount",
-                                    current,
-                                    "targetCount",
-                                    count,
-                                    "currentTable",
-                                    currentTable,
-                                    "progress",
-                                    progress);
-
-                    System.out.println("details: " + details);
-                    tracker.accept(Result.ok("progress", details));
-                };
-        FeatureProviderDataV2 entityData = autoFactory.generate(featureProvider, types, tracker2);
-
-        OgcApiDataV2 ogcApi = parseOgcApi(parameters, ldproxyCfg);
-
-        AutoEntityFactory autoFactory2 =
-                getAutoFactory(ldproxyCfg, EntityType.SERVICES.toString(), ogcApi.getEntitySubType());
-
-        // get from provider-configuration as well? Seems to work just fine
-        Map<String, List<String>> types2 =
-                Map.of("", new ArrayList<>(entityData.getTypes().keySet()));
-
-        System.out.println("types2" + types2); // {=[flurstueck]} instead of {ave=[Flurstueck]}
-
-        OgcApiDataV2 entityData2 = autoFactory2.generate(ogcApi, types2, ignore -> {
-        });
-
-        Map<String, Boolean> typeObject = parseTypeObject(parameters.get("typeObject"));
-
-        System.out.println("typeObject: " + typeObject);
-
-
-        try {
-            boolean providerWritten = false;
-            boolean serviceWritten = false;
-
-            if (typeObject.getOrDefault("provider", true)) {
-                ldproxyCfg.writeEntity(entityData);
-                providerWritten = true;
-            }
-
-            // generate service
-            if (typeObject.getOrDefault("service", true)) {
-                ldproxyCfg.writeEntity(entityData2);
-                serviceWritten = true;
-            }
-
-            List<String> newFiles = new ArrayList<>();
-            if (providerWritten) {
-                newFiles.add(
-                        ldproxyCfg
-                                .getDataDirectory()
-                                .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
-                                .toString());
-            }
-            if (serviceWritten) {
-                newFiles.add(
-                        ldproxyCfg
-                                .getDataDirectory()
-                                .relativize(ldproxyCfg.getEntityPath(entityData2).normalize())
-                                .toString());
-            }
-
-            if (!newFiles.isEmpty()) {
-                result.details("new_files", newFiles);
-            }
-            result.success("All good");
-
+            return result;
         } catch (Throwable e) {
             e.printStackTrace();
-            if (Objects.nonNull(e.getMessage())) {
-                result.error(e.getMessage());
-            }
+            return Result.failure("Unexpected error: " + e.getMessage());
         }
-        return result;
     }
 
     private static AutoEntityFactory getAutoFactory(
