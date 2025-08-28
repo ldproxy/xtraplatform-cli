@@ -187,9 +187,24 @@ public class AutoHandler {
                                     "progress",
                                     progress);
 
+                    System.out.println("details: " + details);
                     tracker.accept(Result.ok("progress", details));
                 };
         FeatureProviderDataV2 entityData = autoFactory.generate(featureProvider, types, tracker2);
+
+        OgcApiDataV2 ogcApi = parseOgcApi(parameters, ldproxyCfg);
+
+        AutoEntityFactory autoFactory2 =
+                getAutoFactory(ldproxyCfg, EntityType.SERVICES.toString(), ogcApi.getEntitySubType());
+
+        // get from provider-configuration as well? Seems to work just fine
+        Map<String, List<String>> types2 =
+                Map.of("", new ArrayList<>(entityData.getTypes().keySet()));
+
+        System.out.println("types2" + types2); // {=[flurstueck]} instead of {ave=[Flurstueck]}
+
+        OgcApiDataV2 entityData2 = autoFactory2.generate(ogcApi, types2, ignore -> {
+        });
 
         Map<String, Boolean> typeObject = parseTypeObject(parameters.get("typeObject"));
 
@@ -197,46 +212,41 @@ public class AutoHandler {
 
 
         try {
+            boolean providerWritten = false;
+            boolean serviceWritten = false;
+
             if (typeObject.getOrDefault("provider", true)) {
                 ldproxyCfg.writeEntity(entityData);
-
-                result.details(
-                        "new_provider_files",
-                        List.of(
-                                ldproxyCfg
-                                        .getDataDirectory()
-                                        .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
-                                        .toString()));
+                providerWritten = true;
             }
 
             // generate service
             if (typeObject.getOrDefault("service", true)) {
-                OgcApiDataV2 ogcApi = parseOgcApi(parameters, ldproxyCfg);
-
-                AutoEntityFactory autoFactory2 =
-                        getAutoFactory(ldproxyCfg, EntityType.SERVICES.toString(), ogcApi.getEntitySubType());
-
-                // get from provider-configuration as well? Seems to work just fine
-                Map<String, List<String>> types2 =
-                        Map.of("", new ArrayList<>(entityData.getTypes().keySet()));
-
-                System.out.println("types2" + types2); // {=[flurstueck]} instead of {ave=[Flurstueck]}
-
-                OgcApiDataV2 entityData2 = autoFactory2.generate(ogcApi, types2, ignore -> {
-                });
-
                 ldproxyCfg.writeEntity(entityData2);
-
-                result.details(
-                        "new_service_files",
-                        List.of(
-                                ldproxyCfg
-                                        .getDataDirectory()
-                                        .relativize(ldproxyCfg.getEntityPath(entityData2).normalize())
-                                        .toString()));
+                serviceWritten = true;
             }
 
+            List<String> newFiles = new ArrayList<>();
+            if (providerWritten) {
+                newFiles.add(
+                        ldproxyCfg
+                                .getDataDirectory()
+                                .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
+                                .toString());
+            }
+            if (serviceWritten) {
+                newFiles.add(
+                        ldproxyCfg
+                                .getDataDirectory()
+                                .relativize(ldproxyCfg.getEntityPath(entityData2).normalize())
+                                .toString());
+            }
+
+            if (!newFiles.isEmpty()) {
+                result.details("new_files", newFiles);
+            }
             result.success("All good");
+
         } catch (Throwable e) {
             e.printStackTrace();
             if (Objects.nonNull(e.getMessage())) {
