@@ -37,21 +37,33 @@ public class AutoTypes {
     return ldproxyCfg.getEntityFactories().get(entityType.toString(), serviceType.toString());
   }
 
-  static EntityFactory getFactory(
-      LdproxyCfg ldproxyCfg, EntityType entityType, TileProviderType tileProviderType) {
-    return ldproxyCfg.getEntityFactories().get(entityType.toString(), tileProviderType.toString());
-  }
-
   static OgcApiDataV2.Builder getBuilder(
       LdproxyCfg ldproxyCfg, EntityType entityType, ServiceType serviceType) {
     return ((OgcApiDataV2.Builder)
         getFactory(ldproxyCfg, entityType, serviceType).emptyDataBuilder());
   }
 
+  static EntityFactory getFactory(
+      LdproxyCfg ldproxyCfg,
+      EntityType entityType,
+      ProviderType providerType,
+      TileProviderType tileProviderType) {
+    return ldproxyCfg
+        .getEntityFactories()
+        .get(
+            entityType.toString(),
+            String.format("%s/%s", providerType.toString(), tileProviderType.toString()));
+  }
+
   static TileProviderData.Builder<?> getBuilder(
-      LdproxyCfg ldproxyCfg, EntityType entityType, TileProviderType tileProviderType) {
+      LdproxyCfg ldproxyCfg,
+      EntityType entityType,
+      ProviderType providerType,
+      TileProviderType tileProviderType) {
     return ((TileProviderData.Builder<?>)
-        getFactory(ldproxyCfg, entityType, tileProviderType).emptyDataBuilder());
+            getFactory(ldproxyCfg, entityType, providerType, tileProviderType).emptyDataBuilder())
+        .providerType(providerType.toString())
+        .providerSubType(tileProviderType.toString());
   }
 
   enum Type {
