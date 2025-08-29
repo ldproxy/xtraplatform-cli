@@ -174,9 +174,7 @@ public class AutoHandler {
                 Map<String, Object> cfgJava =
                         ldproxyCfg.getObjectMapper().readValue(new File(selectedConfig), Map.class);
 
-                Map<String, Object> featureProviderTypeAndTypes =
-                        determineMissingParameters(parameters, cfgJava);
-                types = (Map<String, List<String>>) featureProviderTypeAndTypes.get("types");
+                types = determineTypes(cfgJava);
             }
 
             System.out.println("New types: " + types);
@@ -430,56 +428,8 @@ public class AutoHandler {
         return (TileProviderFeaturesData) builder.build();
     }
 
-    private static Map<String, Object> determineMissingParameters(
-            Map<String, String> parameters, Map<String, Object> yamlConfig) {
-
-        Map<String, Object> result = new HashMap<>();
-
-        // Determine featureProviderType
-        String featureProviderType = parameters.getOrDefault("featureProviderType", "").trim();
-        if (featureProviderType.isEmpty()) {
-            String providerSubType = (String) yamlConfig.getOrDefault("providerSubType", "");
-            Map<String, Object> connectionInfo = (Map<String, Object>) yamlConfig.get("connectionInfo");
-            String dialect =
-                    (connectionInfo != null && connectionInfo.containsKey("dialect"))
-                            ? (String) connectionInfo.get("dialect")
-                            : "";
-
-            if ("GPKG".equalsIgnoreCase(dialect)) {
-                featureProviderType = "GPKG";
-            } else if ("WFS".equalsIgnoreCase(providerSubType)) {
-                featureProviderType = "WFS";
-            } else {
-                featureProviderType = "PGIS";
-            }
-        }
-        parameters.put("featureProviderType", featureProviderType);
-
-        // If featureProviderType is WFS, extract the URI and set it in parameters
-        if ("WFS".equalsIgnoreCase(featureProviderType)) {
-            Map<String, Object> connectionInfo = (Map<String, Object>) yamlConfig.get("connectionInfo");
-            if (connectionInfo != null && connectionInfo.containsKey("uri")) {
-                String uri = (String) connectionInfo.get("uri");
-                parameters.put("url", uri);
-            }
-        }
-
-        // If featureProviderType is PGIS, set additional parameters
-        if ("PGIS".equalsIgnoreCase(featureProviderType)) {
-            Map<String, Object> connectionInfo = (Map<String, Object>) yamlConfig.get("connectionInfo");
-            if (connectionInfo != null) {
-                parameters.put("host", (String) connectionInfo.getOrDefault("host", ""));
-                parameters.put("database", (String) connectionInfo.getOrDefault("database", ""));
-                parameters.put("user", (String) connectionInfo.getOrDefault("user", ""));
-                String encodedPassword = (String) connectionInfo.getOrDefault("password", "");
-                if (!encodedPassword.isBlank()) {
-                    String decodedPassword =
-                            new String(Base64.getDecoder().decode(encodedPassword), StandardCharsets.UTF_8);
-                    parameters.put("password", decodedPassword);
-                }
-            }
-        }
-
+    private static Map<String, List<String>> determineTypes(
+            Map<String, Object> yamlConfig) {
         // Extract types
         Map<String, Object> yamlTypes = (Map<String, Object>) yamlConfig.get("types");
         Map<String, List<String>> extractedTypes = new HashMap<>();
@@ -494,9 +444,7 @@ public class AutoHandler {
             extractedTypes.put("", new ArrayList<>(yamlTypes != null ? yamlTypes.keySet() : List.of()));
         }
 
-        result.put("types", extractedTypes);
-
-        return result;
+        return extractedTypes;
     }
 
     private static Map<String, Boolean> parseTypeObject(String typeObjectString) {
