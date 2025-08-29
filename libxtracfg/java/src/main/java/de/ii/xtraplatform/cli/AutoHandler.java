@@ -476,29 +476,34 @@ public class AutoHandler {
 
             try {
                 if (typeObject.getOrDefault("provider", true)) {
-                    Map<String, Object> providerConfig = new HashMap<>();
-                    providerConfig.put("id", newId);
-                    providerConfig.put("enabled", true);
+                    parameters.put("featureProviderType", "PGIS");
 
-                    File providerFile =
-                            new File(
-                                    ldproxyCfg.getDataDirectory().toFile(),
-                                    "entities/instances/providers/" + newId + ".yml");
-                    ldproxyCfg.getObjectMapper().writeValue(providerFile, providerConfig);
-                    newFiles.add(providerFile.getPath());
+                    FeatureProviderDataV2 featureProvider = parseFeatureProvider(parameters, ldproxyCfg, Map.of());
+
+                    ldproxyCfg.writeEntity(featureProvider);
+
+                    newFiles.add(
+                            ldproxyCfg
+                                    .getDataDirectory()
+                                    .relativize(ldproxyCfg.getEntityPath(featureProvider).normalize())
+                                    .toString());
                 }
 
                 if (typeObject.getOrDefault("service", true)) {
-                    Map<String, Object> serviceConfig = new HashMap<>();
-                    serviceConfig.put("id", newId);
-                    serviceConfig.put("enabled", true);
+                    OgcApiDataV2 ogcApi = parseOgcApi(parameters, ldproxyCfg);
 
-                    File serviceFile =
-                            new File(
-                                    ldproxyCfg.getDataDirectory().toFile(),
-                                    "entities/instances/services/" + newId + ".yml");
-                    ldproxyCfg.getObjectMapper().writeValue(serviceFile, serviceConfig);
-                    newFiles.add(serviceFile.getPath());
+                    AutoEntityFactory autoFactory =
+                            getAutoFactory(ldproxyCfg, EntityType.SERVICES.toString(), ogcApi.getEntitySubType());
+
+                    OgcApiDataV2 entityData = autoFactory.generate(ogcApi, Map.of(), ignore -> {});
+
+                    ldproxyCfg.writeEntity(entityData);
+
+                    newFiles.add(
+                            ldproxyCfg
+                                    .getDataDirectory()
+                                    .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
+                                    .toString());
                 }
 
                 result.success("Minimal config created successfully");
