@@ -147,6 +147,10 @@ public class AutoHandler {
                     return Result.failure("No id provided in parameters");
                 }
 
+                if (selectedConfig != null && selectedConfig.contains("-tiles")) {
+                    newId = newId + "-tiles";
+                }
+
                 File sourceFile = new File(selectedConfig);
                 if (!sourceFile.exists()) {
                     return Result.failure("Selected config file does not exist: " + selectedConfig);
@@ -436,7 +440,6 @@ public class AutoHandler {
     }
 
     private static Map<String, List<String>> determineTypes(Map<String, Object> yamlConfig) {
-        // Extract types
         Map<String, Object> yamlTypes = (Map<String, Object>) yamlConfig.get("types");
         Map<String, List<String>> extractedTypes = new HashMap<>();
 
@@ -445,7 +448,6 @@ public class AutoHandler {
             extractedTypes.put("", values);
         }
 
-        // Handle missing types
         if (extractedTypes.isEmpty()) {
             extractedTypes.put("", new ArrayList<>(yamlTypes != null ? yamlTypes.keySet() : List.of()));
         }
@@ -512,6 +514,18 @@ public class AutoHandler {
                             ldproxyCfg
                                     .getDataDirectory()
                                     .relativize(ldproxyCfg.getEntityPath(entityData).normalize())
+                                    .toString());
+                }
+
+                if (typeObject.getOrDefault("tileProvider", true)) {
+                    TileProviderFeaturesData tileProvider = parseTileProvider(parameters, ldproxyCfg);
+
+                    ldproxyCfg.writeEntity(tileProvider);
+
+                    newFiles.add(
+                            ldproxyCfg
+                                    .getDataDirectory()
+                                    .relativize(ldproxyCfg.getEntityPath(tileProvider).normalize())
                                     .toString());
                 }
 
