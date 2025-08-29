@@ -133,9 +133,10 @@ public class AutoHandler {
             String createOption = parameters.get("createOption");
             String selectedConfig = parameters.get("selectedConfig");
             String newId = parameters.get("id");
+            Map<String, Boolean> typeObject = parseTypeObject(parameters.get("typeObject"));
 
             if ("fromScratch".equalsIgnoreCase(createOption)) {
-                return generateBasicEntity(parameters, ldproxyCfg);
+                return generateBasicEntity(parameters, ldproxyCfg, typeObject);
             }
 
             if ("copy".equalsIgnoreCase(createOption)) {
@@ -162,7 +163,9 @@ public class AutoHandler {
                 ldproxyCfg.getObjectMapper().writeValue(targetFile, yamlContent);
 
                 result.success("Config copied successfully");
-                result.details("new_files", List.of(targetFile.getPath()));
+                result.details(
+                        "new_files",
+                        List.of(ldproxyCfg.getDataDirectory().relativize(targetFile.toPath()).toString()));
                 return result;
             }
 
@@ -211,9 +214,6 @@ public class AutoHandler {
                         System.out.println("details: " + details);
                         tracker.accept(Result.ok("progress", details));
                     };
-
-            Map<String, Boolean> typeObject = parseTypeObject(parameters.get("typeObject"));
-            System.out.println("typeObject: " + typeObject);
 
             List<String> newFiles = new ArrayList<>();
 
@@ -462,7 +462,7 @@ public class AutoHandler {
         return typeObject;
     }
 
-    private static Result generateBasicEntity(Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
+    private static Result generateBasicEntity(Map<String, String> parameters, LdproxyCfg ldproxyCfg, Map<String, Boolean> typeObject) {
         Result result = new Result();
 
         if (parameters.containsKey("id")) {
@@ -472,19 +472,39 @@ public class AutoHandler {
                 return Result.failure("No id provided in parameters");
             }
 
-            Map<String, Object> minimalConfig = new HashMap<>();
-            minimalConfig.put("id", newId);
-            minimalConfig.put("enabled", true);
+            List<String> newFiles = new ArrayList<>();
 
             try {
-                File targetFile =
-                        new File(
-                                ldproxyCfg.getDataDirectory().toFile(),
-                                "entities/instances/providers/" + newId + ".yml");
-                ldproxyCfg.getObjectMapper().writeValue(targetFile, minimalConfig);
+                if (typeObject.getOrDefault("provider", true)) {
+                    Map<String, Object> providerConfig = new HashMap<>();
+                    providerConfig.put("id", newId);
+                    providerConfig.put("enabled", true);
+
+                    File providerFile =
+                            new File(
+                                    ldproxyCfg.getDataDirectory().toFile(),
+                                    "entities/instances/providers/" + newId + ".yml");
+                    ldproxyCfg.getObjectMapper().writeValue(providerFile, providerConfig);
+                    newFiles.add(providerFile.getPath());
+                }
+
+                if (typeObject.getOrDefault("service", true)) {
+                    Map<String, Object> serviceConfig = new HashMap<>();
+                    serviceConfig.put("id", newId);
+                    serviceConfig.put("enabled", true);
+
+                    File serviceFile =
+                            new File(
+                                    ldproxyCfg.getDataDirectory().toFile(),
+                                    "entities/instances/services/" + newId + ".yml");
+                    ldproxyCfg.getObjectMapper().writeValue(serviceFile, serviceConfig);
+                    newFiles.add(serviceFile.getPath());
+                }
 
                 result.success("Minimal config created successfully");
-                result.details("new_files", List.of(targetFile.getPath()));
+                if (!newFiles.isEmpty()) {
+                    result.details("new_files", newFiles);
+                }
             } catch (IOException e) {
                 return Result.failure("Failed to write minimal config: " + e.getMessage());
             }
