@@ -4,6 +4,7 @@ import de.ii.ldproxy.cfg.LdproxyCfg;
 import de.ii.ogcapi.foundation.domain.OgcApiDataV2;
 import de.ii.xtraplatform.entities.domain.EntityFactory;
 import de.ii.xtraplatform.features.domain.FeatureProviderDataV2;
+import de.ii.xtraplatform.tiles.domain.TileProviderData;
 
 public class AutoTypes {
 
@@ -36,10 +37,21 @@ public class AutoTypes {
     return ldproxyCfg.getEntityFactories().get(entityType.toString(), serviceType.toString());
   }
 
+  static EntityFactory getFactory(
+      LdproxyCfg ldproxyCfg, EntityType entityType, TileProviderType tileProviderType) {
+    return ldproxyCfg.getEntityFactories().get(entityType.toString(), tileProviderType.toString());
+  }
+
   static OgcApiDataV2.Builder getBuilder(
       LdproxyCfg ldproxyCfg, EntityType entityType, ServiceType serviceType) {
     return ((OgcApiDataV2.Builder)
         getFactory(ldproxyCfg, entityType, serviceType).emptyDataBuilder());
+  }
+
+  static TileProviderData.Builder<?> getBuilder(
+      LdproxyCfg ldproxyCfg, EntityType entityType, TileProviderType tileProviderType) {
+    return ((TileProviderData.Builder<?>)
+        getFactory(ldproxyCfg, entityType, tileProviderType).emptyDataBuilder());
   }
 
   enum Type {
@@ -94,6 +106,16 @@ public class AutoTypes {
 
   enum ServiceType {
     OGC_API,
+    UNKNOWN;
+
+    @Override
+    public String toString() {
+      return name().toUpperCase();
+    }
+  }
+
+  enum TileProviderType {
+    FEATURES,
     UNKNOWN;
 
     @Override
