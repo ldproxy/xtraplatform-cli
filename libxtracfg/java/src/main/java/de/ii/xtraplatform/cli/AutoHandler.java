@@ -127,8 +127,6 @@ public class AutoHandler {
             Consumer<Result> tracker) {
         Result result = new Result();
 
-        System.out.println("Initial types: " + types);
-
         try {
             String createOption = parameters.get("createOption");
             String selectedConfig = parameters.get("selectedConfig");
@@ -183,8 +181,6 @@ public class AutoHandler {
 
                 types = determineTypes(cfgJava);
             }
-
-            System.out.println("New types: " + types);
 
             long count = types.values().stream().mapToLong(List::size).sum();
 
@@ -247,8 +243,6 @@ public class AutoHandler {
 
                 Map<String, List<String>> types2 =
                         types.containsKey("") ? types : Map.of("", new ArrayList<>(types.keySet()));
-
-                System.out.println("types2" + types2); // {=[flurstueck]} instead of {ave=[Flurstueck]}
 
                 OgcApiDataV2 entityData2 = autoFactory2.generate(ogcApi, types2, ignore -> {
                 });
@@ -328,9 +322,6 @@ public class AutoHandler {
                     e);
         }
 
-        System.out.println("new featureProviderType: " + featureProviderType);
-        System.out.println("myParameters: " + parameters);
-
         FeatureProviderDataV2.Builder<?> builder =
                 AutoTypes.getBuilder(
                                 ldproxyCfg, EntityType.PROVIDERS, ProviderType.FEATURE, featureProviderType)
@@ -386,8 +377,6 @@ public class AutoHandler {
 
     private static FeatureProviderDataV2 parseFeatureProviderWfs(
             ImmutableFeatureProviderWfsData.Builder builder, Map<String, String> parameters) {
-
-        System.out.println("WFS parameters: " + parameters);
 
         builder
                 .connectionInfoBuilder()
