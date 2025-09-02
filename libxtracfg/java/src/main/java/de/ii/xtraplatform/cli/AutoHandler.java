@@ -140,15 +140,15 @@ public class AutoHandler {
             if ("copy".equalsIgnoreCase(createOption)) {
                 //Get related configurations (selectedSubConfigsSelector)
                 String selectedSubConfigsSelector = parameters.get("selectedSubConfigsSelector");
-
-                String[] elements = selectedSubConfigsSelector.replaceAll("[\\[\\]]", "").split(",");
-
                 List<String> cleanedPaths = new ArrayList<>();
-                for (String element : elements) {
-                    String cleaned = element.replaceAll("\\s*\\(.*\\)", "").trim();
-                    cleanedPaths.add(cleaned);
+
+                if (selectedSubConfigsSelector != null && !selectedSubConfigsSelector.isBlank()) {
+                     cleanedPaths = Arrays.stream(
+                                    selectedSubConfigsSelector.replaceAll("[\\[\\]]", "").split(","))
+                            .map(e -> e.replaceAll("\\s*\\(.*\\)", "").trim())
+                            .filter(e -> !e.isEmpty())
+                            .toList();
                 }
-                System.out.println("Cleaned Paths: " + cleanedPaths);
 
 
                 if (selectedConfig == null || selectedConfig.isBlank()) {
@@ -177,10 +177,33 @@ public class AutoHandler {
                 File targetFile = new File(new File(selectedConfig).getParent(), newId + ".yml");
                 ldproxyCfg.getObjectMapper().writeValue(targetFile, yamlContent);
 
+                List<String> filesToAdd = new ArrayList<>();
+                filesToAdd.add(ldproxyCfg.getDataDirectory().relativize(targetFile.toPath()).toString());
+
+                if (cleanedPaths.size()>0) {
+                    for (String pathToCfg : cleanedPaths) {
+                        File subSourceFile = new File(pathToCfg);
+                        if (!subSourceFile.exists()) {
+                            return Result.failure("Selected sub-config file does not exist: " + pathToCfg);
+                        }
+
+                        Map<String, Object> subYamlContent =
+                                ldproxyCfg.getObjectMapper().readValue(subSourceFile, Map.class);
+
+                        String subConfigId = newId;
+                        if (subYamlContent.containsKey("id")) {
+                            subYamlContent.put("id", subConfigId);
+                        }
+
+                        File subTargetFile = new File(subSourceFile.getParent(), subConfigId + ".yml");
+                        ldproxyCfg.getObjectMapper().writeValue(subTargetFile, subYamlContent);
+
+                        filesToAdd.add(ldproxyCfg.getDataDirectory().relativize(subTargetFile.toPath()).toString());
+                    }
+                }
+
                 result.success("Config copied successfully");
-                result.details(
-                        "new_files",
-                        List.of(ldproxyCfg.getDataDirectory().relativize(targetFile.toPath()).toString()));
+                result.details("new_files", filesToAdd);
                 return result;
             }
 
