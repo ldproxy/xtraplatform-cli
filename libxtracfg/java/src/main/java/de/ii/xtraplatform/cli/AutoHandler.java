@@ -22,6 +22,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class AutoHandler {
     public static Result preCheck(Map<String, String> parameters, LdproxyCfg ldproxyCfg) {
@@ -187,18 +189,34 @@ public class AutoHandler {
                             return Result.failure("Selected sub-config file does not exist: " + pathToCfg);
                         }
 
-                        Map<String, Object> subYamlContent =
-                                ldproxyCfg.getObjectMapper().readValue(subSourceFile, Map.class);
+                        // Check if the file ends with .json
+                        if (pathToCfg.endsWith(".json")) {
+                            // Determine the parent directory and create a new folder with the id
+                            File parentDir = subSourceFile.getParentFile().getParentFile(); // Go one directory up
+                            File targetDir = new File(parentDir, newId.replaceAll("\\.json|\\.yaml", ""));
+                            if (!targetDir.exists() && !targetDir.mkdirs()) {
+                                return Result.failure("Failed to create target directory: " + targetDir.getAbsolutePath());
+                            }
 
-                        String subConfigId = newId;
-                        if (subYamlContent.containsKey("id")) {
-                            subYamlContent.put("id", subConfigId);
+                            // Copy the file to the new directory
+                            File targetFile2 = new File(targetDir, subSourceFile.getName());
+                            Files.copy(subSourceFile.toPath(), targetFile2.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                            filesToAdd.add(ldproxyCfg.getDataDirectory().relativize(targetFile2.toPath()).toString());
+                        } else {
+                            Map<String, Object> subYamlContent =
+                                    ldproxyCfg.getObjectMapper().readValue(subSourceFile, Map.class);
+
+                            String subConfigId = newId;
+                            if (subYamlContent.containsKey("id")) {
+                                subYamlContent.put("id", subConfigId);
+                            }
+
+                            File subTargetFile = new File(subSourceFile.getParent(), subConfigId + ".yml");
+                            ldproxyCfg.getObjectMapper().writeValue(subTargetFile, subYamlContent);
+
+                            filesToAdd.add(ldproxyCfg.getDataDirectory().relativize(subTargetFile.toPath()).toString());
                         }
-
-                        File subTargetFile = new File(subSourceFile.getParent(), subConfigId + ".yml");
-                        ldproxyCfg.getObjectMapper().writeValue(subTargetFile, subYamlContent);
-
-                        filesToAdd.add(ldproxyCfg.getDataDirectory().relativize(subTargetFile.toPath()).toString());
                     }
                 }
 
