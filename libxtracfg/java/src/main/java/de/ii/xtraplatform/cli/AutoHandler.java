@@ -138,6 +138,19 @@ public class AutoHandler {
             }
 
             if ("copy".equalsIgnoreCase(createOption)) {
+                //Get related configurations (selectedSubConfigsSelector)
+                String selectedSubConfigsSelector = parameters.get("selectedSubConfigsSelector");
+
+                String[] elements = selectedSubConfigsSelector.replaceAll("[\\[\\]]", "").split(",");
+
+                List<String> cleanedPaths = new ArrayList<>();
+                for (String element : elements) {
+                    String cleaned = element.replaceAll("\\s*\\(.*\\)", "").trim();
+                    cleanedPaths.add(cleaned);
+                }
+                System.out.println("Cleaned Paths: " + cleanedPaths);
+
+
                 if (selectedConfig == null || selectedConfig.isBlank()) {
                     return Result.failure("No selectedConfig provided in parameters");
                 }

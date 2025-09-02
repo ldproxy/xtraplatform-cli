@@ -34,6 +34,9 @@ public class Auto extends Common<LdproxyCfg> {
     if (parameters.containsKey("typeObject") && parameters.get("typeObject") instanceof Map) {
       this.parameters.put("typeObject", parameters.get("typeObject").toString());
     }
+    if (parameters.containsKey("selectedSubConfigsSelector") && parameters.get("selectedSubConfigsSelector") instanceof List) {
+      this.parameters.put("selectedSubConfigsSelector", parameters.get("selectedSubConfigsSelector").toString());
+    }
     this.types = parseTypes(parameters);
     this.tracker = tracker;
   }
