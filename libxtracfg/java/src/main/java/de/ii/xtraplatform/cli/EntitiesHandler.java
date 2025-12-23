@@ -205,21 +205,16 @@ public class EntitiesHandler {
 
     Result result = new Result();
 
-    // already happened in preUpgrade when not in dev
-    if (DEV) {
-      for (Validation validation : getValidations(ldproxyCfg, type, path)) {
-        if (validation.getError().isPresent() || validation.hasErrors()) {
-          ldproxyCfg.ignoreEventsFor(
-              EntityDataDefaultsStore.EVENT_TYPE, validation.getIdentifier());
-          ldproxyCfg.ignoreEventsFor(
-              EntityDataStore.EVENT_TYPE_ENTITIES, validation.getIdentifier());
-          ldproxyCfg.ignoreEventsFor(
-              EntityDataStore.EVENT_TYPE_OVERRIDES, validation.getIdentifier());
-        }
+    for (Validation validation : getValidations(ldproxyCfg, type, path)) {
+      if (validation.getError().isPresent() || validation.hasErrors()) {
+        ldproxyCfg.ignoreEventsFor(EntityDataDefaultsStore.EVENT_TYPE, validation.getIdentifier());
+        ldproxyCfg.ignoreEventsFor(EntityDataStore.EVENT_TYPE_ENTITIES, validation.getIdentifier());
+        ldproxyCfg.ignoreEventsFor(
+            EntityDataStore.EVENT_TYPE_OVERRIDES, validation.getIdentifier());
       }
-
-      ldproxyCfg.initStore();
     }
+
+    ldproxyCfg.initStore();
 
     List<Upgrade> upgrades = getUpgrades(ldproxyCfg, type, path, ignoreRedundant, force, debug);
 
