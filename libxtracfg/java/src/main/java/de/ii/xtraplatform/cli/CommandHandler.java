@@ -33,7 +33,8 @@ public class CommandHandler {
   public CommandHandler() {
     Jackson jackson = new JacksonProvider(JacksonSubTypes::ids, false);
     this.jsonMapper =
-        (new ValueEncodingJackson(jackson, DataSize.megabytes(10), false)).getMapper(ValueEncoding.FORMAT.JSON);
+        (new ValueEncodingJackson(jackson, DataSize.megabytes(10), false))
+            .getMapper(ValueEncoding.FORMAT.JSON);
     this.noCommandsYet = true;
     this.explicitConnect = false;
   }
@@ -69,7 +70,7 @@ public class CommandHandler {
       return jsonMapper.writeValueAsString(result.asMap());
     } catch (JsonProcessingException e) {
       return String.format("{\"error\": \"Invalid call: %s\"}", e.getMessage());
-    } finally{
+    } finally {
       if (autoConnect && !explicitConnect) {
         this.context = null;
       }
@@ -97,6 +98,10 @@ public class CommandHandler {
 
     switch (call.command) {
       case connect:
+        if (isConnected()) {
+          return Result.ok("Already connected to store");
+        }
+
         Context.Builder builder = new Context.Builder();
         Result result = new Connect(call.parameters).run(builder);
 
@@ -114,7 +119,8 @@ public class CommandHandler {
       case auto:
         return new Auto(call.subcommand, call.parameters, tracker).run(context.ldproxyCfg);
       case autoValue:
-         return new AutoValue(call.subcommand, call.parameters, tracker, jsonMapper).run(context.ldproxyCfg);
+        return new AutoValue(call.subcommand, call.parameters, tracker, jsonMapper)
+            .run(context.ldproxyCfg);
       case schemas:
         return new Schemas(call.parameters).run(context.ldproxyCfg);
       case file_type:
