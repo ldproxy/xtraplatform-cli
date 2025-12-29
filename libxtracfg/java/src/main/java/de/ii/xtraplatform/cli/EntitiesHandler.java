@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import shadow.com.fasterxml.jackson.annotation.JsonInclude;
 import shadow.com.fasterxml.jackson.core.type.TypeReference;
-import shadow.com.google.common.collect.ImmutableList;
 
 public class EntitiesHandler {
 
@@ -583,8 +582,7 @@ public class EntitiesHandler {
       upgraded =
           ldproxyCfg
               .getEntityDataDefaultsStore()
-              .subtractDefaults(
-                  identifier, entityData.getEntitySubType(), upgraded, ImmutableList.of("enabled"));
+              .subtractDefaults(identifier, entityData.getEntitySubType(), upgraded);
     }
 
     // carry over substitutions
