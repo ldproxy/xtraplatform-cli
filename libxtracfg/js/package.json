@@ -11,7 +11,7 @@
     "build": "npm run build --workspaces --if-present",
     "pkg": "npm run pkg --workspaces --if-present",
     "test": "npm run test --workspace=xtracfg --workspace=xtracfg-native-binding --workspace=xtracfg-transport-native",
-    "bump": "lerna version --exact --no-git-tag-version --ignore-scripts --no-private --yes",
+    "bump": "lerna version --exact --no-git-tag-version --ignore-scripts --no-private --yes --force-publish",
     "publish": "lerna publish --no-git-tag-version --no-git-reset --ignore-scripts --no-push --force-publish --yes"
   },
   "dependencies": {},
