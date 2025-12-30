@@ -28,6 +28,6 @@ echo test
 ls -l
 
 REM static
-cl.exe /I./ /Fetest.exe ../test/main.c libxtracfg.lib jni.lib
+cl.exe /I./ /Fetest.exe ../test/main.c libxtracfg.lib %JAVA_HOME%/lib/jvm.lib
 
 cd ..
