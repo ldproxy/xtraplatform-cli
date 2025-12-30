@@ -8,7 +8,7 @@ REM in a local temp directory and does not specify the output path anywhere. Tes
 REM GraalVM jdk21.+35.1 on Windows 10 and may need to be modified for other versions.
 REM
 REM Use with --native-compiler-path=${pathToThisScript}.bat
-set OUTPUT_PATH=%~dp0\..\..\target\image
+set OUTPUT_PATH=%~dp0\..\..\java\build\native\nativeCompile
 
 REM Determine the library name based on the .dll argument. ~nP returns the filename
 REM without quotes, i.e., "path\myLibrary.dll" returns myLibrary
@@ -50,6 +50,7 @@ REM To create a static library on Windows we need to call lib.exe input.obj /OUT
 REM We don't want to overwrite the .lib needed to compile against the .dll, so
 REM we append "_s" to indicate that it is a static library.
 if not exist %OUTPUT_PATH% mkdir %OUTPUT_PATH%
-set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_s.lib
+REM set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_s.lib
+set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%
