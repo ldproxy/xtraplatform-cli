@@ -8,15 +8,15 @@ jobs:
     strategy:
       matrix:
         os:
-#          - runner: ubuntu-24.04
-#            type: linux
-#            platform: linux-amd64
-#          - runner: ubuntu-24.04-arm
-#            type: linux
-#            platform: linux-arm64
-#          - runner: macos-14
-#            type: macos
-#            platform: darwin-arm64
+          #          - runner: ubuntu-24.04
+          #            type: linux
+          #            platform: linux-amd64
+          #          - runner: ubuntu-24.04-arm
+          #            type: linux
+          #            platform: linux-arm64
+          #          - runner: macos-14
+          #            type: macos
+          #            platform: darwin-arm64
           - runner: windows-2022
             type: windows
             platform: windows-amd64
@@ -56,7 +56,6 @@ jobs:
           ./gradlew nativeCompile -PLIB=true
       - name: log0
         run: |
-          ls -Recurse ./libxtracfg/java/build/native/nativeCompile
           cat ./libxtracfg/java/build/native/nativeCompile/logs/compiler_commands.txt
       - name: log1
         run: |
@@ -64,9 +63,11 @@ jobs:
       # TODO: windows
       - name: c
         working-directory: ./libxtracfg/c
+        env:
+          EXT: ${{ matrix.os.type == 'windows' && 'bat' || 'sh' }}
         run: |
-          ./build.sh
-          ./test.sh
+          ./build.${EXT}
+          ./test.${EXT}
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
@@ -102,15 +103,15 @@ jobs:
     strategy:
       matrix:
         os:
-#          - runner: ubuntu-24.04
-#            type: linux
-#            platform: linux-amd64
-#          - runner: ubuntu-24.04-arm
-#            type: linux
-#            platform: linux-arm64
-#          - runner: macos-14
-#            type: macos
-#            platform: darwin-arm64
+          #          - runner: ubuntu-24.04
+          #            type: linux
+          #            platform: linux-amd64
+          #          - runner: ubuntu-24.04-arm
+          #            type: linux
+          #            platform: linux-arm64
+          #          - runner: macos-14
+          #            type: macos
+          #            platform: darwin-arm64
           - runner: windows-2022
             type: windows
             platform: windows-amd64

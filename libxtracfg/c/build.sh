@@ -21,6 +21,7 @@ echo "lib"
 clang -c -Wall -fPIC -I./ -I$JAVA_HOME/include -I$JAVA_HOME/include/${PLATFORM} -o libxtracfg.o ../wrapper/libxtracfg.c
 cp libxtracfgjni.a libxtracfg.a
 ar -rv libxtracfg.a libxtracfg.o
+
 if [ "$PLATFORM" = "darwin" ]; then
 shasum libxtracfg.a > libxtracfg.sha1sum
 else
