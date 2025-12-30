@@ -38,6 +38,10 @@ jobs:
           #cache-dependency-path: |
           #  xtracfg/*.gradle*
           #  xtracfg/**/gradle-wrapper.properties
+      - uses: egor-tensin/vs-shell@v2
+        if: ${{ matrix.os.type == 'windows' }}
+        with:
+          arch: x64
       - name: zlib
         if: ${{ matrix.os.type == 'linux' }}
         working-directory: /tmp
