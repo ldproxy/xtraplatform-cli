@@ -17,22 +17,14 @@
       },
       'msvs_settings': {
         'VCCLCompilerTool': { 'ExceptionHandling': 1 },
-      }
-    }
-  ],
-  'conditions': [
-    ['OS=="win"', {
-      'targets': [
-        {
+      },
+      'conditions': [
+        ['OS=="win"', {
           'libraries': [ '<(local_prefix)/../c/build/libxtracfg.lib' ]
-        },
-      ],
-    }, { # OS != "win"
-      'targets': [
-        {
+        }, { # OS != "win"
           'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ]
-        },
-      ],
-    }],
+        }],
+      ]
+    }
   ]
 }
