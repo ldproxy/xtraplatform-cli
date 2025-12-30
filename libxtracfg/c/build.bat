@@ -11,7 +11,7 @@ cd %OUT_DIR%
 
 echo lib
 
-ls -l -R %JAVA_HOME%/include
+ls -l -R %JAVA_HOME%/lib
 
 REM static
 cl.exe /c /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
@@ -28,6 +28,6 @@ echo test
 ls -l
 
 REM static
-cl.exe /I./ /L./ /Fetest.exe ../test/main.c libxtracfg.lib
+cl.exe /I./ /Fetest.exe ../test/main.c libxtracfg.lib jni.lib
 
 cd ..
