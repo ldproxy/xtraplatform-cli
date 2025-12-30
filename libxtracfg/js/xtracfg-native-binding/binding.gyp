@@ -32,6 +32,7 @@
         {
           'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ]
         },
+      ],
     }],
   ]
 }
