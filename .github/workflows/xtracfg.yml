@@ -54,6 +54,10 @@ jobs:
         working-directory: ./libxtracfg/java
         run: |
           ./gradlew nativeCompile -PLIB=true
+      - name: log0
+        run: |
+          ls -lR ./libxtracfg/java/build/native/nativeCompile
+          cat ./libxtracfg/java/build/native/nativeCompile/logs/compiler_commands.txt
       - name: log1
         run: |
           ls -l ./libxtracfg/c/build
