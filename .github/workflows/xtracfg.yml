@@ -57,7 +57,6 @@ jobs:
       - name: log0
         run: |
           ls -Recurse ./libxtracfg/java/build/native/nativeCompile
-#          ls -Recurse ./libxtracfg/target
           cat ./libxtracfg/java/build/native/nativeCompile/logs/compiler_commands.txt
       - name: log1
         run: |
