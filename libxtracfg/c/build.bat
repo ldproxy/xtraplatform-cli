@@ -2,7 +2,7 @@
 REM Windows batch file conversion of build.sh
 
 SET OUT_DIR=build
-SET PLATFORM=windows
+SET PLATFORM=win32
 SET EXT=lib
 
 if not exist %OUT_DIR% mkdir %OUT_DIR%
