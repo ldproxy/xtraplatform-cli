@@ -8,18 +8,18 @@ jobs:
     strategy:
       matrix:
         os:
-          - runner: ubuntu-24.04
-            type: linux
-            platform: linux-amd64
-          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
-            type: linux
-            platform: linux-arm64
-          - runner: macos-14
-            type: macos
-            platform: darwin-arm64
-          #- runner: windows-2022
-          #  type: windows
-          #  platform: windows-amd64
+#          - runner: ubuntu-24.04
+#            type: linux
+#            platform: linux-amd64
+#          - runner: ubuntu-24.04-arm
+#            type: linux
+#            platform: linux-arm64
+#          - runner: macos-14
+#            type: macos
+#            platform: darwin-arm64
+          - runner: windows-2022
+            type: windows
+            platform: windows-amd64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -98,18 +98,18 @@ jobs:
     strategy:
       matrix:
         os:
-          - runner: ubuntu-24.04
-            type: linux
-            platform: linux-amd64
-          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
-            type: linux
-            platform: linux-arm64
-          - runner: macos-14
-            type: macos
-            platform: darwin-arm64
-          #- runner: windows-2022
-          #  type: windows
-          #  platform: windows-amd64
+#          - runner: ubuntu-24.04
+#            type: linux
+#            platform: linux-amd64
+#          - runner: ubuntu-24.04-arm
+#            type: linux
+#            platform: linux-arm64
+#          - runner: macos-14
+#            type: macos
+#            platform: darwin-arm64
+          - runner: windows-2022
+            type: windows
+            platform: windows-amd64
     defaults:
       run:
         working-directory: ./xtracfg
@@ -160,6 +160,7 @@ jobs:
           retention-days: 1
 
   publish_npm:
+    if: ${{ github.ref_type == 'linux' }}
     runs-on: ubuntu-latest
     needs: build_libraries
     defaults:
@@ -202,6 +203,7 @@ jobs:
           ls -lR ./**/build
 
   publish_docker:
+    if: ${{ github.ref_type == 'linux' }}
     runs-on: ubuntu-latest
     needs: build_binaries
     steps:
