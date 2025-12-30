@@ -3,7 +3,6 @@
     {
       'target_name': 'xtracfg-native',
       'sources': [ 'src/xtracfg_lib.cc' ],
-       'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ],
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "<(local_prefix)/../c/include"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags': ['-fPIC'],
@@ -20,5 +19,19 @@
         'VCCLCompilerTool': { 'ExceptionHandling': 1 },
       }
     }
+  ],
+  'conditions': [
+    ['OS=="win"', {
+      'targets': [
+        {
+          'libraries': [ '<(local_prefix)/../c/build/libxtracfg.lib' ]
+        },
+      ],
+    }, { # OS != "win"
+      'targets': [
+        {
+          'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ]
+        },
+    }],
   ]
 }
