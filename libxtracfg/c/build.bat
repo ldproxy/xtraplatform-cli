@@ -25,8 +25,9 @@ del libxtracfg.sha1sum.tmp
 copy libxtracfg.sha1sum ..\..\go\xtracfg\
 
 echo test
+ls -l
 
 REM static
-cl.exe /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Fetest.exe ../test/main.c libxtracfg.lib
+cl.exe /I./ /L./ /Fetest.exe ../test/main.c libxtracfg.lib
 
 cd ..
