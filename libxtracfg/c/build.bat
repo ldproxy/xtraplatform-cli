@@ -13,7 +13,7 @@ echo lib
 
 REM static
 cl.exe /c /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
-copy libxtracfgjni.lib libxtracfg.lib
+copy libxtracfgjni_static.lib libxtracfg.lib
 lib.exe /OUT:libxtracfg.lib libxtracfg.lib libxtracfg.obj
 
 certutil -hashfile libxtracfg.lib SHA1 > libxtracfg.sha1sum.tmp

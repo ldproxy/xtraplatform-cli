@@ -60,14 +60,18 @@ jobs:
       - name: log1
         run: |
           ls -l ./libxtracfg/c/build
-      # TODO: windows
       - name: c
+        if: ${{ matrix.os.type != 'windows' }}
         working-directory: ./libxtracfg/c
-        env:
-          EXT: ${{ matrix.os.type == 'windows' && 'bat' || 'sh' }}
         run: |
-          ./build.${EXT}
-          ./test.${EXT}
+          ./build.sh
+          ./test.sh
+      - name: c
+        if: ${{ matrix.os.type == 'windows' }}
+        working-directory: ./libxtracfg/c
+        run: |
+          ./build.bat
+          ./test.bat
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
