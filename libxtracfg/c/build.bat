@@ -11,7 +11,7 @@ cd %OUT_DIR%
 
 echo lib
 
-ls -Recurse %JAVA_HOME%/include
+ls -l -R %JAVA_HOME%/include
 
 REM static
 cl.exe /c /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
