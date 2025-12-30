@@ -56,8 +56,8 @@ jobs:
           ./gradlew nativeCompile -PLIB=true
       - name: log0
         run: |
-          dir /s /a libxtracfg\\java\\build\\native\\nativeCompile
-          dir /s /a libxtracfg\\java\\build
+          ls -Recurse ./libxtracfg/java/build/native/nativeCompile
+          ls -Recurse ./libxtracfg/java/build
           cat ./libxtracfg/java/build/native/nativeCompile/logs/compiler_commands.txt
       - name: log1
         run: |
