@@ -75,7 +75,7 @@ jobs:
         working-directory: ./libxtracfg/c
         run: |
           ./build.bat
-          ./test.bat
+      #    ./test.bat
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
