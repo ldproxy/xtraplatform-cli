@@ -75,7 +75,7 @@ jobs:
         working-directory: ./libxtracfg/c
         run: |
           ./build.bat
-      #    ./test.bat
+          ./test.bat
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
@@ -103,6 +103,11 @@ jobs:
         with:
           name: libxtracfg-js-${{ matrix.os.platform }}
           path: ./libxtracfg/js/xtracfg-native-binding/prebuilds
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: C:\\npm\\cache\\_logs
           retention-days: 1
 
   build_binaries:
