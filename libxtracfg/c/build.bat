@@ -11,12 +11,12 @@ cd %OUT_DIR%
 
 echo lib
 
-ls -l -R %JAVA_HOME%/lib
+ls -l -R %JAVA_HOME%
 
 REM static
 cl.exe /c /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
 REM copy libxtracfgjni_static.lib libxtracfg.lib
-lib.exe /OUT:libxtracfg.lib libxtracfg.obj libxtracfgjni_static.lib
+lib.exe /OUT:libxtracfg.lib /VERBOSE libxtracfg.obj libxtracfgjni_static.lib
 
 certutil -hashfile libxtracfg.lib SHA1 > libxtracfg.sha1sum.tmp
 REM Extract just the hash from certutil output (it includes headers/footers)

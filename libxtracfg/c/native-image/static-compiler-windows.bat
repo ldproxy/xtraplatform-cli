@@ -44,6 +44,19 @@ echo cl.exe %CL_ARGS% >> %LOG_FILE%
 cmd /c cl.exe %CL_ARGS%
 
 echo ===================================================== >> %LOG_FILE%
+echo                   STATIC EXTERNAL                     >> %LOG_FILE%
+echo ===================================================== >> %LOG_FILE%
+set LIBS_EXT=
+for %%P in (%*) do (
+    echo %%P | findstr /C:"\.lib" 1>nul
+    if !errorlevel!==0 (
+        set LIBS_EXT=%LIBS_EXT% %%~nP
+        echo %%~nP >> %LOG_FILE%
+    )
+)
+echo %LIBS_EXT% >> %LOG_FILE%
+
+echo ===================================================== >> %LOG_FILE%
 echo                   STATIC LIBRARY                      >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 REM To create a static library on Windows we need to call lib.exe input.obj /OUT:output.lib
