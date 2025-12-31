@@ -48,10 +48,10 @@ echo                   STATIC EXTERNAL                     >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 set LIBS_EXT=
 for %%P in (%*) do (
-    echo %%P | findstr /C:"\.lib" 1>nul
+    echo %%P | findstr /R /C:"^C:\\.*\.lib$" 1>nul
     if !errorlevel!==0 (
-        set LIBS_EXT=%LIBS_EXT% %%~nP
-        echo %%~nP >> %LOG_FILE%
+        set LIBS_EXT=!LIBS_EXT! %%P
+        echo %%P >> %LOG_FILE%
     )
 )
 echo %LIBS_EXT% >> %LOG_FILE%
@@ -63,6 +63,6 @@ REM To create a static library on Windows we need to call lib.exe input.obj /OUT
 REM We don't want to overwrite the .lib needed to compile against the .dll, so
 REM we append "_s" to indicate that it is a static library.
 if not exist %OUTPUT_PATH% mkdir %OUTPUT_PATH%
-set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
+set LIB_ARGS=%LIB_NAME%.obj %LIBS_EXT% /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%

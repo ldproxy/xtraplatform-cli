@@ -88,8 +88,9 @@ jobs:
           npm --loglevel verbose run prebuildify
           npm --loglevel verbose run test
       - name: log3
+        continue-on-error: true
         run: |
-          ls -l -R ./libxtracfg/js/xtracfg-native-binding/prebuilds
+          ls -R ./libxtracfg/js/xtracfg-native-binding/prebuilds
       # TODO: run tests for java, c, go
       - uses: actions/upload-artifact@v4
         with:
