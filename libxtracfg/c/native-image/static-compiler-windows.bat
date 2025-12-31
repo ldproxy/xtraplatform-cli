@@ -49,7 +49,7 @@ echo ===================================================== >> %LOG_FILE%
 set LIBS_EXT=
 for %%P in (%*) do (
     echo %%P >> %LOG_FILE%
-    echo %%P | findstr /R /C:" C:\\.*?\.lib " 1>nul
+    echo %%P | findstr /R /C:"^C:\\.*?\.lib" 1>nul
     if !errorlevel!==0 (
         echo *** >> %LOG_FILE%
         set LIBS_EXT=!LIBS_EXT! %%P
