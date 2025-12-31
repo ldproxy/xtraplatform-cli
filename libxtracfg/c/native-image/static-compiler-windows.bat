@@ -48,13 +48,13 @@ echo                   STATIC EXTERNAL                     >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 set LIBS_EXT=
 for %%P in (%*) do (
-    echo %%P | findstr /R /C:"^C:\\.*\.lib$" 1>nul
+    echo %%P | findstr /R /C:" C:\\.*\.lib " 1>nul
     if !errorlevel!==0 (
-        set LIBS_EXT=!LIBS_EXT! %%P
         echo %%P >> %LOG_FILE%
+        set LIBS_EXT=!LIBS_EXT! %%P
     )
 )
-echo %LIBS_EXT% >> %LOG_FILE%
+echo !LIBS_EXT! >> %LOG_FILE%
 
 echo ===================================================== >> %LOG_FILE%
 echo                   STATIC LIBRARY                      >> %LOG_FILE%
