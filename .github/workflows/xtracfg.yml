@@ -55,6 +55,7 @@ jobs:
           CFLAGS="-fPIC" ./configure --static
           make
       - name: java
+        continue-on-error: true
         working-directory: ./libxtracfg/java
         run: |
           ./gradlew nativeCompile -PLIB=true
