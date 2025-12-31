@@ -34,6 +34,7 @@ if not exist %LOG_PATH% mkdir %LOG_PATH%
 echo Working directory: %CD% > %LOG_FILE%
 echo Output path: %OUTPUT_PATH% >> %LOG_FILE%
 echo Library name: %LIB_NAME% >> %LOG_FILE%
+echo Java home: %JAVA_HOME% >> %LOG_FILE%
 
 echo ===================================================== >> %LOG_FILE%
 echo                   SHARED LIBRARY                      >> %LOG_FILE%
@@ -52,8 +53,17 @@ for %%P in (%*) do (
     echo %%P | findstr /R /C:"^C:.*\.lib" 1>nul
     if !errorlevel!==0 (
         echo *** >> %LOG_FILE%
-        set LIBS_EXT=!LIBS_EXT! %%P
+        echo %%P | findstr /R /C:"\\jvm\.lib" 1>nul
+        if !errorlevel!==0 (
+            set "TMP=%%P"
+            set "TMP=!TMP:svm\clibraries\windows-amd64=!"
+            set "LIBS_EXT=!LIBS_EXT! !TMP!"
+            echo (replaced svm\clibraries\windows-amd64) >> %LOG_FILE%
+        ) else (
+            set "LIBS_EXT=!LIBS_EXT! %%P"
+        )
     )
+
 )
 echo !LIBS_EXT! >> %LOG_FILE%
 
@@ -64,6 +74,6 @@ REM To create a static library on Windows we need to call lib.exe input.obj /OUT
 REM We don't want to overwrite the .lib needed to compile against the .dll, so
 REM we append "_s" to indicate that it is a static library.
 if not exist %OUTPUT_PATH% mkdir %OUTPUT_PATH%
-set LIB_ARGS=%LIB_NAME%.obj %JAVA_HOME%/lib/jvm.lib !LIBS_EXT! /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
+set LIB_ARGS=%LIB_NAME%.obj !LIBS_EXT! /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%
