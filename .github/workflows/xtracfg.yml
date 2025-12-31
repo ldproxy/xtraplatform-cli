@@ -8,9 +8,9 @@ jobs:
     strategy:
       matrix:
         os:
-          #          - runner: ubuntu-24.04
-          #            type: linux
-          #            platform: linux-amd64
+          - runner: ubuntu-24.04
+            type: linux
+            platform: linux-amd64
           #          - runner: ubuntu-24.04-arm
           #            type: linux
           #            platform: linux-arm64
@@ -81,6 +81,7 @@ jobs:
         run: |
           ls -l ./libxtracfg/c/build
       - name: js
+        continue-on-error: true
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
           npm --loglevel verbose ci
