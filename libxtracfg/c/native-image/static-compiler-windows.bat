@@ -57,7 +57,7 @@ for %%P in (%*) do (
     )
 
 )
-set "LIBS_EXT=!LIBS_EXT:svm\clibraries\windows-amd64\jvm.lib=jvm.lib!"
+REM set "LIBS_EXT=!LIBS_EXT:svm\clibraries\windows-amd64\jvm.lib=jvm.lib!"
 echo !LIBS_EXT! >> %LOG_FILE%
 
 echo ===================================================== >> %LOG_FILE%
