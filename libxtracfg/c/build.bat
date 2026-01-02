@@ -28,7 +28,7 @@ echo test
 ls -l
 
 REM static
-cl.exe /I./ /Fetest.exe ../test/main.c libxtracfg.lib 
+cl.exe /MT /I./ /Fetest.exe ../test/main.c libxtracfg.lib /link /verbose
 REM %JAVA_HOME%/lib/jvm.lib
 
 ls -l
