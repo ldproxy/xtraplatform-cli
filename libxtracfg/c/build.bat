@@ -14,7 +14,7 @@ echo lib
 ls -l -R %JAVA_HOME%
 
 REM static
-cl.exe /c /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
+cl.exe /c /MT /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
 REM copy libxtracfgjni_static.lib libxtracfg.lib
 lib.exe /OUT:libxtracfg.lib /VERBOSE libxtracfg.obj libxtracfgjni_static.lib
 

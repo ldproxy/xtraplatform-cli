@@ -20,16 +20,17 @@ for %%P in (%*) do (
     )
 )
 
-REM Do a simple forward for any calls that are used to compile individual C files
-IF "%LIB_NAME%"=="" (
-    cmd /c cl %*
-    exit /b
-)
-
 REM Setup log path and log file
 set LOG_PATH=%OUTPUT_PATH%\logs
 set LOG_FILE=%LOG_PATH%\compiler_commands.txt
 if not exist %LOG_PATH% mkdir %LOG_PATH%
+
+REM Do a simple forward for any calls that are used to compile individual C files
+IF "%LIB_NAME%"=="" (
+    echo Forwarding to cl.exe for compiling C file: %* >> %LOG_FILE%
+    cmd /c cl /MT %*
+    exit /b
+)
 
 echo Working directory: %CD% > %LOG_FILE%
 echo Output path: %OUTPUT_PATH% >> %LOG_FILE%
@@ -42,7 +43,7 @@ echo ===================================================== >> %LOG_FILE%
 REM Modify the arguments if needed
 set CL_ARGS=%*
 echo cl.exe %CL_ARGS% >> %LOG_FILE%
-cmd /c cl.exe %CL_ARGS%
+cmd /c cl.exe /MT %CL_ARGS%
 
 echo ===================================================== >> %LOG_FILE%
 echo                   STATIC EXTERNAL                     >> %LOG_FILE%
@@ -57,7 +58,7 @@ for %%P in (%*) do (
     )
 
 )
-REM set "LIBS_EXT=!LIBS_EXT:svm\clibraries\windows-amd64\jvm.lib=jvm.lib!"
+set "LIBS_EXT=!LIBS_EXT:svm\clibraries\windows-amd64\jvm.lib=jvm.lib!"
 echo !LIBS_EXT! >> %LOG_FILE%
 
 echo ===================================================== >> %LOG_FILE%
