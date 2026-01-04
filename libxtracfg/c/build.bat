@@ -28,7 +28,8 @@ echo test
 ls -l
 
 REM static
-cl.exe /MT /I./ /Fetest.exe ../test/main.c libxtracfg.lib /link /verbose
+cl.exe /MT /I./ /Fetest.exe ../test/main.c libxtracfg.lib /link /NODEFAULTLIB:LIBCMT /FILEALIGN:4096 /LIBPATH:./ /LIBPATH:%JAVA_HOME%/lib /LIBPATH:%JAVA_HOME%/lib/svm/clibraries/windows-amd64 /LIBPATH:%JAVA_HOME%/lib/static/windows-amd64
+REM /verbose
 REM %JAVA_HOME%/lib/jvm.lib
 
 ls -l

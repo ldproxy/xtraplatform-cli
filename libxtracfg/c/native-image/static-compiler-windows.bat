@@ -49,6 +49,7 @@ echo ===================================================== >> %LOG_FILE%
 echo                   STATIC EXTERNAL                     >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 set LIBS_EXT=
+set LIBS_EXT_DIRS=
 for %%P in (%*) do (
     echo %%P >> %LOG_FILE%
     echo %%P | findstr /R /C:"^C:.*\.lib" 1>nul
@@ -58,7 +59,7 @@ for %%P in (%*) do (
     )
 
 )
-set "LIBS_EXT=!LIBS_EXT:svm\clibraries\windows-amd64\jvm.lib=jvm.lib!"
+REM set "LIBS_EXT=!LIBS_EXT:svm\clibraries\windows-amd64\jvm.lib=jvm.lib!"
 echo !LIBS_EXT! >> %LOG_FILE%
 
 echo ===================================================== >> %LOG_FILE%
