@@ -32,7 +32,7 @@ IF "%LIB_NAME%"=="" (
     exit /b
 )
 
-echo Working directory: %CD% > %LOG_FILE%
+echo Working directory: %CD% >> %LOG_FILE%
 echo Output path: %OUTPUT_PATH% >> %LOG_FILE%
 echo Library name: %LIB_NAME% >> %LOG_FILE%
 echo Java home: %JAVA_HOME% >> %LOG_FILE%
