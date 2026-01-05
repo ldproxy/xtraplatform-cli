@@ -28,7 +28,7 @@ echo test
 ls -l
 
 REM static
-cl.exe /MT /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% ^
+cl.exe /MD /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% ^
  ../wrapper/libxtracfg.c ^
  ../test/main.c ^
  libxtracfgjni_static.lib ^
@@ -42,7 +42,6 @@ cl.exe /MT /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFOR
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\static\windows-amd64\zip.lib ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\svm\clibraries\windows-amd64\jvm.lib ^
  /link ^
-  /NODEFAULTLIB:MSVCRT ^
   /FILEALIGN:4096 ^
   /LIBPATH:./ ^
   /LIBPATH:%JAVA_HOME%/lib ^
