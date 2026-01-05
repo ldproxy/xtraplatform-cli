@@ -40,7 +40,7 @@ cl.exe /MT /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFOR
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\static\windows-amd64\java.lib ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\static\windows-amd64\sunmscapi.lib ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\static\windows-amd64\zip.lib ^
- C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\jvm.lib ^
+ C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\svm\clibraries\windows-amd64\jvm.lib ^
  /link ^
   /FILEALIGN:4096 ^
   /LIBPATH:./ ^
@@ -48,6 +48,7 @@ cl.exe /MT /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFOR
   /LIBPATH:%JAVA_HOME%/lib/svm/clibraries ^
   /LIBPATH:%JAVA_HOME%/lib/svm/clibraries/windows-amd64 ^
   /LIBPATH:%JAVA_HOME%/lib/static/windows-amd64 ^
+  /WHOLEARCHIVE:libxtracfgjni_static.lib ^
   ncrypt.lib ^
   crypt32.lib ^
   winhttp.lib ^
