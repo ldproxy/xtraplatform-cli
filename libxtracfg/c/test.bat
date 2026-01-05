@@ -9,7 +9,7 @@ ls -l build
 
 cd build
 
-cmd.exe /c test.exe "{\"command\": \"info\", \"source\": \"./\", \"debug\": \"true\", \"verbose\": \"true\"}"
+cmd.exe /c test.exe "{\"command\": \"info\", \"source\": \"%DIR%\", \"debug\": \"true\", \"verbose\": \"true\"}"
 
 dumpbin /dependents test.exe
 
