@@ -42,8 +42,10 @@ echo                   SHARED LIBRARY                      >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 REM Modify the arguments if needed
 set CL_ARGS=%*
+set "CL_ARGS=%CL_ARGS:/MD /LD=/MT%"
+set "CL_ARGS=%CL_ARGS:/NODEFAULTLIB:LIBCMT=%"
 echo cl.exe %CL_ARGS% >> %LOG_FILE%
-cmd /c cl.exe /MT %CL_ARGS%
+cmd /c cl.exe %CL_ARGS%
 
 echo ===================================================== >> %LOG_FILE%
 echo                   STATIC EXTERNAL                     >> %LOG_FILE%
@@ -69,6 +71,6 @@ REM To create a static library on Windows we need to call lib.exe input.obj /OUT
 REM We don't want to overwrite the .lib needed to compile against the .dll, so
 REM we append "_s" to indicate that it is a static library.
 if not exist %OUTPUT_PATH% mkdir %OUTPUT_PATH%
-set LIB_ARGS=%LIB_NAME%.obj !LIBS_EXT! /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
+set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%
