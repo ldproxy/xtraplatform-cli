@@ -31,7 +31,7 @@ REM static
 cl.exe /MT /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% ^
  ../wrapper/libxtracfg.c ^
  ../test/main.c ^
- libxtracfgjni.lib ^
+ libxtracfgjni_static.lib ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\svm\clibraries\windows-amd64\libchelper.lib ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\static\windows-amd64\net.lib ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\static\windows-amd64\extnet.lib ^

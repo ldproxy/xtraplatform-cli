@@ -28,7 +28,7 @@ if not exist %LOG_PATH% mkdir %LOG_PATH%
 REM Do a simple forward for any calls that are used to compile individual C files
 IF "%LIB_NAME%"=="" (
     echo Forwarding to cl.exe for compiling C file: %* >> %LOG_FILE%
-    cmd /c cl.exe %*
+    cmd /c cl /MT %*
     exit /b
 )
 
@@ -42,8 +42,8 @@ echo                   SHARED LIBRARY                      >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 REM Modify the arguments if needed
 set CL_ARGS=%*
-REM set "CL_ARGS=%CL_ARGS:/MD /LD=/MT%"
-REM set "CL_ARGS=%CL_ARGS:/NODEFAULTLIB:LIBCMT=%"
+set "CL_ARGS=%CL_ARGS:/MD /LD=/MT%"
+set "CL_ARGS=%CL_ARGS:/NODEFAULTLIB:LIBCMT=%"
 echo cl.exe %CL_ARGS% >> %LOG_FILE%
 cmd /c cl.exe %CL_ARGS%
 
