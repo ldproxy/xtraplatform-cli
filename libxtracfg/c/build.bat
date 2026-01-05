@@ -11,7 +11,9 @@ cd %OUT_DIR%
 
 echo lib
 
-ls -l -R %JAVA_HOME%
+cl.exe /Bv
+
+REM ls -l -R %JAVA_HOME%
 
 REM static
 cl.exe /c /MT /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
@@ -41,7 +43,6 @@ cl.exe /MT /I./ /Fetest.exe ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\static\windows-amd64\zip.lib ^
  C:\hostedtoolcache\windows\graalvm-jdk-21_windows-x64_bin\21.0.0\x64\graalvm-jdk-21.0.9+7.1\lib\svm\clibraries\windows-amd64\jvm.lib ^
  /link ^
-  /NODEFAULTLIB:LIBCMT ^
   /FILEALIGN:4096 ^
   /LIBPATH:./ ^
   /LIBPATH:%JAVA_HOME%/lib ^
