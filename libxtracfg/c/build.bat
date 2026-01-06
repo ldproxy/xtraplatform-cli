@@ -32,25 +32,12 @@ cl.exe /MD /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFOR
  ../wrapper/libxtracfg.c ^
  ../test/main.c ^
  libxtracfgjni_static.lib ^
- libxtracfgjni_static_java.lib ^
+ libxtracfgjni_static_ext.lib ^
  /link ^
   /NODEFAULTLIB:LIBCMT ^
   /FILEALIGN:4096 ^
   /LIBPATH:./ ^
-  /WHOLEARCHIVE:libxtracfgjni_static.lib ^
-  ncrypt.lib ^
-  crypt32.lib ^
-  winhttp.lib ^
-  psapi.lib ^
-  version.lib ^
-  advapi32.lib ^
-  ws2_32.lib ^
-  secur32.lib ^
-  iphlpapi.lib ^
-  userenv.lib ^
-  mswsock.lib
-REM /verbose
-REM %JAVA_HOME%/lib/jvm.lib
+  /WHOLEARCHIVE:libxtracfgjni_static.lib
 
 ls -l
 

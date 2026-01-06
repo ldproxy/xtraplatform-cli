@@ -53,7 +53,7 @@ echo ===================================================== >> %LOG_FILE%
 set LIBS_EXT=
 for %%P in (%*) do (
     echo %%P >> %LOG_FILE%
-    echo %%P | findstr /R /C:"^C:.*\.lib" 1>nul
+    echo %%P | findstr /R /C:"^[^/].*\.lib" 1>nul
     if !errorlevel!==0 (
         echo *** >> %LOG_FILE%
         echo !LIBS_EXT! | findstr /C:"%%P" >nul
@@ -76,6 +76,6 @@ if not exist %OUTPUT_PATH% mkdir %OUTPUT_PATH%
 set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%
-set LIB_ARGS=!LIBS_EXT! /OUT:%OUTPUT_PATH%\%LIB_NAME%_static_java.lib
+set LIB_ARGS=!LIBS_EXT! /OUT:%OUTPUT_PATH%\%LIB_NAME%_static_ext.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%
