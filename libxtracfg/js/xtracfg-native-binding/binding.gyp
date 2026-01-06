@@ -17,6 +17,12 @@
       },
       'msvs_settings': {
         'VCCLCompilerTool': { 'ExceptionHandling': 1 },
+        'VCLinkerTool': { 
+          'IgnoreDefaultLibraryNames': [ 'LIBCMT' ],
+          'AdditionalOptions': [
+                '/WHOLEARCHIVE:<(local_prefix)/../c/build/libxtracfg.lib',
+              ],
+          },
       },
       'conditions': [
         ['OS=="win"', {
