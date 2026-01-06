@@ -3,7 +3,7 @@ package xtracfg
 /*
 #cgo CFLAGS: -I ../../c/include
 #cgo LDFLAGS: -L../../c/build -lxtracfg
-#cgo windows LDFLAGS: -L../../c/build -lxtracfg -lxtracfgjni_static_ext
+#cgo windows LDFLAGS: -lxtracfgjni_static_ext
 
 #include <stdlib.h>
 #include "libxtracfg.h"

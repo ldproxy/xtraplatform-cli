@@ -8,15 +8,15 @@ jobs:
     strategy:
       matrix:
         os:
-          #- runner: ubuntu-24.04
-          #  type: linux
-          #  platform: linux-amd64
-          #          - runner: ubuntu-24.04-arm
-          #            type: linux
-          #            platform: linux-arm64
-          #          - runner: macos-14
-          #            type: macos
-          #            platform: darwin-arm64
+          - runner: ubuntu-24.04
+            type: linux
+            platform: linux-amd64
+          - runner: ubuntu-24.04-arm
+            type: linux
+            platform: linux-arm64
+          - runner: macos-14
+            type: macos
+            platform: darwin-arm64
           - runner: windows-2022
             type: windows
             platform: windows-amd64
@@ -55,7 +55,6 @@ jobs:
           CFLAGS="-fPIC" ./configure --static
           make
       - name: java
-        continue-on-error: true
         working-directory: ./libxtracfg/java
         run: |
           ./gradlew nativeCompile -PLIB=true
@@ -73,7 +72,6 @@ jobs:
           ./test.sh
       - name: c
         if: ${{ matrix.os.type == 'windows' }}
-        continue-on-error: true
         working-directory: ./libxtracfg/c
         run: |
           ./build.bat
@@ -82,14 +80,12 @@ jobs:
         run: |
           ls -l ./libxtracfg/c/build
       - name: js
-        continue-on-error: true
         working-directory: ./libxtracfg/js/xtracfg-native-binding
         run: |
           npm --loglevel verbose ci
           npm --loglevel verbose run prebuildify
           npm --loglevel verbose run test
       - name: log3
-        continue-on-error: true
         run: |
           ls -R ./libxtracfg/js/xtracfg-native-binding/prebuilds
       # TODO: run tests for java, c, go
@@ -117,11 +113,6 @@ jobs:
           name: libxtracfg-js-${{ matrix.os.platform }}
           path: ./libxtracfg/js/xtracfg-native-binding/prebuilds
           retention-days: 1
-      - uses: actions/upload-artifact@v4
-        with:
-          name: npm-logs
-          path: C:\\npm\\cache\\_logs
-          retention-days: 1
 
   build_binaries:
     runs-on: ${{ matrix.os.runner }}
@@ -129,18 +120,18 @@ jobs:
     strategy:
       matrix:
         os:
-          #          - runner: ubuntu-24.04
-          #            type: linux
-          #            platform: linux-amd64
-          #          - runner: ubuntu-24.04-arm
-          #            type: linux
-          #            platform: linux-arm64
-          #          - runner: macos-14
-          #            type: macos
-          #            platform: darwin-arm64
-          - runner: windows-2022
-            type: windows
-            platform: windows-amd64
+          - runner: ubuntu-24.04
+            type: linux
+            platform: linux-amd64
+          - runner: ubuntu-24.04-arm
+            type: linux
+            platform: linux-arm64
+          - runner: macos-14
+            type: macos
+            platform: darwin-arm64
+          #- runner: windows-2022
+          #  type: windows
+          #  platform: windows-amd64
     defaults:
       run:
         working-directory: ./xtracfg
@@ -234,7 +225,6 @@ jobs:
           ls -lR ./**/build
 
   publish_docker:
-    if: ${{ github.ref_type == 'linux' }}
     runs-on: ubuntu-latest
     needs: build_binaries
     steps:
