@@ -28,7 +28,7 @@ if not exist %LOG_PATH% mkdir %LOG_PATH%
 REM Do a simple forward for any calls that are used to compile individual C files
 IF "%LIB_NAME%"=="" (
     echo Forwarding to cl.exe for compiling C file: %* >> %LOG_FILE%
-    cmd /c cl /MT %*
+    cmd /c cl.exe %*
     exit /b
 )
 
@@ -42,8 +42,8 @@ echo                   SHARED LIBRARY                      >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 REM Modify the arguments if needed
 set CL_ARGS=%*
-set "CL_ARGS=%CL_ARGS:/MD /LD=/MT%"
-set "CL_ARGS=%CL_ARGS:/NODEFAULTLIB:LIBCMT=%"
+REM set "CL_ARGS=%CL_ARGS:/MD /LD=/MT%"
+REM set "CL_ARGS=%CL_ARGS:/NODEFAULTLIB:LIBCMT=%"
 echo cl.exe %CL_ARGS% >> %LOG_FILE%
 cmd /c cl.exe %CL_ARGS%
 
@@ -51,7 +51,6 @@ echo ===================================================== >> %LOG_FILE%
 echo                   STATIC EXTERNAL                     >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 set LIBS_EXT=
-set LIBS_EXT_DIRS=
 for %%P in (%*) do (
     echo %%P >> %LOG_FILE%
     echo %%P | findstr /R /C:"^C:.*\.lib" 1>nul
@@ -71,6 +70,6 @@ REM To create a static library on Windows we need to call lib.exe input.obj /OUT
 REM We don't want to overwrite the .lib needed to compile against the .dll, so
 REM we append "_s" to indicate that it is a static library.
 if not exist %OUTPUT_PATH% mkdir %OUTPUT_PATH%
-set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
+set LIB_ARGS=%LIB_NAME%.obj !LIBS_EXT! /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%
