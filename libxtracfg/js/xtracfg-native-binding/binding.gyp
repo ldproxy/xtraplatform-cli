@@ -20,7 +20,7 @@
       },
       'conditions': [
         ['OS=="win"', {
-          'libraries': [ '<(local_prefix)/../c/build/libxtracfg.lib' ]
+          'libraries': [ '<(local_prefix)/../c/build/libxtracfg.lib', '<(local_prefix)/../c/build/libxtracfgjni_static_ext.lib' ]
         }, { # OS != "win"
           'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ]
         }],

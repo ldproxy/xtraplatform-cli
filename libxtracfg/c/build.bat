@@ -14,9 +14,9 @@ echo lib
 REM ls -l -R %JAVA_HOME%
 
 REM static
-REM cl.exe /c /MT /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
-copy libxtracfgjni_static.lib libxtracfg.lib
-REM lib.exe /OUT:libxtracfg.lib /VERBOSE libxtracfg.obj libxtracfgjni_static.lib
+cl.exe /c /MD /W4 /I./ /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% /Folibxtracfg.obj ../wrapper/libxtracfg.c
+REM copy libxtracfgjni_static.lib libxtracfg.lib
+lib.exe /OUT:libxtracfg.lib /VERBOSE libxtracfg.obj libxtracfgjni_static.lib
 
 certutil -hashfile libxtracfg.lib SHA1 > libxtracfg.sha1sum.tmp
 REM Extract just the hash from certutil output (it includes headers/footers)
@@ -28,16 +28,15 @@ echo test
 ls -l
 
 REM static
-cl.exe /MD /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFORM% ^
- ../wrapper/libxtracfg.c ^
+cl.exe /MD /I./ /Fetest.exe ^
  ../test/main.c ^
- libxtracfgjni_static.lib ^
+ libxtracfg.lib ^
  libxtracfgjni_static_ext.lib ^
  /link ^
   /NODEFAULTLIB:LIBCMT ^
   /FILEALIGN:4096 ^
   /LIBPATH:./ ^
-  /WHOLEARCHIVE:libxtracfgjni_static.lib
+  /WHOLEARCHIVE:libxtracfg.lib
 
 ls -l
 
