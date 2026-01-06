@@ -32,6 +32,7 @@ cl.exe /MD /I./ /Fetest.exe /I%JAVA_HOME%/include /I%JAVA_HOME%/include/%PLATFOR
  ../wrapper/libxtracfg.c ^
  ../test/main.c ^
  libxtracfgjni_static.lib ^
+ libxtracfgjni_static_java.lib ^
  /link ^
   /NODEFAULTLIB:LIBCMT ^
   /FILEALIGN:4096 ^
