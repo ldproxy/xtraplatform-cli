@@ -19,12 +19,16 @@
         'VCCLCompilerTool': { 
           'RuntimeLibrary': 2, # /MD
           'ExceptionHandling': 1, 
+          'AdditionalOptions': [
+            '/MD',
+            '/EHsc',
+          ],
           },
         'VCLinkerTool': { 
           'IgnoreDefaultLibraryNames': [ 'LIBCMT' ],
           'AdditionalOptions': [
-                '/WHOLEARCHIVE:<(local_prefix)/../c/build/libxtracfg.lib',
-              ],
+            '/WHOLEARCHIVE:<(local_prefix)/../c/build/libxtracfg.lib',
+          ],
           },
       },
       'conditions': [
