@@ -56,7 +56,10 @@ for %%P in (%*) do (
     echo %%P | findstr /R /C:"^C:.*\.lib" 1>nul
     if !errorlevel!==0 (
         echo *** >> %LOG_FILE%
-        set "LIBS_EXT=!LIBS_EXT! %%P"
+        echo !LIBS_EXT! | findstr /C:"%%P" >nul
+        if !errorlevel!==1 (
+            set "LIBS_EXT=!LIBS_EXT! %%P"
+        )
     )
 
 )
