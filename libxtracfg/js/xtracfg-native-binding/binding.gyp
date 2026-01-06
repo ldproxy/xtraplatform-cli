@@ -16,7 +16,10 @@
         "OTHER_CFLAGS": [ "-fPIC"]
       },
       'msvs_settings': {
-        'VCCLCompilerTool': { 'ExceptionHandling': 1 },
+        'VCCLCompilerTool': { 
+          'RuntimeLibrary': 2, # /MD
+          'ExceptionHandling': 1, 
+          },
         'VCLinkerTool': { 
           'IgnoreDefaultLibraryNames': [ 'LIBCMT' ],
           'AdditionalOptions': [
