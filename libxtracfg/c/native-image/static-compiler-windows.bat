@@ -8,7 +8,7 @@ REM in a local temp directory and does not specify the output path anywhere. Tes
 REM GraalVM jdk21.+35.1 on Windows 10 and may need to be modified for other versions.
 REM
 REM Use with --native-compiler-path=${pathToThisScript}.bat
-set OUTPUT_PATH=%~dp0\..\..\target\image
+set OUTPUT_PATH=%~dp0\..\..\java\build\native\nativeCompile
 
 REM Determine the library name based on the .dll argument. ~nP returns the filename
 REM without quotes, i.e., "path\myLibrary.dll" returns myLibrary
@@ -20,28 +20,51 @@ for %%P in (%*) do (
     )
 )
 
-REM Do a simple forward for any calls that are used to compile individual C files
-IF "%LIB_NAME%"=="" (
-    cmd /c cl %*
-    exit /b
-)
-
 REM Setup log path and log file
 set LOG_PATH=%OUTPUT_PATH%\logs
 set LOG_FILE=%LOG_PATH%\compiler_commands.txt
 if not exist %LOG_PATH% mkdir %LOG_PATH%
 
-echo Working directory: %CD% > %LOG_FILE%
+REM Do a simple forward for any calls that are used to compile individual C files
+IF "%LIB_NAME%"=="" (
+    echo Forwarding to cl.exe for compiling C file: %* >> %LOG_FILE%
+    cmd /c cl.exe %*
+    exit /b
+)
+
+echo Working directory: %CD% >> %LOG_FILE%
 echo Output path: %OUTPUT_PATH% >> %LOG_FILE%
 echo Library name: %LIB_NAME% >> %LOG_FILE%
+echo Java home: %JAVA_HOME% >> %LOG_FILE%
 
 echo ===================================================== >> %LOG_FILE%
 echo                   SHARED LIBRARY                      >> %LOG_FILE%
 echo ===================================================== >> %LOG_FILE%
 REM Modify the arguments if needed
 set CL_ARGS=%*
+REM set "CL_ARGS=%CL_ARGS:/MD /LD=/MT%"
+REM set "CL_ARGS=%CL_ARGS:/NODEFAULTLIB:LIBCMT=%"
 echo cl.exe %CL_ARGS% >> %LOG_FILE%
 cmd /c cl.exe %CL_ARGS%
+
+echo ===================================================== >> %LOG_FILE%
+echo                   STATIC EXTERNAL                     >> %LOG_FILE%
+echo ===================================================== >> %LOG_FILE%
+set LIBS_EXT=
+for %%P in (%*) do (
+    echo %%P >> %LOG_FILE%
+    echo %%P | findstr /R /C:"^[^/].*\.lib" 1>nul
+    if !errorlevel!==0 (
+        echo *** >> %LOG_FILE%
+        echo !LIBS_EXT! | findstr /C:"%%P" >nul
+        if !errorlevel!==1 (
+            set "LIBS_EXT=!LIBS_EXT! %%P"
+        )
+    )
+
+)
+REM set "LIBS_EXT=!LIBS_EXT:svm\clibraries\windows-amd64\jvm.lib=jvm.lib!"
+echo !LIBS_EXT! >> %LOG_FILE%
 
 echo ===================================================== >> %LOG_FILE%
 echo                   STATIC LIBRARY                      >> %LOG_FILE%
@@ -50,6 +73,9 @@ REM To create a static library on Windows we need to call lib.exe input.obj /OUT
 REM We don't want to overwrite the .lib needed to compile against the .dll, so
 REM we append "_s" to indicate that it is a static library.
 if not exist %OUTPUT_PATH% mkdir %OUTPUT_PATH%
-set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_s.lib
+set LIB_ARGS=%LIB_NAME%.obj /OUT:%OUTPUT_PATH%\%LIB_NAME%_static.lib
+echo lib.exe %LIB_ARGS% >> %LOG_FILE%
+cmd /c lib.exe %LIB_ARGS%
+set LIB_ARGS=!LIBS_EXT! /OUT:%OUTPUT_PATH%\%LIB_NAME%_static_ext.lib
 echo lib.exe %LIB_ARGS% >> %LOG_FILE%
 cmd /c lib.exe %LIB_ARGS%

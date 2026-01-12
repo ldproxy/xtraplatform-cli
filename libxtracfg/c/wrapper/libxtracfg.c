@@ -20,7 +20,7 @@ JNIEXPORT void JNICALL Java_de_ii_xtraplatform_cli_Cli_00024NativeProgress_updat
 
 int xtracfg_init() {
   JavaVMInitArgs vm_args;
-  JavaVMOption options[0];
+  JavaVMOption options[1];
   vm_args.version = JNI_VERSION_10;
   vm_args.nOptions = 0;
   vm_args.options = options;

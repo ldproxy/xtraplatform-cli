@@ -3,7 +3,6 @@
     {
       'target_name': 'xtracfg-native',
       'sources': [ 'src/xtracfg_lib.cc' ],
-       'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ],
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")", "<(local_prefix)/../c/include"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags': ['-fPIC'],
@@ -17,8 +16,28 @@
         "OTHER_CFLAGS": [ "-fPIC"]
       },
       'msvs_settings': {
-        'VCCLCompilerTool': { 'ExceptionHandling': 1 },
-      }
+        'VCCLCompilerTool': { 
+          'RuntimeLibrary': 2, # /MD
+          'ExceptionHandling': 1, 
+          'AdditionalOptions': [
+            '/MD',
+            '/EHsc',
+          ],
+          },
+        'VCLinkerTool': { 
+          'IgnoreDefaultLibraryNames': [ 'LIBCMT' ],
+          'AdditionalOptions': [
+            '/WHOLEARCHIVE:<(local_prefix)/../c/build/libxtracfg.lib',
+          ],
+          },
+      },
+      'conditions': [
+        ['OS=="win"', {
+          'libraries': [ '<(local_prefix)/../c/build/libxtracfg.lib', '<(local_prefix)/../c/build/libxtracfgjni_static_ext.lib' ]
+        }, { # OS != "win"
+          'libraries': [ '<(local_prefix)/../c/build/libxtracfg.a' ]
+        }],
+      ]
     }
   ]
 }

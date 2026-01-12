@@ -11,15 +11,15 @@ jobs:
           - runner: ubuntu-24.04
             type: linux
             platform: linux-amd64
-          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
+          - runner: ubuntu-24.04-arm
             type: linux
             platform: linux-arm64
           - runner: macos-14
             type: macos
             platform: darwin-arm64
-          #- runner: windows-2022
-          #  type: windows
-          #  platform: windows-amd64
+          - runner: windows-2022
+            type: windows
+            platform: windows-amd64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -38,6 +38,10 @@ jobs:
           #cache-dependency-path: |
           #  xtracfg/*.gradle*
           #  xtracfg/**/gradle-wrapper.properties
+      - uses: egor-tensin/vs-shell@v2
+        if: ${{ matrix.os.type == 'windows' }}
+        with:
+          arch: x64
       - name: zlib
         if: ${{ matrix.os.type == 'linux' }}
         working-directory: /tmp
@@ -54,15 +58,24 @@ jobs:
         working-directory: ./libxtracfg/java
         run: |
           ./gradlew nativeCompile -PLIB=true
+      - name: log0
+        run: |
+          cat ./libxtracfg/java/build/native/nativeCompile/logs/compiler_commands.txt
       - name: log1
         run: |
           ls -l ./libxtracfg/c/build
-      # TODO: windows
       - name: c
+        if: ${{ matrix.os.type != 'windows' }}
         working-directory: ./libxtracfg/c
         run: |
           ./build.sh
           ./test.sh
+      - name: c
+        if: ${{ matrix.os.type == 'windows' }}
+        working-directory: ./libxtracfg/c
+        run: |
+          ./build.bat
+          ./test.bat
       - name: log2
         run: |
           ls -l ./libxtracfg/c/build
@@ -74,12 +87,21 @@ jobs:
           npm --loglevel verbose run test
       - name: log3
         run: |
-          ls -lR ./libxtracfg/js/xtracfg-native-binding/prebuilds
+          ls -R ./libxtracfg/js/xtracfg-native-binding/prebuilds
       # TODO: run tests for java, c, go
       - uses: actions/upload-artifact@v4
+        if: ${{ matrix.os.type != 'windows' }}
         with:
           name: libxtracfg-c-${{ matrix.os.platform }}
           path: ./libxtracfg/c/build/libxtracfg.a
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        if: ${{ matrix.os.type == 'windows' }}
+        with:
+          name: libxtracfg-c-${{ matrix.os.platform }}
+          path: |
+            ./libxtracfg/c/build/libxtracfg.lib 
+            ./libxtracfg/c/build/libxtracfgjni_static_ext.lib
           retention-days: 1
       - uses: actions/upload-artifact@v4
         with:
@@ -101,7 +123,7 @@ jobs:
           - runner: ubuntu-24.04
             type: linux
             platform: linux-amd64
-          - runner: ubuntu-24.04-arm #buildjet-2vcpu-ubuntu-2204-arm
+          - runner: ubuntu-24.04-arm
             type: linux
             platform: linux-arm64
           - runner: macos-14
@@ -113,6 +135,7 @@ jobs:
     defaults:
       run:
         working-directory: ./xtracfg
+        shell: bash
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -137,7 +160,7 @@ jobs:
           CMD_GIT_BRANCH: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitBranch=${{ github.ref_name }}
           CMD_GIT_SHA: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitSha=${{ steps.short-sha.outputs.substring }}
           CMD_GIT_TAG: github.com/interactive-instruments/xtraplatform-cli/xtracfg/cmd.gitTag=${{ github.ref_type == 'tag' && github.ref_name || '' }}
-          EXT_LDFLAGS: ${{ matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation' || '-z noexecstack' }}
+          EXT_LDFLAGS: ${{ (matrix.os.type == 'macos' && '-framework CoreServices -framework Foundation') || (matrix.os.type == 'linux' && '-z noexecstack') || '' }}
         run: |
           go build -o build/xtracfg -ldflags="-s -w -X ${CMD_GIT_TAG} -X ${CMD_GIT_SHA} -X ${CMD_GIT_BRANCH} '-extldflags=${EXT_LDFLAGS}'"
       - name: log1

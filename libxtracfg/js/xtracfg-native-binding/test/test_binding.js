@@ -1,8 +1,12 @@
 const xtracfgLib = require("../index.js");
+const currentDir = __dirname;
 
 function testBasic() {
-  const command =
-    '{"command": "info", "source": "/Users/az/development/configs-ldproxy/demogh", "verbose": "true", "debug": "true"}';
+  console.log("Testing basic execute...", currentDir);
+  const command = `{"command": "info", "source": "${currentDir.replaceAll(
+    "\\",
+    "/"
+  )}", "verbose": "true", "debug": "true"}`;
 
   const result = xtracfgLib.execute(command);
 
