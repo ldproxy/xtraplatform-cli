@@ -142,6 +142,12 @@ func (store Store) Handle(parameters map[string]interface{}, command string, sub
 }
 
 func (store Store) request(parameters map[string]interface{}, command string, subcommands ...string) (response *Response, err error) {
+	if command == "auto" && len(subcommands) > 0 && subcommands[0] == "analyze" {
+		if intercepted, handled, interceptErr := interceptAutoAnalyze(parameters); handled {
+			return intercepted, interceptErr
+		}
+	}
+
 	parameters["command"] = command
 
 	if len(subcommands) > 0 {
@@ -168,6 +174,21 @@ func (store Store) request(parameters map[string]interface{}, command string, su
 
 func (store Store) Request(request []byte) (response []byte) {
 	request2 := string(request)
+
+	// Websocket mode calls Store.Request directly, bypassing Store.request()/Handle().
+	// Therefore we repeat the auto/analyze interception here as well.
+	var payload map[string]interface{}
+	if err := json.Unmarshal(request, &payload); err == nil {
+		command := getString(payload, "command")
+		subcommand := getString(payload, "subcommand")
+		if command == "auto" && subcommand == "analyze" {
+			if intercepted, handled, _ := interceptAutoAnalyze(payload); handled {
+				if marshaled, mErr := json.Marshal(intercepted); mErr == nil {
+					return marshaled
+				}
+			}
+		}
+	}
 
 	if *store.debug {
 		fmt.Println("->", request2)

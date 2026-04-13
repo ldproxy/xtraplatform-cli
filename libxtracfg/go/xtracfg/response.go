@@ -18,15 +18,15 @@ const (
 )
 
 type Result struct {
-	Status  Status
-	Message *string
-	Details map[string]interface{}
+	Status  Status                 `json:"status"`
+	Message *string                `json:"message,omitempty"`
+	Details map[string]interface{} `json:"details,omitempty"`
 }
 
 type Response struct {
-	Results *[]Result
-	Error   *string
-	Details map[string]interface{}
+	Results *[]Result              `json:"results,omitempty"`
+	Error   *string                `json:"error,omitempty"`
+	Details map[string]interface{} `json:"details,omitempty"`
 }
 
 var (
